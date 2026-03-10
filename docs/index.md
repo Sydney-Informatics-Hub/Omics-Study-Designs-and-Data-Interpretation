@@ -13,12 +13,18 @@ This interactive workshop spans two days, with 3.5-hour sessions each day. You w
 ## Developers
 - Amarinder Singh Thind, Senior Research Bioinformatician, Sydney Informatics Hub, University of Sydney
 - ##
-- ##
-- ##
-
 
 ## Facilitators
 - ##
 -##
-- ##
-- ##
+
+## Pre-requisites 
+- Basic experience in biological research.
+- Some familiarity with omics techniques.
+- No prior bioinformatics or statistics training required.
+- No programming skills required.
+
+
+## Set up requirements
+
+## Credits and acknowledgements

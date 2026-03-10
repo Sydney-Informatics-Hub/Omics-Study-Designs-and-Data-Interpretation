@@ -2,7 +2,10 @@
  
 
 ## Pre-requisites 
--  No progrsmming skills are required
+- Basic experience in biological research.
+- Some familiarity with omics techniques.
+- No prior bioinformatics or statistics training required.
+- No programming skills required.
 
 ## Learning objectives
 
