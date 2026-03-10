@@ -1,45 +1,38 @@
-# template-mkdocs
+# Foundations of Omics Study Design, Bias, and Data Interpretation
+ 
 
-## Setup
+## Pre-requisites 
+-  No progrsmming skills are required
 
-- Create new repository using this as a template
+## Learning objectives
 
-- In the cloned repository: Settings -> Pages -> Build and deployment:
+By the end of this workshop, participants will be able to: 
 
-    - Source: Deploy from a branch
-    - Branch: `gh-pages`
-    - Folder: `/ (root)`
+- Compare major omics technologies and select the most appropriate platform for a given biological question 
 
-- Set up `mkdocs` locally
+- Design an omics experiment that is statistically sound, minimises technical bias, and is fit for downstream bioinformatics analysis — before data is generated 
 
-Using `mamba`:
+- Identify and anticipate sources of bias, confounding, and batch effects in their own experimental setup, and evaluate whether these can be corrected after the fact 
 
-```bash
-mamba create -n mkdocs -c conda-forge mkdocs-material
-mamba activate mkdocs
+- Interpret key QC and exploratory visualisations (PCA, UMAP) correctly, and avoid the most common misinterpretation traps 
+
+- Select appropriate normalisation and batch correction strategies for their omics data type and study design 
+
+# For developers 
+
+To render docs: 
+
+1. Install mkdocs
+
+```
+pip install mkdocs
+mkdocs --version # confirm install
 ```
 
-```console
-.
-├── docs # all contents for pages here
-│   ├── assets
-│   │   └── usyd-logo.png
-│   ├── extra.css # usyd styling
-│   └── index.md # home page
-├── .github # GH action to auto publish when pushed to main
-│   └── workflows
-│       └── mkdocs_deploy.yml
-├── mkdocs.yml # config for extensions, contents/navbar, etc.
-└── README.md
+2. Render docs locally at http://127.0.0.1:8000/: 
+
 ```
-
-## Usage
-
-To preview changes in your browser:
-
-```bash
-# mamba activate mkdocs
 mkdocs serve
 ```
 
-All pushes to main will render the content and publish to github pages automatically.
+All content merged to main will be rendered at github.io pages by [`mkdocs_deploy.yml`](https://github.com/Sydney-Informatics-Hub/nextflow-hpc-workshop/blob/main/.github/workflows/mkdocs_deploy.yml) github action.  

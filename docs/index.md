@@ -4,14 +4,21 @@ This interactive workshop spans two days, with 3.5-hour sessions each day. You w
 
 ## What you will walk away with: 
 
-A practical framework for experimental design that applies across genomics, transcriptomics, proteomics, metagenomics, and metabolomics 
+- A practical framework for experimental design that applies across genomics, transcriptomics, proteomics, metagenomics, and metabolomics 
 
-The ability to identify batch effects, confounding, and technical bias — and to know which can be corrected and which cannot 
+- The ability to identify batch effects, confounding, and technical bias — and to know which can be corrected and which cannot 
 
-Confidence reading QC plots, PCA, and UMAP outputs without falling into the most common interpretation traps 
+- Confidence reading QC plots, PCA, and UMAP outputs without falling into the most common interpretation traps 
 
 ## Developers
-Amarinder Singh Thind, Senior Research Bioinformatician, Sydney Informatics Hub, University of Sydney
+- Amarinder Singh Thind, Senior Research Bioinformatician, Sydney Informatics Hub, University of Sydney
+- ##
+- ##
+- ##
 
 
 ## Facilitators
+- ##
+-##
+- ##
+- ##
