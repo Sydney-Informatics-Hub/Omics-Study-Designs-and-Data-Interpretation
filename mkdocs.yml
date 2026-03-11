@@ -6,7 +6,9 @@ nav:
   # Landing page
   - Home: index.md
   - Introduction: Introduction.md
-  - Module1: module1.md
+  - Day1: 
+    - Module1: Day1/module1.md
+    - Module2: Day1/module2.md
   # Example top-level page
   #- Setup: setup.md
   # Example nested page
