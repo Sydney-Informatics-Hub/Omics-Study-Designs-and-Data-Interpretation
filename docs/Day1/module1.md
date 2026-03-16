@@ -1,9 +1,10 @@
 # Module 1 : The Omics Landscape and Why Studies Fail
 
 !!! info "Learning objectives" 
-    - General understanding of various omics methods
-    - Get to know poor experiment design and what they may miss
-    - What kind of experiemental issues are hard to overcome later on. 
+    - By the end of this module, participants will be able to:
+        - Match a biological question to the most suitable omics platform and justify that choice.
+        - Get to know poor experiment design and what they may miss
+        - What kind of experiemental issues are hard to overcome later on. 
 
 ## The omics landscape​
 
