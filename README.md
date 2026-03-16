@@ -15,7 +15,7 @@ By the end of this workshop, participants will be able to:
 
 - Design an omics experiment that is statistically sound, minimises technical bias, and is fit for downstream bioinformatics analysis — before data is generated 
 
-- Identify and anticipate sources of bias, confounding, and batch effects in their own experimental setup, and evaluate whether these can be corrected after the fact 
+- Identify and anticipate sources of bias, confounding, and batch effects in experimental setup, and evaluate whether these can be corrected after the fact 
 
 - Interpret key QC and exploratory visualisations (PCA, UMAP) correctly, and avoid the most common misinterpretation traps 
 
