@@ -8,21 +8,206 @@
 
 ## The omics landscape​
 
-- Overview of major omics types: genomics, bulk transcriptomics, single-cell transcriptomics, proteomics, metabolomics,
-metagenomics​
+Modern biology has entered an era of molecular surveillance, where entire classes of biological molecules can be measured simultaneously rather than one at a time. This collective approach — broadly termed "omics" — operates across multiple layers of biological organisation, each offering a distinct window into how living systems are built and how they behave. 
+
+- Genomics interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
+- Transcriptomics steps one layer up, capturing the aggregate gene expression activity of a tissue or sample — what genes are actually being switched on or off under a given condition. Single-cell transcriptomics refines this further, dissolving the averaged signal of bulk approaches to expose the extraordinary molecular heterogeneity that exists between individual cells within the same tissue. 
+- Moving beyond RNA, proteomics measures the functional workhorses of the cell — the proteins themselves — accounting for post-translational modifications and abundance that transcriptional data alone cannot predict.
+- Metabolomics captures the small-molecule metabolites that are the downstream readout of biochemical activity, sitting closest to the organism's actual phenotype. 
+- Finally, metagenomics extends the genomic lens beyond a single organism to entire microbial communities, cataloguing who is present and what functional potential they collectively carry. 
+
+Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer — or combination of layers to interrogate is one of the most consequential decisions a researcher will make before an experiment begins.
 
 Each 'omics' layer captures a different molecular dimension of biological systems
 
 ![](module1/figs/01_Omics_types_v1.png){width=90%}
 
-Ref: [New diagnostic molecular markers and biomarkers in odontogenic tumors." Molecular biology reports 48.4 (2021): 3617-3628.](https://link.springer.com/article/10.1007/s11033-021-06286-0)
+<small> Ref: [New diagnostic molecular markers and biomarkers in odontogenic tumors." Molecular biology reports 48.4 (2021): 3617-3628.](https://link.springer.com/article/10.1007/s11033-021-06286-0) </small>
 
-# Standard Downstream Analyses for Various Omics
+## From Question to Platform: Navigating Omics Technologies
 
-For each omics domain (e.g., genomics, transcriptomics, epigenomics, proteomics), a wide range of platforms and techniques are available. Each has its own advantages, limitations, and suitability depending on the biological question and sample type.
+Each omics domain encompasses a growing ecosystem of platforms and techniques — 
+and no single approach fits every question. Platforms differ not only in what 
+they measure, but in *how* they measure it, which directly shapes what you can 
+and cannot conclude from your data.
 
-Some approaches are imaging-based (e.g., spatial transcriptomics, microscopy-based proteomics), while others are sequencing-based (e.g., DNA-seq, RNA-seq). Additionally, library preparation protocols can perform differently depending on tissue type, input quality, and preservation method (e.g., fresh vs FFPE).
+At a broad level, omics technologies fall into two methodological families:
 
+- **Sequencing-based approaches** (e.g., DNA-seq, RNA-seq, ATAC-seq) quantify 
+  molecules by converting them into readable sequence — offering high throughput 
+  and genome-wide coverage.
+- **Imaging-based approaches** (e.g., spatial transcriptomics, microscopy-based 
+  proteomics) preserve the physical location of molecules within tissue, adding a 
+  spatial dimension that sequencing-based methods cannot capture.
+
+
+The figure below provides an overview of commonly used analysis approaches 
+across major omics domains:
+
+
+![](module1/figs/01_Various_data_analysis_v1.png){width=90%}
+
+<small> Ref: [Next-generation sequencing technology: current trends and advancements." Biology 12.7 (2023): 997.
+](https://www.mdpi.com/2079-7737/12/7/997) </small>
+
+
+``` 
+Choosing the wrong omics platform, or designing a study without thinking through its constraints, is one of the most common — and most costly — mistakes in modern biology. This module builds the foundation to avoid it. 
+```
+
+### Getting More From Data You Already Have
+
+Standard omics pipelines typically focus on a primary output — differential gene 
+expression from RNA-seq, variant calling from DNA-seq, and so on. However, the 
+same raw data often contains far more biological signal than a single analysis 
+extracts.
+
+A growing set of **secondary and emerging analyses** can be applied to existing 
+datasets at little or no additional sequencing cost. These approaches offer 
+complementary biological insights and can substantially increase the return on 
+investment from a single experiment — without requiring new samples or additional 
+library preparation.
+
+Take bulk RNA-seq as an example: beyond standard differential expression, the 
+same dataset can be interrogated for immune cell composition, RNA editing events, 
+alternative splicing, transcript fusion events, and more.
+
+![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
+
+<small>Ref: [Demystifying emerging bulk RNA-Seq applications: the application and 
+utility of bioinformatic methodology. *Briefings in Bioinformatics* 22.6 
+(2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938)</small>
+
+!!! tip "Key message"
+    The sequencing run is often not the limiting factor — the **analysis choices** 
+    are. Knowing what is possible from your data type before you design the study 
+    means you can plan metadata collection and controls that support these 
+    additional analyses from the start.
+​
+??? quote "References & Further Reading for Growing omics techniques and methods"
+    - Spatial omics (xenium)? 
+    - [Long read based single cell  RNA-Seq](https://link.springer.com/article/10.1007/s00439-024-02678-x)
+    - Spatial Proteomics/epigenomics etc
+    - other exampless???
+
+## When Omics Studies Fail — and Why It Matters
+
+Despite rapid advances in omics technologies, not all studies succeed. Omics 
+studies can fail at multiple stages — from experimental design through to data 
+analysis and interpretation. Understanding *how* and *why* they fail is as 
+important as understanding the technologies themselves.
+
+### The Cost Reality
+
+Omics experiments carry significant costs across three dimensions:
+
+- **Financial** — sequencing runs, reagents, and platform fees
+- **Time** — sample processing, analysis pipelines, and validation
+- **Irreplaceability** — clinical biopsies, rare cohorts, and longitudinal 
+  samples cannot simply be recollected
+
+Failures are therefore not just technical inconveniences — they represent lost 
+scientific opportunities that often cannot be recovered.
+
+ 
+### Where Failures Are Introduced
+
+| Stage | What Goes Wrong | Root Cause |
+|---|---|---|
+| <span style="color:#4a9eff">**Design**</span> | Wrong platform chosen | Question not defined before technology selection |
+| <span style="color:#4a9eff">**Design**</span> | No power calculation | Statistical planning done post-hoc or skipped |
+| <span style="color:#4a9eff">**Design**</span> | Bulk chosen, resolution insufficient | Cellular heterogeneity not anticipated |
+| <span style="color:#60c689">**Wet Lab**</span> | Batch confounded with biology | No sample randomisation across processing runs |
+| <span style="color:#60c689">**Wet Lab**</span> | Poor sample quality | Preservation method mismatched to protocol |
+| <span style="color:#60c689">**Wet Lab**</span> | Samples pooled incorrectly | Pooling done despite individual-level inference needed |
+| <span style="color:#f59e42">**Analysis**</span> | Batch effects mistaken for biology | Batch structure not recorded or ignored at QC |
+| <span style="color:#f59e42">**Analysis**</span> | False positives / negatives | Underpowered cohort + lenient thresholds |
+| <span style="color:#f59e42">**Analysis**</span> | Inappropriate normalisation | Method not matched to data distribution or platform |
+| <span style="color:#e05c7a">**Reporting**</span> | Cannot be reproduced | Code and pipeline undocumented |
+| <span style="color:#e05c7a">**Reporting**</span> | Cannot be shared or published | Metadata incomplete or missing |
+ 
+
+!!! info "The central lesson"
+    Most failures are introduced at the **design stage** but only become 
+    visible at the **wet lab or analysis stage** — by which point they 
+    are often unrecoverable. This is why study design deserves as much 
+    rigour as the experiment itself.
+
+### Can It Be Fixed?
+
+!!! success "Recoverable — fixable at analysis stage"
+    - Normalisation method choice
+    - Some batch effects (if not confounded with biology)
+    - Outlier handling
+
+!!! warning "Limitable — partially addressable with caveats"
+    - Underpowered sample sizes
+    - Platform mismatch
+    - Suboptimal QC thresholds
+
+!!! danger "Fatal — unrecoverable after data generation"
+    - Batch fully confounded with biological groups
+    - Missing or unrecorded metadata
+    - Wrong omics platform chosen
+    - Samples pooled where individual inference was needed
+
+
+--- 
+**Pitfall 1: Batch effect fully confounded with Biology**     
+##### What happens when batch tracks with biology?
+Cases and controls processed in different batches — it becomes impossible to 
+disentangle biological signal from technical variation after the fact.
+
+![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v01.png){width=90%}
+
+OPTIONAL (CAN BE MOVED TO MODULE 3) :Following figure shows randomization of biological replicates across space, time, and batches can reduce experimental bias.
+
+![Batch effect fully confounded with Biology](module1/figs/02_batch_Effect_v02.png){width=90%}
+
+<small>Ref: [ How thoughtful experimental design can empower biologists in the omics era](https://www.nature.com/articles/s41467-025-62616-x)</small>
+
+??? example "Case Study: When Batch Effects Reach the Clinic"
+
+    Between 2006 and 2011, Anil Potti and colleagues at Duke published a 
+    series of high-profile papers claiming to have developed genomic 
+    predictors of chemotherapy response in cancer patients using gene 
+    expression microarrays. Three clinical trials were opened using these 
+    predictors to assign patients to treatment arms.
+
+    Keith Baggerly and Kevin Coombes at MD Anderson had been trying and 
+    failing to replicate the research methods, finding systematic errors 
+    in how the data had been processed — including off-by-one errors in 
+    the assignment of drug sensitivity labels to cell lines and undisclosed 
+    batch effects in the training data.
+
+    ![Duke clinical trial retraction timeline](module1/figs/01_duke_case_study_01.png){width=90%}
+
+    **Outcome:** The trials were halted. Potti later resigned. The case 
+    became a landmark example of how undetected batch effects, combined 
+    with lack of reproducibility, can cause direct patient harm.
+
+    <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291)</small>
+
+
+**Pitfall 2: Pseudoreplication**  
+##### What happens when replicates aren't truly independent?
+Too few samples lead to unstable differential expression results and 
+unreproducible variant associations.
+
+**Lost or incomplete metadata**  
+Missing sample annotations render datasets unusable despite high-quality 
+sequencing data.
+
+**Technology mismatch**  
+Short-read sequencing applied to questions requiring long-read resolution 
+(e.g., structural variants, full-length isoforms).
+
+!!! tip "Further reading"
+    - Sample size considerations for omics: 
+    [Power and Sample Size for Omics (OHSU)](https://www.ohsu.edu/sites/default/files/2024-02/pss4omics.pdf)
+    - Reproducibility considerations in ageing research *(add reference)*
+
+---
 ## Key Considerations When Choosing a Platform
 
 - What biological question are you addressing?
@@ -88,133 +273,6 @@ Some approaches are imaging-based (e.g., spatial transcriptomics, microscopy-bas
     - Novel discovery potential
 
     - Cost-effectiveness, even if some methods are less precise
-
-# Here is an overview of some standard analysis currently used in omics studies:
-
-
-![](module1/figs/01_Various_data_analysis_v1.png){width=90%}
-
-Ref: [Next-generation sequencing technology: current trends and advancements." Biology 12.7 (2023): 997.
-](https://www.mdpi.com/2079-7737/12/7/997)
-
-
-Apart from standard analysis used by majority of reseach studies, there is possibility to perform some less popular analyses, which has the potential to provide extra information at no cost of sequencing. They provide, new angle how we think generally for e..g RNAdeq.
-
-- Here is an example of a range of possible analysis based on total bulk RNAseq, 
-
-![](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
-
-Ref: [Demystifying emerging bulk RNA-Seq applications: the application and utility of bioinformatic methodology. Briefings in bioinformatics 22.6 (2021).
-](https://academic.oup.com/bib/article/22/6/bbab259/6330938)
-​
-Other useful links about growing omics techniques and methods:
-1) Spatial omics (xenium)? 
-2) Long read based single cell  RNA-Seq : https://link.springer.com/article/10.1007/s00439-024-02678-x 
-3) Spatial Proteomics/epigenomics etc
-4) other exampless???
-
-# When Omics Studies Fail — and Why It Matters
-
-
-Despite rapid advances in omics technologies, not all studies succeed. In fact, omics studies can fail at multiple stages — from experimental design to data analysis and interpretation.
-
-## The Cost Reality
-
-Omics experiments are expensive in terms of:
-
-    Financial cost (sequencing, reagents, platforms)
-
-    Time investment (sample processing, analysis, validation)
-
-    Irreplaceable samples (e.g., clinical biopsies, rare cohorts)
-
-Failures are therefore not just technical — they represent lost opportunities that often cannot be recovered.
-
-Three Common Categories of Failure
-1) Studies That Cannot Be Analysed
-
-These are datasets that become unusable due to fundamental issues:
-
-Poor sample quality (e.g., degraded RNA from FFPE without proper QC)
-
-Missing or inconsistent metadata
-
-Batch effects that are completely confounded with biological groups
-
-Incompatible or failed library preparation
-
-👉 Outcome: Data exists, but meaningful analysis is not possible.
-
-2) Studies That Produce Misleading Results
-
-These studies generate results — but the conclusions are incorrect or biased:
-
-Batch effects mistaken for biology
-
-Inappropriate normalisation methods (e.g., applying microarray-style methods like quantile normalisation to RNA-seq)
-
-Underpowered sample sizes leading to false positives/negatives
-
-Platform limitations not considered (e.g., inferring CNAs from RNA-seq without validation)
-
-👉 Outcome: Results look convincing but are scientifically unreliable.
-
-3) Studies That Cannot Be Published or Reproduced
-
-Even technically sound studies may fail at the final stage:
-
-Lack of reproducibility (missing code, undocumented pipelines)
-
-Poor statistical design or insufficient validation
-
-Incomplete reporting of methods or metadata
-
-Failure to meet journal or regulatory standards
-
-👉 Outcome: Data and results exist but cannot be trusted, shared, or published.
-
-## Why Do These Failures Happen?
-
-Most failures trace back to decisions made early in the study design phase, including:
-
-Misalignment between biological question and chosen technology
-
-Lack of statistical planning (e.g., no power calculation)
-
-Ignoring sample and batch structure
-
-Underestimating data complexity and analysis requirements
-
-## Real-World Examples (Commonly Observed Issues)
-
-- Batch-confounded clinical cohorts
-
-Cases and controls processed in different batches → impossible to disentangle biology from technical effects
-
-- Underpowered discovery studies
-
-Too few samples → unstable differential expression or variant associations
-
-- Lost or incomplete metadata
-
-Missing sample annotations → unusable datasets despite high-quality sequencing
-
-- Technology mismatch
-
-Using short-read sequencing for problems requiring long-read resolution (e.g., structural variants, isoforms)
-
-
-## Real-world documented examples — batch-confounded clinical cohorts, underpowered discovery studies, lost metadata
-
-## Example of studies with in appropriate study design 
-
-## What cannot be fixed after data generation​​
-
-Batch fully correlated with biological groups — the two signals cannot be separated​​
-Insufficient sample size for the question being asked​​
-Missing or unrecorded metadata​​
-Wrong omics platform chosen for the question​​
-Samples pooled where individual-level inference was needed
 
 ## Example: of what can be often be missed
 - Consideration of reproducibility in aging research :

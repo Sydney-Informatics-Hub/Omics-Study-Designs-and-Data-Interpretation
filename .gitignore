@@ -3,4 +3,7 @@
 .RData
 .Ruserdata
 site
-docs/.DS_Store
+*.DS_Store
+Detailed_modules_plans.pdf
+Detailed_modules_plans.pptx
+.DS_Store
