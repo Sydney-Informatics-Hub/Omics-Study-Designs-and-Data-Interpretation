@@ -10,11 +10,18 @@
 
 Modern biology has entered an era of molecular surveillance, where entire classes of biological molecules can be measured simultaneously rather than one at a time. This collective approach — broadly termed "omics" — operates across multiple layers of biological organisation, each offering a distinct window into how living systems are built and how they behave. 
 
-- Genomics interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
-- Transcriptomics steps one layer up, capturing the aggregate gene expression activity of a tissue or sample — what genes are actually being switched on or off under a given condition. Single-cell transcriptomics refines this further, dissolving the averaged signal of bulk approaches to expose the extraordinary molecular heterogeneity that exists between individual cells within the same tissue. 
-- Moving beyond RNA, proteomics measures the functional workhorses of the cell — the proteins themselves — accounting for post-translational modifications and abundance that transcriptional data alone cannot predict.
-- Metabolomics captures the small-molecule metabolites that are the downstream readout of biochemical activity, sitting closest to the organism's actual phenotype. 
-- Finally, metagenomics extends the genomic lens beyond a single organism to entire microbial communities, cataloguing who is present and what functional potential they collectively carry. 
+- **Genomics** interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
+- **Transcriptomics** steps one layer up, capturing the aggregate gene 
+  expression activity of a tissue or sample — what genes are actually 
+  being switched on or off under a given condition. **Single-cell omics** 
+  technologies (including single-cell RNA-seq, ATAC-seq, and proteomics) 
+  refine this further, profiling molecular features at the resolution of 
+  individual cells rather than averaging across a bulk population — 
+  exposing the extraordinary heterogeneity that exists between cells 
+  within the same tissue.
+- Moving beyond RNA, **proteomics** measures the functional workhorses of the cell — the proteins themselves — accounting for post-translational modifications and abundance that transcriptional data alone cannot predict.
+- **Metabolomics** captures the small-molecule metabolites that are the downstream readout of biochemical activity, sitting closest to the organism's actual phenotype. 
+- Finally, **metagenomics** extends the genomic lens beyond a single organism to entire microbial communities, cataloguing who is present and what functional potential they collectively carry. 
 
 Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer — or combination of layers to interrogate is one of the most consequential decisions a researcher will make before an experiment begins.
 
@@ -74,8 +81,7 @@ alternative splicing, transcript fusion events, and more.
 
 ![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
 
-<small>Ref: [Demystifying emerging bulk RNA-Seq applications: the application and 
-utility of bioinformatic methodology. *Briefings in Bioinformatics* 22.6 
+<small>Ref: [Demystifying emerging bulk RNA-Seq applications. *Briefings in Bioinformatics* 22.6 
 (2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938)</small>
 
 !!! tip "Key message"
@@ -121,7 +127,6 @@ scientific opportunities that often cannot be recovered.
 | <span style="color:#60c689">**Wet Lab**</span> | Poor sample quality | Preservation method mismatched to protocol |
 | <span style="color:#60c689">**Wet Lab**</span> | Samples pooled incorrectly | Pooling done despite individual-level inference needed |
 | <span style="color:#f59e42">**Analysis**</span> | Batch effects mistaken for biology | Batch structure not recorded or ignored at QC |
-| <span style="color:#f59e42">**Analysis**</span> | False positives / negatives | Underpowered cohort + lenient thresholds |
 | <span style="color:#f59e42">**Analysis**</span> | Inappropriate normalisation | Method not matched to data distribution or platform |
 | <span style="color:#e05c7a">**Reporting**</span> | Cannot be reproduced | Code and pipeline undocumented |
 | <span style="color:#e05c7a">**Reporting**</span> | Cannot be shared or published | Metadata incomplete or missing |
@@ -189,10 +194,98 @@ OPTIONAL (CAN BE MOVED TO MODULE 3) :Following figure shows randomization of bio
     <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291)</small>
 
 
-**Pitfall 2: Pseudoreplication**  
+**Pitfall 2: Pseudoreplication**
+
 ##### What happens when replicates aren't truly independent?
-Too few samples lead to unstable differential expression results and 
-unreproducible variant associations.
+
+Pseudoreplication occurs when non-independent measurements are treated as 
+independent replicates, artificially inflating the effective sample size and 
+overstating statistical confidence.
+
+!!! info "This pitfall is not unique to single-cell studies"
+    The examples below use single-cell RNA-seq and microbiome transfer 
+    studies — but pseudoreplication applies equally to bulk RNA-seq, 
+    proteomics, and any omics platform where multiple measurements are 
+    taken from the same biological unit.
+
+---
+
+#### Pseudoreplication in Single-Cell RNA-seq
+
+Unlike bulk RNA-seq — which measures the **average gene expression** 
+across thousands of cells in a sample — single-cell RNA-seq profiles 
+each cell **individually**, capturing the variation that bulk methods 
+average away. A single experiment can generate profiles for tens of 
+thousands of cells.
+
+This resolution comes with a statistical trap that is easy to miss. 
+Cells from the same individual share a common genetic and environmental 
+background — they are subsamples of that individual, not independent 
+observations. Analysing them as independent replicates inflates the 
+degrees of freedom, leading to elevated type I error rates (false 
+positives) and unreproducible findings. Despite this, many single-cell 
+pipelines do not account for this dependency by default.
+
+![](module1/figs/03_pseudoreplication_single_cell_v01.png){width=90%}
+```
+
+---
+
+
+
+
+??? question "Activity — Analyse this study design"
+
+    A 2012 gut microbiome study collected microbiota from five pregnant women 
+    per condition, pooled them into a single inoculum, and inoculated 
+    six germ-free mice per condition. Statistics were performed on n = 6 mice.
+
+    ![](module1/figs/01_pseudoreplication_activity01_v01.png){width=90%}
+
+    <small>Ref: Koren et al., *Cell* 150, 470–480 (2012)</small>
+
+    Discuss in your group:
+
+    1. What is the true experimental unit — the mouse or the human donor?
+    2. What is the actual n per condition?
+    3. Are the six mice independent biological replicates? Why or why not?
+    4. What does this mean for the p-values reported?
+    5. How would you redesign this experiment?
+    6. Is this error recoverable after data collection?
+
+<!--
+??? success "Answers — reveal after group discussion"
+
+    **Q1. True experimental unit?**  
+    The human donor — not the mouse.
+
+    **Q2. Actual n per condition?**  
+    n = 1. There was only one pooled inoculum per condition.
+
+    **Q3. Are the six mice independent biological replicates?**  
+    No — all six received the same inoculum. They are technical 
+    replicates, not biological replicates.
+
+    **Q4. What does this mean for the p-values?**  
+    They are uninterpretable. Degrees of freedom are artificially 
+    inflated, producing false precision and invalid inference.
+
+    **Q5. How would you redesign?**  
+    Each donor provides a separate inoculum → 5 independent inocula 
+    → mice per donor treated as technical replicates and averaged 
+    before statistics → valid n = 5 per condition.
+
+    **Q6. Is this recoverable?**  
+    No — unrecoverable. Pooling happened at sample collection. 
+    Donor contributions cannot be separated retrospectively.
+
+    <small>Ref: Wagner & Kleiner, *Nat Commun* 16, 7263 (2025)</small>
+
+    ![](module1/figs/02_pseudoreplication_activity01_v02.png){width=100%}
+
+-->
+
+
 
 **Lost or incomplete metadata**  
 Missing sample annotations render datasets unusable despite high-quality 
