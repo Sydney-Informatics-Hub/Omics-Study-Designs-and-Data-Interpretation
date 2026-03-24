@@ -26,6 +26,8 @@ theme:
   features:
     - navigation.footer
     - content.code.copy
+    - navigation.tabs          # by Amarinder Thind
+    - navigation.tabs.sticky   # by Amarinder Thind
   palette:
     - scheme: default
       primary: custom
@@ -57,3 +59,7 @@ extra:
   analytics:
     provider: google
     property: G-TNWWV3HK57
+
+copyright: >
+  © 2026 Copyright (c) 2025 Sydney Informatics Hub, University of Sydney.
+  <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>

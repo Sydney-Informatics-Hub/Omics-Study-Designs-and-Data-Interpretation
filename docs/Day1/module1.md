@@ -1,10 +1,10 @@
 # Module 1 : The Omics Landscape and Why Studies Fail
 
 !!! info "Learning objectives" 
-    - By the end of this module, participants will be able to:
-        - Match a biological question to the most suitable omics platform and justify that choice.
-        - Get to know poor experiment design and what they may miss
-        - What kind of experiemental issues are hard to overcome later on. 
+    By the end of this module, participants will be able to:  
+        - Match a biological question to the most suitable omics platform and justify that choice.  
+        - Get to know poor experiment design and what they may miss.  
+        - What kind of experiemental issues are hard to overcome later on.   
 
 ## The omics landscape​
 
@@ -27,7 +27,7 @@ Crucially, no single omics layer tells the complete story; each captures a diffe
 
 Each 'omics' layer captures a different molecular dimension of biological systems
 
-![](module1/figs/01_Omics_types_v1.png){width=90%}
+![](module1/figs/01_Omics_types_v1.png){width=90%, height=60%}
 
 <small> Ref: [New diagnostic molecular markers and biomarkers in odontogenic tumors." Molecular biology reports 48.4 (2021): 3617-3628.](https://link.springer.com/article/10.1007/s11033-021-06286-0) </small>
 
