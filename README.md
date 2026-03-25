@@ -65,16 +65,16 @@ mkdocs serve
 
 All content merged to main will be rendered at github.io pages by [`mkdocs_deploy.yml`](https://github.com/Sydney-Informatics-Hub/nextflow-hpc-workshop/blob/main/.github/workflows/mkdocs_deploy.yml) github action.  
 
-Acknowledgements/citations/credits
+## Acknowledgements/citations/credits
 Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities.
 
-Lead Developer:
+## Lead Developer:
 Amarinder Singh Thind (Sydney Informatics Hub, University of Sydney)
 ##
 
-Suggested acknowledgement
+## Suggested acknowledgement
 The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney.  
 
-Cite us to support us!
+## Cite us to support us!
 ##
  
