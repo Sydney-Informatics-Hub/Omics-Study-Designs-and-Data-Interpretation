@@ -2,12 +2,12 @@
 
 !!! info "Learning objectives" 
     By the end of this module, participants will be able to:  
-        - Match a biological question to the most suitable omics platform and justify that choice.  
-        - Get to know poor experiment design and what they may miss.  
-        - What kind of experiemental issues are hard to overcome later on.   
-
-
-
+       - Identify the seven common failure modes in omics study design
+        and classify each by recoverability. 
+        - Recognise when a platform choice, sample size, or metadata
+        decision creates an unrecoverable flaw.  
+        - Match a biological question to the most suitable omics
+        platform and justify that choice
 
 ## The omics landscape​
 
@@ -30,7 +30,7 @@ Crucially, no single omics layer tells the complete story; each captures a diffe
 
 Each 'omics' layer captures a different molecular dimension of biological systems
 
-![](module1/figs/01_Omics_types_v1.png){width=90%, height=60%}
+![](module1/figs/01_Omics_types_v1.png){width=90%}
 
 <small> Ref: [New diagnostic molecular markers and biomarkers in odontogenic tumors." Molecular biology reports 48.4 (2021): 3617-3628.](https://link.springer.com/article/10.1007/s11033-021-06286-0){target="_blank"} </small>
 
@@ -60,22 +60,15 @@ across major omics domains:
 <small> Ref: [Next-generation sequencing technology: current trends and advancements." Biology 12.7 (2023): 997.
 ](https://www.mdpi.com/2079-7737/12/7/997){target="_blank"} </small>
 
-??? info  "Getting More From Data You Already Have"
+??? abstract "What else can your data tell you?"
 
-    Standard omics pipelines typically focus on a primary output — differential gene 
-    expression from RNA-seq, variant calling from DNA-seq, and so on. However, the 
-    same raw data often contains far more biological signal than a single analysis 
-    extracts.
+    Many omics pipelines focus on a single primary output — differential gene expression from RNA-seq, variant calling from DNA-seq, and so on. However, the same raw data often contains additional layers of biological information beyond the primary analysis.
 
-    A growing set of **secondary and emerging analyses** can be applied to existing 
-    datasets at little or no additional sequencing cost. These approaches offer 
-    complementary biological insights and can substantially increase the return on 
-    investment from a single experiment — without requiring new samples or additional 
-    library preparation.
+    A growing set of secondary and emerging analyses can be applied to existing datasets, often without additional sequencing cost. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
 
-    Take bulk RNA-seq as an example: beyond standard differential expression, the 
-    same dataset can be interrogated for immune cell composition, RNA editing events, 
-    alternative splicing, transcript fusion events, and more.
+    However, their applicability depends on study design, data quality, and sequencing characteristics (e.g. depth, read length, library preparation), and results should be interpreted with appropriate caution.
+
+    Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be interrogated for  alternative splicing, RNA editing events, transcript fusions, and more.
 
     ![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
 
@@ -89,11 +82,53 @@ across major omics domains:
     > before you design the study means you can plan metadata collection and 
     > controls that support these additional analyses from the start.
 
-!!! quote "References & Further Reading for Growing omics techniques and methods"
-    - Spatial omics (xenium)? 
-    - [Long read based single cell  RNA-Seq](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
-    - Spatial Proteomics/epigenomics etc
-    - other exampless???
+??? abstract "Further Reading · Emerging Omics Technologies"
+
+    **🧭 Spatial Transcriptomics**
+
+    - Williams CG, Lee HJ, Asatsuma T, Vento-Tormo R, Haque A.
+      An introduction to spatial transcriptomics for biomedical research.
+      *Genome Medicine* 14, 68 (2022).
+      [doi:10.1186/s13073-022-01075-1](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
+      ← entry-level overview, platform comparison, experimental design guidance
+
+    - Vandereyken K, Sifrim A, Thienpont B, Voet T.
+      Methods and applications for single-cell and spatial multi-omics.
+      *Nature Reviews Genetics* 24, 494–515 (2023).
+      [doi:10.1038/s41576-023-00580-2](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
+      ← spatial + single-cell integration, computational strategies
+
+    ---
+
+    **🧬 Long-Read Sequencing & Isoform Biology**
+
+    - Kumari P, Kaur M, Dindhoria K, Ashford B, Amarasinghe SL, Thind AS.
+      Advances in long-read single-cell transcriptomics.
+      *Human Genetics* 143, 1005–1020 (2024).
+      [doi:10.1007/s00439-024-02678-x](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
+      ← isoform resolution at single-cell level, library prep + bioinformatics
+
+    - Parker MT, Knop K, Sherwood AV, Simpson GG.
+      Transcriptomics in the era of long-read sequencing.
+      *Nature Reviews Genetics* (2025).
+      [doi:10.1038/s41576-025-00828-z](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
+      ← comprehensive guide: tools, applications, challenges
+
+    ---
+
+    **🧫 Single-Cell & Multi-Omics Integration**
+
+    - Heumos L et al.
+      Best practices for single-cell analysis across modalities.
+      *Nature Reviews Genetics* 24, 550–572 (2023).
+      [doi:10.1038/s41576-023-00586-w](https://www.nature.com/articles/s41576-023-00586-w){target="_blank"}
+      ← tool benchmarking, practical guidance for multi-modal analysis
+
+    - Zhu C, Preissl S, Ren B.
+      Single-cell multimodal omics: the power of many.
+      *Nature Methods* 17, 11–14 (2020).
+      [doi:10.1038/s41592-019-0691-5](https://www.nature.com/articles/s41592-019-0691-5){target="_blank"}
+      ← RNA + ATAC + protein integration overview
 
 ---
 
@@ -138,25 +173,6 @@ scientific opportunities that often cannot be recovered.
     visible at the **wet lab or analysis stage** — by which point they 
     are often unrecoverable. This is why study design deserves as much 
     rigour as the experiment itself.
-
-### Can It Be Fixed?
-
-!!! success "Recoverable — fixable at analysis stage"
-    - Normalisation method choice
-    - Some batch effects (if not confounded with biology)
-    - Outlier handling
-
-!!! warning "Limitable — partially addressable with caveats"
-    - Underpowered sample sizes
-    - Platform mismatch
-    - Suboptimal QC thresholds
-
-!!! danger "Fatal — unrecoverable after data generation"
-    - Batch fully confounded with biological groups
-    - Missing or unrecorded metadata
-    - Wrong omics platform chosen
-    - Samples pooled where individual inference was needed
-
 
 --- 
 ### Pitfall 1: Batch effect fully confounded with Biology     
@@ -216,7 +232,7 @@ degrees of freedom, leading to elevated type I error rates (false
 positives) and unreproducible findings. Despite this, many single-cell 
 pipelines do not account for this dependency by default.
 
-??? example "case study: Pseudoreplication in single cell omics" 
+??? example "Case study: Pseudoreplication in single cell omics" 
     A re-analysis of a high-profile Alzheimer's disease scRNA-seq study 
     illustrates how severe the consequences can be. The original analysis 
     treated each cell as an independent observation — inflating the 
@@ -255,7 +271,7 @@ pipelines do not account for this dependency by default.
     2. What is the actual n per condition?
     3. Are the six mice independent biological replicates? Why or why not?
     4. What does this mean for the p-values reported?
-    5. How would you redesign this experiment?
+    5. What information would you need to determine if this is recoverable?
     6. Is this error recoverable after data collection?
 
 <!--
@@ -275,10 +291,24 @@ pipelines do not account for this dependency by default.
     They are uninterpretable. Degrees of freedom are artificially 
     inflated, producing false precision and invalid inference.
 
-    **Q5. How would you redesign?**  
-    Each donor provides a separate inoculum → 5 independent inocula 
-    → mice per donor treated as technical replicates and averaged 
-    before statistics → valid n = 5 per condition.
+**Q5. What information would you need to determine if this
+    is recoverable?**
+    You would need to know whether individual donor samples were
+    kept separate before pooling. Specifically:
+
+    - Were aliquots from each donor preserved individually
+      before pooling into the shared inoculum?
+    - Is DNA or 16S sequence data available per donor that
+      could distinguish their microbial contributions?
+    - Were any mice inoculated with single-donor material
+      rather than the pool?
+
+        If all donor material was irreversibly pooled and no
+        individual aliquots were retained — this is **unrecoverable**.
+        The biological contributions of individual donors cannot
+        be separated from a mixed inoculum after the fact.
+        The experiment would need to be repeated with one
+        inoculum per donor.
 
     **Q6. Is this recoverable?**  
     No — unrecoverable. Pooling happened at sample collection. 
@@ -315,7 +345,6 @@ The consequences are consistent across platforms:
   in small discovery samples.
   <small>[Zou et al., *G3 Genes|Genomes|Genetics* 2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC11999569/){target="_blank"}
    </small>
-
 
 - **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
 A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
@@ -375,7 +404,7 @@ sophisticated normalisation methods. The variation is present
 in the data but invisible to the analyst.
 
 
-??? example "case study: When Metadata Saves the Analysis — GTEx & Ischaemia Time" 
+??? example "Case study: When Metadata Saves the Analysis — GTEx & Ischaemia Time" 
     ![](module1/figs/01_metadata_casestudy_v01.png){width=100%}  
 
 !!! info "Coming up in Module 3"
@@ -384,7 +413,7 @@ in the data but invisible to the analyst.
     **Module 3: Experimental Design Fundamentals**.
 
 ---
-#### Pitfall 5 · Wrong Platform for the Biological Question
+#### Pitfall 5: Wrong Platform for the Biological Question
 
 Platform choice is a design decision — not a technical afterthought.
 Selecting the wrong platform upstream cannot be compensated for by
@@ -508,78 +537,120 @@ a computational control cannot replace a missing wet lab control.
     covered in **Module 3: Experimental Design Fundamentals**.
 
 ---
-#### Pitfall 7 · Discovery Without Validation
+#### Pitfall 7: Discovery Without Validation
 
-Finding a statistically significant result in omics is not
-the same as finding a true biological signal. When thousands
-of features are tested simultaneously, some will reach
-significance by chance — even after multiple testing correction.
-The only reliable way to distinguish true signal from
-dataset-specific noise is ***independent replication in a
-separate cohort***.
+Finding a statistically significant result in omics is not the
+same as finding a generalisable biological truth. When thousands
+of features are tested simultaneously, some will reach significance
+by chance — and results derived from a single dataset may reflect
+dataset-specific effects (technical, cohort, or sampling variation) rather than true biology.
 
-In practice, validation is frequently skipped because:
+Not every omics study requires external validation — but the
+requirement scales with the strength of the claim being made:
 
-- Independent cohorts are expensive and difficult to assemble
-- Journals historically rewarded discovery over replication
-- Researchers assume statistical significance is sufficient
+| Study type | Example claim | Validation required? |
+|---|---|---|
+| Exploratory / hypothesis-generating | "We identify candidate DEGs associated with condition X" | Not strictly — if clearly labelled as exploratory |
+| Confirmatory / mechanistic | "Gene X drives this pathway in disease Y" | Strongly recommended |
+| Translational / clinical | "This 10-gene signature predicts patient outcome" | Essential |
 
-The consequence is a literature full of reported biomarkers,
-gene signatures, and metabolite panels that were never
-independently validated — and largely do not replicate when
-tested.
+!!! info "The key principle"
+    Any claim intended to generalise beyond the original dataset
+    requires independent validation. Without it, results should
+    be treated as exploratory candidates — not confirmed biology.
 
-**Across omics platforms:**
+**Why omics is particularly vulnerable**
 
-- **Transcriptomics:** gene expression signatures derived from
-  small discovery cohorts frequently fail to validate in
-  independent datasets of the same disease
-- **Proteomics biomarkers:** the vast majority of proposed
-  serum protein biomarkers identified by mass spectrometry
-  have not been validated in independent clinical cohorts
-- **Metabolomics:** as shown in Pitfall 3, 72% of reported
-  significant metabolites in clinical studies were identified
-  by only one study — the hallmark of underpowered discovery
-  without replication
-- **GWAS:** early candidate gene association studies
-  (pre-2007, n = 100–500) produced thousands of reported
-  associations, the overwhelming majority of which failed
-  to replicate in larger GWAS
+The combination of high feature counts, small sample sizes, and
+biological variability between cohorts means that omics findings
+are especially susceptible to dataset-specific noise. This is not
+unique to machine learning — it applies equally to:
 
-!!! danger "The unrecoverable rule"
-    A finding reported without independent validation cannot
-    be trusted as biology (especially for clinical application). Splitting your cohort into
-    discovery and validation at the design stage costs
-    samples upfront — but the alternative is a result
-    you cannot defend for real life applications.
-
-??? example "Case Study: The Proteomics Biomarker Crisis"
-
-    A 2012 review of cancer biomarker discovery found that
-    despite thousands of candidate protein biomarkers proposed
-    in the literature over two decades, fewer than 100 had
-    reached clinical validation — and only a handful had been
-    approved for clinical use. The primary reasons were
-    underpowered discovery cohorts, lack of independent
-    validation, and failure to account for pre-analytical
-    variables. The pattern has been called the
-    "biomarker graveyard."
+- Differential expression analysis — gene signatures derived from small or heterogeneous cohorts often show limited reproducibility across independent datasets of the same disease
+- Metabolomics biomarkers — as shown in Pitfall 3, 72% of
+  reported significant metabolites were found in only one study
+- **Proteomics:** a striking gap exists between biomarker discovery and clinical translation. Rifai et al. 
+  described this validation gap in 2006 — and nearly two decades 
+  later, translating proteomics to clinical applications 
+  has remained challenging despite significant technical progress,  
+  with standardisation, regulatory compliance, and 
+  the need for robust validation  continuing to be cited as 
+  unresolved barriers at major proteomics symposia as recently as 2024.
+  The problem Rifai described has not been solved — it has persisted 
+  for two decades.
 
     <small>
-    Rifai et al. Protein biomarker discovery and validation:
-    the long and uncertain path to clinical utility.
-    *Nature Biotechnology* 24, 971–983 (2006).
+    Rifai et al. *Nature Biotechnology* 2006
     [doi:10.1038/nbt1235](https://doi.org/10.1038/nbt1235){target="_blank"}
 
-    Frantzi et al. Clinical proteomics: moving from
-    bench to bedside.
-    *Journal of Proteomics* 189 (2018).
-    [doi:10.1016/j.jprot.2018.02.008](https://doi.org/10.1016/j.jprot.2018.02.008){target="_blank"}
+    Proceedings of the 68th Benzon Foundation Symposium.
+    *Journal of Proteome Research* (2024).
+    [PMC11652764](https://pmc.ncbi.nlm.nih.gov/articles/PMC11652764/){target="_blank"}
+    
     </small>
+ 
 
+***The consequences are most severe when studies move from
+discovery to claims of generalisable biomarkers, clinical
+signatures, or mechanisms — without independent validation.***
+
+??? example "Case Study: Two Decades of Unreplicable Genetics — The Candidate Gene Era"
+
+    From the 1990s through the mid-2000s, hundreds of candidate gene
+    association studies were published linking specific genetic variants
+    to psychiatric and complex diseases — depression, schizophrenia,
+    addiction, personality traits. Most studies had n = 100–500.
+    Results were statistically significant within each dataset.
+
+    When adequately powered GWAS arrived (n > 10,000), the vast
+    majority of these associations vanished. A landmark 2019 reanalysis
+    of 18 candidate genes that had been studied for decades in
+    relation to depression found that none replicated in a sample
+    of over 620,000 individuals.
+
+    The candidate gene literature was not fraudulent — it was
+    underpowered discovery presented as confirmed biology, without
+    independent validation in adequately sized cohorts.
+
+    **The fix that was missing:**
+    Independent replication in a larger cohort before claiming
+    a generalisable genetic association. Modern GWAS pre-register
+    replication cohorts before publication precisely because of
+    this history.
+
+    <small>
+    Border et al. No support for historical candidate gene or
+    candidate gene-by-interaction hypotheses for major depression
+    across multiple large samples.
+    *American Journal of Psychiatry* 176(5), 376–387 (2019).
+    [doi:10.1176/appi.ajp.2018.18070881](https://psychiatryonline.org/doi/10.1176/appi.ajp.2018.18070881){target="_blank"}
+
+    Ioannidis et al. Repeatability of published microarray gene
+    expression analyses. *Nature Genetics* 41, 149–155 (2009).
+    [doi:10.1038/ng.295](https://doi.org/10.1038/ng.295){target="_blank"}
+    </small>
+---
 !!! info "Coming up in Module 3"
-    Study design strategies for building validation into
-    omics experiments — including cohort splitting, external
-    validation datasets, and cross-validation approaches —
-    are covered in **Module 3: Experimental Design Fundamentals**.
-    ---
+    Strategies for building validation into omics study design —
+    including cohort splitting, use of external datasets, and
+    when cross-validation is appropriate — are covered in
+    **Module 3: Experimental Design Fundamentals**.
+---
+### Can It Be Fixed?
+
+!!! success "Recoverable — fixable at analysis stage"
+    - Normalisation method choice
+    - Some batch effects (if not confounded with biology)
+    - Outlier handling
+
+!!! warning "Limitable — partially addressable with caveats"
+    - Underpowered sample sizes
+    - Platform mismatch
+    - Suboptimal QC thresholds
+
+!!! danger "Fatal — unrecoverable after data generation"
+    - Batch fully confounded with biological groups
+    - Missing or unrecorded metadata
+    - Wrong omics platform chosen
+    - Samples pooled where individual inference was needed
+
