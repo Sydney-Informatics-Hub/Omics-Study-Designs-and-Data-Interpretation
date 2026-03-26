@@ -1,13 +1,14 @@
 # Module 1 : The Omics Landscape and Why Studies Fail
 
-!!! info "Learning objectives" 
-    By the end of this module, participants will be able to:  
-       - Identify the seven common failure modes in omics study design
-        and classify each by recoverability. 
-        - Recognise when a platform choice, sample size, or metadata
-        decision creates an unrecoverable flaw.  
-        - Match a biological question to the most suitable omics
-        platform and justify that choice
+!!! info "Learning objectives"
+    By the end of this module, participants will be able to:
+
+    - Identify the seven common failure modes in omics study design
+      and classify each by recoverability.
+    - Recognise when a platform choice, sample size, or metadata
+      decision creates an unrecoverable flaw.
+    - Match a biological question to the most suitable omics
+      platform and justify that choice.
 
 ## The omics landscape​
 
@@ -32,7 +33,7 @@ Each 'omics' layer captures a different molecular dimension of biological system
 
 ![](module1/figs/01_Omics_types_v1.png){width=90%}
 
-<small> Ref: [New diagnostic molecular markers and biomarkers in odontogenic tumors." Molecular biology reports 48.4 (2021): 3617-3628.](https://link.springer.com/article/10.1007/s11033-021-06286-0){target="_blank"} </small>
+<small> Ref: [Alieh Farshbaf et. al ***Molecular biology reports***2021](https://link.springer.com/article/10.1007/s11033-021-06286-0){target="_blank"} </small>
 
 ## From Question to Platform: Navigating Omics Technologies
 
@@ -57,7 +58,7 @@ across major omics domains:
 
 ![](module1/figs/01_Various_data_analysis_v1.png){width=90%}
 
-<small> Ref: [Next-generation sequencing technology: current trends and advancements." Biology 12.7 (2023): 997.
+<small> Ref: [Satam, Heena, et al. **Biology** 2023
 ](https://www.mdpi.com/2079-7737/12/7/997){target="_blank"} </small>
 
 ??? abstract "What else can your data tell you?"
@@ -72,7 +73,7 @@ across major omics domains:
 
     ![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
 
-    <small>Ref: [Demystifying emerging bulk RNA-Seq applications. *Briefings in Bioinformatics* 22.6 
+    <small>Ref: [Thind et.al. *Briefings in Bioinformatics* 22.6 
     (2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938){target="_blank"}</small>
 
     ---
@@ -85,51 +86,24 @@ across major omics domains:
 ??? abstract "Further Reading · Emerging Omics Technologies"
 
     **🧭 Spatial Transcriptomics**
-
-    - Williams CG, Lee HJ, Asatsuma T, Vento-Tormo R, Haque A.
-      An introduction to spatial transcriptomics for biomedical research.
-      *Genome Medicine* 14, 68 (2022).
-      [doi:10.1186/s13073-022-01075-1](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
-      ← entry-level overview, platform comparison, experimental design guidance
-
-    - Vandereyken K, Sifrim A, Thienpont B, Voet T.
-      Methods and applications for single-cell and spatial multi-omics.
-      *Nature Reviews Genetics* 24, 494–515 (2023).
-      [doi:10.1038/s41576-023-00580-2](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
-      ← spatial + single-cell integration, computational strategies
+    Entry-level overview, platform comparison, experimental design guidance 
+    - [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
+     
+    spatial + single-cell integration, computational strategies
+    - [Vandereyken K et. al *Nature Reviews Genetics* 2023](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
 
     ---
 
     **🧬 Long-Read Sequencing & Isoform Biology**
-
-    - Kumari P, Kaur M, Dindhoria K, Ashford B, Amarasinghe SL, Thind AS.
-      Advances in long-read single-cell transcriptomics.
-      *Human Genetics* 143, 1005–1020 (2024).
-      [doi:10.1007/s00439-024-02678-x](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
-      ← isoform resolution at single-cell level, library prep + bioinformatics
-
-    - Parker MT, Knop K, Sherwood AV, Simpson GG.
-      Transcriptomics in the era of long-read sequencing.
-      *Nature Reviews Genetics* (2025).
-      [doi:10.1038/s41576-025-00828-z](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
-      ← comprehensive guide: tools, applications, challenges
+    
+    Isoform resolution at single-cell level, library prep + bioinformatics
+    - [Kumari P et.al 
+      *Human Genetics* 2024.](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
+    
+    Comprehensive guide: tools, applications, challenges
+    - [Parker MT et. al *Nature Reviews Genetics* 2025](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
 
     ---
-
-    **🧫 Single-Cell & Multi-Omics Integration**
-
-    - Heumos L et al.
-      Best practices for single-cell analysis across modalities.
-      *Nature Reviews Genetics* 24, 550–572 (2023).
-      [doi:10.1038/s41576-023-00586-w](https://www.nature.com/articles/s41576-023-00586-w){target="_blank"}
-      ← tool benchmarking, practical guidance for multi-modal analysis
-
-    - Zhu C, Preissl S, Ren B.
-      Single-cell multimodal omics: the power of many.
-      *Nature Methods* 17, 11–14 (2020).
-      [doi:10.1038/s41592-019-0691-5](https://www.nature.com/articles/s41592-019-0691-5){target="_blank"}
-      ← RNA + ATAC + protein integration overview
-
 ---
 
 ## When Omics Studies Fail — and Why It Matters
@@ -248,77 +222,11 @@ pipelines do not account for this dependency by default.
 
 
 > **This pitfall is not unique to single-cell studies**
-> The examples below use single-cell RNA-seq and microbiome transfer 
+> The examples/activity in module 1 use single-cell RNA-seq and microbiome transfer 
 > studies — but pseudoreplication applies equally to bulk RNA-seq, 
 > proteomics, and any omics platform where multiple measurements are 
 > taken from the same biological unit.
 
-
-
-??? question "Activity — Analyse this study design"
-
-    A 2012 gut microbiome study collected microbiota from five pregnant women 
-    per condition, pooled them into a single inoculum, and inoculated 
-    six germ-free mice per condition. Statistics were performed on n = 6 mice.
-
-    ![](module1/figs/01_pseudoreplication_activity01_v01.png){width=90%}
-
-    <small>Ref: Koren et al., *Cell* 150, 470–480 (2012)</small>
-
-    Discuss in your group:
-
-    1. What is the true experimental unit — the mouse or the human donor?
-    2. What is the actual n per condition?
-    3. Are the six mice independent biological replicates? Why or why not?
-    4. What does this mean for the p-values reported?
-    5. What information would you need to determine if this is recoverable?
-    6. Is this error recoverable after data collection?
-
-<!--
-??? success "Answers — reveal after group discussion"
-
-    **Q1. True experimental unit?**  
-    The human donor — not the mouse.
-
-    **Q2. Actual n per condition?**  
-    n = 1. There was only one pooled inoculum per condition.
-
-    **Q3. Are the six mice independent biological replicates?**  
-    No — all six received the same inoculum. They are technical 
-    replicates, not biological replicates.
-
-    **Q4. What does this mean for the p-values?**  
-    They are uninterpretable. Degrees of freedom are artificially 
-    inflated, producing false precision and invalid inference.
-
-**Q5. What information would you need to determine if this
-    is recoverable?**
-    You would need to know whether individual donor samples were
-    kept separate before pooling. Specifically:
-
-    - Were aliquots from each donor preserved individually
-      before pooling into the shared inoculum?
-    - Is DNA or 16S sequence data available per donor that
-      could distinguish their microbial contributions?
-    - Were any mice inoculated with single-donor material
-      rather than the pool?
-
-        If all donor material was irreversibly pooled and no
-        individual aliquots were retained — this is **unrecoverable**.
-        The biological contributions of individual donors cannot
-        be separated from a mixed inoculum after the fact.
-        The experiment would need to be repeated with one
-        inoculum per donor.
-
-    **Q6. Is this recoverable?**  
-    No — unrecoverable. Pooling happened at sample collection. 
-    Donor contributions cannot be separated retrospectively.
-
-    <small>Ref: Wagner & Kleiner, *Nat Commun* 16, 7263 (2025)</small>
-
-    ![](module1/figs/02_pseudoreplication_activity01_v02.png){width=100%}
-
--->
 ---
 
 ### Pitfall 3: Underpowered Studies
@@ -334,17 +242,19 @@ The consequences are consistent across platforms:
 
 - **Transcriptomics (RNA-seq):** studies with n = 3 per condition —
   the field norm — typically detect only 20–40% of truly differentially
-  expressed genes, with high rates of false positives among those reported.
-  <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
+  expressed genes, with high rates of false positives among those reported. <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
 
-- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.  <small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
+- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.<small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
 
-- **Genomics (GWAS, variant calling):** underpowered cohorts produce 
-  associations that fail to replicate in independent datasets — a 
-  well-documented problem driven by inflated effect size estimates 
-  in small discovery samples.
-  <small>[Zou et al., *G3 Genes|Genomes|Genetics* 2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC11999569/){target="_blank"}
-   </small>
+- **Genomics (GWAS, variant calling):** underpowered cohorts produce
+  associations that fail to replicate in independent datasets —
+  driven by inflated effect size estimates in small discovery samples.<small>
+    Zou et al. *G3 Genes|Genomes|Genetics* 2022.
+    [doi:10.1093/g3journal/jkac261](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}
+
+    Wray et al. *Nature Communications* 2018
+    [doi:10.1038/s41467-018-07348-x](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
+    </small>
 
 - **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
 A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
@@ -356,7 +266,7 @@ A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
 
 - **Single-cell omics:** pseudoreplication compounds the underpowering 
   problem — the true n is the number of donors, not cells.
-  <small>[Zimmermann et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
+  <small>[Murphy et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
 
 In all cases, the result is the same: findings that look statistically
 significant but do not replicate. This is one of the common
@@ -577,19 +487,10 @@ unique to machine learning — it applies equally to:
   the need for robust validation  continuing to be cited as 
   unresolved barriers at major proteomics symposia as recently as 2024.
   The problem Rifai described has not been solved — it has persisted 
-  for two decades.
-
-    <small>
-    Rifai et al. *Nature Biotechnology* 2006
-    [doi:10.1038/nbt1235](https://doi.org/10.1038/nbt1235){target="_blank"}
-
-    Proceedings of the 68th Benzon Foundation Symposium.
-    *Journal of Proteome Research* (2024).
-    [PMC11652764](https://pmc.ncbi.nlm.nih.gov/articles/PMC11652764/){target="_blank"}
-    
-    </small>
+  for two decades. <small>
+    [Rifai et al. *Nature Biotechnology* 2006](https://doi.org/10.1038/nbt1235){target="_blank"} [Proceedings of the 68th Benzon Foundation Symposium.
+    *Journal of Proteome Research* 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC11652764/){target="_blank"}</small>
  
-
 ***The consequences are most severe when studies move from
 discovery to claims of generalisable biomarkers, clinical
 signatures, or mechanisms — without independent validation.***
@@ -616,18 +517,7 @@ signatures, or mechanisms — without independent validation.***
     Independent replication in a larger cohort before claiming
     a generalisable genetic association. Modern GWAS pre-register
     replication cohorts before publication precisely because of
-    this history.
-
-    <small>
-    Border et al. No support for historical candidate gene or
-    candidate gene-by-interaction hypotheses for major depression
-    across multiple large samples.
-    *American Journal of Psychiatry* 176(5), 376–387 (2019).
-    [doi:10.1176/appi.ajp.2018.18070881](https://psychiatryonline.org/doi/10.1176/appi.ajp.2018.18070881){target="_blank"}
-
-    Ioannidis et al. Repeatability of published microarray gene
-    expression analyses. *Nature Genetics* 41, 149–155 (2009).
-    [doi:10.1038/ng.295](https://doi.org/10.1038/ng.295){target="_blank"}
+    this history. <small> [Border et al. *American Journal of Psychiatry* 2019](https://psychiatryonline.org/doi/10.1176/appi.ajp.2018.18070881){target="_blank"} [Ioannidis et al. *Nature Genetics* 2009](https://doi.org/10.1038/ng.295){target="_blank"}
     </small>
 ---
 !!! info "Coming up in Module 3"
@@ -654,3 +544,79 @@ signatures, or mechanisms — without independent validation.***
     - Wrong omics platform chosen
     - Samples pooled where individual inference was needed
 
+??? question "Part 1: Activity — Analyse this study design"
+
+    A 2012 gut microbiome study collected microbiota from five pregnant women 
+    per condition, pooled them into a single inoculum, and inoculated 
+    six germ-free mice per condition. Statistics were performed on n = 6 mice.
+
+    ![](module1/figs/01_pseudoreplication_activity01_v01.png){width=90%}
+
+    <small>Ref: Koren et al., *Cell* 150, 470–480 (2012)</small>
+
+    Discuss in your group:
+
+    1. What is the true experimental unit — the mouse or the human donor?
+    2. What is the actual n per condition?
+    3. Are the six mice independent biological replicates? Why or why not?
+    4. What does this mean for the p-values reported?
+    5. What information would you need to determine if this is recoverable?
+    6. Is this error recoverable after data collection?
+
+<!--
+??? success "Answers — reveal after group discussion"
+
+    **Q1. True experimental unit?**  
+    The human donor — not the mouse.
+
+    **Q2. Actual n per condition?**  
+    n = 1. There was only one pooled inoculum per condition.
+
+    **Q3. Are the six mice independent biological replicates?**  
+    No — all six received the same inoculum. They are technical 
+    replicates, not biological replicates.
+
+    **Q4. What does this mean for the p-values?**  
+    They are uninterpretable. Degrees of freedom are artificially 
+    inflated, producing false precision and invalid inference.
+
+**Q5. What information would you need to determine if this
+    is recoverable?**
+    You would need to know whether individual donor samples were
+    kept separate before pooling. Specifically:
+
+    - Were aliquots from each donor preserved individually
+      before pooling into the shared inoculum?
+    - Is DNA or 16S sequence data available per donor that
+      could distinguish their microbial contributions?
+    - Were any mice inoculated with single-donor material
+      rather than the pool?
+
+        If all donor material was irreversibly pooled and no
+        individual aliquots were retained — this is **unrecoverable**.
+        The biological contributions of individual donors cannot
+        be separated from a mixed inoculum after the fact.
+        The experiment would need to be repeated with one
+        inoculum per donor.
+
+    **Q6. Is this recoverable?**  
+    No — unrecoverable. Pooling happened at sample collection. 
+    Donor contributions cannot be separated retrospectively.
+
+    <small>Ref: Wagner & Kleiner, *Nat Commun* 16, 7263 (2025)</small>
+
+    ![](module1/figs/02_pseudoreplication_activity01_v02.png){width=100%}
+
+-->
+
+??? question "Part 2 — Apply to Your Own Study"
+
+    Briefly describe a study you are planning or have
+    been involved in. In small groups:
+
+    1. Identify which of the 7 pitfalls your study
+       is most vulnerable to
+    2. Classify the risk — fatal, limitable,
+       or recoverable?
+    3. What one change at the design stage would
+       reduce that risk?
