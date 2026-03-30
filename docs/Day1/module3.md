@@ -275,5 +275,4 @@ approach, and biological question are matched to it.
 
  
 
----
-
+---Confounding by indication — in clinical studies, the reason a patient received a treatment is correlated with their outcome (e.g. sicker patients get drug A). Common in retrospective omics studies. But this may belong in Module 3.
