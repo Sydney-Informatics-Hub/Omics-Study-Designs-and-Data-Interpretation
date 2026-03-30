@@ -85,7 +85,7 @@ across major omics domains:
 
 ??? abstract "Further Reading · Emerging Omics Technologies"
 
-    **🧭 Spatial Transcriptomics**
+    ** Spatial Transcriptomics**
     Entry-level overview, platform comparison, experimental design guidance 
     - [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
      
@@ -94,7 +94,7 @@ across major omics domains:
 
     ---
 
-    **🧬 Long-Read Sequencing & Isoform Biology**
+    ** Long-Read Sequencing & Isoform Biology**
     
     Isoform resolution at single-cell level, library prep + bioinformatics
     - [Kumari P et.al 
