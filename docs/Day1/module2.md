@@ -382,16 +382,7 @@ zeros represent genes that are genuinely not expressed in the tissue.
 The sparsity is modest (10–40%) and predominantly biological. Standard
 count models handle this well.
 
-**10x Chromium and Drop-seq** operate at the opposite extreme. The
->90% zero rate reflects a combination of technical capture failure and
-genuine biological heterogeneity across cells. The key finding from
-Svensson (2020) is important here: by sequencing negative control
-samples with no biological variation, he demonstrated that zeros in
-droplet-based UMI data are statistically consistent with a negative
-binomial model — they are not "excess" technical dropouts beyond what
-the count distribution predicts. The zeros are predominantly sampling
-zeros consistent with low transcript abundance and shallow per-cell
-depth, not a separate population of failed measurements.
+**10x Chromium and Drop-seq** give you thousands of cells, but at a cost: each cell is sequenced very shallowly. Think of it like a blood test that only checks a small sample of your blood — if a rare cell type happens not to end up in that sample, the test reports zero. That does not mean the cell type does not exist. It just was not captured this time. The same logic applies to genes: a gene expressed at low levels in a cell may simply not make it into the sequencer's snapshot for that cell. The zero does not mean the gene is off — it means the coverage was not deep enough to catch it. Svensson (2020) confirmed this directly by sequencing a controlled RNA mixture at known concentrations — no cells, no biological variation. The zeros observed matched what a standard count model predicts given depth and transcript abundance. No extra layer of technical failure was needed to explain them.
 
 **SMART-seq2** uses full-length sequencing without UMIs, giving it
 higher sensitivity per cell but lower throughput. It detects roughly
@@ -447,8 +438,7 @@ genes that are only co-occurring in their mutual missingness.
 
 **Blind imputation creates biology that was never there.**
 Imputation methods fill zeros by borrowing from similar cells or features.
-When applied to biological zeros — genes genuinely silent in a cell type —
-this fabricates expression that does not exist. A rigorous benchmark of 18
+But if the gene was genuinely off in that cell, there is nothing missing to recover — the zero was the correct answer. A rigorous benchmark of 18
 imputation methods found that most did not improve downstream analysis
 compared to using raw data, and several made results worse (Hou et al.
 2020). Imputation methods and the decisions around when to use them are
@@ -472,44 +462,39 @@ not a safe default.
     fold-change and correlation analyses unreliable, and how to
     recognise when it is affecting your conclusions.
 
+
 ??? abstract "Further Reading · Zero-Inflation and Sparsity in Omics"
 
-    **The definitive conceptual framework**
+    **Conceptual framework — applies across all platforms**
 
     Jiang R, Sun T, Song D, Li JJ. Statistics or biology: the
     zero-inflation controversy about scRNA-seq data. *Genome Biology*
     2022; 23: 31.
     [doi:10.1186/s13059-022-02601-5](https://doi.org/10.1186/s13059-022-02601-5){target="_blank"}
 
-    Silverman JD et al. Naught all zeros in sequence count data are the
-    same. *Computational and Structural Biotechnology Journal* 2020;
-    18: 2789–2798.
+    Silverman JD, Roche K, Mukherjee S, David LA. Naught all zeros
+    in sequence count data are the same. *Computational and Structural
+    Biotechnology Journal* 2020; 18: 2789–2798.
     [doi:10.1016/j.csbj.2020.09.014](https://doi.org/10.1016/j.csbj.2020.09.014){target="_blank"}
+    *(Covers both transcriptomics and microbiome zeros in a single framework)*
 
     ---
 
-    **The key empirical result: droplet scRNA-seq is not zero-inflated**
+    **Single-cell RNA-seq**
 
     Svensson V. Droplet scRNA-seq is not zero-inflated. *Nature
-    Biotechnology* 2020; 38: 147–150.
+    Biotechnology* 2020; 38(2): 147–150.
     [doi:10.1038/s41587-019-0379-5](https://doi.org/10.1038/s41587-019-0379-5){target="_blank"}
 
-    ---
+    Wang X, He Y, Zhang Q, Ren X, Zhang Z. Direct comparative analyses
+    of 10X Genomics Chromium and Smart-seq2. *Genomics Proteomics
+    Bioinformatics* 2021; 19(2): 253–266.
+    [doi:10.1016/j.gpb.2020.02.005](https://doi.org/10.1016/j.gpb.2020.02.005){target="_blank"}
 
-    **Platform comparisons**
-
-    Wang J et al. Direct Comparative Analyses of 10X Genomics Chromium
-    and Smart-seq2. *Genomics Proteomics Bioinformatics* 2021; 19:
-    253–266.
-    [doi:10.1016/j.gpb.2020.11.008](https://doi.org/10.1016/j.gpb.2020.11.008){target="_blank"}
-
-    Ding J et al. Systematic comparison of single-cell and single-nucleus
-    RNA-sequencing methods. *Nature Biotechnology* 2020; 38: 737–746.
+    Ding J et al. Systematic comparison of single-cell and
+    single-nucleus RNA-sequencing methods. *Nature Biotechnology*
+    2020; 38: 737–746.
     [doi:10.1038/s41587-020-0465-8](https://doi.org/10.1038/s41587-020-0465-8){target="_blank"}
-
-    ---
-
-    **Imputation benchmark — why caution is warranted**
 
     Hou W et al. A systematic evaluation of single-cell RNA-sequencing
     imputation methods. *Genome Biology* 2020; 21: 218.
@@ -517,13 +502,203 @@ not a safe default.
 
     ---
 
-    **Proteomics missing values**
+    **16S amplicon and metagenomics**
 
-    Lazar C et al. Accounting for the Multiple Natures of Missing Values
-    in Label-Free Quantitative Proteomics. *Journal of Proteome Research*
-    2016; 15: 1116–1125.
+    Kaul A, Mandal S, Davidov O, Peddada SD. Analysis of microbiome
+    data in the presence of excess zeros. *Frontiers in Microbiology*
+    2017; 8: 2114.
+    [doi:10.3389/fmicb.2017.02114](https://doi.org/10.3389/fmicb.2017.02114){target="_blank"}
+
+    ---
+
+    **Proteomics**
+
+    Lazar C, Gatto L, Ferro M, Bruley C, Burger T. Accounting for the
+    multiple natures of missing values in label-free quantitative
+    proteomics data sets to compare imputation strategies.
+    *Journal of Proteome Research* 2016; 15(4): 1116–1125.
     [doi:10.1021/acs.jproteome.5b00981](https://doi.org/10.1021/acs.jproteome.5b00981){target="_blank"}
+    *(Foundational paper on MNAR/MAR classification — the conceptual basis
+    for why not all missing values in proteomics should be treated the same)*
 
+    Kong W, Hui HWH, Peng H, Goh WWB. Dealing with missing values in
+    proteomics data. *Proteomics* 2022; 22(23–24): e2200092.
+    [doi:10.1002/pmic.202200092](https://doi.org/10.1002/pmic.202200092){target="_blank"}
+    *(Practical decision chart for method selection — recommended reading
+    before the imputation)*
 
- 
- 
+    ---
+
+    **Metabolomics**
+
+    Do KT, Wahl S, Raffler J et al. Characterization of missing values
+    in untargeted MS-based metabolomics data and evaluation of missing
+    data handling strategies. *Metabolomics* 2018; 14: 128.
+    [doi:10.1007/s11306-018-1420-2](https://doi.org/10.1007/s11306-018-1420-2){target="_blank"}
+
+## Section 3 — Compositionality: You Are Always Looking at a Pie Chart
+
+Section 1 established that counts are proportions of a fixed sequencing
+budget. Section 2 showed that zeros in that matrix do not all mean the
+same thing. Section 3 follows directly from Section 1 and confronts its
+most important consequence: **because the total is fixed, every feature's
+count is relative to every other feature's count — and this changes what
+comparisons actually mean.**
+
+### The fixed-sum constraint
+
+When you sequence a sample, you generate a fixed number of reads. Every
+read that goes to Gene A is a read that cannot go to Gene B. This means
+the counts are not independent of each other — they are shares of the
+same total. If one gene increases its share, the mathematical share of
+every other gene must decrease, even if their underlying biology did not
+change at all.
+
+This property is called **compositionality**. It is not a data quality
+problem and it cannot be normalised away. It is a fundamental property
+of how sequencing counts are generated.
+
+The simplest way to remember it:
+
+> **You are always looking at a pie chart, not a bar chart.**
+> A bar chart shows you absolute quantities. A pie chart shows you
+> proportions. Sequencing gives you a pie chart — and a larger slice
+> for one gene automatically means smaller slices for all the others,
+> regardless of what the biology actually did.
+
+### A worked example: when proportions mislead
+
+??? example "Case study: The antibiotic experiment that wasn't what it looked like"
+
+    A researcher is studying the gut microbiome of mice before and after
+    a heavy dose of antibiotics. They sequence stool samples from both
+    time points.
+
+    ![ anitbiotic_example](module2Figs/02_compositionality_v01.jpg){width=90%}
+
+    The researcher runs a standard statistical test on these percentages.
+    Species A shows a dramatic and highly significant increase.
+
+    **The published conclusion:** *"Antibiotic X acts as a growth-booster
+    for Species A."*
+
+    ---
+
+    **What actually happened:**
+
+    The antibiotics killed 99% of all bacteria in the gut. Species A did
+    not grow — its absolute numbers stayed the same. But because everything
+    else was wiped out, Species A now represents 80% of what remains. The
+    pie shrank dramatically; Species A's slice simply got bigger by
+    default.
+
+    **Failure 1 — The compositional trap:**
+    The researcher measured a proportionate increase and interpreted it as
+    a biological expansion. The two are not the same thing. Species A was
+    not a winner — it was the last one standing.
+
+    **Failure 2 — The detection limit problem:**
+    Species B and C both show near-zero or zero counts after antibiotics.
+    The researcher records Species B as "eradicated." But after antibiotic
+    treatment the total bacterial biomass is extremely low — so the
+    sequencer may simply not have captured the few remaining Species B
+    cells. They may not be gone. They may just be below the detection
+    limit. This connects directly to the technical zero problem from
+    Section 2.
+
+    **Failure 3 — Depth confounding:**
+    The before-treatment sample had 10 million reads; the after-treatment
+    sample, because of degraded DNA quality in the low-biomass sample,
+    produced only 100,000 reads. A meaningful comparison of relative
+    abundances across samples with 100-fold different depths requires
+    normalisation — and even after normalisation, the information content
+    of the shallow sample is fundamentally limited.
+
+    **The teaching point:**
+    All three failures are invisible if you only look at the percentage
+    table. The numbers look clean. The statistics look significant. The
+    biology is wrong.
+
+---
+
+### Two specific ways compositionality corrupts analysis
+
+**Naive fold-change is unreliable.**
+A fold-change calculated from compositional data does not tell you
+whether a feature genuinely increased — it tells you whether its
+proportion of the total increased. These are different things. A
+feature can appear to double in relative abundance simply because
+half the other features decreased, with no biological change in the
+feature itself. Conversely, a feature that genuinely doubled in
+absolute abundance may appear flat or even decreased if other features
+also expanded.
+
+**Naive correlation is structurally biased.**
+If the total is fixed, features are mathematically constrained to
+be negatively correlated with each other. Two species that have no
+biological relationship whatsoever will appear negatively correlated
+in a compositional dataset simply because a larger share for one
+means a smaller share for the other. This is not biology — it is
+arithmetic. Building ecological or regulatory networks from naive
+Pearson correlations on compositional data produces spurious negative
+relationships that are artefacts of the measurement constraint.
+
+### Which platforms are affected
+Compositionality is most severe in **16S amplicon sequencing** — a technique that targets and sequences a single bacterial marker gene (the 16S rRNA gene) to profile which microbial species are present in a sample — and shotgun metagenomics, which sequences all DNA in a sample to reconstruct both community membership and functional potential. In both cases, the reads produced represent a fixed sample of whatever was in the original mixture, not absolute cell counts. This has long been recognised as a fundamental analytical challenge, and an extensive dedicated methods literature has grown around it.
+
+But compositionality is not a microbiome-only problem.
+
+**Bulk RNA-seq** has the same structural property: the sequencer generates a fixed number of reads per sample, and every gene's count is a proportion of that total. A highly expressed gene absorbing more reads mathematically reduces the share available to every other gene, regardless of whether their underlying expression changed.
+
+**Label-free proteomics** — where samples are run through the mass spectrometer without chemical tags and protein levels are compared by measuring ion signal intensity across separate runs — behaves compositionally for the same reason. The ions the instrument detects are a sub-sample of what was present in the mixture, not an absolute measure of protein concentration. Because each sample is run independently, proteins near the detection threshold may be quantified in one run and absent in another — a missing-value problem that is structurally parallel to the technical zeros described in Section 2.
+
+The difference between platforms is one of degree, not of kind: compositionality is most visible and most damaging in microbiome data, but the underlying constraint operates wherever a fixed analytical budget is shared across features.
+
+!!! warning "Compositionality is not solved by normalisation alone"
+    Standard normalisation methods such as TPM, CPM, or median
+    normalisation correct for differences in total library size between
+    samples. They do not remove the compositional constraint within
+    a sample. After normalisation, the numbers are still proportions —
+    and the mathematical relationship between features is still governed
+    by the fixed-sum constraint. Analyses that assume independent,
+    absolute measurements remain unreliable on normalised compositional
+    data.
+
+!!! info "Coming up in Section 4"
+    Sections 1 through 3 have established three properties of omics
+    count data that make it structurally different from the data
+    classical statistics were designed for: counts are depth-dependent
+    proportions, zeros are heterogeneous in origin, and features are
+    compositionally constrained. **Section 4** brings these together
+    to explain why applying a t-test or ANOVA directly to omics count
+    data produces unreliable results — and what was developed to
+    replace them.
+
+??? abstract "Further Reading · Compositionality in Omics Data"
+
+    **Foundational framework**
+
+    Gloor GB, Macklaim JM, Pawlowsky-Glahn V, Egozcue JJ.
+    Microbiome datasets are compositional: and this is not optional.
+    *Frontiers in Microbiology* 2017; 8: 2224.
+    [doi:10.3389/fmicb.2017.02224](https://doi.org/10.3389/fmicb.2017.02224){target="_blank"}
+    *(The accessible entry point — argues compositionality applies
+    broadly, not only to microbiome data)*
+
+    Quinn TP, Erb I, Richardson MF, Crowley TM. Understanding
+    sequencing data as compositions: an outlook and review.
+    *Bioinformatics* 2018; 34(16): 2870–2878.
+    [doi:10.1093/bioinformatics/bty175](https://doi.org/10.1093/bioinformatics/bty175){target="_blank"}
+    *(Extends the compositional argument explicitly to RNA-seq
+    and other sequencing-based platforms)*
+
+    ---
+
+    **The microbiome case — most extensively studied**
+
+    Weiss S et al. Normalization and microbial differential abundance
+    strategies depend upon data characteristics.
+    *Microbiome* 2017; 5: 27.
+    [doi:10.1186/s40168-017-0237-y](https://doi.org/10.1186/s40168-017-0237-y){target="_blank"}
+    *(Practical benchmark showing how compositional structure
+    affects normalization method choice)*
