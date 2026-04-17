@@ -688,7 +688,7 @@ The difference between platforms is one of degree, not of kind: compositionality
     Quinn TP, Erb I, Richardson MF, Crowley TM. Understanding
     sequencing data as compositions: an outlook and review.
     *Bioinformatics* 2018; 34(16): 2870–2878.
-    [doi:10.1093/bioinformatics/bty175](https://doi.org/10.1093/bioinformatics/bty175){target="_blank"}
+    [doi:10.1093/bioinformatics/bty175](https://academic.oup.com/bioinformatics/article/34/16/2870/4956011){target="_blank"}
     *(Extends the compositional argument explicitly to RNA-seq
     and other sequencing-based platforms)*
 
@@ -702,3 +702,299 @@ The difference between platforms is one of degree, not of kind: compositionality
     [doi:10.1186/s40168-017-0237-y](https://doi.org/10.1186/s40168-017-0237-y){target="_blank"}
     *(Practical benchmark showing how compositional structure
     affects normalization method choice)*
+
+ ## Section 4 — Why Classical Statistics Fail on Count Data
+
+Sections 1 through 3 established three structural properties of omics
+count data: counts are depth-dependent proportions, zeros are
+heterogeneous in origin, and features are compositionally constrained.
+This section asks the practical question: given a count matrix and two
+conditions to compare, when does a standard statistical test fail —
+and what do DESeq2, edgeR, and limma do that a t-test cannot?
+
+The answer is not "t-tests always fail on omics data." It is more
+nuanced than that — and understanding the nuance is what separates
+informed tool choice from cargo-cult bioinformatics.
+
+### The question is not raw counts vs the right tool
+
+It is a progression of increasingly adequate approaches, each solving
+the problems that the previous level leaves behind.
+
+---
+
+**Level 1 — t-test on raw counts**
+
+A t-test on raw counts fails immediately and comprehensively:
+
+- Raw counts from different samples are not comparable — library
+  sizes differ and compositional effects distort relative abundances
+  (Sections 1 and 3)
+- Counts are discrete non-negative integers — the normal approximation
+  underlying t-test theory does not hold at low counts of 0, 1, 2
+- For any individual gene, the within-group variance estimated from
+  n = 3 observations has only 2 degrees of freedom — the estimate
+  could easily be half or double the true value, making the t-test
+  statistic unreliable regardless of expression level
+
+This approach is simply wrong and produces unreliable p-values and
+inflated false positive rates regardless of expression level.
+
+---
+
+**Level 2 — t-test on log-normalised counts (log-CPM)**
+
+After normalisation followed by log transformation — the mechanics of
+which are covered in **Module 5** — the data becomes **continuous and
+approximately comparable** across samples. Normalisation corrects for
+depth and composition differences between samples. Log transformation
+compresses the dynamic range and makes the distribution more symmetric.
+
+For **moderately and highly expressed genes**, this approach is
+actually not unreasonable. If your experiment has many replicates,
+the per-gene variance estimate becomes more reliable, and the
+normality assumption is more defensible. Many early RNA-seq papers
+used exactly this approach.
+
+**But two problems survive the log-normalisation step:**
+
+**Problem 1 — The normal approximation breaks down at low expression.**
+A t-test is run on one gene at a time. For a lowly expressed gene —
+counts of 0, 1, 2 across replicates — log transformation does not
+rescue normality. The data is still essentially discrete at these
+values. Furthermore, lowly expressed genes have higher relative
+biological variability between replicates, so the within-group
+variance estimate for that specific gene is both noisier and less
+stable than for a highly expressed gene. The t-test has no way to
+know this — it treats a variance estimate from counts of 0, 1, 2
+with the same confidence as one from counts of 500, 600, 550.
+
+This is why the MA plot for log-CPM data shows a characteristic fan
+shape: at low average expression, fold change estimates scatter
+wildly in both directions — not because of biology, but because
+the underlying variance estimates are unreliable. The figure below
+illustrates this directly.
+
+![MA plot without and with shrinkage (Love et al. 2014, Figure 2, CC-BY)](module2Figs/02_MLE_plot_dispersion_v01.jpg){width=90%}. 
+
+*Figure 2 from Love MI et al. (2014) Genome Biology 15:550. CC-BY 4.0.
+Panels A show the fan shape at low average expression that reflects the
+unreliable variance estimates that are the core failure of a plain
+t-test.   
+
+**Problem 2 — Per-gene variance estimates from small n are still
+unreliable.**
+Whether the data is raw counts or log-CPM, a sample variance from
+three observations still has 2 degrees of freedom. The estimate
+remains noisy. A plain t-test uses this unreliable per-gene estimate
+directly in the test statistic — with no mechanism to stabilise it.
+
+---
+
+**Level 3 — limma-voom: a t-test framework done correctly**
+
+**limma-voom** is the principled version of the log-normalised t-test
+approach. It addresses both surviving problems directly:
+
+**Solving Problem 1 — precision weights informed by the mean-variance trend:**
+Across the transcriptome, variance in log-CPM values follows a
+systematic relationship with mean expression — lowly expressed genes
+are consistently more variable than highly expressed genes. This
+relationship is not a violation for any single gene's t-test; it is
+a biological property of count data. But it is **exploitable**.
+
+The `voom` function in limma estimates this mean-variance trend from
+all genes simultaneously, then assigns each observation a precision
+weight inversely proportional to its predicted variance. A
+log-CPM value from a lowly expressed gene (high predicted variance)
+receives a low weight — it contributes less to the test statistic.
+A log-CPM value from a highly expressed gene (low predicted variance)
+receives a high weight. The subsequent linear model is a **weighted**
+least squares fit, not a plain t-test. The fan-shaped scatter in the
+MA plot collapses because unstable estimates from low-count genes
+are down-weighted rather than treated as equally reliable.
+
+**Solving Problem 2 — empirical Bayes moderation across genes:**
+Rather than testing each gene using only its own variance estimate,
+limma estimates a common prior distribution for variances across all
+genes and uses it to shrink each gene's individual estimate toward the
+prior. A gene whose raw variance estimate is based on only 2 degrees
+of freedom is pulled toward the pooled estimate — in effect, borrowing
+information from hundreds or thousands of other genes. This is the
+same core principle as DESeq2 and edgeR: **the test for gene X borrows
+information from all other genes**.
+
+The result is a moderated t-statistic that behaves as if it has more
+degrees of freedom than the n = 3 replicates alone would provide.
+limma-voom performs comparably to DESeq2 and edgeR in benchmarks and
+is particularly well suited to large datasets and complex experimental
+designs (Ritchie et al. 2015).
+
+---
+
+**Level 4 — DESeq2 and edgeR: modelling counts directly**
+
+DESeq2 and edgeR skip the log-normalisation step and model the raw
+counts directly using the **negative binomial distribution** — a count
+distribution with two parameters: mean and dispersion. Dispersion
+captures the extra-Poisson variability between biological replicates
+that is always present in RNA-seq data.
+
+This approach is most important for **lowly expressed genes**, where
+log-CPM values are poorly behaved — log of a small integer is
+numerically unstable, and the assumptions that make limma-voom work
+are weakest at low counts.
+
+Like limma, both tools use **empirical Bayes information sharing**
+across genes — fitting a mean-dispersion trend across the whole
+transcriptome and shrinking each gene's individual dispersion estimate
+toward that trend. The test for gene X is informed by variance
+information from every other gene at similar expression levels.
+
+Both tools also incorporate normalisation internally — using methods
+covered in **Module 5** — and fit a **generalised linear model** (GLM)
+per gene, allowing complex multi-factor experimental designs that a
+t-test cannot accommodate.
+
+---
+
+### Putting it together
+
+| Approach | What it fixes | What remains wrong |
+|---|---|---|
+| t-test on raw counts | Nothing | Not comparable; discrete; normal approx fails; unreliable variance |
+| t-test on log-CPM | Comparability; approximate normality at high counts | Normal approx fails at low counts; unreliable per-gene variance from small n |
+| limma-voom | All of the above — precision weights + EB moderation | Works less well at very low counts |
+| DESeq2 / edgeR | All of the above — NB model for count data + EB moderation | Best for low-count genes; equivalent to limma-voom at higher counts |
+
+The choice between limma-voom and DESeq2/edgeR is not about correctness
+— all three are valid. It is about data characteristics and design
+complexity. What is not valid is Level 1 or Level 2 without the
+moderation step.
+
+!!! info "The practical message"
+    The key innovation shared by all three adequate approaches is not
+    the distributional model — it is **borrowing information across
+    genes to stabilise variance estimates at small n**. This is what
+    makes reliable inference possible when you have three replicates
+    per group and 20,000 genes to test simultaneously. A plain t-test
+    discards this shared structure entirely.
+
+!!! info "What Module 5 covers"
+    The mechanics of normalisation — how TMM, RLE, CPM, and variance-
+    stabilising transformations work and when each is appropriate — are
+    covered in **Module 5**. The full DESeq2 and edgeR analysis pipeline,
+    including dispersion estimation, GLM fitting, and interpretation of
+    results, is covered in a dedicated downstream workshop.
+
+### The same principle applies across platforms
+
+The need to account for overdispersion and borrow information across
+features extends beyond bulk RNA-seq:
+
+- **Single-cell RNA-seq:** individual cells within a sample are not
+  independent biological replicates — treating them as such inflates
+  degrees of freedom severely. Pseudobulk approaches (aggregating to
+  sample level, then applying edgeR, DESeq2, or limma) are currently
+  the benchmark-recommended approach (Squair et al. 2021)
+- **16S / metagenomics:** compositional structure additionally requires
+  log-ratio based approaches — ANCOM and ALDEx2
+- **Proteomics:** intensity data is heteroscedastic; limma with
+  empirical Bayes moderation is preferred over naive t-tests, and
+  directly applies the same information-sharing principle across
+  proteins
+- **Metabolomics:** similarly non-normal and heteroscedastic; log
+  transformation before a t-test is Level 2 — better than raw, but
+  still missing the moderation step
+
+!!! warning "Log transformation is not sufficient on its own"
+    Log-transforming count data before a t-test improves things but
+    leaves two core problems unsolved: the normal approximation still
+    fails for lowly expressed genes, and per-gene variance estimates
+    from small n remain unreliable. limma-voom, DESeq2 and edgeR all
+    include the moderation step that stabilises those estimates by
+    borrowing information across genes — something a plain
+    log + t-test cannot do.
+
+??? abstract "Further Reading · Statistical Models for Omics Count Data"
+
+    **The foundational tools**
+
+    Love MI, Huber W, Anders S. Moderated estimation of fold change
+    and dispersion for RNA-seq data with DESeq2. *Genome Biology*
+    2014; 15: 550.
+    [doi:10.1186/s13059-014-0550-8](https://doi.org/10.1186/s13059-014-0550-8){target="_blank"}
+    *(DESeq2 — introduces shrinkage estimation for dispersions and fold
+    changes; methods section explains why per-gene variance estimation
+    fails at small n)*
+
+    Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package
+    for differential expression analysis of digital gene expression data.
+    *Bioinformatics* 2010; 26(1): 139–140.
+    [doi:10.1093/bioinformatics/btp616](https://doi.org/10.1093/bioinformatics/btp616){target="_blank"}
+    *(edgeR — empirical Bayes moderation of tagwise dispersions toward
+    a common value across genes)*
+
+    Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK.
+    limma powers differential expression analyses for RNA-sequencing
+    and microarray studies. *Nucleic Acids Research* 2015; 43(7): e47.
+    [doi:10.1093/nar/gkv007](https://doi.org/10.1093/nar/gkv007){target="_blank"}
+    *(limma-voom — precision weights for heteroscedasticity plus
+    empirical Bayes moderation; bridges RNA-seq, microarray and
+    proteomics in a single framework)*
+
+    ---
+
+    **Empirical validation**
+
+    Schurch NJ et al. How many biological replicates are needed in an
+    RNA-seq experiment and which differential expression tool should
+    you use? *RNA* 2016; 22(6): 839–851.
+    [doi:10.1261/rna.053959.115](https://doi.org/10.1261/rna.053959.115){target="_blank"}
+    *(48-replicate benchmark — n = 3 detects only 20–40% of true DE
+    genes; tools with information sharing across genes outperform
+    those without)*
+
+    Gierliński M et al. Statistical models for RNA-seq data derived
+    from a two-condition 48-replicate experiment. *Bioinformatics*
+    2015; 31(22): 3625–3630.
+    [doi:10.1093/bioinformatics/btv425](https://doi.org/10.1093/bioinformatics/btv425){target="_blank"}
+    *(Empirical confirmation that per-gene counts are consistent with
+    both NB and log-normal distributions; establishes the mean-variance
+    relationship in real RNA-seq data)*
+
+    Squair JW et al. Confronting false discoveries in single-cell
+    differential expression. *Nature Communications* 2021; 12: 5692.
+    [doi:10.1038/s41467-021-25960-2](https://doi.org/10.1038/s41467-021-25960-2){target="_blank"}
+    *(Pseudobulk benchmark for scRNA-seq — 46 datasets showing why
+    treating cells as independent replicates produces false discoveries)*
+
+---
+
+### Module 2 — Summary
+
+The four sections of this module have built a connected picture of why
+omics data requires its own analytical framework:
+
+- **Counts are proportions** of a fixed sequencing budget — raw counts
+  cannot be compared across samples without accounting for depth
+- **Zeros are not all the same** — biological absence, technical
+  dropout, and sampling failure produce identical zeros but require
+  different responses
+- **Features are compositionally constrained** — proportions not
+  absolute quantities are measured, making naive fold-change and
+  correlation analyses unreliable
+- **Classical t-tests fail on count data — but the reason is not simply
+  that the data is non-normal.** The core problem is that per-gene
+  variance cannot be reliably estimated from small n. limma-voom,
+  DESeq2, and edgeR all solve this by borrowing information about
+  variance structure across all genes simultaneously. That shared
+  structure is what makes inference possible with three replicates.
+
+!!! info "End of Day 1 theory — coming up: practical session"
+    The Day 1 practical session gives you the opportunity to observe
+    these properties directly in a real dataset — examining count
+    distributions, library depth variation, zero rates, and the
+    mean-variance relationship that motivates the tools covered in
+    this section. The concepts from Modules 1, 2, and 3 will all
+    appear in the data.
