@@ -6,11 +6,13 @@ nav:
   # Landing page
   - Home: index.md
   - Introduction: Introduction.md
-  - Day1: 
-    - Module1: Day1/module1.md
+  - Module 1: 
+    - The 'omics landscape: Day1/module1-1.md
+    - Why 'omics studies fail: Day1/module1-2.md
+  - Module 2: 
     - Module2: Day1/module2.md
+  - Module 3:
     - Module3: Day1/module3.md
-  - Day2: 
     - Module4: Day2/module4.md
     - Module5: Day2/module5.md
     - Module6: Day2/module6.md
