@@ -5,19 +5,18 @@
     By the end of this module, participants will be able to:
 
 
-Despite rapid advances in omics technologies, not all studies succeed. Omics 
-studies can fail at multiple stages — from experimental design through to data 
-analysis and interpretation. Understanding *how* and *why* they fail is as 
+Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages — from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as 
 important as understanding the technologies themselves.
 
 ### The Cost Reality
 
 Omics experiments carry significant costs across three dimensions:
 
-- **Financial** — sequencing runs, reagents, and platform fees
-- **Time** — sample processing, analysis pipelines, and validation
-- **Irreplaceability** — clinical biopsies, rare cohorts, and longitudinal 
-  samples cannot simply be recollected
+| Cost dimension | Examples |
+|---|---|
+| **Financial** | Sequencing runs, reagents, platform fees |
+| **Time** | Sample processing, analysis pipelines, validation |
+| **Irreplaceability** | Clinical biopsies, rare cohorts, longitudinal samples cannot simply be recollected |
 
 Failures are therefore not just technical inconveniences — they represent lost 
 scientific opportunities that often cannot be recovered.
