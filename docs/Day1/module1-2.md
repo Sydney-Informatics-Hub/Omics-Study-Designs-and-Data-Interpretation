@@ -1,6 +1,10 @@
 
 ## When Omics Studies Fail — and Why It Matters
 
+!!! info "Learning objectives"
+    By the end of this module, participants will be able to:
+
+
 Despite rapid advances in omics technologies, not all studies succeed. Omics 
 studies can fail at multiple stages — from experimental design through to data 
 analysis and interpretation. Understanding *how* and *why* they fail is as 
