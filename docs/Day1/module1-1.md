@@ -40,11 +40,11 @@ and cannot conclude from your data.
 At a broad level, omics technologies fall into two methodological families:
 
 - **Sequencing-based approaches** (e.g., DNA-seq, RNA-seq, ATAC-seq) quantify 
-  molecules by converting them into readable sequence — offering high throughput 
-  and genome-wide coverage.
+  molecules by converting them into readable sequence, offering high throughput 
+  and genome-wide coverage
 - **Imaging-based approaches** (e.g., spatial transcriptomics, microscopy-based 
   proteomics) preserve the physical location of molecules within tissue, adding a 
-  spatial dimension that sequencing-based methods cannot capture.
+  spatial dimension that sequencing-based methods cannot capture
 
 The figure below provides an overview of commonly used analysis approaches 
 across major omics domains:
@@ -58,13 +58,18 @@ TODO replace image with custom diagram as above.
 
 ### What else can 'omics data tell us
 
-Many 'omics pipelines focus on a single primary output (i.e differential gene expression from RNA-seq, variant calling from DNA-seq). The same raw data often contains additional layers of biological information beyond the primary analysis.
+Many omics pipelines focus on a single primary output (i.e. differential gene expression from RNA-seq, variant calling from Whole Genome Sequencing). But the same raw data often contains additional layers of biological information that aren't commonly interrogated.
 
-A growing set of secondary and emerging analyses can be applied to existing datasets, often without additional sequencing cost. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
+A growing set of secondary analyses can be applied to existing datasets, often without additional sequencing cost. Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be interrogated for alternative splicing, RNA editing events, transcript fusions, and more. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
 
-However, their applicability depends on study design, data quality, and sequencing characteristics (e.g. depth, read length, library preparation), and results should be interpreted with appropriate caution.
+The catch is that many of these analyses depend on decisions made before sequencing begins including: 
 
-Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be interrogated for  alternative splicing, RNA editing events, transcript fusions, and more.
+- Library preparation 
+- Sequencing depth 
+- Read length 
+- Metadata 
+
+By the time the data exists, it is often too late to recover an option that was designed out. Knowing what your data type is capable of before the experiment is designed means you can keep those options open from the start.
 
 ![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
 
@@ -73,32 +78,34 @@ Take bulk RNA-seq as an example: beyond standard differential expression, the sa
 
 TODO replace image with custom diagram as above.
 
-??? Activity placeholder 
-    Prepare activity that summarises content above. 
+!!! Question "Activity: planning your study" 
+
+    TODO Prepare activity that summarises takeaways from above, consider using mentimeter for this in the live workshop. e.g. 
+
+    Pick one of the example studies below. You don't need to know anything about bioinformatics to do this. Read the study description and answer these questions:
+
+    1. What biological question is the study trying to answer? 
+    2. Which omics layer or combination of layers would best address it?
+    3. What would the primary analysis output be? 
+    4. What decisions made before data collection could limit what you can extract from this data later?
+---
+
+??? Example "Clincal: colorectal cancer"
+    
+    Tissue biopsies are collected from 40 patients undergoing surgery for colorectal cancer, one sample from the tumour and one from adjacent normal tissue per patient. Samples are collected across two hospitals over 24 months. The goal is to identify gene expression differences between tumour and normal tissue.
+---
+
+??? Example "Wildlife: koala chlamydia"
+
+    Swabs are collected from 60 wild koalas across a fragmented landscape over 18 months, comparing animals with and without chlamydial infection. Samples are stored in the field before being transported to the lab.
 
 ---
 
+??? Example "Aquaculture: salmon gut microbiome"
 
-
-??? abstract "Further Reading · Emerging Omics Technologies"
-
-    ** Spatial Transcriptomics**
-    Entry-level overview, platform comparison, experimental design guidance 
-    - [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
-     
-    spatial + single-cell integration, computational strategies
-    - [Vandereyken K et. al *Nature Reviews Genetics* 2023](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
-
-    ---
-
-    ** Long-Read Sequencing & Isoform Biology**
-    
-    Isoform resolution at single-cell level, library prep + bioinformatics
-    - [Kumari P et.al 
-      *Human Genetics* 2024.](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
-    
-    Comprehensive guide: tools, applications, challenges
-    - [Parker MT et. al *Nature Reviews Genetics* 2025](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
-
-    ---
+    Gut contents are collected from Atlantic salmon at three farms using different feed formulations. Twenty fish per farm are sampled over a single harvest day. The goal is to understand how diet shapes the gut microbial community.
 ---
+
+??? Example "Agriculture: wheat heat stress"
+
+    Leaf tissue is harvested from six wheat varieties at two timepoints, before and during a simulated drought, in a glasshouse trial. The aim is to identify genes associated with drought tolerance.
