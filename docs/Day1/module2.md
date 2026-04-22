@@ -775,12 +775,15 @@ wildly in both directions — not because of biology, but because
 the underlying variance estimates are unreliable. The figure below
 illustrates this directly.
 
-![MA plot without and with shrinkage (Love et al. 2014, Figure 2, CC-BY)](module2Figs/02_MLE_plot_dispersion_v01.jpg){width=90%}. 
 
-*Figure 2 from Love MI et al. (2014) Genome Biology 15:550. CC-BY 4.0.
-Panels A show the fan shape at low average expression that reflects the
-unreliable variance estimates that are the core failure of a plain
-t-test.   
+![MA plot without and with shrinkage (Derakhshani et al. (2020), CC-BY)](module2Figs/02_MLE_plot_dispersion_v01.jpg){style="width:90%; height:auto; min-height:500px"}
+
+*Data pattern typical of RNA-seq count data, as seen in studies such as
+Derakhshani et al. (2020, PLoS One 15:e0230820). The fan-shaped spread
+at low average expression — where variance vastly exceeds the mean —
+is the core reason a plain t-test produces unreliable results on count
+data. DESeq2 and edgeR were built specifically to model this
+mean-variance relationship.* 
 
 **Problem 2 — Per-gene variance estimates from small n are still
 unreliable.**

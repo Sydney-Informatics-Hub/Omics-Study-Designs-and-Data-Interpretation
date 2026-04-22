@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Module 2 · Data Types and Core Statistical Properties</title>
+
+<!-- ── Browser compatibility note ─────────────────────────────────────────
+  Chrome / Edge: open module2_practical.html directly — no server needed.
+  Firefox:       open via the local server (serve.py / START_Windows.bat /
+                 START_Mac.command) so the required COOP+COEP headers are set.
+  Safari:        not supported (SharedArrayBuffer disabled for file:// and
+                 most local origins).
+──────────────────────────────────────────────────────────────────────────── -->
+<script>
+// Detect Firefox on file:// and show a targeted warning in the modal
+window._isFirefoxLocal =
+  typeof InstallTrigger !== 'undefined' &&
+  location.protocol === 'file:';
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -753,6 +767,306 @@
 
 </div><!-- /main -->
 
+<!-- ── Firefox local-file banner (shown by JS if needed) ── -->
+<div id="ffBanner" style="display:none;background:#2a1f00;border-bottom:1px solid rgba(255,204,92,0.4);padding:10px 24px;font-size:13px;color:#ffcc5c;align-items:center;gap:12px;flex-wrap:wrap">
+  <span>🦊 <strong>Firefox + local file:</strong> R cannot load from <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">file://</code></span>
+  <span style="color:#e8c96a"><strong>Windows:</strong> double-click <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">START_Windows.bat</code> &nbsp;|&nbsp; <strong>Mac:</strong> open Terminal → <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">python3 serve.py</code> (see README_Mac_Firefox.txt) &nbsp;|&nbsp; <strong>Or use Chrome / Edge</strong></span>
+</div>
+
+
+<div id="welcomeModal" role="dialog" aria-modal="true" aria-label="Getting started">
+  <div class="modal-backdrop" onclick="dismissModal()"></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-badge">Module 2 · Interactive Practical</div>
+      <h2 class="modal-title">Getting started</h2>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="modal-step">
+        <div class="step-icon">⏳</div>
+        <div class="step-text">
+          <strong>Wait for R to load</strong>
+          The green <em>R Ready</em> indicator in the top-right corner means R is running in your browser. This takes <strong>20–40 seconds</strong> on first use — no installation required.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">🎛</div>
+        <div class="step-text">
+          <strong>Adjust sliders, then press Run</strong>
+          Each section has interactive controls. Change a slider or dropdown, then press the <span class="kbd">▶ Run in R</span> button to regenerate the plot. The R code executing behind the scenes is shown in the console on the right.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">🗂</div>
+        <div class="step-text">
+          <strong>Four sections, one per module topic</strong>
+          Use the tabs at the top to move between sections. Each section is independent — you can jump to any one directly.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">💬</div>
+        <div class="step-text">
+          <strong>Discussion questions and answers</strong>
+          Each section ends with questions for group discussion. Press <span class="kbd">Reveal answers</span> when you're ready — or when your facilitator says so.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">💻</div>
+        <div class="step-text">
+          <strong>Free R console</strong>
+          The text box at the bottom-right accepts any R code. Press <span class="kbd">▶ Run</span> or <span class="kbd">Ctrl+Enter</span>. Plots appear in the active section's plot area.
+        </div>
+      </div>
+
+      <div class="modal-note">
+        <strong>Works entirely in your browser — no login, no RStudio.</strong> R runs inside the browser tab via WebAssembly. Each person gets their own private session.
+      </div>
+
+      <div class="modal-note modal-note-browser" id="browserNote" style="display:none;border-color:rgba(255,204,92,0.3);background:rgba(255,204,92,0.05)">
+        <strong style="color:var(--accent4)">⚠ Firefox + local file detected — R will not load here</strong><br><br>
+        Firefox requires the page to be served over <code style="font-family:'DM Mono',monospace;font-size:11px">http://localhost</code>. Choose one option:<br><br>
+
+        <strong>Windows</strong> — double-click <code style="font-family:'DM Mono',monospace;font-size:11px">START_Windows.bat</code> in the same folder. Done.<br><br>
+
+        <strong>Mac</strong> — open Terminal (Cmd+Space → type Terminal → Enter), then:<br>
+        <ol style="margin:8px 0 8px 18px;color:var(--text-muted);font-size:13px;line-height:1.9">
+          <li>Type <code style="font-family:'DM Mono',monospace;font-size:11px">cd </code> (with a space), then <strong>drag this folder from Finder into Terminal</strong> — the path appears automatically</li>
+          <li>Press Enter, then type <code style="font-family:'DM Mono',monospace;font-size:11px">python3 serve.py</code> and press Enter</li>
+          <li>Firefox will open at <code style="font-family:'DM Mono',monospace;font-size:11px">http://localhost:8000/module2_practical.html</code> — use whatever port the server prints if not 8000</li>
+        </ol>
+
+        <strong>Easiest alternative:</strong> switch to <strong>Chrome or Edge</strong> — they work with local files, no server needed.
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <label class="modal-remember">
+        <input type="checkbox" id="dontShowAgain"> Don't show this again
+      </label>
+      <button class="modal-dismiss" onclick="dismissModal()">
+        Get started
+        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M3.5 8h9M8.5 4l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Modal ── */
+  #welcomeModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 12, 20, 0.82);
+    backdrop-filter: blur(4px);
+  }
+  .modal-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: min(560px, calc(100vw - 40px));
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    animation: modalIn 0.22s ease-out;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+
+  .modal-header {
+    padding: 24px 28px 0;
+  }
+  .modal-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: rgba(91,143,255,0.1);
+    border: 1px solid rgba(91,143,255,0.25);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0;
+  }
+
+  .modal-body {
+    padding: 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .modal-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .step-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    margin-top: 1px;
+  }
+  .step-text {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .step-text strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13.5px;
+  }
+  .step-text em { font-style: normal; color: var(--text); }
+
+  .kbd {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 7px;
+    border-radius: 4px;
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+
+  .modal-note {
+    background: rgba(91,143,255,0.06);
+    border: 1px solid rgba(91,143,255,0.18);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .modal-note strong { color: var(--text); }
+
+  .modal-footer {
+    padding: 16px 28px 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .modal-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .modal-remember input { accent-color: var(--accent); cursor: pointer; }
+
+  .modal-dismiss {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .modal-dismiss:hover { background: #4a7ee8; transform: translateY(-1px); }
+  .modal-dismiss svg { stroke: currentColor; stroke-width: 1.5; fill: none; }
+</style>
+
+<script>
+  // Show modal on first visit; respect "don't show again"
+  (function() {
+    if (localStorage.getItem('m2_welcomed') === '1') {
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    // Detect Firefox + file:// — show specific warning
+    const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+    const isFileProtocol = location.protocol === 'file:';
+    if (isFirefox && isFileProtocol) {
+      const warn = document.getElementById('browserNote');
+      if (warn) warn.style.display = 'block';
+      // Force modal to show regardless of localStorage
+      document.getElementById('welcomeModal').style.display = 'flex';
+    }
+    // Show persistent banner for Firefox on file://
+    if (isFirefox && isFileProtocol) {
+      const banner = document.getElementById('ffBanner');
+      if (banner) banner.style.display = 'flex';
+    }
+  })();
+
+  function copyTermCmd() {
+    const text = document.getElementById('termCmdText').textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      const copied = document.getElementById('termCmdCopied');
+      if (copied) {
+        copied.style.display = 'inline';
+        setTimeout(() => copied.style.display = 'none', 2000);
+      }
+    }).catch(function() {
+      // Clipboard API unavailable (file:// in some browsers) — select the text instead
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById('termCmdText'));
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    });
+  }
+
+  function dismissModal() {
+    if (document.getElementById('dontShowAgain').checked) {
+      localStorage.setItem('m2_welcomed', '1');
+    }
+    const m = document.getElementById('welcomeModal');
+    m.style.opacity = '0';
+    m.style.transition = 'opacity 0.18s ease';
+    setTimeout(() => m.style.display = 'none', 180);
+  }
+
+  // Also dismiss on Escape or Enter
+  document.addEventListener('keydown', function(e) {
+    const m = document.getElementById('welcomeModal');
+    if (m.style.display !== 'none' && (e.key === 'Escape' || e.key === 'Enter')) {
+      dismissModal();
+    }
+  });
+</script>
+
 <!-- webR -->
 <script type="module">
   import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
@@ -775,20 +1089,34 @@
   async function init() {
     await webR.init();
     log('✓ R engine ready', 'result');
-    
-    // Install ggplot2
-    log('> install.packages("ggplot2")', 'prompt');
+
+    // Forward R stdout/stderr to the console panel
+    (async () => {
+      for await (const msg of webR) {
+        if (msg.type === 'stdout') log(msg.data, 'info');
+        else if (msg.type === 'stderr' && !msg.data.startsWith('trying URL')) log(msg.data, 'warn');
+      }
+    })();
+
+    log('> webr::install("ggplot2") — please wait…', 'prompt');
     try {
-      await webR.evalR(`webr::install("ggplot2")`);
-      log('✓ ggplot2 installed', 'result');
+      await webR.evalR(`webr::install("ggplot2", quiet=TRUE)`);
+      log('✓ ggplot2 ready', 'result');
     } catch(e) {
-      log('⚠ ggplot2 install failed, using base graphics', 'warn');
+      log('⚠ ggplot2 unavailable, base graphics will be used', 'warn');
     }
 
     try {
-      await webR.evalR(`library(ggplot2)`);
-      log('✓ ggplot2 loaded', 'result');
+      await webR.evalR(`webr::install("tidyr", quiet=TRUE)`);
+      log('✓ tidyr ready', 'result');
+    } catch(e) {
+      log('⚠ tidyr unavailable', 'warn');
+    }
+
+    try {
+      await webR.evalR(`suppressPackageStartupMessages({ library(ggplot2); library(tidyr) })`);
       window._hasGG = true;
+      log('✓ packages loaded', 'result');
     } catch(e) {
       window._hasGG = false;
       log('Using base R graphics', 'warn');
@@ -800,7 +1128,7 @@
     document.getElementById('initLine').className = 'line result';
     document.getElementById('initLine').textContent = '✓ Ready — press Run in any section';
     log('', 'info');
-    log('# Tip: customise the sliders, then press Run to re-generate', 'comment');
+    log('# Tip: adjust sliders, then press Run to re-generate', 'comment');
   }
 
   init().catch(e => {
@@ -833,26 +1161,24 @@
       const code = `
 library(ggplot2)
 depths <- c(${depthA}, ${depthB}) * 1e6
-samples <- c("Sample A\\n(${depthA}M reads)", "Sample B\\n(${depthB}M reads)")
+samples <- c("Sample A (${depthA}M reads)", "Sample B (${depthB}M reads)")
 counts <- round(depths * ${prop})
 proportions <- counts / depths * 100
 
 df <- data.frame(
   sample = rep(samples, 2),
-  type = c("Raw Count (×1)", "Raw Count (×1)", "Proportion (%)", "Proportion (%)"),
-  value = c(counts / max(counts), proportions / max(proportions)),
-  raw_val = c(counts, proportions),
-  fill_col = c("${depthA > depthB ? '#ff6b6b' : '#5b8fff'}","${depthB >= depthA ? '#ff6b6b' : '#5b8fff'}","#52e0a0","#52e0a0")
+  type = c("Raw Counts", "Raw Counts", "Proportion (%)", "Proportion (%)"),
+  value = c(counts / max(counts), proportions / max(proportions))
 )
-df$type <- factor(df$type, levels=c("Raw Count (×1)","Proportion (%)"))
+df$type <- factor(df$type, levels=c("Raw Counts","Proportion (%)"))
 df$sample <- factor(df$sample, levels=samples)
 
-ggplot(df, aes(x=sample, y=value, fill=sample)) +
+p <- ggplot(df, aes(x=sample, y=value, fill=sample)) +
   geom_col(width=0.55, alpha=0.9) +
-  facet_wrap(~type, scales="free_y", labeller=labeller(type=c("Raw Count (×1)"="Raw Counts\\n(naïve comparison)","Proportion (%)"="Proportion of Library\\n(normalised)"))) +
-  scale_fill_manual(values=c("${depthA > depthB ? '#5b8fff' : '#ff6b6b'}","${depthB > depthA ? '#ff6b6b' : '#5b8fff'}")) +
+  facet_wrap(~type, scales="free_y") +
+  scale_fill_manual(values=c("#5b8fff","#ff6b6b")) +
   labs(title="The Depth Illusion: same biology, different counts",
-       subtitle=paste0("Gene proportion: ${propA}% | Sample A depth: ${depthA}M | Sample B depth: ${depthB}M"),
+       subtitle=paste0("Sample A: ${depthA}M reads  |  Sample B: ${depthB}M reads  |  True proportion identical"),
        y="Relative value", x=NULL) +
   theme_minimal(base_size=12) +
   theme(
@@ -862,12 +1188,13 @@ ggplot(df, aes(x=sample, y=value, fill=sample)) +
     panel.grid.minor=element_blank(),
     text=element_text(color="#e8ecf4"),
     axis.text=element_text(color="#8892b0",size=10),
-    strip.text=element_text(color="#e8ecf4",size=10,face="bold"),
+    strip.text=element_text(color="#e8ecf4",size=11,face="bold"),
     strip.background=element_rect(fill="#0f1117",color=NA),
     plot.title=element_text(size=13,face="bold",color="#e8ecf4"),
     plot.subtitle=element_text(size=10,color="#8892b0"),
     legend.position="none"
   )
+print(p)
 `;
       const img = await renderPlot(code);
       showPlot('plot1', img);
@@ -912,10 +1239,8 @@ n_cells <- ${ncells}
 n_genes <- ${ngenes}
 zero_rate <- ${zeroRate}
 
-# Simulate count matrix with realistic sparsity
 mat <- matrix(0, nrow=n_genes, ncol=n_cells)
 for(i in 1:n_genes) {
-  # Each gene has a different expression level
   lambda <- exp(rnorm(1, mean=2, sd=2))
   expressed <- rbinom(n_cells, 1, 1 - zero_rate)
   counts <- rpois(n_cells, lambda) * expressed
@@ -923,28 +1248,24 @@ for(i in 1:n_genes) {
 }
 observed_zero_rate <- round(mean(mat == 0) * 100, 1)
 
-# Create long df for heatmap
 df <- data.frame(
-  gene = rep(paste0("G",1:n_genes), n_cells),
-  cell = rep(paste0("C",1:n_cells), each=n_genes),
   count = as.vector(mat),
   gene_idx = rep(1:n_genes, n_cells),
   cell_idx = rep(1:n_cells, each=n_genes)
 )
-
-# Show only first 60 cells for visibility
 df_vis <- df[df$cell_idx <= min(60, n_cells), ]
+df_vis$fill_cat <- ifelse(df_vis$count==0, "zero", ifelse(df_vis$count<5, "low", "high"))
 
-ggplot(df_vis, aes(x=cell_idx, y=gene_idx, fill=ifelse(count==0, "zero", ifelse(count<5, "low", "high")))) +
+p <- ggplot(df_vis, aes(x=cell_idx, y=gene_idx, fill=fill_cat)) +
   geom_tile(linewidth=0) +
   scale_fill_manual(
     values=c(zero="#0f1117", low="#2a4a7f", high="#5b8fff"),
-    labels=c(zero="Zero (undetected)", low="Low (1–4)", high="High (5+)"),
+    labels=c(zero="Zero", low="Low (1-4)", high="High (5+)"),
     name="Count"
   ) +
   labs(
-    title=paste0("Sparsity: ${platform} — ", observed_zero_rate, "% zeros observed"),
-    subtitle=paste0("Expected ~", round(zero_rate*100), "% | ", n_genes, " genes × ", min(60,n_cells), " cells/samples shown"),
+    title=paste0("Sparsity: ${platform} — ", observed_zero_rate, "% zeros"),
+    subtitle=paste0("Expected ~", round(zero_rate*100), "% | ", n_genes, " genes x ", min(60,n_cells), " cells shown"),
     x="Cells / Samples", y="Genes"
   ) +
   theme_minimal(base_size=11) +
@@ -960,6 +1281,7 @@ ggplot(df_vis, aes(x=cell_idx, y=gene_idx, fill=ifelse(count==0, "zero", ifelse(
     legend.background=element_rect(fill="#181c27",color=NA),
     legend.text=element_text(color="#8892b0",size=9)
   )
+print(p)
 `;
       const img = await renderPlot(code);
       showPlot('plot2', img);
@@ -985,14 +1307,12 @@ ggplot(df_vis, aes(x=cell_idx, y=gene_idx, fill=ifelse(count==0, "zero", ifelse(
     try {
       const code = `
 library(ggplot2)
+library(ggplot2)
 library(tidyr)
 kill_rate <- ${killRate}
 spec_a_multiplier <- ${specAChange >= 0 ? Math.pow(2, specAChange) : 1/Math.pow(2, Math.abs(specAChange))}
 
-# Before treatment: absolute cell counts (arbitrary units)
 abs_before <- c(A=100, B=300, C=400, D=200)
-
-# After treatment: antibiotics kill kill_rate of B,C,D; A changes by spec_a_multiplier
 survival <- 1 - kill_rate
 abs_after <- c(
   A = abs_before["A"] * spec_a_multiplier,
@@ -1001,7 +1321,6 @@ abs_after <- c(
   D = abs_before["D"] * survival
 )
 
-# Compositional (relative) abundances
 rel_before <- abs_before / sum(abs_before) * 100
 rel_after <- abs_after / sum(abs_after) * 100
 
@@ -1016,17 +1335,17 @@ df$species <- factor(df$species, levels=c("A","B","C","D"))
 
 df_long <- tidyr::pivot_longer(df, cols=c(absolute, relative), names_to="measure", values_to="value")
 df_long$measure <- factor(df_long$measure, levels=c("absolute","relative"),
-  labels=c("Absolute abundance\\n(true biology — unobservable)","Relative abundance\\n(what sequencing gives you)"))
+  labels=c("Absolute abundance (true biology)","Relative abundance (sequencing output)"))
 
 pal <- c(A="#5b8fff", B="#ff6b6b", C="#52e0a0", D="#ffcc5c")
 
-ggplot(df_long, aes(x=timepoint, y=value, fill=species)) +
+p <- ggplot(df_long, aes(x=timepoint, y=value, fill=species)) +
   geom_col(position="stack", width=0.55, alpha=0.9) +
   facet_wrap(~measure, scales="free_y") +
   scale_fill_manual(values=pal, name="Species") +
   labs(
-    title=paste0("Compositional trap: ", round(kill_rate*100), "% kill, Species A ×", round(spec_a_multiplier,1), " absolute"),
-    subtitle="Left: what actually happened. Right: what your sequencing data shows.",
+    title=paste0("Compositional trap: ", round(kill_rate*100), "% kill, Species A x", round(spec_a_multiplier,1)),
+    subtitle="Left: true biology. Right: what sequencing shows.",
     x=NULL, y="Abundance"
   ) +
   theme_minimal(base_size=11) +
@@ -1044,6 +1363,7 @@ ggplot(df_long, aes(x=timepoint, y=value, fill=species)) +
     legend.background=element_rect(fill="#181c27",color=NA),
     legend.text=element_text(color="#8892b0")
   )
+print(p)
 `;
       const img = await renderPlot(code);
       showPlot('plot3', img);
@@ -1084,31 +1404,22 @@ set.seed(123)
 n_genes <- ${nGenes}
 n_rep <- ${nRep}
 phi <- ${phi}
-
-# Simulate mean expression levels (log-normal)
 true_means <- exp(rnorm(n_genes, mean=3, sd=2))
-
-# For each gene, simulate n_rep replicates from NB distribution
 gene_vars <- sapply(true_means, function(mu) {
   counts <- rnbinom(n_rep, mu=mu, size=1/phi)
   var(counts)
 })
-
 df <- data.frame(mean=true_means, variance=gene_vars)
 df <- df[df$mean > 0.5 & df$mean < 5000, ]
-
-# Poisson line: var = mean
-x_seq <- seq(min(df$mean), max(df$mean), length.out=200)
-
-ggplot(df, aes(x=log10(mean+1), y=log10(variance+1))) +
+p <- ggplot(df, aes(x=log10(mean+1), y=log10(variance+1))) +
   geom_point(alpha=0.3, color="#5b8fff", size=1.2) +
   geom_abline(slope=1, intercept=0, color="#ff6b6b", linewidth=0.8, linetype="dashed") +
-  annotate("text", x=max(log10(df$mean+1))*0.7, y=max(log10(df$mean+1))*0.65,
-           label="Poisson line\\n(var = mean)", color="#ff6b6b", size=3.5) +
+  annotate("text", x=max(log10(df$mean+1))*0.65, y=max(log10(df$mean+1))*0.55,
+           label="Poisson: var = mean", color="#ff6b6b", size=3.5) +
   labs(
-    title=paste0("Mean-Variance relationship — overdispersion φ=",${phi}),
-    subtitle=paste0(nrow(df)," genes × ",n_rep," replicates | Points above red line = overdispersed"),
-    x="log10(Mean count + 1)", y="log10(Variance + 1)"
+    title=paste0("Mean-Variance relationship (overdispersion phi=", phi, ")"),
+    subtitle=paste0(nrow(df)," genes x ",n_rep," replicates | Points above line = overdispersed"),
+    x="log10(Mean + 1)", y="log10(Variance + 1)"
   ) +
   theme_minimal(base_size=11) +
   theme(
@@ -1121,6 +1432,7 @@ ggplot(df, aes(x=log10(mean+1), y=log10(variance+1))) +
     plot.title=element_text(size=12,face="bold"),
     plot.subtitle=element_text(size=10,color="#8892b0")
   )
+print(p)
 `;
     } else if (mode === 'hist') {
       code = `
@@ -1128,23 +1440,17 @@ library(ggplot2)
 set.seed(42)
 n_genes <- ${nGenes}
 phi <- ${phi}
-
 true_means <- exp(rnorm(n_genes, mean=3, sd=2))
-# One sample's counts across all genes
 one_sample_counts <- rnbinom(n_genes, mu=true_means, size=1/phi)
 one_sample_counts <- pmax(one_sample_counts, 0)
-
 df <- data.frame(count=one_sample_counts)
-
-ggplot(df, aes(x=log10(count+1))) +
-  geom_histogram(bins=60, fill="#5b8fff", alpha=0.8, color="#0f1117", linewidth=0.2) +
+p <- ggplot(df, aes(x=log10(count+1))) +
+  geom_histogram(bins=55, fill="#5b8fff", alpha=0.85, color="#0f1117", linewidth=0.2) +
   labs(
-    title="Distribution of raw counts across all genes (one sample)",
-    subtitle=paste0("Right-skewed: most genes have low counts, a few dominate. φ=",${phi}," | n=",n_genes," genes"),
+    title="Count distribution across all genes (one sample)",
+    subtitle=paste0("Right-skewed: most genes low, few dominate. phi=", phi, " | n=", n_genes, " genes"),
     x="log10(count + 1)", y="Number of genes"
   ) +
-  annotate("text", x=max(log10(one_sample_counts+1))*0.75, y=n_genes*0.08,
-           label="← These dominate\\nthe library", color="#ffcc5c", size=3.5) +
   theme_minimal(base_size=11) +
   theme(
     plot.background=element_rect(fill="#181c27",color=NA),
@@ -1156,53 +1462,44 @@ ggplot(df, aes(x=log10(count+1))) +
     plot.title=element_text(size=12,face="bold"),
     plot.subtitle=element_text(size=10,color="#8892b0")
   )
+print(p)
 `;
     } else {
       code = `
 library(ggplot2)
 set.seed(99)
-n_genes <- min(${nGenes}, 300)
+n_genes <- min(${nGenes}, 200)
 n_rep <- ${nRep}
 phi <- ${phi}
-
-# Simulate: half genes truly DE (fold change 1.5), half not
 true_means_A <- exp(rnorm(n_genes, 3, 1.5))
 true_fc <- c(rep(1.5, n_genes/2), rep(1, n_genes/2))
 true_means_B <- true_means_A * true_fc
-
-# Generate counts
 countA <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means_A, n_rep), size=1/phi), nrow=n_genes)
 countB <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means_B, n_rep), size=1/phi), nrow=n_genes)
-
-# t-test p-values
 ttest_p <- sapply(1:n_genes, function(i) {
   a <- as.numeric(countA[i,]); b <- as.numeric(countB[i,])
   if(sd(c(a,b))==0) return(1)
   tryCatch(t.test(a,b)$p.value, error=function(e) 1)
 })
-
-# Approximate NB test (log-transform + t-test as proxy)
 nb_p <- sapply(1:n_genes, function(i) {
   a <- log(as.numeric(countA[i,])+1); b <- log(as.numeric(countB[i,])+1)
   if(sd(c(a,b))==0) return(1)
   tryCatch(t.test(a,b)$p.value, error=function(e) 1)
 })
-
 df <- data.frame(
   ttest = -log10(ttest_p + 1e-10),
   nb_approx = -log10(nb_p + 1e-10),
   truly_de = rep(c("TRUE DE","Not DE"), each=n_genes/2)
 )
-
-ggplot(df, aes(x=nb_approx, y=ttest, color=truly_de)) +
+p <- ggplot(df, aes(x=nb_approx, y=ttest, color=truly_de)) +
   geom_point(alpha=0.5, size=1.5) +
   geom_abline(slope=1, intercept=0, color="white", linewidth=0.6, linetype="dashed", alpha=0.5) +
   geom_hline(yintercept=-log10(0.05), color="#ffcc5c", linewidth=0.5, linetype="dotted") +
   scale_color_manual(values=c("TRUE DE"="#52e0a0","Not DE"="#ff6b6b"), name=NULL) +
   labs(
-    title="t-test vs. NB-approximation: do they agree?",
-    subtitle=paste0("Points above diagonal = t-test more significant. Yellow line = p=0.05. n_rep=",n_rep," | φ=",${phi}),
-    x="-log10 p (NB / log-transformed)", y="-log10 p (raw counts, t-test)"
+    title="t-test vs NB-approximation p-values",
+    subtitle=paste0("Above diagonal = t-test more significant. Yellow = p=0.05. n_rep=",n_rep," phi=",phi),
+    x="-log10 p (log-transformed t-test)", y="-log10 p (raw counts t-test)"
   ) +
   theme_minimal(base_size=11) +
   theme(
@@ -1217,6 +1514,7 @@ ggplot(df, aes(x=nb_approx, y=ttest, color=truly_de)) +
     legend.background=element_rect(fill="#181c27",color=NA),
     legend.text=element_text(color="#8892b0")
   )
+print(p)
 `;
     }
 
@@ -1239,77 +1537,95 @@ ggplot(df, aes(x=nb_approx, y=ttest, color=truly_de)) +
     if (!code) return;
     log('', 'info');
     log('> ' + code.split('\n')[0] + (code.includes('\n') ? ' ...' : ''), 'prompt');
-    try {
-      const result = await webR.evalR(code);
-      const output = await result.toArray ? await result.toArray() : String(result);
-      if (Array.isArray(output)) {
-        output.slice(0, 20).forEach((v, i) => log(`[${i+1}] ${v}`, 'result'));
-      } else {
-        log(String(output), 'result');
-      }
-    } catch(e) {
-      log('✗ ' + e, 'error');
-    }
-  };
 
-  // ── Helpers ──
-  async function renderPlot(code) {
-    const fullCode = `
-      local({
-        ${code}
-        p <- .Last.value
-        if(inherits(p, "ggplot")) {
-          tmp <- tempfile(fileext=".png")
-          ggplot2::ggsave(tmp, plot=p, width=6.5, height=4.2, dpi=130, bg="#181c27")
-          readBin(tmp, "raw", file.info(tmp)$size)
-        } else {
-          tmp <- tempfile(fileext=".png")
-          png(tmp, width=845, height=546, bg="#181c27", type="cairo")
-          eval(parse(text="${code.replace(/`/g,"'").replace(/\n/g,' ').replace(/"/g,"'")}"))
-          dev.off()
-          readBin(tmp, "raw", file.info(tmp)$size)
-        }
-      })
-    `;
     const shelter = await new webR.Shelter();
     try {
-      // simpler approach: use webR canvas
-      const plotCode = `
-        local({
-          tmp <- tempfile(fileext=".png")
-          png(tmp, width=845, height=546, bg="#181c27", type="cairo")
-          tryCatch({ print(${extractGGPlot(code)}) }, error=function(e) { eval(parse(text=e$message)) })
-          dev.off()
-          readBin(tmp, "raw", file.info(tmp)$size)
-        })
-      `;
+      const capture = await shelter.captureR(code, {
+        captureGraphics: { width: PLOT_W, height: PLOT_H, bg: 'white' }
+      });
+
+      for (const line of capture.output || []) {
+        if (line.type === 'stdout') log(line.data, 'result');
+        else if (line.type === 'stderr') log(line.data, 'warn');
+      }
+
+      if (capture.images && capture.images.length > 0) {
+        const oc = document.createElement('canvas');
+        oc.width = CANVAS_W; oc.height = CANVAS_H;
+        const ctx = oc.getContext('2d');
+        ctx.fillStyle = '#181c27'; ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+        for (const bm of capture.images) {
+          ctx.drawImage(bm, 0, 0, CANVAS_W, CANVAS_H);
+          bm.close();
+        }
+        const activeSection = document.querySelector('.section-page.active');
+        const plotEl = activeSection ? activeSection.querySelector('.plot-area') : null;
+        if (plotEl) {
+          plotEl.innerHTML = '';
+          const imgEl = document.createElement('img');
+          imgEl.src = oc.toDataURL('image/png');
+          imgEl.style.width = '100%';
+          plotEl.appendChild(imgEl);
+          log('✓ Plot rendered', 'result');
+        }
+      }
+    } catch(e) {
+      log('✗ ' + (e.message || e), 'error');
     } finally {
       shelter.purge();
     }
-    
-    // Use the direct approach
-    const r = await webR.evalR(`
-      local({
-        tmp <- tempfile(fileext=".png")
-        png(tmp, width=845, height=546, bg="#181c27")
-        tryCatch({
-          ${code}
-          p_last <- .Last.value
-          if(inherits(p_last, "ggplot")) print(p_last)
-        }, error=function(e) {
-          plot(1, type="n", axes=FALSE, xlab="", ylab="")
-          text(1,1, paste("Error:", conditionMessage(e)), col="red")
-        })
-        dev.off()
-        readBin(tmp, "raw", file.info(tmp)$size)
-      })
-    `);
-    const raw = await r.toTypedArray();
-    const blob = new Blob([raw], {type:'image/png'});
-    return URL.createObjectURL(blob);
-  }
+  };
 
-  function extractGGPlot(code) { return 'ggplot2::last_plot()'; }
+  // ── Plot rendering — correct webR captureR pattern ──
+  // Per official docs (webR ≥ 0.3.1):
+  //   - captureR() with captureGraphics opens the canvas device internally
+  //   - result.images is ImageBitmap[]  (NOT strings)
+  //   - The display canvas must be 2× device dims (webR uses 2x HiDPI scaling)
+  //   - Device dims 400×300 → canvas 800×600
+  const PLOT_W = 480, PLOT_H = 320; // R device size in CSS points
+  const CANVAS_W = PLOT_W * 2, CANVAS_H = PLOT_H * 2; // actual pixel canvas
+
+  async function renderPlot(rCode) {
+    // rCode must end with print(p) or a direct ggplot call.
+    // captureR with captureGraphics handles the canvas device automatically.
+    const shelter = await new webR.Shelter();
+    let images = [];
+    let outputLines = [];
+
+    try {
+      const capture = await shelter.captureR(rCode, {
+        captureGraphics: { width: PLOT_W, height: PLOT_H, bg: 'white' },
+        withAutoprint: true
+      });
+      images = capture.images || [];
+      outputLines = capture.output || [];
+    } catch(e) {
+      throw new Error(e.message || String(e));
+    } finally {
+      shelter.purge();
+    }
+
+    for (const line of outputLines) {
+      if (line.type === 'stdout') log(line.data, 'info');
+      else if (line.type === 'stderr' && !line.data.match(/^(Loading|Warning.*no non-missing)/)) log(line.data, 'warn');
+    }
+
+    if (images.length === 0) {
+      throw new Error('No plot returned — see console for R errors');
+    }
+
+    const oc = document.createElement('canvas');
+    oc.width  = CANVAS_W;
+    oc.height = CANVAS_H;
+    const ctx = oc.getContext('2d');
+    ctx.fillStyle = '#181c27';
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    for (const bitmap of images) {
+      ctx.drawImage(bitmap, 0, 0, CANVAS_W, CANVAS_H);
+      bitmap.close();
+    }
+    return oc.toDataURL('image/png');
+  }
 
   function setPlotLoading(id) {
     document.getElementById(id).innerHTML = '<div class="spinner" style="display:block"></div>';
@@ -1322,6 +1638,7 @@ ggplot(df, aes(x=nb_approx, y=ttest, color=truly_de)) +
     el.innerHTML = '';
     const img = document.createElement('img');
     img.src = src;
+    img.style.width = '100%';
     el.appendChild(img);
   }
 </script>
