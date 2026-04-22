@@ -3,12 +3,9 @@
 !!! info "Learning objectives"
     By the end of this module, participants will be able to:
 
-    - Identify the seven common failure modes in omics study design
-      and classify each by recoverability.
-    - Recognise when a platform choice, sample size, or metadata
-      decision creates an unrecoverable flaw.
-    - Match a biological question to the most suitable omics
-      platform and justify that choice.
+    - Identify the seven common failure modes in omics study design and classify each by recoverability.
+    - Recognise when a platform choice, sample size, or metadata decision creates an unrecoverable flaw.
+    - Match a biological question to the most suitable omics platform and justify that choice.
 
 ## The omics landscape​
 
@@ -88,23 +85,19 @@ TODO replace image with custom diagram as above.
     2. Which omics layer or combination of layers would best address it?
     3. What would the primary analysis output be? 
     4. What decisions made before data collection could limit what you can extract from this data later?
----
 
 ??? Example "Clincal: colorectal cancer"
     
     Tissue biopsies are collected from 40 patients undergoing surgery for colorectal cancer, one sample from the tumour and one from adjacent normal tissue per patient. Samples are collected across two hospitals over 24 months. The goal is to identify gene expression differences between tumour and normal tissue.
----
 
 ??? Example "Wildlife: koala chlamydia"
 
     Swabs are collected from 60 wild koalas across a fragmented landscape over 18 months, comparing animals with and without chlamydial infection. Samples are stored in the field before being transported to the lab.
 
----
 
 ??? Example "Aquaculture: salmon gut microbiome"
 
     Gut contents are collected from Atlantic salmon at three farms using different feed formulations. Twenty fish per farm are sampled over a single harvest day. The goal is to understand how diet shapes the gut microbial community.
----
 
 ??? Example "Agriculture: wheat heat stress"
 
