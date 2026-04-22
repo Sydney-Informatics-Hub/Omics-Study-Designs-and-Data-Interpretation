@@ -1001,3 +1001,5 @@ omics data requires its own analytical framework:
     mean-variance relationship that motivates the tools covered in
     this section. The concepts from Modules 1, 2, and 3 will all
     appear in the data.
+
+    Github Folder: For ***practical*** download and open .html file in Chrome/Edge Browser.
