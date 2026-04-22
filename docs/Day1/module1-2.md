@@ -18,10 +18,8 @@ Omics experiments carry significant costs across three dimensions:
 | **Time** | Sample processing, analysis pipelines, validation |
 | **Irreplaceability** | Clinical biopsies, rare cohorts, longitudinal samples cannot simply be recollected |
 
-Failures are therefore not just technical inconveniences — they represent lost 
-scientific opportunities that often cannot be recovered.
+Failures are therefore not just technical inconveniences, they represent lost scientific opportunities that often cannot be recovered.
 
- 
 ### Where Failures Are Introduced
 
 | Stage | What Goes Wrong | Root Cause |
@@ -49,6 +47,8 @@ scientific opportunities that often cannot be recovered.
 **What happens when batch tracks with biology?**
 Cases and controls processed in different batches — it becomes impossible to 
 disentangle biological signal from technical variation after the fact.
+
+TODO replace image below with own diagram.
 
 ![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v01.png){width=90%}
 
@@ -92,6 +92,7 @@ each cell **individually**, capturing the variation that bulk methods
 average away. A single experiment can generate profiles for tens of 
 thousands of cells.
 
+TODO replace image below with own diagram.
 ![](module1/figs/03_pseudoreplication_single_cell_v02.jpg){width=95%}
 
 This resolution comes with a statistical trap that is easy to miss. 
@@ -219,7 +220,7 @@ in the data but invisible to the analyst.
     **Module 3: Experimental Design Fundamentals**.
 
 ---
-#### Pitfall 5: Wrong Platform for the Biological Question
+### Pitfall 5: Wrong Platform for the Biological Question
 
 Platform choice is a design decision — not a technical afterthought.
 Selecting the wrong platform upstream cannot be compensated for by
