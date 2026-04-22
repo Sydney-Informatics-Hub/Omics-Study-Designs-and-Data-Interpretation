@@ -12,7 +12,7 @@
 
 ## The omics landscape​
 
-Modern biology has entered an era of molecular surveillance, where entire classes of biological molecules can be measured simultaneously rather than one at a time. This collective approach — broadly termed "omics" — operates across multiple layers of biological organisation, each offering a distinct window into how living systems are built and how they behave. 
+Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly terms "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether it be bacterium, wheat, migratory birds, or people, can be interrogated at the molecular level across these multiple layers so we can understand how they function and respond to their environments. 
 
 - **Genomics** interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
 - **Transcriptomics** steps one layer up, capturing the aggregate gene 
