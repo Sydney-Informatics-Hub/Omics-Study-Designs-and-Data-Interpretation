@@ -14,6 +14,8 @@
 
 Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly terms "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether it be bacterium, wheat, migratory birds, or people, can be interrogated at the molecular level across these multiple layers so we can understand how they function and respond to their environments. 
 
+These layers have different names, distinct molecular targets, and a distinct set of questions that they can and cannot answer:  
+
 - **Genomics** interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
 - **Transcriptomics** steps one layer up, capturing the aggregate gene 
   expression activity of a tissue or sample — what genes are actually 
@@ -29,11 +31,17 @@ Modern biology has undergone a fundamental shift from measuring one molecule at 
 
 Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer — or combination of layers to interrogate is one of the most consequential decisions a researcher will make before an experiment begins.
 
-Each 'omics' layer captures a different molecular dimension of biological systems
+Each 'omics' layer captures a different molecular dimension of biological systems: 
 
-![](module1/figs/01_Omics_types_v1.png){width=90%}
+| Layer | Function |
+|---|--------------------------|
+| **Genomics** | Interrogate DNA blueprint, revealing what an organism can do based on its inherited DNA sequence | 
+| **Epigenomics** | Reveals how gene activity is regulated without changes to the underlying sequence |
+| **Transcriptomics** | Captures which genes are turned on or off under a given condition | 
+| **Proteomics** | Measures the proteins actually present in a cell or tissue |
+| **Metabolomics** | Captures small molecule metabolites that are downstream readout of biochemical activity | 
 
-<small> Ref: [Alieh Farshbaf et. al ***Molecular biology reports***2021](https://link.springer.com/article/10.1007/s11033-021-06286-0){target="_blank"} </small>
+![](module1/figs/1-1_landscape.png){width=100%}
 
 ## From Question to Platform: Navigating Omics Technologies
 
