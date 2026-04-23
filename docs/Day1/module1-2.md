@@ -1,131 +1,25 @@
-# Module 1 : The Omics Landscape and Why Studies Fail
+
+## When Omics Studies Fail — and Why It Matters
 
 !!! info "Learning objectives"
     By the end of this module, participants will be able to:
 
-    - Identify the seven common failure modes in omics study design
-      and classify each by recoverability.
-    - Recognise when a platform choice, sample size, or metadata
-      decision creates an unrecoverable flaw.
-    - Match a biological question to the most suitable omics
-      platform and justify that choice.
 
-## The omics landscape​
-
-Modern biology has entered an era of molecular surveillance, where entire classes of biological molecules can be measured simultaneously rather than one at a time. This collective approach — broadly termed "omics" — operates across multiple layers of biological organisation, each offering a distinct window into how living systems are built and how they behave. 
-
-- **Genomics** interrogates the DNA blueprint, revealing what an organism could do based on its inherited sequence. 
-- **Transcriptomics** steps one layer up, capturing the aggregate gene 
-  expression activity of a tissue or sample — what genes are actually 
-  being switched on or off under a given condition. **Single-cell omics** 
-  technologies (including single-cell RNA-seq, ATAC-seq, and proteomics) 
-  refine this further, profiling molecular features at the resolution of 
-  individual cells rather than averaging across a bulk population — 
-  exposing the extraordinary heterogeneity that exists between cells 
-  within the same tissue.
-- Moving beyond RNA, **proteomics** measures the functional workhorses of the cell — the proteins themselves — accounting for post-translational modifications and abundance that transcriptional data alone cannot predict.
-- **Metabolomics** captures the small-molecule metabolites that are the downstream readout of biochemical activity, sitting closest to the organism's actual phenotype. 
-- Finally, **metagenomics** extends the genomic lens beyond a single organism to entire microbial communities, cataloguing who is present and what functional potential they collectively carry. 
-
-Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer — or combination of layers to interrogate is one of the most consequential decisions a researcher will make before an experiment begins.
-
-Each 'omics' layer captures a different molecular dimension of biological systems
-
-![](module1/figs/01_Omics_types_v1.png){width=90%}
-
-<small> Ref: [Alieh Farshbaf et. al ***Molecular biology reports***2021](https://link.springer.com/article/10.1007/s11033-021-06286-0){target="_blank"} </small>
-
-## From Question to Platform: Navigating Omics Technologies
-
-Each omics domain encompasses a growing ecosystem of platforms and techniques — 
-and no single approach fits every question. Platforms differ not only in what 
-they measure, but in *how* they measure it, which directly shapes what you can 
-and cannot conclude from your data.
-
-At a broad level, omics technologies fall into two methodological families:
-
-- **Sequencing-based approaches** (e.g., DNA-seq, RNA-seq, ATAC-seq) quantify 
-  molecules by converting them into readable sequence — offering high throughput 
-  and genome-wide coverage.
-- **Imaging-based approaches** (e.g., spatial transcriptomics, microscopy-based 
-  proteomics) preserve the physical location of molecules within tissue, adding a 
-  spatial dimension that sequencing-based methods cannot capture.
-
-
-The figure below provides an overview of commonly used analysis approaches 
-across major omics domains:
-
-
-![](module1/figs/01_Various_data_analysis_v1.png){width=90%}
-
-<small> Ref: [Satam, Heena, et al. **Biology** 2023
-](https://www.mdpi.com/2079-7737/12/7/997){target="_blank"} </small>
-
-??? abstract "What else can your data tell you?"
-
-    Many omics pipelines focus on a single primary output — differential gene expression from RNA-seq, variant calling from DNA-seq, and so on. However, the same raw data often contains additional layers of biological information beyond the primary analysis.
-
-    A growing set of secondary and emerging analyses can be applied to existing datasets, often without additional sequencing cost. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
-
-    However, their applicability depends on study design, data quality, and sequencing characteristics (e.g. depth, read length, library preparation), and results should be interpreted with appropriate caution.
-
-    Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be interrogated for  alternative splicing, RNA editing events, transcript fusions, and more.
-
-    ![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
-
-    <small>Ref: [Thind et.al. *Briefings in Bioinformatics* 22.6 
-    (2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938){target="_blank"}</small>
-
-    ---
-
-    > **Key message:** The sequencing run is often not the limiting factor — 
-    > the analysis choices are. Knowing what is possible from your data type 
-    > before you design the study means you can plan metadata collection and 
-    > controls that support these additional analyses from the start.
-
-??? abstract "Further Reading · Emerging Omics Technologies"
-
-    ** Spatial Transcriptomics**
-    Entry-level overview, platform comparison, experimental design guidance 
-    - [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
-     
-    spatial + single-cell integration, computational strategies
-    - [Vandereyken K et. al *Nature Reviews Genetics* 2023](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
-
-    ---
-
-    ** Long-Read Sequencing & Isoform Biology**
-    
-    Isoform resolution at single-cell level, library prep + bioinformatics
-    - [Kumari P et.al 
-      *Human Genetics* 2024.](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
-    
-    Comprehensive guide: tools, applications, challenges
-    - [Parker MT et. al *Nature Reviews Genetics* 2025](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
-
-    ---
----
-
-## When Omics Studies Fail — and Why It Matters
-
-Despite rapid advances in omics technologies, not all studies succeed. Omics 
-studies can fail at multiple stages — from experimental design through to data 
-analysis and interpretation. Understanding *how* and *why* they fail is as 
+Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages — from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as 
 important as understanding the technologies themselves.
 
 ### The Cost Reality
 
 Omics experiments carry significant costs across three dimensions:
 
-- **Financial** — sequencing runs, reagents, and platform fees
-- **Time** — sample processing, analysis pipelines, and validation
-- **Irreplaceability** — clinical biopsies, rare cohorts, and longitudinal 
-  samples cannot simply be recollected
+| Cost dimension | Examples |
+|---|---|
+| **Financial** | Sequencing runs, reagents, platform fees |
+| **Time** | Sample processing, analysis pipelines, validation |
+| **Irreplaceability** | Clinical biopsies, rare cohorts, longitudinal samples cannot simply be recollected |
 
-Failures are therefore not just technical inconveniences — they represent lost 
-scientific opportunities that often cannot be recovered.
+Failures are therefore not just technical inconveniences, they represent lost scientific opportunities that often cannot be recovered.
 
- 
 ### Where Failures Are Introduced
 
 | Stage | What Goes Wrong | Root Cause |
@@ -153,6 +47,8 @@ scientific opportunities that often cannot be recovered.
 **What happens when batch tracks with biology?**
 Cases and controls processed in different batches — it becomes impossible to 
 disentangle biological signal from technical variation after the fact.
+
+TODO replace image below with own diagram.
 
 ![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v01.png){width=90%}
 
@@ -196,6 +92,7 @@ each cell **individually**, capturing the variation that bulk methods
 average away. A single experiment can generate profiles for tens of 
 thousands of cells.
 
+TODO replace image below with own diagram.
 ![](module1/figs/03_pseudoreplication_single_cell_v02.jpg){width=95%}
 
 This resolution comes with a statistical trap that is easy to miss. 
@@ -323,7 +220,7 @@ in the data but invisible to the analyst.
     **Module 3: Experimental Design Fundamentals**.
 
 ---
-#### Pitfall 5: Wrong Platform for the Biological Question
+### Pitfall 5: Wrong Platform for the Biological Question
 
 Platform choice is a design decision — not a technical afterthought.
 Selecting the wrong platform upstream cannot be compensated for by
