@@ -1,16 +1,15 @@
-# Module 2 : Data Types and Core Statistical Properties
+# Module 2 : Data types and core statistical properties
 
 !!! info "Learning objectives"
     By the end of this module, participants will be able to:
-
-    - Explain what a sequencing count represents — and why raw counts
+    - Explain what a sequencing count represents and why raw counts
       cannot be compared directly across samples without accounting for
       sequencing depth.
     - Distinguish between a biological zero (a feature genuinely absent)
       and a technical zero (a feature below detection), and explain why
       treating both identically leads to incorrect biological conclusions.
     - Explain compositionality and relative abundance in intuitive terms
-      and describe why naive fold-change and correlation analyses can be
+      and describe why naive fold change and correlation analyses can be
       misleading in compositional data.
     - Recognise that omics count data violates the core assumptions of
       classical statistical tests, and understand why this necessitates
@@ -18,7 +17,7 @@
 
 ---
 
-## Section 1 — What a Count Actually Is
+## Section 1: What a count actually is ?
 
 Before asking what the data means biologically, we need to ask something
 more fundamental: **what does the number in your count matrix actually
@@ -26,7 +25,7 @@ represent?**
 
 In everyday measurement, a larger number means more of something. A
 patient weighing 80 kg weighs more than one weighing 60 kg. The number
-is absolute — it does not depend on who else was weighed that day, or
+is absolute, it does not depend on who else was weighed that day, or
 how long the scale ran.
 
 Sequencing counts do not work this way.
@@ -34,8 +33,8 @@ Sequencing counts do not work this way.
 ### Counts are shares of a fixed budget, not absolute measurements
 
 When you sequence an RNA-seq library, the sequencer does not count every
-RNA molecule in the sample. It reads a fixed number of fragments — 20
-million, 40 million, 80 million — determined by the depth of the run.
+RNA molecule in the sample. It reads a fixed number of fragments 20
+million, 40 million, 80 million determined by the depth of the run.
 Every count a gene receives is a share of that total.
 
 This has an immediate, unavoidable consequence: **a gene's count depends
@@ -52,7 +51,7 @@ Consider a minimal example:
 | **Reality** | 0.0005% of library | 0.0005% of library |
 
 Sample B has twice as many reads as Sample A. Gene X received 200 counts
-in Sample B and 100 in Sample A — not because it was more active, but
+in Sample B and 100 in Sample A not because it was more active, but
 because there were twice as many reads to share. The underlying proportion
 is identical: both samples show Gene X at 0.0005% of the library. Without
 accounting for depth, a real difference that does not exist appears in
@@ -70,26 +69,26 @@ the data.
 
 ### Not all genes benefit equally from greater depth
 
-Depth does not affect all genes the same way. Highly expressed genes —
-those that represent a large fraction of the library — accumulate enough
+Depth does not affect all genes the same way.  
+Highly expressed genes: those that represent a large fraction of the library, accumulate enough
 counts even at low depth to be measured reliably. Lowly expressed genes,
 by contrast, are at the mercy of the sequencing budget: at shallow depth,
 they may receive zero reads in some samples and a handful in others, not
 because their expression changed, but because the sampling was too sparse
 to detect them consistently.
 
-![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v1.jpg){width=90%}
+![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
 
-The figure above illustrates this directly. At 10 reads, Gene A — present
-at 1% true abundance — receives zero reads and is invisible to the
-analysis. Gene B at 5% receives just one read — detectable by chance, but statistically unreliable. A single read cannot be distinguished from noise: in a replicate experiment, Gene B might receive zero reads entirely, producing a technical zero despite genuine expression. At this depth, a single-read detection is one step away from a false negative — and one comparison away from a false positive. At 1,000 reads, the same proportions produce reliable counts
+The figure above illustrates this directly. At 10 reads, Gene A present
+at 1% true abundance, receives zero reads and is invisible to the
+analysis. Gene B at 5% receives just one read detectable by chance, but statistically unreliable. A single read cannot be distinguished from noise: in a replicate experiment, Gene B might receive zero reads entirely, producing a technical zero despite genuine expression. At this depth, a single-read detection is one step away from a false negative and one comparison away from a false positive. At 1,000 reads, the same proportions produce reliable counts
 for all three genes: Gene A is now well above the noise floor. **The
 biology did not change between the two panels. The budget did.**
 
 This has a direct implication for study design: the sequencing depth
 required for an experiment is not arbitrary. It is determined by the
 abundance of the least expressed feature you need to detect reliably.
-Underpowered depth does not just add noise — it actively converts
+Underpowered depth does not just add noise, it actively converts
 lowly expressed genes into zeros, creating a specific class of missing
 data that we will examine in detail in Section 2.
 
@@ -574,7 +573,14 @@ The simplest way to remember it:
     a heavy dose of antibiotics. They sequence stool samples from both
     time points.
 
-    ![ anitbiotic_example](module2Figs/02_compositionality_v01.jpg){width=90%}
+    ![ anitbiotic_example](module2Figs/02_compositionality_v01.jpg){width=98%}
+    ## Species Composition Summary
+
+    | Species    | Before | After  | Reality                                                   |
+    |------------|--------|--------|------------------------------------------------------------|
+    | Species A  | 20%    | 80% ↑  | Unchanged — same absolute numbers                          |
+    | Species B  | 30%    | 0%     | Below detection — not necessarily absent                   |
+    | Species C  | 50%    | 20% ↓  | Reduced, but proportions distorted by biomass loss         |
 
     The researcher runs a standard statistical test on these percentages.
     Species A shows a dramatic and highly significant increase.
