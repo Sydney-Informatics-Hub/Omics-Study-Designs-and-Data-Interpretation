@@ -730,67 +730,36 @@ We’ve now covered:
     including dispersion estimation, GLM fitting, and interpretation of
     results, is covered in a dedicated downstream workshop.
 
- !!! warning "Log transformation is not sufficient on its own"
-    Log transforming count data before a t-test improves things but
-    leaves two core problems unsolved: the normal approximation still
-    fails for lowly expressed genes, and per gene variance estimates
-    from small n remain unreliable. limma voom, DESeq2 and edgeR all
-    include the moderation step that stabilises those estimates by
-    borrowing information across genes, something a plain
-    log + t-test cannot do.
-
 ??? abstract "Further Reading: Statistical models for omics count data"
-
-    **The foundational tools**
 
     Love MI, Huber W, Anders S. Moderated estimation of fold change
     and dispersion for RNA seq data with DESeq2. *Genome Biology*
     2014; 15: 550.
     [doi:10.1186/s13059-014-0550-8](https://doi.org/10.1186/s13059-014-0550-8){target="_blank"}
-    *(DESeq2 , introduces shrinkage estimation for dispersions and fold
-    changes; methods section explains why per gene variance estimation
-    fails at small n)*
 
     Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package
     for differential expression analysis of digital gene expression data.
     *Bioinformatics* 2010; 26(1): 139–140.
     [doi:10.1093/bioinformatics/btp616](https://doi.org/10.1093/bioinformatics/btp616){target="_blank"}
-    *(edgeR , empirical Bayes moderation of tagwise dispersions toward
-    a common value across genes)*
 
     Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK.
     limma powers differential expression analyses for RNA sequencing
     and microarray studies. *Nucleic Acids Research* 2015; 43(7): e47.
     [doi:10.1093/nar/gkv007](https://doi.org/10.1093/nar/gkv007){target="_blank"}
-    *(limma voom , precision weights for heteroscedasticity plus
-    empirical Bayes moderation; bridges RNA seq, microarray and
-    proteomics in a single framework)*
-
-    ---
-
-    **Empirical validation**
 
     Schurch NJ et al. How many biological replicates are needed in an
     RNA seq experiment and which differential expression tool should
     you use? *RNA* 2016; 22(6): 839–851.
     [doi:10.1261/rna.053959.115](https://doi.org/10.1261/rna.053959.115){target="_blank"}
-    *(48-replicate benchmark , n = 3 detects only 20–40% of true DE
-    genes; tools with information sharing across genes outperform
-    those without)*
 
     Gierliński M et al. Statistical models for RNA-seq data derived
     from a two-condition 48-replicate experiment. *Bioinformatics*
     2015; 31(22): 3625–3630.
     [doi:10.1093/bioinformatics/btv425](https://doi.org/10.1093/bioinformatics/btv425){target="_blank"}
-    *(Empirical confirmation that per-gene counts are consistent with
-    both NB and log-normal distributions; establishes the mean-variance
-    relationship in real RNA-seq data)*
 
     Squair JW et al. Confronting false discoveries in single-cell
     differential expression. *Nature Communications* 2021; 12: 5692.
     [doi:10.1038/s41467-021-25960-2](https://doi.org/10.1038/s41467-021-25960-2){target="_blank"}
-    *(Pseudobulk benchmark for scRNA-seq , 46 datasets showing why
-    treating cells as independent replicates produces false discoveries)*
 
 ---
 
@@ -814,12 +783,5 @@ omics data requires its own analytical framework:
   variance structure across all genes simultaneously. That shared
   structure is what makes inference possible with three replicates.
 
-!!! info "End of Day 1 theory: coming up: practical session"
-    The Day 1 practical session gives you the opportunity to observe
-    these properties directly in a real dataset: examining count
-    distributions, library depth variation, zero rates, and the
-    mean variance relationship that motivates the tools covered in
-    this section. The concepts from Modules 1, 2, and 3 will all
-    appear in the data.
 
     Github Folder: For ***practical*** download and open .html file in Chrome/Edge Browser.
