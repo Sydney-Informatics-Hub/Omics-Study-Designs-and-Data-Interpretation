@@ -1,0 +1,2277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 · Data Types and Core Statistical Properties</title>
+
+<!-- ── Browser compatibility note ─────────────────────────────────────────
+  Chrome / Edge: open module2_practical.html directly — no server needed.
+  Firefox:       open via the local server (serve.py / START_Windows.bat /
+                 START_Mac.command) so the required COOP+COEP headers are set.
+  Safari:        not supported (SharedArrayBuffer disabled for file:// and
+                 most local origins).
+──────────────────────────────────────────────────────────────────────────── -->
+<script>
+// Detect Firefox on file:// and show a targeted warning in the modal
+window._isFirefoxLocal =
+  typeof InstallTrigger !== 'undefined' &&
+  location.protocol === 'file:';
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #f6f8fc;
+    --surface: #ffffff;
+    --surface2: #f1f3f4;
+    --border: #dadce0;
+    --accent: #1a73e8;
+    --accent2: #d93025;
+    --accent3: #188038;
+    --accent4: #e37400;
+    --text: #202124;
+    --text-muted: #5f6368;
+    --text-dim: #9aa0a6;
+    --code-bg: #f8f9fa;
+    --s1: #1a73e8;
+    --s2: #d93025;
+    --s3: #188038;
+    --s4: #e37400;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .site-header h1 span { color: var(--text-muted); }
+
+  .status-pill {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: background 0.3s;
+  }
+  .status-dot.ready { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
+  .status-dot.loading { background: var(--accent4); animation: pulse 1s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── Nav tabs ── */
+  .section-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 12px;
+    overflow-x: auto;
+  }
+  .section-nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 7px 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-nav button .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text-dim);
+  }
+  .section-nav button.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .section-nav button.active .num { background: rgba(26,115,232,0.12); color: var(--accent); }
+  .section-nav button:hover:not(.active) { color: var(--text); }
+
+  /* ── Layout ── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: calc(100vh - 65px);
+  }
+
+  /* ── Left panel ── */
+  .content-panel {
+    overflow-y: auto;
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+  }
+
+  .section-page { display: none; }
+  .section-page.active { display: grid; grid-template-columns: 40% 60%; gap: 12px; align-items: start; }
+  .section-page > .questions { grid-column: 1 / -1; }
+
+  .section-left { display: flex; flex-direction: column; gap: 8px; }
+  .section-right { display: flex; flex-direction: column; gap: 8px; }
+
+  .section-intro {
+    margin-bottom: 8px;
+  }
+  .section-intro h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .section-intro p {
+    color: var(--text-muted);
+    font-size: 12px;
+    max-width: 580px;
+  }
+
+  /* ── Concept callout ── */
+  .concept-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(60,64,67,.1);
+    font-size: 12px;
+  }
+  .concept-box.warn { border-left-color: var(--accent4); }
+  .concept-box.danger { border-left-color: var(--accent2); }
+  .concept-box.success { border-left-color: var(--accent3); }
+  .concept-box strong { color: var(--text); }
+
+  /* ── Controls ── */
+  .controls {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(60,64,67,.15);
+  }
+  .controls-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .control-row:last-child { margin-bottom: 0; }
+  .control-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 130px;
+  }
+  .control-label span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-left: 6px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .run-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 5px 13px;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+  }
+  .run-btn:hover { background: #1765cc; transform: translateY(-1px); }
+  .run-btn:active { transform: translateY(0); }
+  .run-btn svg { width: 14px; height: 14px; }
+  .run-btn.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .run-btn.secondary:hover { background: var(--border); }
+
+  /* ── Plot area ── */
+  .plot-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    max-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .plot-area img { width: auto; max-width: 100%; max-height: 415px; height: auto; display: block; object-fit: contain; }
+  .plot-placeholder {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .plot-placeholder .icon { font-size: 28px; margin-bottom: 8px; }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Questions ── */
+  .questions {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+  .questions-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent4);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .q-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .q-item:last-child { margin-bottom: 0; }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .answer-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .answer-toggle:hover { border-color: var(--accent3); color: var(--accent3); }
+  .answer-box {
+    display: none;
+    margin-top: 6px;
+    background: rgba(24,128,56,0.06);
+    border: 1px solid rgba(24,128,56,0.25);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .answer-box.open { display: block; }
+  .answer-box .ans-item { margin-bottom: 4px; }
+  .answer-box .ans-item:last-child { margin-bottom: 0; }
+  .answer-box strong { color: var(--accent3); }
+
+  /* ── Right panel: console ── */
+  .console-panel {
+    display: none;
+  }
+  .console-panel.visible {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+    height: calc(100vh - 65px);
+    overflow: hidden;
+  }
+  .main.console-open {
+    grid-template-columns: 1fr 340px;
+  }
+  #consoleToggle {
+    margin-left: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  #consoleToggle:hover { background: var(--border); color: var(--text); }
+  #consoleToggle.open { background: rgba(24,128,56,0.1); border-color: rgba(24,128,56,0.4); color: var(--accent3); }
+  .console-header {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .console-header span { color: var(--accent3); }
+  .console-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 7px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .console-output .line { margin-bottom: 2px; }
+  .console-output .line.info { color: var(--text-muted); }
+  .console-output .line.result { color: var(--accent3); }
+  .console-output .line.warn { color: var(--accent4); }
+  .console-output .line.error { color: var(--accent2); }
+  .console-output .line.prompt { color: var(--accent); }
+  .console-output .line.comment { color: var(--text-dim); }
+
+  .code-editor {
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .code-editor textarea {
+    width: 100%;
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+  }
+  .code-editor-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .code-editor-bar span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .exec-btn {
+    background: var(--accent3);
+    color: #0f1117;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .exec-btn:hover { opacity: 0.85; }
+
+  /* ── Data table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 16px;
+  }
+  .data-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    padding: 7px 12px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .data-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid rgba(180,185,210,0.6);
+    color: var(--text-muted);
+  }
+  .data-table tr:hover td { background: rgba(26,115,232,0.04); }
+  .data-table .highlight { color: var(--accent2); font-weight: 500; }
+  .data-table .good { color: var(--accent3); }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .tag.bio { background: rgba(24,128,56,0.1); color: var(--accent3); border: 1px solid rgba(24,128,56,0.3); }
+  .tag.tech { background: rgba(217,48,37,0.1); color: var(--accent2); border: 1px solid rgba(217,48,37,0.3); }
+  .tag.samp { background: rgba(227,116,0,0.1); color: var(--accent4); border: 1px solid rgba(227,116,0,0.3); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="badge">Module 2</div>
+  <h1>Data Types <span>&amp;</span> Core Statistical Properties <span>· Practical</span></h1>
+  <div class="status-pill" id="statusPill">
+    <div class="status-dot loading" id="statusDot"></div>
+    <span id="statusText">Loading R…</span>
+  </div>
+  <button id="consoleToggle" onclick="toggleConsole()" title="Show / hide R console">
+    <svg width="9" height="9" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+    R Console
+  </button>
+</header>
+
+<!-- ── SECTION NAV ── -->
+<nav class="section-nav">
+  <button class="active" onclick="switchSection(0)"><span class="num">§1</span> Counts &amp; Depth</button>
+  <button onclick="switchSection(1)"><span class="num">§2</span> Zeros &amp; Sparsity</button>
+  <button onclick="switchSection(2)"><span class="num">§3</span> Compositionality</button>
+  <button onclick="switchSection(3)"><span class="num">§4</span> Statistical Models</button>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- LEFT: content + controls -->
+  <div class="content-panel">
+
+    <!-- ══ SECTION 1 ══ -->
+    <div class="section-page active" id="page0">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>What a Count Actually Is</h2>
+          <p>A sequencing count is a proportion of a fixed budget — not an absolute measurement. Explore how sequencing depth shapes what you observe, independently of biology.</p>
+        </div>
+
+        <div class="concept-box">
+          <strong>Core idea:</strong> Gene X received 200 counts in Sample B and 100 in Sample A. Does that mean it's more active? Only if both samples had the same total reads. If Sample B had twice the depth, nothing changed biologically.
+        </div>
+
+        <div class="controls">
+          <div class="controls-title">⚙ Experiment Controls</div>
+          <div class="control-row">
+            <span class="control-label">Sample A depth<span id="v-depthA">20M</span></span>
+            <input type="range" id="depthA" min="5" max="80" value="20" step="5" oninput="updateLabel('depthA','v-depthA','M')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Sample B depth<span id="v-depthB">40M</span></span>
+            <input type="range" id="depthB" min="5" max="80" value="40" step="5" oninput="updateLabel('depthB','v-depthB','M')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">True gene proportion<span id="v-prop">0.0005%</span></span>
+            <input type="range" id="trueProp" min="1" max="20" value="5" step="1" oninput="updatePropLabel()">
+          </div>
+          <div class="control-row">
+            <span class="control-label">View</span>
+            <select id="plotMode1">
+              <option value="illusion">Apparent FC vs True FC (depth illusion)</option>
+              <option value="multidet">Multi-gene detection (which genes vanish)</option>
+            </select>
+          </div>
+          <button class="run-btn" onclick="runSection1()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+        
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plot1">
+          <div class="plot-placeholder"><div class="icon">📊</div>Press Run to generate plot</div>
+        </div>
+        <!-- Data table showing the illusion -->
+        <div id="table1Container"></div>
+      </div><!-- /section-right -->
+
+      <div class="questions">
+          <div class="questions-title">💬 Discussion Questions</div>
+          <div class="q-item"><span class="q-num">Q1</span><span>Run <em>Apparent FC vs True FC</em>. The right panel shows the apparent fold change (red) next to the true fold change (green). With Sample B at twice the depth of A, what is the apparent FC — and what should it be? Where does the difference come from?</span></div>
+          <div class="q-item"><span class="q-num">Q2</span><span>Drag the Sample B depth slider to match Sample A. What happens to the apparent FC bar? Now increase it to 3× or 4×. What does this tell you about comparing samples sequenced to different depths without normalisation?</span></div>
+          <div class="q-item"><span class="q-num">Q3</span><span>Switch to <em>Multi-gene detection</em>. Which genes (left or right of the x-axis) are worst affected by depth variation? Move the "True gene proportion" slider to shift the whole distribution and observe when genes switch from red (zero) to blue (detected).</span></div>
+          <div class="q-item"><span class="q-num">Q4</span><span>Depth is not the only pre-sequencing step that shapes which genes get counted. PCR amplification is required before sequencing — and it is non-linear. A cDNA molecule copied in the first cycle produces exponentially more copies than one that misses it. What does this mean for a gene expressed at very low levels — and why does it matter for how you interpret a zero in the count matrix?</span></div>
+          <button class="answer-toggle" onclick="toggleAnswer('ans1')">Reveal answers</button>
+          <div class="answer-box" id="ans1">
+            <div class="ans-item"><strong>Q1:</strong> The apparent FC matches the depth ratio exactly — 2× deeper sequencing produces 2× the raw count and therefore a 2× apparent fold change, even though the true FC is 1.0 (the gene did not change). The difference comes entirely from the sequencing budget: Sample B received twice as many reads, so every gene — changed or not — appears doubled. The raw count is not a measurement of expression; it is a proportion of the total reads times the budget.</div>
+            <div class="ans-item"><strong>Q2:</strong> When both depths are equal the apparent FC bar drops to 1.0× and aligns with the true FC — the artefact disappears. At 3× or 4× depth difference, the apparent FC grows linearly. This is exactly what normalisation (CPM, TPM) corrects: it divides each count by the sample's total reads, converting the count into a proportion that is independent of the sequencing budget.</div>
+            <div class="ans-item"><strong>Q3:</strong> Lowly expressed genes (left side, low proportion). A highly expressed gene accumulates many reads even at low depth. A gene at 0.0001% of the library may receive 0 reads at 10M depth and 10 reads at 100M depth — appearing to switch on when only the budget changed. Moving the expression slider down makes more genes red in both samples simultaneously.</div>
+            <div class="ans-item"><strong>Q4:</strong> A lowly expressed gene produces few cDNA molecules. If those molecules amplify poorly in early PCR cycles they are drowned out by more efficiently amplifying transcripts and can receive zero reads even though the mRNA was present. This is a sampling zero that arises before sequencing even begins — in addition to the depth-budget problem shown here. It is one reason why a zero in the count matrix can never be assumed to mean biologically absent, which is explored directly in Section 2.</div>
+          </div>
+        </div>
+    </div>
+
+    <!-- ══ SECTION 2 ══ -->
+    <div class="section-page" id="page1">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>Sparsity &amp; Zero-Inflation</h2>
+          <p>Not all zeros mean the same thing. Biological zeros, technical dropout, and sampling zeros look identical in the count matrix but require completely different analytical responses.</p>
+        </div>
+
+        <div class="concept-box warn">
+          <strong>Key distinction:</strong> A zero in your matrix could mean (a) the gene is genuinely off, (b) the mRNA was present but not captured, or (c) it was captured but not sampled. The matrix cannot tell you which. Platform knowledge and biological reasoning are required.
+        </div>
+
+        <div class="controls">
+          <div class="controls-title">⚙ Simulation Controls</div>
+          <div class="control-row">
+            <span class="control-label">Platform<span id="v-plat"></span></span>
+            <select id="platform" onchange="updatePlatformInfo()">
+              <option value="bulk">Bulk RNA-seq (~20% zeros)</option>
+              <option value="tenx" selected>10x Chromium (>90% zeros)</option>
+              <option value="smartseq">SMART-seq2 (~65% zeros)</option>
+              <option value="micro16s">16S microbiome (~70% zeros)</option>
+              <option value="proteomics">Proteomics label-free DDA (~30% missing)</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <span class="control-label">Cells / samples<span id="v-ncells">200</span></span>
+            <input type="range" id="ncells" min="50" max="500" value="200" step="50" oninput="updateLabel('ncells','v-ncells','')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Genes to show<span id="v-ngenes">30</span></span>
+            <input type="range" id="ngenes" min="10" max="80" value="30" step="5" oninput="updateLabel('ngenes','v-ngenes','')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Upload your data</span>
+            <label style="cursor:pointer;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:3px 9px;font-size:11px;color:var(--text);display:inline-flex;align-items:center;gap:5px">
+              📁 CSV matrix
+              <input type="file" id="csvUpload2" accept=".csv,.tsv,.txt" style="display:none" onchange="handleDataUpload(event)">
+            </label>
+            <span id="uploadInfo" style="font-size:10px;color:var(--text-dim);margin-left:4px">genes × samples · first col = names</span>
+          </div>
+          <button class="run-btn" onclick="runSection2()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+        
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plot2">
+          <div class="plot-placeholder"><div class="icon">🟦</div>Press Run to generate sparsity heatmap</div>
+        </div>
+        <div id="zeroTypesTable">
+          <table class="data-table">
+            <thead><tr><th>Zero type</th><th>Source</th><th>Biological meaning</th><th>Correct action</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag bio">Biological</span></td><td>Gene not transcribed</td><td>Gene genuinely absent</td><td class="good">Preserve — it is real data</td></tr>
+              <tr><td><span class="tag tech">Technical</span></td><td>mRNA not captured (cDNA synthesis failure)</td><td>Gene may be expressed</td><td class="highlight">Cautious imputation or modelling</td></tr>
+              <tr><td><span class="tag samp">Sampling</span></td><td>cDNA present but not sequenced</td><td>Gene likely expressed at low level</td><td class="highlight">Increase depth or use probabilistic models</td></tr>
+              <tr><td><span class="tag tech">MNAR</span></td><td>Protein below instrument detection limit (proteomics)</td><td>Protein present but undetected</td><td class="highlight">Left-censored or abundance-based imputation</td></tr>
+              <tr><td><span class="tag samp">MAR</span></td><td>Random analytical failure (proteomics)</td><td>No abundance signal — random missingness</td><td class="good">Mean or kNN imputation acceptable</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div><!-- /section-right -->
+      <div class="questions">
+          <div class="questions-title">💬 Discussion Questions</div>
+          <div class="q-item"><span class="q-num">Q1</span><span>Switch between Bulk RNA-seq and 10x Chromium. In Bulk, where do the zeros cluster — top or bottom rows? In 10x, zeros appear throughout — even highly expressed genes show dropout. What does this structural difference tell you about the biological vs technical origin of zeros in each platform?</span></div>
+          <div class="q-item"><span class="q-num">Q2</span><span>A T-cell marker gene shows 0 counts in all B cells, and 0 counts in 70% of T cells. Which zeros are biological and which are likely technical? Why does this distinction matter for analysis?</span></div>
+          <div class="q-item"><span class="q-num">Q3</span><span>Hou et al. (2020) benchmarked 18 imputation methods and found most did not improve downstream analysis. What does this imply about "filling in" technical zeros?</span></div>
+          <div class="q-item"><span class="q-num">Q4</span><span>Switch to Proteomics. The heatmap shows two colours of missing values — red (MNAR) and yellow (MAR). What is the key structural difference between the two patterns? Why must they be imputed differently — and what would go wrong applying mean imputation to the red MNAR block?</span></div>
+          <button class="answer-toggle" onclick="toggleAnswer('ans2')">Reveal answers</button>
+          <div class="answer-box" id="ans2">
+            <div class="ans-item"><strong>Q1:</strong> In Bulk, zeros cluster at the bottom rows — the lowly expressed genes. Top rows (highly expressed) are consistently blue across all samples. This structure tells you the zeros are biological: these genes are genuinely not expressed. In 10x, zeros are scattered throughout including the top rows, because the 10–15% per-cell capture rate means even highly expressed genes are often missed. The pattern tells you the zeros are technical — not biological absence but measurement failure.</div>
+            <div class="ans-item"><strong>Q2:</strong> The B cell zeros are biological. The T cell zeros are likely technical — the gene should be expressed across all T cells (per prior literature), so the 70% zero rate reflects stochastic capture failure at low expression. Calling those T cell zeros "gene off" would mischaracterise the biology of the entire population.</div>
+            <div class="ans-item"><strong>Q3:</strong> Imputation is not a safe default. If a zero is biological, imputing a value creates expression that was never there. You must reason about which type of zero you have — informed by platform, gene expression level, and biology — before deciding whether to impute.</div>
+            <div class="ans-item"><strong>Q4:</strong> MNAR (red) forms a solid block at the bottom — systematic, present in nearly all samples for those proteins because low-abundance proteins consistently fall below the instrument's detection limit. MAR (yellow) dots appear scattered randomly across all proteins regardless of abundance. They must be imputed differently: MNAR values are not randomly absent — they are absent because they are low, so imputing the mean of detected values would assign an artificially high abundance to proteins that were actually below the detection threshold, inflating their apparent levels. MNAR requires left-censored or abundance-based approaches (drawing from a distribution below the detection limit). MAR values are randomly absent and can safely use mean or kNN imputation.</div>
+          </div>
+        </div>
+    </div>
+
+    <!-- ══ SECTION 3 ══ -->
+    <div class="section-page" id="page2">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>Compositionality</h2>
+          <p>Because the sequencing total is fixed, you are always measuring proportions — not absolute quantities. When one feature increases its share, all others must mathematically decrease.</p>
+        </div>
+
+        <div class="concept-box danger">
+          <strong>The pie chart problem:</strong> Sequencing gives you a pie chart, not a bar chart. A gene's count tells you its share of the total — not how many molecules were present. Standard normalisation fixes between-sample depth but does <em>not</em> remove this within-sample constraint.
+        </div>
+
+        <div class="controls">
+          <div class="controls-title">⚙ Antibiotic Experiment Simulation</div>
+          <div class="control-row">
+            <span class="control-label">Antibiotic kill rate<span id="v-kill">99%</span></span>
+            <input type="range" id="killRate" min="50" max="99" value="99" step="1" oninput="updateKillLabel()">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Species A absolute change<span id="v-specA">0×</span></span>
+            <input type="range" id="specAChange" min="-5" max="10" value="0" step="1" oninput="updateSpecALabel()">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Total reads (before)<span id="v-reads">10M</span></span>
+            <input type="range" id="totalReads" min="1" max="30" value="10" step="1" oninput="updateLabel('totalReads','v-reads','M')">
+          </div>
+          <button class="run-btn" onclick="runSection3()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plot3">
+          <div class="plot-placeholder"><div class="icon">🥧</div>Press Run to see compositional trap</div>
+        </div>
+      </div><!-- /section-right -->
+
+      <div class="questions">
+        <div class="questions-title">💬 Discussion Questions</div>
+        <div class="q-item"><span class="q-num">Q1</span><span>Set the kill rate to 99% and species A absolute change to 0. What happens to Species A's <em>relative</em> abundance? Is this a biological expansion?</span></div>
+        <div class="q-item"><span class="q-num">Q2</span><span>Now increase Species A's absolute change to +5×. How does this interact with the compositional effect? Can you disentangle the two from relative abundance alone?</span></div>
+        <div class="q-item"><span class="q-num">Q3</span><span>Two taxa that are biologically unrelated both decrease slightly after treatment. What kind of spurious correlation might appear between them in a naive Pearson analysis — and why?</span></div>
+        <div class="q-item"><span class="q-num">Q4</span><span>Move the "Total reads (before)" slider down to 1–2M. Antibiotic treatment dramatically reduces total bacterial biomass, which often means post-treatment DNA yields are much lower — producing far fewer reads. Beyond the compositional effect you saw in Q1, what additional problem does this depth difference between time points create for the analysis?</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer('ans3')">Reveal answers</button>
+        <div class="answer-box" id="ans3">
+          <div class="ans-item"><strong>Q1:</strong> Species A's relative abundance skyrockets even with 0 absolute change. This is a pure compositional artefact — it is the last taxon standing, not a biological winner. Concluding "antibiotic boosts Species A" from this data is a Type I compositional error.</div>
+          <div class="ans-item"><strong>Q2:</strong> No. Relative abundance conflates genuine biological expansion with compositional rescue. You cannot distinguish the two without absolute quantification (e.g., spike-in controls or total biomass measurement).</div>
+          <div class="ans-item"><strong>Q3:</strong> Spurious negative correlation. In a fixed-sum system, any increase in one taxon forces decreases in all others. Two unrelated taxa sharing the "shrinking slice" dynamic will appear negatively correlated — not from ecology, but from arithmetic.</div>
+          <div class="ans-item"><strong>Q4:</strong> A dramatic depth difference between time points creates a second, separate problem on top of compositionality: taxa near the detection limit before treatment may be undetectable afterwards simply because fewer reads were generated — not because they were eradicated. A taxon that receives 50 reads at 10M depth receives 0.5 reads on average at 100k depth, making it invisible. This is the low-biomass technical zero problem: you cannot distinguish genuine loss of a taxon from sequencing failure caused by reduced biomass. Even perfect normalisation cannot recover a species that was never sampled. Spike-in controls or total biomass quantification (e.g. qPCR of universal 16S) are required to distinguish biology from measurement failure.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 4 ══ -->
+    <div class="section-page" id="page3">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>Why Classical Statistics Fail</h2>
+          <p>The answer is not "t-tests always fail on omics data" — it is more nuanced than that. There is a progression of increasingly adequate approaches, each solving specific problems the previous level leaves behind.</p>
+        </div>
+
+        <div class="concept-box">
+          <strong>Three specific reasons a raw-count t-test fails:</strong>
+          <ol style="margin:8px 0 0 18px;line-height:2">
+            <li><strong>Counts are not comparable across samples</strong> — library sizes and compositional effects distort relative abundances (Sections 1 &amp; 3)</li>
+            <li><strong>Counts are discrete non-negative integers</strong> — the normal approximation underlying t-test theory breaks down at values of 0, 1, 2</li>
+            <li><strong>Variance estimated from n=3 has only 2 degrees of freedom</strong> — the per-gene estimate could be half or double the true value by chance alone</li>
+          </ol>
+        
+        </div>
+
+      
+
+        <div class="controls">
+          <div class="controls-title">⚙ Distribution Explorer</div>
+          <div class="control-row">
+            <span class="control-label">Number of genes<span id="v-ng2">500</span></span>
+            <input type="range" id="ng2" min="100" max="2000" value="500" step="100" oninput="updateLabel('ng2','v-ng2','')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Replicates per group<span id="v-nrep">6</span></span>
+            <input type="range" id="nrep" min="3" max="20" value="6" step="1" oninput="updateLabel('nrep','v-nrep','')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Overdispersion (φ)<span id="v-phi">0.3</span></span>
+            <input type="range" id="phi" min="1" max="20" value="3" step="1" oninput="updatePhiLabel()">
+          </div>
+          <div class="control-row">
+            <span class="control-label">View</span>
+            <select id="plotMode4">
+              <option value="mv">MA plot — fold change fan shape</option>
+              <option value="mv_classic">Mean-Variance relationship (classic)</option>
+              <option value="compare">Level 1 vs Level 2: false positives</option>
+              <option value="shrink">Empirical Bayes shrinkage (DESeq2 / edgeR)</option>
+            </select>
+          </div>
+          <button class="run-btn" onclick="runSection4()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plot4">
+          <div class="plot-placeholder"><div class="icon">📈</div>Press Run to visualise count statistics</div>
+        </div>
+        <div class="concept-box warn">
+          <strong>Schurch et al. 2016 key finding:</strong> With n=3 replicates per condition — the field norm — tools detect only 20–40% of truly differentially expressed genes. The 48-replicate yeast benchmark confirmed that DESeq2 and edgeR (Level 4) substantially outperform a plain log + t-test (Level 2), and that the gap widens as overdispersion increases. The difference is not the distributional model — it is the empirical Bayes moderation step that stabilises variance estimates by borrowing across genes.
+        </div>
+      </div><!-- /section-right -->
+
+      <div class="questions">
+        <div class="questions-title">💬 Discussion Questions</div>
+        <div class="q-item"><span class="q-num">Q1</span><span>Run the "MA plot" view. Both groups have <em>identical</em> true expression — there is no real differential expression. The red line marks zero fold change. What shape does the left panel show, and where does it appear worst? What does this tell you about trusting fold changes from lowly expressed genes without shrinkage?</span></div>
+        <div class="q-item"><span class="q-num">Q2</span><span>Switch to "Level 1 vs Level 2: false positives". Group B has been sequenced 1.5× deeper than Group A — a realistic between-batch variation. Why does Level 1 (raw counts) produce excess false positives? What does Level 2 do differently that brings them back toward the yellow expected-by-chance line?</span></div>
+        <div class="q-item"><span class="q-num">Q3</span><span>Keep the "Level 1 vs Level 2" view. Reduce replicates to 3, then increase overdispersion. What happens to the false positive bar? Why does higher biological variability between replicates specifically make the raw-count t-test worse — and why does neither Level 1 nor Level 2 fully solve this?</span></div>
+        <div class="q-item"><span class="q-num">Q4</span><span>Switch to "Empirical Bayes shrinkage". The red dots (raw per-gene dispersion estimates) scatter widely, especially at low expression. The green dots (shrunk) are pulled toward the yellow trend line. With n=3 replicates, why is sharing information across genes so important — and what would happen to a t-statistic for a gene whose raw variance estimate happened to be very low by chance?</span></div>
+        <div class="q-item"><span class="q-num">Q5</span><span>DESeq2 and edgeR model raw counts with the negative binomial distribution. limma-voom instead works on log-CPM values but assigns each observation a precision weight based on its predicted variance, then applies the same empirical Bayes moderation. Both approaches share information across genes. For what type of study might you prefer limma-voom over DESeq2 — and what advantage does the shared framework give when your experiment has multiple factors (e.g. treatment × time × sex)?</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer('ans4')">Reveal answers</button>
+        <div class="answer-box" id="ans4">
+          <div class="ans-item"><strong>Q1:</strong> The left panel shows a fan shape — fold changes scatter widely at low expression (left side of the x-axis) and narrow to a tight band at high expression (right side). This is the characteristic MA plot fan. Since no true DE exists, every fold change here is noise generated by unreliable variance estimates at low counts. A lowly expressed gene with counts of 0, 1, 2 across three replicates can produce fold changes of ±2 or more purely by chance — the same instability that makes a plain t-test produce false positives. The right panel shows how EB shrinkage collapses this fan: low-expression fold changes are pulled toward zero because the model knows they are unreliable, while high-expression fold changes are left largely unchanged because they are based on stable counts.</div>
+          <div class="ans-item"><strong>Q2:</strong> Level 1 produces excess false positives because every non-DE gene in Group B has approximately 1.5× the raw count of its Group A counterpart — not because of biology, but because Group B was sequenced 50% more deeply. The raw-count t-test cannot distinguish "more expressed" from "more reads." Level 2 (log-CPM) normalises each sample's counts to its total library size before testing, converting raw counts to comparable proportions. After normalisation, depth differences disappear and the false positive rate drops back toward the chance expectation. This is exactly the "counts are proportions of a budget" principle from Section 1.</div>
+          <div class="ans-item"><strong>Q3:</strong> False positives increase with lower replicates and higher overdispersion. At n=3, the per-gene variance estimate has only 2 degrees of freedom — it is highly unstable. A gene with genuinely average variability might happen to show low variance across its 3 replicates just by chance, giving an inflated t-statistic and a false positive. Higher overdispersion means the true variability between replicates is larger, so the chance of a misleadingly low variance estimate is also larger. Neither Level 1 nor Level 2 has any mechanism to detect and correct for this — they both use each gene's own noisy variance estimate directly, with no borrowing from other genes.</div>
+          <div class="ans-item"><strong>Q4:</strong> With only n=3 replicates, a per-gene variance estimate has just 2 degrees of freedom — it could easily be half or double the true value by chance alone. A gene whose variance happened to be underestimated would produce an inflated t-statistic and a false positive. Empirical Bayes moderation pulls each per-gene estimate toward the genome-wide trend, effectively giving the estimate more degrees of freedom by borrowing from hundreds of genes at similar expression levels. This is the single most important feature shared by DESeq2, edgeR, and limma-voom — it is what makes reliable inference possible at small n.</div>
+          <div class="ans-item"><strong>Q5:</strong> limma-voom is particularly well suited to large datasets and complex multi-factor experimental designs. Because it works within a general linear model framework, it handles arbitrary combinations of factors, interactions, and contrasts with the same flexibility as classical linear models — just with precision weights and EB moderation applied. DESeq2 and edgeR also support GLMs, but limma's formula interface is often more expressive for complex designs. limma-voom also works well for proteomics and microarray data, providing a unified framework across data types. For very lowly expressed genes (counts of 0–2), DESeq2/edgeR's native count model has a small advantage; for moderate to high counts the approaches are essentially equivalent.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-panel -->
+
+  <!-- RIGHT: R console -->
+  <div class="console-panel">
+    <div class="console-header">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="color:#52e0a0"><circle cx="8" cy="8" r="8"/></svg>
+      <span>R Console</span>
+      <span style="color:var(--text-dim);margin-left:auto;font-size:10px" id="rVersion">webR 0.4.x</span>
+    </div>
+    <div class="console-output" id="consoleOut">
+      <div class="line comment"># Module 2 · Interactive R Practical</div>
+      <div class="line comment"># Initialising WebAssembly R engine…</div>
+      <div class="line info" id="initLine">⏳ Loading packages (ggplot2, dplyr)…</div>
+    </div>
+    <div class="code-editor">
+      <textarea id="codeInput" rows="5" placeholder="# Type R code here and press Run&#10;# Example: hist(rnbinom(1000, mu=10, size=0.5))"></textarea>
+      <div class="code-editor-bar">
+        <span>Ctrl+Enter to run</span>
+        <button class="exec-btn" onclick="runCustomCode()">▶ Run</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ── Firefox local-file banner (shown by JS if needed) ── -->
+<div id="ffBanner" style="display:none;background:#2a1f00;border-bottom:1px solid rgba(255,204,92,0.4);padding:10px 24px;font-size:13px;color:#ffcc5c;align-items:center;gap:12px;flex-wrap:wrap">
+  <span>🦊 <strong>Firefox + local file:</strong> R cannot load from <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">file://</code></span>
+  <span style="color:#e8c96a"><strong>Windows:</strong> double-click <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">START_Windows.bat</code> &nbsp;|&nbsp; <strong>Mac:</strong> open Terminal → <code style="font-family:'DM Mono',monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:1px 5px;border-radius:3px">python3 serve.py</code> (see README_Mac_Firefox.txt) &nbsp;|&nbsp; <strong>Or use Chrome / Edge</strong></span>
+</div>
+
+
+<div id="welcomeModal" role="dialog" aria-modal="true" aria-label="Getting started">
+  <div class="modal-backdrop" onclick="dismissModal()"></div>
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-badge">Module 2 · Interactive Practical</div>
+      <h2 class="modal-title">Getting started</h2>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="modal-step">
+        <div class="step-icon">⏳</div>
+        <div class="step-text">
+          <strong>Wait for R to load</strong>
+          The green <em>R Ready</em> indicator in the top-right corner means R is running in your browser. This takes <strong>20–40 seconds</strong> on first use — no installation required.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">🎛</div>
+        <div class="step-text">
+          <strong>Adjust sliders, then press Run</strong>
+          Each section has interactive controls. Change a slider or dropdown, then press the <span class="kbd">▶ Run in R</span> button to regenerate the plot. The R code executing behind the scenes is shown in the console on the right.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">🗂</div>
+        <div class="step-text">
+          <strong>Four sections, one per module topic</strong>
+          Use the tabs at the top to move between sections. Each section is independent — you can jump to any one directly.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">💬</div>
+        <div class="step-text">
+          <strong>Discussion questions and answers</strong>
+          Each section ends with questions for group discussion. Press <span class="kbd">Reveal answers</span> when you're ready — or when your facilitator says so.
+        </div>
+      </div>
+
+      <div class="modal-step">
+        <div class="step-icon">💻</div>
+        <div class="step-text">
+          <strong>Free R console</strong>
+          The text box at the bottom-right accepts any R code. Press <span class="kbd">▶ Run</span> or <span class="kbd">Ctrl+Enter</span>. Plots appear in the active section's plot area.
+        </div>
+      </div>
+
+      <div class="modal-note">
+        <strong>Works entirely in your browser — no login, no RStudio.</strong> R runs inside the browser tab via WebAssembly. Each person gets their own private session.
+      </div>
+
+      <div class="modal-note modal-note-browser" id="browserNote" style="display:none;border-color:rgba(255,204,92,0.3);background:rgba(255,204,92,0.05)">
+        <strong style="color:var(--accent4)">⚠ Firefox + local file detected — R will not load here</strong><br><br>
+        Firefox requires the page to be served over <code style="font-family:'DM Mono',monospace;font-size:11px">http://localhost</code>. Choose one option:<br><br>
+
+        <strong>Windows</strong> — double-click <code style="font-family:'DM Mono',monospace;font-size:11px">START_Windows.bat</code> in the same folder. Done.<br><br>
+
+        <strong>Mac</strong> — open Terminal (Cmd+Space → type Terminal → Enter), then:<br>
+        <ol style="margin:8px 0 8px 18px;color:var(--text-muted);font-size:13px;line-height:1.9">
+          <li>Type <code style="font-family:'DM Mono',monospace;font-size:11px">cd </code> (with a space), then <strong>drag this folder from Finder into Terminal</strong> — the path appears automatically</li>
+          <li>Press Enter, then type <code style="font-family:'DM Mono',monospace;font-size:11px">python3 serve.py</code> and press Enter</li>
+          <li>Firefox will open at <code style="font-family:'DM Mono',monospace;font-size:11px">http://localhost:8000/module2_practical.html</code> — use whatever port the server prints if not 8000</li>
+        </ol>
+
+        <strong>Easiest alternative:</strong> switch to <strong>Chrome or Edge</strong> — they work with local files, no server needed.
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <label class="modal-remember">
+        <input type="checkbox" id="dontShowAgain"> Don't show this again
+      </label>
+      <button class="modal-dismiss" onclick="dismissModal()">
+        Get started
+        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M3.5 8h9M8.5 4l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ── Modal ── */
+  #welcomeModal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 35, 64, 0.55);
+    backdrop-filter: blur(4px);
+  }
+  .modal-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: min(560px, calc(100vw - 40px));
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(30,35,64,0.18);
+    animation: modalIn 0.22s ease-out;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+
+  .modal-header {
+    padding: 24px 28px 0;
+  }
+  .modal-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: rgba(26,115,232,0.1);
+    border: 1px solid rgba(26,115,232,0.25);
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: 0;
+  }
+
+  .modal-body {
+    padding: 20px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .modal-step {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .step-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    margin-top: 1px;
+  }
+  .step-text {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .step-text strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13.5px;
+  }
+  .step-text em { font-style: normal; color: var(--text); }
+
+  .kbd {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 7px;
+    border-radius: 4px;
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+
+  .modal-note {
+    background: rgba(26,115,232,0.06);
+    border: 1px solid rgba(26,115,232,0.18);
+    border-radius: 6px;
+    padding: 11px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+  .modal-note strong { color: var(--text); }
+
+  .modal-footer {
+    padding: 16px 28px 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .modal-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    cursor: pointer;
+    user-select: none;
+  }
+  .modal-remember input { accent-color: var(--accent); cursor: pointer; }
+
+  .modal-dismiss {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .modal-dismiss:hover { background: #4a7ee8; transform: translateY(-1px); }
+  .modal-dismiss svg { stroke: currentColor; stroke-width: 1.5; fill: none; }
+</style>
+
+<script>
+  // Show modal on first visit; respect "don't show again"
+  (function() {
+    if (localStorage.getItem('m2_welcomed') === '1') {
+      document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    // Detect Firefox + file:// — show specific warning
+    const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
+    const isFileProtocol = location.protocol === 'file:';
+    if (isFirefox && isFileProtocol) {
+      const warn = document.getElementById('browserNote');
+      if (warn) warn.style.display = 'block';
+      // Force modal to show regardless of localStorage
+      document.getElementById('welcomeModal').style.display = 'flex';
+    }
+    // Show persistent banner for Firefox on file://
+    if (isFirefox && isFileProtocol) {
+      const banner = document.getElementById('ffBanner');
+      if (banner) banner.style.display = 'flex';
+    }
+  })();
+
+  function copyTermCmd() {
+    const text = document.getElementById('termCmdText').textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      const copied = document.getElementById('termCmdCopied');
+      if (copied) {
+        copied.style.display = 'inline';
+        setTimeout(() => copied.style.display = 'none', 2000);
+      }
+    }).catch(function() {
+      // Clipboard API unavailable (file:// in some browsers) — select the text instead
+      const range = document.createRange();
+      range.selectNodeContents(document.getElementById('termCmdText'));
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    });
+  }
+
+  function dismissModal() {
+    if (document.getElementById('dontShowAgain').checked) {
+      localStorage.setItem('m2_welcomed', '1');
+    }
+    const m = document.getElementById('welcomeModal');
+    m.style.opacity = '0';
+    m.style.transition = 'opacity 0.18s ease';
+    setTimeout(() => m.style.display = 'none', 180);
+  }
+
+  // Also dismiss on Escape or Enter
+  document.addEventListener('keydown', function(e) {
+    const m = document.getElementById('welcomeModal');
+    if (m.style.display !== 'none' && (e.key === 'Escape' || e.key === 'Enter')) {
+      dismissModal();
+    }
+  });
+</script>
+
+<!-- webR -->
+<script type="module">
+  import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
+
+  const webR = new WebR();
+  window._webR = webR;
+  window._rReady = false;
+
+  window.toggleConsole = function() {
+    const panel = document.querySelector('.console-panel');
+    const main  = document.querySelector('.main');
+    const btn   = document.getElementById('consoleToggle');
+    const open  = main.classList.toggle('console-open');
+    panel.classList.toggle('visible', open);
+    btn.classList.toggle('open', open);
+    btn.querySelector('svg').style.transform = open ? 'rotate(90deg)' : '';
+  };
+
+  const consoleOut = document.getElementById('consoleOut');
+  const statusDot = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+
+  function log(msg, cls='info') {
+    const d = document.createElement('div');
+    d.className = 'line ' + cls;
+    d.textContent = msg;
+    consoleOut.appendChild(d);
+    consoleOut.scrollTop = consoleOut.scrollHeight;
+  }
+
+  async function init() {
+    await webR.init();
+    log('✓ R engine ready', 'result');
+
+    // Forward R stdout/stderr to the console panel
+    (async () => {
+      for await (const msg of webR) {
+        if (msg.type === 'stdout') log(msg.data, 'info');
+        else if (msg.type === 'stderr' && !msg.data.startsWith('trying URL')) log(msg.data, 'warn');
+      }
+    })();
+
+    log('> webr::install("ggplot2") — please wait…', 'prompt');
+    try {
+      await webR.evalR(`webr::install("ggplot2", quiet=TRUE)`);
+      log('✓ ggplot2 ready', 'result');
+    } catch(e) {
+      log('⚠ ggplot2 unavailable, base graphics will be used', 'warn');
+    }
+
+    try {
+      await webR.evalR(`webr::install("tidyr", quiet=TRUE)`);
+      log('✓ tidyr ready', 'result');
+    } catch(e) {
+      log('⚠ tidyr unavailable', 'warn');
+    }
+
+    try {
+      await webR.evalR(`suppressPackageStartupMessages({ library(ggplot2); library(tidyr) })`);
+      window._hasGG = true;
+      log('✓ packages loaded', 'result');
+    } catch(e) {
+      window._hasGG = false;
+      log('Using base R graphics', 'warn');
+    }
+
+    statusDot.classList.remove('loading');
+    statusDot.classList.add('ready');
+    statusText.textContent = 'R Ready';
+    window._rReady = true;
+    document.getElementById('initLine').className = 'line result';
+    document.getElementById('initLine').textContent = '✓ Ready — press Run in any section';
+    log('', 'info');
+    log('# Tip: adjust sliders, then press Run to re-generate', 'comment');
+  }
+
+  init().catch(e => {
+    log('✗ Failed to load R: ' + e, 'error');
+    statusText.textContent = 'Load failed';
+  });
+
+  // ── Real data upload ──────────────────────────────────────────
+  window._hasUserData = false;
+  window.handleDataUpload = async function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    // Reset so the same file can be re-selected
+    event.target.value = '';
+
+    const infoEl = document.getElementById('uploadInfo');
+    if (!window._rReady) {
+      infoEl.textContent = '⏳ R not ready yet — wait for "R Ready" then retry';
+      infoEl.style.color = 'var(--accent4)';
+      return;
+    }
+
+    infoEl.textContent = '⏳ Reading file…';
+    infoEl.style.color = 'var(--text-dim)';
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      try {
+        const text  = e.target.result;
+        const sep   = text.indexOf('\t') > -1 && text.indexOf(',') === -1 ? /\t/ : /,/;
+        const lines = text.trim().split(/\r?\n/);
+        const nFeat = lines.length - 1;
+        const nSamp = lines[0].split(sep).length - 1;
+        if (nFeat < 2 || nSamp < 2) {
+          infoEl.textContent = '✗ Need ≥2 features and ≥2 samples';
+          infoEl.style.color = 'var(--accent2)';
+          log('✗ Need ≥2 features and ≥2 samples', 'error');
+          return;
+        }
+        const csv = text.replace(/\t/g, ',');
+        // Inject CSV directly into R global env — avoids VFS path issues entirely
+        await webR.evalR('.__user_csv__ <- ' + JSON.stringify(csv));
+        window._hasUserData = true;
+        infoEl.textContent = `✓ ${nFeat} features × ${nSamp} samples loaded`;
+        infoEl.style.color = 'var(--accent3)';
+        let opt = document.getElementById('opt-realdata');
+        if (!opt) {
+          opt = document.createElement('option');
+          opt.id = 'opt-realdata'; opt.value = 'realdata';
+          document.getElementById('platform').appendChild(opt);
+        }
+        opt.textContent = `Your data (${nFeat} × ${nSamp})`;
+        document.getElementById('platform').value = 'realdata';
+        log(`[✓] ${nFeat} features × ${nSamp} samples ready — press Run`, 'result');
+        log(`[i] Tip: select the closest platform type above to set the right colour scheme`, 'info');
+      } catch(err) {
+        infoEl.textContent = '✗ Upload failed — see R Console for details';
+        infoEl.style.color = 'var(--accent2)';
+        log('✗ Upload error: ' + err, 'error');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // ── SECTION 1 ──
+  window.runSection1 = async function() {
+    const depthA = parseInt(document.getElementById('depthA').value);
+    const depthB = parseInt(document.getElementById('depthB').value);
+    const prop   = parseInt(document.getElementById('trueProp').value) / 1000000;
+    const mode   = document.getElementById('plotMode1').value;
+
+    const countA = Math.round(depthA * 1e6 * prop);
+    const countB = Math.round(depthB * 1e6 * prop);
+    const propA  = (prop * 100).toFixed(6);
+
+    log('', 'info');
+    log(`> # Section 1 [${mode}] depthA=${depthA}M depthB=${depthB}M prop=${prop}`, 'prompt');
+    if (countA > 0) log(`[1] Focal gene apparent FC: ${(countB/countA).toFixed(2)}x  |  True FC: 1.00x`, 'result');
+
+    setPlotLoading('plot1');
+    let code = '';
+
+    // ── View 1: Apparent FC vs True FC ────────────────────────────────────
+    if (mode === 'illusion') {
+      code = `
+library(ggplot2)
+depthA_val  <- ${depthA}
+depthB_val  <- ${depthB}
+focal_prop  <- ${prop}
+
+countA      <- round(depthA_val * 1e6 * focal_prop)
+countB      <- round(depthB_val * 1e6 * focal_prop)
+apparent_fc <- depthB_val / depthA_val
+true_fc     <- 1.0
+
+df <- data.frame(
+  panel = factor(
+    c(rep("Raw count (what you observe)", 2),
+      rep("Fold change (what you conclude)", 2)),
+    levels = c("Raw count (what you observe)",
+               "Fold change (what you conclude)")
+  ),
+  label = c(
+    paste0("Sample A\\n(", depthA_val, "M reads)"),
+    paste0("Sample B\\n(", depthB_val, "M reads)"),
+    "Apparent FC\\n(from raw counts)",
+    "True FC\\n(biology unchanged)"
+  ),
+  value = c(countA, countB, apparent_fc, true_fc),
+  grp   = c("A", "B", "bad", "good")
+)
+df$label <- factor(df$label, levels = df$label)
+
+p <- ggplot(df, aes(x = label, y = value, fill = grp)) +
+  geom_col(width = 0.55, alpha = 0.92) +
+  geom_text(aes(label = ifelse(grp %in% c("bad","good"),
+                               paste0(round(value, 2), "x"),
+                               as.character(round(value)))),
+            vjust = -0.45, color = "#202124", size = 3.0, fontface = "bold") +
+  geom_hline(
+    data = data.frame(
+      panel = factor("Fold change (what you conclude)",
+        levels = c("Raw count (what you observe)",
+                   "Fold change (what you conclude)")),
+      y = 1),
+    aes(yintercept = y),
+    color = "#52e0a0", linewidth = 0.7, linetype = "dashed"
+  ) +
+  facet_wrap(~ panel, scales = "free") +
+  scale_fill_manual(
+    values = c(A = "#5b8fff", B = "#ff6b6b", bad = "#ff6b6b", good = "#52e0a0")
+  ) +
+  labs(
+    title    = paste0("Apparent FC = ", round(apparent_fc, 2),
+                      "x  \u2014  True FC = 1.00x  \u2014  the difference is pure depth artefact"),
+    subtitle = paste0("Sample A: ", depthA_val, "M reads  |  Sample B: ",
+                      depthB_val, "M reads  |  Same gene, same biology"),
+    x = NULL, y = NULL
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background  = element_rect(fill = "#ffffff", color = NA),
+    panel.background = element_rect(fill = "#f1f3f4", color = NA),
+    panel.grid.major = element_line(color = "#e0e4ea", linewidth = 0.4),
+    panel.grid.minor = element_blank(),
+    text             = element_text(color = "#202124"),
+    axis.text        = element_text(color = "#5f6368", size = 8),
+    axis.text.x      = element_text(size = 7.5, color = "#202124"),
+    strip.text       = element_text(color = "#202124", size = 9, face = "bold"),
+    strip.background = element_rect(fill = "#e8eaed", color = NA),
+    plot.title       = element_text(size = 10, face = "bold"),
+    plot.subtitle    = element_text(size = 8, color = "#5f6368"),
+    legend.position  = "none"
+  )
+print(p)
+`;
+
+
+    // ── View 3: Multi-gene detection ───────────────────────────────────────
+    } else if (mode === 'multidet') {
+      code = `
+library(ggplot2)
+set.seed(42)
+depthA <- ${depthA} * 1e6
+depthB <- ${depthB} * 1e6
+focal_prop <- ${prop}
+
+n_genes <- 25
+props <- exp(seq(log(focal_prop / 8000), log(focal_prop), length.out = n_genes))
+
+cA <- rpois(n_genes, lambda = depthA * props)
+cB <- rpois(n_genes, lambda = depthB * props)
+
+labelA <- paste0("Sample A (${depthA}M reads)")
+labelB <- paste0("Sample B (${depthB}M reads)")
+
+df <- data.frame(
+  log_prop = rep(log10(props * 1e6), 2),
+  count    = c(cA, cB),
+  sample   = factor(rep(c(labelA, labelB), each = n_genes),
+                    levels = c(labelA, labelB))
+)
+df$detected <- df$count > 0
+
+nzeroA <- sum(!df$detected[df$sample == labelA])
+nzeroB <- sum(!df$detected[df$sample == labelB])
+
+p <- ggplot(df, aes(x = log_prop, y = count, color = detected)) +
+  geom_segment(aes(xend = log_prop, yend = 0), alpha = 0.35, linewidth = 0.6) +
+  geom_point(size = 3, alpha = 0.95) +
+  facet_wrap(~ sample, ncol = 2) +
+  scale_color_manual(
+    values = c("TRUE" = "#5b8fff", "FALSE" = "#ff6b6b"),
+    labels = c("TRUE" = "Detected (count \u2265 1)", "FALSE" = "Zero \u2014 invisible"),
+    name = NULL
+  ) +
+  labs(
+    title    = "Depth determines which genes are visible",
+    subtitle = paste0("25 genes — same proportions in both samples.  ",
+      "Sample A zeros: ", nzeroA, "/25  |  Sample B zeros: ", nzeroB, "/25"),
+    x = "Gene expression level  (log\u2081\u2080 proportion \u00d7 1M)  \u2192  higher = more expressed",
+    y = "Observed count"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background  = element_rect(fill = "#ffffff", color = NA),
+    panel.background = element_rect(fill = "#f1f3f4", color = NA),
+    panel.grid.major = element_line(color = "#e0e4ea", linewidth = 0.4),
+    panel.grid.minor = element_blank(),
+    text             = element_text(color = "#202124"),
+    axis.text        = element_text(color = "#5f6368", size=8),
+    axis.title.x     = element_text(size = 9, color = "#5f6368"),
+    strip.text       = element_text(color = "#202124", size=9, face = "bold"),
+    strip.background = element_rect(fill = "#e8eaed", color = NA),
+    plot.title       = element_text(size=10, face = "bold", color = "#202124"),
+    plot.subtitle    = element_text(size=8, color = "#5f6368"),
+    legend.background = element_rect(fill = "#ffffff", color = NA),
+    legend.text      = element_text(color = "#5f6368", size=8),
+    legend.position  = "bottom"
+  )
+print(p)
+`;
+
+    }
+
+    try {
+      const img = await renderPlot(code);
+      showPlot('plot1', img);
+
+      // Show focal-gene table for illusion and fc views
+      if (mode === 'illusion') {
+        document.getElementById('table1Container').innerHTML = `
+          <table class="data-table">
+            <thead><tr><th>Sample</th><th>Total reads</th><th>Focal gene raw count</th><th>Proportion</th><th>Naive FC vs A</th></tr></thead>
+            <tbody>
+              <tr><td>Sample A</td><td>${depthA}M</td><td>${countA}</td><td class="good">${propA}%</td><td>1.00×</td></tr>
+              <tr><td>Sample B</td><td>${depthB}M</td><td class="${depthB !== depthA ? 'highlight' : ''}">${countB}</td><td class="good">${propA}%</td><td class="${depthB !== depthA ? 'highlight' : ''}">${(countB/countA).toFixed(2)}×</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:16px">Proportions are identical — biology did not change.</p>
+        `;
+      } else {
+        document.getElementById('table1Container').innerHTML = '';
+      }
+
+      if (mode === 'illusion') log(`[1] Proportions identical — apparent FC is pure depth artefact`, 'warn');
+      if (mode === 'multidet') log(`[1] Red = zero reads. Move expression slider to see more/fewer zeros`, 'info');
+
+    } catch(e) {
+      log('✗ Plot error: ' + e, 'error');
+      hidePlotLoading('plot1');
+    }
+  };
+
+  // ── SECTION 2 ──
+  window.runSection2 = async function() {
+    const platform = document.getElementById('platform').value;
+    const ncells   = parseInt(document.getElementById('ncells').value);
+    const ngenes   = parseInt(document.getElementById('ngenes').value);
+
+    log('', 'info');
+    log(`> # Section 2 [${platform}] n_cells=${ncells} n_genes=${ngenes}`, 'prompt');
+    setPlotLoading('plot2');
+    try {
+      let code;
+
+      if (platform === 'realdata' && window._hasUserData) {
+        // ── Real uploaded data ──────────────────────────────────────────
+        code = `
+library(ggplot2)
+mat_raw <- tryCatch(read.csv(text=.__user_csv__,row.names=1,check.names=FALSE),error=function(e) stop(conditionMessage(e)))
+mat <- as.matrix(mat_raw); mat[is.na(mat)] <- 0
+n_show_g <- min(${ngenes},nrow(mat)); n_show_s <- min(60,ncol(mat))
+set.seed(42)
+g_idx <- if(nrow(mat)>n_show_g) sample(nrow(mat),n_show_g) else seq_len(nrow(mat))
+mat_v <- mat[g_idx,seq_len(n_show_s),drop=FALSE]
+mat_v <- mat_v[order(rowMeans(mat_v,na.rm=TRUE),decreasing=TRUE),]
+obs_z <- round(mean(mat_v==0)*100,1)
+q25 <- quantile(mat_v[mat_v>0],0.25,na.rm=TRUE)
+df <- data.frame(x=rep(seq_len(ncol(mat_v)),each=nrow(mat_v)),y=rep(seq_len(nrow(mat_v)),ncol(mat_v)),val=as.numeric(as.vector(mat_v)))
+df$cat <- factor(ifelse(df$val==0,"Zero / Missing",ifelse(df$val<q25,"Low (bottom 25%)","Detected")),levels=c("Detected","Low (bottom 25%)","Zero / Missing"))
+p <- ggplot(df,aes(x=x,y=y,fill=cat))+geom_tile(linewidth=0)+scale_y_reverse()+
+  scale_fill_manual(values=c("Detected"="#1a73e8","Low (bottom 25%)"="#aecbfa","Zero / Missing"="#f1f3f4"),name=NULL)+
+  labs(title=paste0("Your data: ",nrow(mat)," features × ",ncol(mat)," samples"),
+       subtitle=paste0("Showing ",n_show_g," × ",n_show_s,"  |  ",obs_z,"% zero/missing  |  sorted high→low"),
+       x=paste0("Samples (n=",n_show_s,")"),y="Features")+
+    theme_minimal(base_size=9)+theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid=element_blank(),text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368",size=8),axis.title=element_text(size=8),
+    axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+    plot.title=element_text(size=10,face="bold"),plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),legend.text=element_text(color="#5f6368",size=8),
+    legend.position="bottom")
+print(p)
+`;
+        log(`[✓] Visualising your uploaded data`, 'result');
+
+      } else if (platform === 'bulk') {
+        // ── Bulk: zeros cluster in low-expression genes (biological zeros) ──
+        code = `
+library(ggplot2)
+set.seed(42)
+n_samp <- min(${ncells},60); n_genes <- ${ngenes}
+true_means <- sort(exp(rnorm(n_genes,mean=3,sd=2)),decreasing=TRUE)
+mat <- matrix(0L,nrow=n_genes,ncol=n_samp)
+for(i in seq_len(n_genes)) mat[i,] <- rnbinom(n_samp,mu=true_means[i],size=0.5)
+obs_z <- round(mean(mat==0)*100,1)
+df <- data.frame(x=rep(seq_len(n_samp),each=n_genes),y=rep(seq_len(n_genes),n_samp),val=as.integer(as.vector(mat)))
+df$cat <- factor(ifelse(df$val==0,"Zero (biological — gene off)",ifelse(df$val<5,"Low count","Detected")),levels=c("Detected","Low count","Zero (biological — gene off)"))
+p <- ggplot(df,aes(x=x,y=y,fill=cat))+geom_tile(linewidth=0)+scale_y_reverse()+
+  scale_fill_manual(values=c("Detected"="#1a73e8","Low count"="#aecbfa","Zero (biological — gene off)"="#f1f3f4"),name=NULL)+
+  labs(title=paste0("Bulk RNA-seq: ",obs_z,"% zeros — clustered in lowly expressed genes"),
+       subtitle="Genes sorted high→low expression (top→bottom)  |  zeros concentrate at bottom = biological absence",
+       x=paste0("Samples (n=",n_samp,")"),y="Genes (high → low expression)")+
+    theme_minimal(base_size=9)+theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid=element_blank(),text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368",size=8),axis.title=element_text(size=8),
+    axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+    plot.title=element_text(size=10,face="bold"),plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),legend.text=element_text(color="#5f6368",size=8),
+    legend.position="bottom")
+print(p)
+`;
+        log(`[1] Zeros cluster at bottom rows (low-expression genes) — mostly biological`, 'result');
+
+      } else if (platform === 'proteomics') {
+        // ── Proteomics: MNAR at low abundance (red block) + MAR scattered ──
+        code = `
+library(ggplot2)
+set.seed(42)
+n_samp <- min(${ncells},60); n_genes <- ${ngenes}
+true_abund <- sort(exp(rnorm(n_genes,2,1.5)),decreasing=TRUE)
+miss_type <- matrix("Detected",nrow=n_genes,ncol=n_samp)
+for(i in seq_len(n_genes)){
+  rank_frac <- (i-1)/(n_genes-1)
+  p_mnar <- pmin(0.97,pmax(0,(rank_frac-0.3)*2.2))
+  for(j in seq_len(n_samp)){
+    if(runif(1)<p_mnar)    miss_type[i,j] <- "MNAR"
+    else if(runif(1)<0.04) miss_type[i,j] <- "MAR"
+  }
+}
+obs_mnar <- round(mean(miss_type=="MNAR")*100,1)
+obs_mar  <- round(mean(miss_type=="MAR")*100,1)
+df <- data.frame(x=rep(seq_len(n_samp),each=n_genes),y=rep(seq_len(n_genes),n_samp),
+  cat=factor(as.vector(miss_type),levels=c("Detected","MAR","MNAR")))
+levels(df$cat) <- c("Detected","MAR — random failure","MNAR — below detection limit")
+p <- ggplot(df,aes(x=x,y=y,fill=cat))+geom_tile(linewidth=0)+
+  scale_fill_manual(values=c("Detected"="#1a73e8","MAR — random failure"="#fbbc04","MNAR — below detection limit"="#d93025"),name=NULL)+
+  labs(title=paste0("Proteomics DDA: MNAR=",obs_mnar,"% | MAR=",obs_mar,"%"),
+       subtitle="Proteins sorted high→low abundance  |  red block = MNAR (systematic, abundance-driven)  |  yellow = MAR (random)",
+       x=paste0("Samples (n=",n_samp,")"),y="Proteins (high → low abundance)")+
+    theme_minimal(base_size=9)+theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid=element_blank(),text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368",size=8),axis.title=element_text(size=8),
+    axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+    plot.title=element_text(size=10,face="bold"),plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),legend.text=element_text(color="#5f6368",size=8),
+    legend.position="bottom")
+print(p)
+`;
+        log(`[1] Red block = MNAR: systematic, abundance-driven — needs left-censored imputation`, 'warn');
+        log(`[1] Yellow dots = MAR: random failures — mean/kNN imputation acceptable`, 'result');
+
+      } else if (platform === 'micro16s') {
+        // ── 16S: sorted by prevalence ──────────────────────────────────────
+        code = `
+library(ggplot2)
+set.seed(42)
+n_samp <- min(${ncells},60); n_genes <- ${ngenes}
+mat <- matrix(0L,nrow=n_genes,ncol=n_samp)
+for(i in seq_len(n_genes)){
+  prev <- rbeta(1,0.5,2)
+  for(j in seq_len(n_samp)) if(runif(1)<prev) mat[i,j] <- rpois(1,exp(rnorm(1,3,1.5)))
+}
+mat <- mat[order(rowMeans(mat>0),decreasing=TRUE),]
+obs_z <- round(mean(mat==0)*100,1)
+df <- data.frame(x=rep(seq_len(n_samp),each=n_genes),y=rep(seq_len(n_genes),n_samp),val=as.integer(as.vector(mat)))
+df$cat <- factor(ifelse(df$val==0,"Absent / undetected",ifelse(df$val<5,"Rare","Present")),levels=c("Present","Rare","Absent / undetected"))
+p <- ggplot(df,aes(x=x,y=y,fill=cat))+geom_tile(linewidth=0)+
+  scale_fill_manual(values=c("Present"="#1a73e8","Rare"="#aecbfa","Absent / undetected"="#f1f3f4"),name=NULL)+
+  labs(title=paste0("16S microbiome: ",obs_z,"% absent — sorted by prevalence"),
+       subtitle="Top = core microbiome (present in most samples)  |  Bottom = rare taxa (biological absence + undersampling)",
+       x=paste0("Samples (n=",n_samp,")"),y="Taxa (high → low prevalence)")+
+    theme_minimal(base_size=9)+theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid=element_blank(),text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368",size=8),axis.title=element_text(size=8),
+    axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+    plot.title=element_text(size=10,face="bold"),plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),legend.text=element_text(color="#5f6368",size=8),
+    legend.position="bottom")
+print(p)
+`;
+        log(`[1] Top rows = core microbiome  |  Bottom rows = rare taxa (biology + undersampling)`, 'result');
+
+      } else {
+        // ── scRNA-seq (10x / SMART-seq2): uniform technical dropout ────────
+        const scZeroRate = platform === 'smartseq' ? 0.65 : 0.92;
+        code = `
+library(ggplot2)
+set.seed(42)
+n_samp <- min(${ncells},60); n_genes <- ${ngenes}; zero_rate <- ${scZeroRate}
+mat <- matrix(0L,nrow=n_genes,ncol=n_samp)
+for(i in seq_len(n_genes)) mat[i,] <- rpois(n_samp,exp(rnorm(1,2,2)))*rbinom(n_samp,1,1-zero_rate)
+obs_z <- round(mean(mat==0)*100,1)
+df <- data.frame(x=rep(seq_len(n_samp),each=n_genes),y=rep(seq_len(n_genes),n_samp),val=as.integer(as.vector(mat)))
+df$cat <- factor(ifelse(df$val==0,"Zero (technical / dropout)",ifelse(df$val<5,"Low count","Detected")),levels=c("Detected","Low count","Zero (technical / dropout)"))
+p <- ggplot(df,aes(x=x,y=y,fill=cat))+geom_tile(linewidth=0)+
+  scale_fill_manual(values=c("Detected"="#1a73e8","Low count"="#aecbfa","Zero (technical / dropout)"="#f1f3f4"),name=NULL)+
+  labs(title=paste0("${platform}: ",obs_z,"% zeros — uniform technical dropout"),
+       subtitle="Zeros scattered uniformly — even highly expressed genes have dropout (10-15% capture rate per cell)",
+       x=paste0("Cells (n=",n_samp,")"),y="Genes")+
+    theme_minimal(base_size=9)+theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid=element_blank(),text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368",size=8),axis.title=element_text(size=8),
+    axis.text.y=element_blank(),axis.ticks.y=element_blank(),
+    plot.title=element_text(size=10,face="bold"),plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),legend.text=element_text(color="#5f6368",size=8),
+    legend.position="bottom")
+print(p)
+`;
+        log(`[1] Zeros scattered even in expressed genes — technical dropout, not biology`, 'warn');
+      }
+
+      const img = await renderPlot(code);
+      showPlot('plot2', img);
+    } catch(e) {
+      log('✗ Plot error: ' + e, 'error');
+      hidePlotLoading('plot2');
+    }
+  };
+
+  // ── SECTION 3 ──
+  window.runSection3 = async function() {
+    const killRate = parseInt(document.getElementById('killRate').value) / 100;
+    const specAChange = parseInt(document.getElementById('specAChange').value);
+    const totalReads = parseInt(document.getElementById('totalReads').value);
+
+    log('', 'info');
+    log(`> # Section 3: Compositional trap — antibiotic experiment`, 'prompt');
+    log(`> kill_rate <- ${killRate}; species_A_absolute_change <- ${specAChange}x`, 'prompt');
+
+    setPlotLoading('plot3');
+    try {
+      const code = `
+library(ggplot2)
+library(ggplot2)
+library(tidyr)
+kill_rate <- ${killRate}
+spec_a_multiplier <- ${specAChange >= 0 ? Math.pow(2, specAChange) : 1/Math.pow(2, Math.abs(specAChange))}
+
+abs_before <- c(A=100, B=300, C=400, D=200)
+survival <- 1 - kill_rate
+abs_after <- c(
+  A = abs_before["A"] * spec_a_multiplier,
+  B = abs_before["B"] * survival,
+  C = abs_before["C"] * survival,
+  D = abs_before["D"] * survival
+)
+
+rel_before <- abs_before / sum(abs_before) * 100
+rel_after <- abs_after / sum(abs_after) * 100
+
+df <- data.frame(
+  species = rep(c("A","B","C","D"), 2),
+  timepoint = rep(c("Before","After"), each=4),
+  absolute = c(as.numeric(abs_before), as.numeric(abs_after)),
+  relative = c(as.numeric(rel_before), as.numeric(rel_after))
+)
+df$timepoint <- factor(df$timepoint, levels=c("Before","After"))
+df$species <- factor(df$species, levels=c("A","B","C","D"))
+
+df_long <- tidyr::pivot_longer(df, cols=c(absolute, relative), names_to="measure", values_to="value")
+df_long$measure <- factor(df_long$measure, levels=c("absolute","relative"),
+  labels=c("Absolute abundance (true biology)","Relative abundance (sequencing output)"))
+
+pal <- c(A="#5b8fff", B="#ff6b6b", C="#52e0a0", D="#ffcc5c")
+
+p <- ggplot(df_long, aes(x=timepoint, y=value, fill=species)) +
+  geom_col(position="stack", width=0.55, alpha=0.9) +
+  facet_wrap(~measure, scales="free_y") +
+  scale_fill_manual(values=pal, name="Species") +
+  labs(
+    title=paste0("Compositional trap: ", round(kill_rate*100), "% kill, Species A x", round(spec_a_multiplier,1)),
+    subtitle="Left: true biology. Right: what sequencing shows.",
+    x=NULL, y="Abundance"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid.major=element_line(color="#e0e4ea",linewidth=0.4),
+    panel.grid.minor=element_blank(),
+    text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368", size=8),
+    strip.text=element_text(color="#202124",size=9,face="bold"),
+    strip.background=element_rect(fill="#e8eaed",color=NA),
+    plot.title=element_text(size=10,face="bold"),
+    plot.subtitle=element_text(size=8,color="#5f6368"),
+    legend.background=element_rect(fill="#ffffff",color=NA),
+    legend.text=element_text(color="#5f6368")
+  )
+print(p)
+`;
+      const img = await renderPlot(code);
+      showPlot('plot3', img);
+
+      const relBefore_A = (100 / 1000 * 100).toFixed(1);
+      const survOther = 1 - killRate;
+      const absAfterA = 100 * (specAChange >= 0 ? Math.pow(2, specAChange) : 1/Math.pow(2, Math.abs(specAChange)));
+      const totalAfter = absAfterA + 300*survOther + 400*survOther + 200*survOther;
+      const relAfter_A = (absAfterA / totalAfter * 100).toFixed(1);
+
+      log(`[1] Species A relative: ${relBefore_A}% → ${relAfter_A}% (+${(relAfter_A - relBefore_A).toFixed(1)}pp)`, 'result');
+      log(`[1] Species A absolute: 100 → ${absAfterA.toFixed(0)} (×${specAChange >= 0 ? Math.pow(2,specAChange).toFixed(1) : (1/Math.pow(2,Math.abs(specAChange))).toFixed(2)})`, 'result');
+      if (specAChange === 0) log(`⚠ No biological change in A — apparent increase is ENTIRELY compositional`, 'warn');
+    } catch(e) {
+      log('✗ Plot error: ' + e, 'error');
+      hidePlotLoading('plot3');
+    }
+  };
+
+  // ── SECTION 4 ──
+  window.runSection4 = async function() {
+    const nGenes = parseInt(document.getElementById('ng2').value);
+    const nRep = parseInt(document.getElementById('nrep').value);
+    const phi = parseInt(document.getElementById('phi').value) / 10;
+    const mode = document.getElementById('plotMode4').value;
+
+    log('', 'info');
+    log(`> # Section 4: Count distributions and overdispersion`, 'prompt');
+    log(`> n_genes <- ${nGenes}; n_rep <- ${nRep}; phi <- ${phi}`, 'prompt');
+
+    setPlotLoading('plot4');
+
+    let code = '';
+    if (mode === 'mv') {
+      code = `
+library(ggplot2)
+set.seed(123)
+n_genes <- min(${nGenes}, 800)
+n_rep   <- ${nRep}
+phi     <- ${phi}
+
+# ── Key: uniform spread on log scale guarantees plenty of truly
+#    lowly expressed genes (the left side where the fan lives) ──
+true_means <- exp(seq(log(0.3), log(800), length.out = n_genes))
+
+# Two conditions — identical true expression (no DE)
+countA <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means,n_rep), size=1/phi), nrow=n_genes)
+countB <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means,n_rep), size=1/phi), nrow=n_genes)
+
+# Proper CPM normalisation before log2 — without this the pseudocount
+# +1 compresses variance at low counts and kills the fan shape
+lib_a <- pmax(colSums(countA), 1)
+lib_b <- pmax(colSums(countB), 1)
+cpmA  <- log2(t(t(countA) / lib_a) * 1e6 + 0.5)
+cpmB  <- log2(t(t(countB) / lib_b) * 1e6 + 0.5)
+
+M_raw <- rowMeans(cpmB) - rowMeans(cpmA)
+A     <- (rowMeans(cpmA) + rowMeans(cpmB)) / 2
+
+# ── EB shrinkage: variance of M decreases with expression level.
+#    Estimate the local SD envelope from the data, then shrink each
+#    M toward zero proportionally — high-expression genes barely move,
+#    low-expression genes are pulled strongly toward the zero line ──
+df_env <- data.frame(A=A, absM=abs(M_raw))
+df_env <- df_env[order(df_env$A), ]
+window <- max(20, floor(n_genes * 0.12))
+local_sd <- sapply(seq_len(n_genes), function(i) {
+  idx <- max(1,i-window):min(n_genes,i+window)
+  sd(df_env$absM[idx])
+})
+# Prior SD: the expected SD for a well-behaved gene at each expression level
+# approaches a floor set by the biological overdispersion
+prior_sd <- pmin(local_sd, phi / sqrt(n_rep) + 0.15)
+# Shrinkage factor: 0 = fully shrunk, 1 = no change
+shrink_w <- prior_sd^2 / (prior_sd^2 + local_sd^2)
+M_shrunk <- M_raw[order(A)] * shrink_w
+# Restore original gene order
+restore <- order(order(A))
+M_shrunk <- M_shrunk[restore]
+
+df <- rbind(
+  data.frame(A=A, M=M_raw,    panel="Before EB shrinkage  (plain log-CPM t-test)"),
+  data.frame(A=A, M=M_shrunk, panel="After EB shrinkage  (DESeq2 / limma-voom style)")
+)
+df$panel <- factor(df$panel, levels=c(
+  "Before EB shrinkage  (plain log-CPM t-test)",
+  "After EB shrinkage  (DESeq2 / limma-voom style)"))
+
+p <- ggplot(df, aes(x=A, y=M)) +
+  geom_point(alpha=0.18, size=0.8, color="#1a73e8") +
+  geom_hline(yintercept=0,  color="#d93025", linewidth=0.8, linetype="dashed") +
+  geom_hline(yintercept= 1, color="#e37400", linewidth=0.4, linetype="dotted") +
+  geom_hline(yintercept=-1, color="#e37400", linewidth=0.4, linetype="dotted") +
+  geom_smooth(method="loess", span=0.3, se=TRUE, color="#188038",
+              fill="#188038", alpha=0.12, linewidth=0.7) +
+  facet_wrap(~panel) +
+  labs(
+    title    = paste0("MA plot: fold change fan (no true DE)  |  phi=", phi, "  |  n=", n_rep, " reps"),
+    subtitle  = "Green envelope = local variance trend. Left = low expression (wide fan). Right = high (tight band). Orange lines = \u00b11 FC.",
+    x = "A: mean log\u2082-CPM  \u2190 lowly expressed  |  highly expressed \u2192",
+    y = "M: log\u2082 fold change"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background  = element_rect(fill="#ffffff", color=NA),
+    panel.background = element_rect(fill="#f1f3f4", color=NA),
+    panel.grid.major = element_line(color="#e0e4ea", linewidth=0.4),
+    panel.grid.minor = element_blank(),
+    text             = element_text(color="#202124"),
+    axis.text        = element_text(color="#5f6368", size=8),
+    axis.title       = element_text(size=8),
+    strip.text       = element_text(color="#202124", size=9, face="bold"),
+    strip.background = element_rect(fill="#e8eaed", color=NA),
+    plot.title       = element_text(size=10, face="bold"),
+    plot.subtitle    = element_text(size=7.5, color="#5f6368")
+  )
+print(p)
+`;
+    } else if (mode === 'mv_classic') {
+      code = `
+library(ggplot2)
+set.seed(123)
+n_genes <- ${nGenes}
+n_rep   <- ${nRep}
+phi     <- ${phi}
+true_means <- exp(rnorm(n_genes, mean = 3, sd = 2))
+gene_vars  <- sapply(true_means, function(mu) {
+  var(rnbinom(n_rep, mu = mu, size = 1/phi))
+})
+df <- data.frame(mean = true_means, variance = gene_vars)
+df <- df[df$mean > 0.5 & df$mean < 5000, ]
+
+p <- ggplot(df, aes(x = log10(mean + 1), y = log10(variance + 1))) +
+  geom_point(alpha = 0.3, color = "#5b8fff", size = 1.2) +
+  geom_abline(slope = 1, intercept = 0, color = "#ff6b6b",
+              linewidth = 0.9, linetype = "dashed") +
+  annotate("text",
+    x = max(log10(df$mean + 1)) * 0.62,
+    y = max(log10(df$mean + 1)) * 0.52,
+    label = "Poisson: variance = mean",
+    color = "#ff6b6b", size=2.5) +
+  labs(
+    title    = paste0("Mean-Variance relationship — overdispersion (phi=", phi, ")"),
+    subtitle = paste0(nrow(df), " genes \u00d7 ", n_rep,
+      " replicates | Points above red line: variance > mean (overdispersed)"),
+    x = "log\u2081\u2080 (Mean count + 1)",
+    y = "log\u2081\u2080 (Variance + 1)"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background  = element_rect(fill = "#ffffff", color = NA),
+    panel.background = element_rect(fill = "#f1f3f4", color = NA),
+    panel.grid.major = element_line(color = "#e0e4ea", linewidth = 0.4),
+    panel.grid.minor = element_blank(),
+    text             = element_text(color = "#202124"),
+    axis.text        = element_text(color = "#5f6368", size=8),
+    plot.title       = element_text(size=10, face = "bold"),
+    plot.subtitle    = element_text(size=8, color = "#5f6368")
+  )
+print(p)
+`;
+    } else if (mode === 'compare') {
+      code = `
+library(ggplot2)
+set.seed(99)
+n_genes <- min(${nGenes}, 300)
+n_rep   <- ${nRep}
+phi     <- ${phi}
+n_half  <- floor(n_genes / 2)
+
+true_means_A <- exp(rnorm(n_genes, 3, 1.5))
+true_fc      <- c(rep(1.5, n_half), rep(1, n_genes - n_half))
+true_means_B <- true_means_A * true_fc
+
+# Group B sequenced 1.5x deeper — a realistic between-batch variation.
+# Level 1 (raw counts) mistakes depth for biology.
+# Level 2 (log-CPM) normalises first, then tests.
+depth_B <- 1.5
+countA <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means_A, n_rep),          size=1/phi), nrow=n_genes)
+countB <- matrix(rnbinom(n_genes*n_rep, mu=rep(true_means_B*depth_B, n_rep),  size=1/phi), nrow=n_genes)
+
+truly_de <- c(rep(TRUE, n_half), rep(FALSE, n_genes - n_half))
+thresh   <- 0.05
+
+# Level 1: t-test on raw counts — no library-size correction
+p_raw <- sapply(1:n_genes, function(i) {
+  a <- as.numeric(countA[i,]); b <- as.numeric(countB[i,])
+  if (sd(c(a,b)) == 0) return(1)
+  tryCatch(t.test(a,b)$p.value, error=function(e) 1)
+})
+
+# Level 2: t-test on log-CPM — normalise each sample to its library size
+lib_a  <- pmax(colSums(countA), 1)
+lib_b  <- pmax(colSums(countB), 1)
+lcpm_A <- log2(t(t(countA)/lib_a)*1e6 + 1)
+lcpm_B <- log2(t(t(countB)/lib_b)*1e6 + 1)
+p_log  <- sapply(1:n_genes, function(i) {
+  a <- as.numeric(lcpm_A[i,]); b <- as.numeric(lcpm_B[i,])
+  if (sd(c(a,b)) == 0) return(1)
+  tryCatch(t.test(a,b)$p.value, error=function(e) 1)
+})
+
+tp1 <- sum(p_raw < thresh &  truly_de)
+fp1 <- sum(p_raw < thresh & !truly_de)
+tp2 <- sum(p_log < thresh &  truly_de)
+fp2 <- sum(p_log < thresh & !truly_de)
+expected_fp <- round((n_genes - n_half) * thresh)
+
+df <- data.frame(
+  level  = rep(c("Level 1\nRaw counts t-test\n(no normalisation)",
+                 "Level 2\nlog-CPM t-test\n(library-size normalised)"), each=2),
+  result = rep(c("True positives\n(real DE found)",
+                 "False positives\n(non-DE called significant)"), 2),
+  n      = c(tp1, fp1, tp2, fp2)
+)
+df$level  <- factor(df$level, levels=c(
+  "Level 1\nRaw counts t-test\n(no normalisation)",
+  "Level 2\nlog-CPM t-test\n(library-size normalised)"))
+df$result <- factor(df$result, levels=c(
+  "True positives\n(real DE found)",
+  "False positives\n(non-DE called significant)"))
+
+p <- ggplot(df, aes(x=level, y=n, fill=result)) +
+  geom_col(position="dodge", width=0.62, alpha=0.9) +
+  geom_text(aes(label=n), position=position_dodge(width=0.62),
+            vjust=-0.5, color="#202124", size=3.0, fontface="bold") +
+  geom_hline(yintercept=expected_fp, color="#ffcc5c",
+             linewidth=0.7, linetype="dashed", alpha=0.85) +
+  annotate("text", x=0.55, y=expected_fp + max(c(fp1,fp2))*0.07,
+           label=paste0("Expected FP by chance: ", expected_fp),
+           color="#ffcc5c", size=2.5, hjust=0) +
+  scale_fill_manual(
+    values=c("True positives\n(real DE found)"="#52e0a0",
+             "False positives\n(non-DE called significant)"="#ff6b6b"),
+    name=NULL) +
+  labs(
+    title="Library-size imbalance: Level 1 mistakes depth for biology",
+    subtitle=paste0(
+      "Group B sequenced 1.5\u00d7 deeper  |  ",
+      n_half," truly DE  |  ",n_genes-n_half," non-DE  |  n=",n_rep,"  |  phi=",phi),
+    x=NULL, y="Number of genes called significant (p < 0.05)"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background   = element_rect(fill="#ffffff", color=NA),
+    panel.background  = element_rect(fill="#f1f3f4", color=NA),
+    panel.grid.major  = element_line(color="#e0e4ea", linewidth=0.4),
+    panel.grid.minor  = element_blank(),
+    text              = element_text(color="#202124"),
+    axis.text         = element_text(color="#5f6368", size=8),
+    axis.text.x       = element_text(size=8, color="#202124"),
+    plot.title        = element_text(size=10, face="bold"),
+    plot.subtitle     = element_text(size=8, color="#5f6368"),
+    legend.background = element_rect(fill="#ffffff", color=NA),
+    legend.text       = element_text(color="#5f6368", size=8),
+    legend.position   = "bottom"
+  )
+print(p)
+`;
+    } else if (mode === 'shrink') {
+      code = `
+library(ggplot2)
+set.seed(123)
+n_genes <- min(${nGenes}, 400)
+n_rep <- ${nRep}
+phi <- ${phi}
+
+true_means <- exp(rnorm(n_genes, mean=3, sd=2))
+true_disp  <- phi + 1 / (true_means + 1)
+
+raw_disp <- sapply(1:n_genes, function(i) {
+  counts <- rnbinom(n_rep, mu=true_means[i], size=1/true_disp[i])
+  m <- mean(counts)
+  v <- var(counts)
+  if(is.na(v) || m < 0.5 || v <= m) return(NA)
+  (v - m) / m^2
+})
+
+ok <- !is.na(raw_disp) & raw_disp > 0 & true_means > 0.3 & true_means < 10000
+df_raw <- data.frame(mean=true_means[ok], raw=raw_disp[ok])
+
+trend_val <- tryCatch({
+  fit <- loess(log(raw) ~ log(mean), data=df_raw, span=0.5)
+  exp(predict(fit, newdata=df_raw))
+}, error=function(e) rep(median(df_raw$raw, na.rm=TRUE), nrow(df_raw)))
+df_raw$trend <- pmax(trend_val, 1e-4)
+
+prior_df <- 5
+obs_df   <- n_rep - 1
+w <- prior_df / (prior_df + obs_df)
+df_raw$shrunk <- exp(w * log(df_raw$trend) + (1 - w) * log(df_raw$raw))
+
+df_plot <- rbind(
+  data.frame(mean=df_raw$mean, disp=df_raw$raw,    type="Raw per-gene estimate"),
+  data.frame(mean=df_raw$mean, disp=df_raw$shrunk, type="EB-shrunk (moderated)"),
+  data.frame(mean=df_raw$mean, disp=df_raw$trend,  type="Genome-wide trend (prior)")
+)
+df_plot$type <- factor(df_plot$type,
+  levels=c("Raw per-gene estimate","Genome-wide trend (prior)","EB-shrunk (moderated)"))
+
+p <- ggplot() +
+  geom_point(data=subset(df_plot, type=="Raw per-gene estimate"),
+             aes(x=log10(mean+1), y=log10(disp+0.001)),
+             alpha=0.22, color="#ff6b6b", size=1) +
+  geom_point(data=subset(df_plot, type=="EB-shrunk (moderated)"),
+             aes(x=log10(mean+1), y=log10(disp+0.001)),
+             alpha=0.45, color="#52e0a0", size=1) +
+  geom_smooth(data=subset(df_plot, type=="Genome-wide trend (prior)"),
+              aes(x=log10(mean+1), y=log10(disp+0.001)),
+              color="#ffcc5c", linewidth=1.3, se=FALSE, method="loess", span=0.6) +
+  annotate("text", x=0.3, y=max(log10(df_raw$raw+0.001))*0.93,
+           label="Red = raw (noisy, 2 df)\nGreen = shrunk toward trend\nYellow = genome-wide prior",
+           color="#5f6368", size=2.5, hjust=0) +
+  labs(
+    title=paste0("EB dispersion shrinkage — n=", n_rep, " replicates, phi=", phi),
+    subtitle="Core DESeq2 / edgeR mechanism: each gene borrows strength from all others",
+    x="log10(Mean expression + 1)", y="log10(Dispersion + 0.001)"
+  ) +
+  theme_minimal(base_size=9) +
+  theme(
+    plot.background=element_rect(fill="#ffffff",color=NA),
+    panel.background=element_rect(fill="#f1f3f4",color=NA),
+    panel.grid.major=element_line(color="#e0e4ea",linewidth=0.4),
+    panel.grid.minor=element_blank(),
+    text=element_text(color="#202124"),
+    axis.text=element_text(color="#5f6368", size=8),
+    plot.title=element_text(size=10,face="bold"),
+    plot.subtitle=element_text(size=8,color="#5f6368")
+  )
+print(p)
+`;
+    }
+
+    try {
+      const img = await renderPlot(code);
+      showPlot('plot4', img);
+      log(`[1] Overdispersion φ=${phi} — variance exceeds mean by ~${phi}x for typical genes`, 'result');
+      if (mode === 'mv') {
+        log(`[1] Left panel: no true DE — all scatter is noise. Fan widens at left (low expression)`, 'warn');
+        log(`[1] Right panel: EB shrinkage collapses the fan. Low-expression FCs pulled toward 0`, 'result');
+        log(`[1] Try increasing phi or reducing replicates — the fan gets wider`, 'info');
+      }
+      if (mode === 'compare') {
+        log(`[1] Group B simulated at 2× depth of Group A — depth not biology`, 'warn');
+        log(`[1] Level 1 false positives: every non-DE gene looks upregulated in deeper group`, 'warn');
+        log(`[1] Level 2 normalises to CPM before testing — false positives collapse`, 'result');
+      }
+      if (mode === 'mv_classic') {
+        log(`[1] Points above red Poisson line = overdispersion (variance > mean)`, 'result');
+        log(`[1] Overdispersion grows at low expression — making t-test variance estimates least reliable there`, 'warn');
+      }
+      if (mode === 'shrink') {
+        log(`[1] Red = raw per-gene dispersions (only ${nRep-1} df each)`, 'warn');
+        log(`[1] Green = EB-shrunk estimates pulled toward genome-wide trend`, 'result');
+        log(`[1] Reduce replicates to 3 to see how much wider the red scatter becomes`, 'info');
+      }
+    } catch(e) {
+      log('✗ Plot error: ' + e, 'error');
+      hidePlotLoading('plot4');
+    }
+  };
+
+  // ── Custom code runner ──
+  window.runCustomCode = async function() {
+    const code = document.getElementById('codeInput').value.trim();
+    if (!code) return;
+    log('', 'info');
+    log('> ' + code.split('\n')[0] + (code.includes('\n') ? ' ...' : ''), 'prompt');
+
+    const shelter = await new webR.Shelter();
+    try {
+      const capture = await shelter.captureR(code, {
+        captureGraphics: { width: PLOT_W, height: PLOT_H, bg: 'white' }
+      });
+
+      for (const line of capture.output || []) {
+        if (line.type === 'stdout') log(line.data, 'result');
+        else if (line.type === 'stderr') log(line.data, 'warn');
+      }
+
+      if (capture.images && capture.images.length > 0) {
+        const oc = document.createElement('canvas');
+        oc.width = CANVAS_W; oc.height = CANVAS_H;
+        const ctx = oc.getContext('2d');
+        ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+        for (const bm of capture.images) {
+          ctx.drawImage(bm, 0, 0, CANVAS_W, CANVAS_H);
+          bm.close();
+        }
+        const activeSection = document.querySelector('.section-page.active');
+        const plotEl = activeSection ? activeSection.querySelector('.plot-area') : null;
+        if (plotEl) {
+          plotEl.innerHTML = '';
+          const imgEl = document.createElement('img');
+          imgEl.src = oc.toDataURL('image/png');
+          imgEl.style.width = '100%';
+          plotEl.appendChild(imgEl);
+          log('✓ Plot rendered', 'result');
+        }
+      }
+    } catch(e) {
+      log('✗ ' + (e.message || e), 'error');
+    } finally {
+      shelter.purge();
+    }
+  };
+
+  // ── Plot rendering — correct webR captureR pattern ──
+  // Per official docs (webR ≥ 0.3.1):
+  //   - captureR() with captureGraphics opens the canvas device internally
+  //   - result.images is ImageBitmap[]  (NOT strings)
+  //   - The display canvas must be 2× device dims (webR uses 2x HiDPI scaling)
+  //   - Device dims 400×300 → canvas 800×600
+  const PLOT_W = 480, PLOT_H = 320; // R device size in CSS points
+  const CANVAS_W = PLOT_W * 2, CANVAS_H = PLOT_H * 2; // actual pixel canvas
+
+  async function renderPlot(rCode) {
+    // rCode must end with print(p) or a direct ggplot call.
+    // captureR with captureGraphics handles the canvas device automatically.
+    const shelter = await new webR.Shelter();
+    let images = [];
+    let outputLines = [];
+
+    try {
+      const capture = await shelter.captureR(rCode, {
+        captureGraphics: { width: PLOT_W, height: PLOT_H, bg: 'white' },
+        withAutoprint: true
+      });
+      images = capture.images || [];
+      outputLines = capture.output || [];
+    } catch(e) {
+      throw new Error(e.message || String(e));
+    } finally {
+      shelter.purge();
+    }
+
+    for (const line of outputLines) {
+      if (line.type === 'stdout') log(line.data, 'info');
+      else if (line.type === 'stderr' && !line.data.match(/^(Loading|Warning.*no non-missing)/)) log(line.data, 'warn');
+    }
+
+    if (images.length === 0) {
+      throw new Error('No plot returned — see console for R errors');
+    }
+
+    const oc = document.createElement('canvas');
+    oc.width  = CANVAS_W;
+    oc.height = CANVAS_H;
+    const ctx = oc.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    for (const bitmap of images) {
+      ctx.drawImage(bitmap, 0, 0, CANVAS_W, CANVAS_H);
+      bitmap.close();
+    }
+    return oc.toDataURL('image/png');
+  }
+
+  function setPlotLoading(id) {
+    document.getElementById(id).innerHTML = '<div class="spinner" style="display:block"></div>';
+  }
+  function hidePlotLoading(id) {
+    document.getElementById(id).innerHTML = '<div class="plot-placeholder"><div class="icon">⚠️</div>Error generating plot — check console</div>';
+  }
+  function showPlot(id, src) {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = src;
+    img.style.width = '100%';
+    el.appendChild(img);
+  }
+</script>
+
+<script>
+  // ── UI helpers (synchronous) ──
+  function switchSection(idx) {
+    document.querySelectorAll('.section-page').forEach((p,i) => {
+      p.classList.toggle('active', i === idx);
+    });
+    document.querySelectorAll('.section-nav button').forEach((b,i) => {
+      b.classList.toggle('active', i === idx);
+    });
+  }
+
+  function updateLabel(sliderId, labelId, suffix) {
+    document.getElementById(labelId).textContent = document.getElementById(sliderId).value + suffix;
+  }
+  function updatePropLabel() {
+    const v = parseInt(document.getElementById('trueProp').value);
+    document.getElementById('v-prop').textContent = (v / 10000).toFixed(4) + '%';
+  }
+  function updateKillLabel() {
+    document.getElementById('v-kill').textContent = document.getElementById('killRate').value + '%';
+  }
+  function updateSpecALabel() {
+    const v = parseInt(document.getElementById('specAChange').value);
+    document.getElementById('v-specA').textContent = v >= 0 ? `+${Math.pow(2,v).toFixed(1)}×` : `÷${Math.pow(2,Math.abs(v)).toFixed(1)}×`;
+  }
+  function updatePhiLabel() {
+    document.getElementById('v-phi').textContent = (parseInt(document.getElementById('phi').value)/10).toFixed(1);
+  }
+  function updatePlatformInfo() {}
+
+  function toggleAnswer(id) {
+    const box = document.getElementById(id);
+    box.classList.toggle('open');
+    const btn = box.previousElementSibling;
+    btn.textContent = box.classList.contains('open') ? 'Hide answers' : 'Reveal answers';
+  }
+
+  // Keyboard shortcut
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      if (document.activeElement.id === 'codeInput') {
+        window.runCustomCode && window.runCustomCode();
+      }
+    }
+  });
+
+  // Init label displays
+  updatePropLabel();
+  updateKillLabel();
+  updateSpecALabel();
+  updatePhiLabel();
+</script>
+
+</body>
+</html>
