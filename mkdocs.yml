@@ -17,9 +17,9 @@ nav:
   - Module 3:
     - Module3: Day1/module3.md
     - Randomisation: Day1/module3-1.md
-    - Sparsity and zero inflation: Day1/module3-2.md
-    - Compositionality: Day1/module3-3.md
-    - Classical statistics struggle with omics: Day1/module3-4.md
+    - Replication: Day1/module3-2.md
+    - Sample Size: Day1/module3-3.md
+    - Study Design: Day1/module3-4.md
   - Module4: Day2/module4.md
   - Module5: Day2/module5.md
   - Module6: Day2/module6.md
