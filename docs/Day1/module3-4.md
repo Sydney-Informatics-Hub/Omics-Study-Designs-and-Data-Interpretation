@@ -57,9 +57,9 @@ Consider 20 samples (10 cases, 10 controls) processed in two batches.
   The batch effect can now be estimated from within batch contrasts and 
   adjusted for during analysis.
 
-![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_01.jpg){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
 
-![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_02.jpg){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
   
 
 Importantly, the corrected design requires no additional cost or samples,
@@ -70,9 +70,9 @@ only that sample allocation is planned in advance.
 ### Reference samples as anchors
 
 In platforms with substantial run to run variability (especially mass 
-spectrometry), it is common to include a **shared reference sample** in each 
-batch. This is typically a pooled mixture derived from all study samples 
-and measured repeatedly throughout the run [VERFIY WITH SOMEONE EXPERT ON MASS SPEC].
+spectrometry), ?????it is common?? to include a **shared reference sample** in each 
+batch?????. This is typically a pooled mixture derived from all study samples 
+and measured repeatedly throughout the run [NOTE FOR MYSELF: VERFIY WITH SOME  ON MASS SPEC].
 
 The reference serves two purposes:
 - It provides a direct measure of technical drift across batches  
