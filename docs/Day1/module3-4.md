@@ -1,4 +1,4 @@
-## Section 4 — Blocking: Designing Batch Effects Out
+## Blocking: Designing Batch Effects Out
 
 !!! info "Learning objectives"
     By the end of this section, participants will be able to:  

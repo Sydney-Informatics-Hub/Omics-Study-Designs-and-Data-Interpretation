@@ -1,4 +1,4 @@
-# Module 3 — Experimental Design Fundamentals for Omics
+# Module 3 : Experimental Design Fundamentals for Omics
 
 Module 3 focuses on decisions that have to be made before sequencing. Once data is generated, you can model around problems, but you rarely get back to what you intended to measure.
 
