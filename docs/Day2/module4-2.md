@@ -145,21 +145,37 @@ transformation, CLR in microbiome data integrates compositional
 correction into the transformation itself. Always check what the
 tool expects before processing.
 
-!!! warning "Order matters — and not every workflow needs all three steps"
-    Scaling before normalising does not remove depth differences — it
+!!! warning "Order matters, and not every workflow needs all three steps"
+    Scaling before normalising does not remove depth differences, it
     standardises them, locking in the technical variation that
     normalisation was meant to remove.
 
     RNA-seq differential expression tools (DESeq2, edgeR) normalise
-    internally — providing pre-normalised values will invalidate the
-    model assumptions and produce unreliable results. Scaling before
-    PCA is standard in metabolomics but generally not applied in
-    RNA-seq. Always check what the tool expects as input.
+    internally, providing pre-normalised values will invalidate the
+    model assumptions and produce unreliable results. Feature level
+    scaling is generally not applied in RNA-seq because the statistical
+    models account for the mean-variance relationship directly, and
+    rlog/VST already stabilise variance across the expression range
+    for visualisation.
 
-!!! info "The word 'scaling' means different things by platform"
-    In metabolomics: Pareto or auto-scaling applied before PCA.
-    In scRNA-seq: often z-scoring genes across cells after variance
-    stabilisation — a different operation for a different purpose.
-    When reading a methods section, check what is actually being
-    divided by what.
+    In metabolomics, features are chemically heterogeneous molecules
+    measured across vastly different concentration ranges, scaling is
+    often needed so that PCA is less dominated by variables with the
+    largest absolute variance or measurement scale. Always check what
+    the tool expects as input.
+
+!!! info "The word 'scaling' means different things depending on the platform"
+    In metabolomics, scaling means adjusting each feature by its
+    variability (Pareto or auto-scaling) before PCA, to stop
+    high-variance metabolites dominating the analysis.
+
+    In scRNA-seq, scaling usually means z-scoring each gene across
+    cells, centering and standardising gene expression so that all
+    genes contribute equally to clustering, regardless of their
+    expression level.
+
+    Same word, different operation, different purpose. When reading
+    a methods section, always check what is actually being divided
+    by what.
+---
 
