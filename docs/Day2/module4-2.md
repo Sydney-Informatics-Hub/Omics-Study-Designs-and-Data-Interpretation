@@ -82,3 +82,84 @@ For scRNA-seq, the picture depends on the protocol:
   generally not recommended for standard gene level analyses 
   with these protocols, though some residual bias can still exist.
 
+### Normalisation, transformation, and scaling : what each one does
+
+### Three terms, three different jobs
+
+These terms appear throughout omics methods sections and are frequently
+used interchangeably. They should not be, each addresses a different
+problem.
+
+**Normalisation** makes samples technically comparable by correcting
+for the depth, compositional, and platform-specific differences
+described above. It operates between samples.
+
+**Transformation: is the data the right shape?**
+
+This was introduced in Section 1 but worth stating precisely here
+in relation to scaling. Raw count data is heavily skewed: a handful
+of highly expressed genes have counts in the tens of thousands, while
+most genes sit near zero. This extreme range causes problems for
+statistical models and visualisation, the few dominant genes
+overwhelm everything else.
+
+Log2 transformation compresses this range. A gene with 50,000 counts
+becomes ~15.6; a gene with 50 counts becomes ~5.6. The 1000 fold
+difference in raw counts becomes a 3 unit difference on the log2
+scale. The distribution becomes more symmetric, and both genes are
+now visible in the same plot.
+
+Log2 transformation partially reduces the dominance of highly
+expressed genes, but it does not eliminate it. After log2, a highly
+variable gene still has higher variance than a stable one. That is
+where scaling comes in.
+
+**Scaling: does every feature get a fair hearing in PCA?**
+
+PCA finds the directions of greatest variation in the data and uses
+them as axes. This means it is driven by whichever features vary the
+most, not necessarily the most biologically important ones.
+
+In metabolomics, glucose measured in **micromolar** concentrations will
+have much larger absolute variance than leucine measured in **nanomolar**
+concentrations; not because glucose is more biologically interesting,
+but simply because its values are larger. Without scaling, glucose
+dominates every PCA axis while leucine barely contributes, regardless
+of what the biology is actually doing.
+
+**Pareto scaling** divides each feature by the square root of its standard
+deviation. **Auto-scaling** divides by the full standard deviation. Both
+reduce the dominance of high-abundance genes/proteins, so that PCA is less
+driven by absolute measurement scale.
+
+| Step | Fixes | Does not fix |
+|---|---|---|
+| **Normalise** | Between sample depth and technical differences | Distribution shape; unequal feature variance  |
+| **Transform** | Skewed distribution; compresses extreme values | Between sample technical differences; unequal feature variance |
+| **Scale** | Unequal feature variance for multivariate analysis | Between sample technical differences; distribution shape |
+
+In many exploratory omics workflows this sequence follows from the
+logic of each step. Some tools collapse steps, DESeq2 normalises
+internally on raw counts, rlog and VST combine normalisation and
+transformation, CLR in microbiome data integrates compositional
+correction into the transformation itself. Always check what the
+tool expects before processing.
+
+!!! warning "Order matters — and not every workflow needs all three steps"
+    Scaling before normalising does not remove depth differences — it
+    standardises them, locking in the technical variation that
+    normalisation was meant to remove.
+
+    RNA-seq differential expression tools (DESeq2, edgeR) normalise
+    internally — providing pre-normalised values will invalidate the
+    model assumptions and produce unreliable results. Scaling before
+    PCA is standard in metabolomics but generally not applied in
+    RNA-seq. Always check what the tool expects as input.
+
+!!! info "The word 'scaling' means different things by platform"
+    In metabolomics: Pareto or auto-scaling applied before PCA.
+    In scRNA-seq: often z-scoring genes across cells after variance
+    stabilisation — a different operation for a different purpose.
+    When reading a methods section, check what is actually being
+    divided by what.
+
