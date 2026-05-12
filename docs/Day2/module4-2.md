@@ -58,18 +58,27 @@ methods used to correct it differ because the data structure differs.
 
 **Gene length bias (sequencing platforms)**
 
-In RNA-seq, longer genes accumulate more reads simply because they 
-offer more base pairs for sequencing fragments to map to, not because 
-they are more highly expressed. A 10kb gene and a 1kb gene expressed 
-at identical levels will produce roughly 10× more reads for the longer 
-gene. This makes raw counts and count per million (CPM) values unsuitable for comparing 
-expression levels between different genes within the same sample.
+In standard bulk RNA-seq, longer transcripts generate more reads 
+because sequencing fragments are sampled across the transcript body, 
+read count is approximately proportional to both transcript abundance 
+and transcript length. A 10kb gene and a 1kb gene expressed at 
+identical levels will produce roughly 10× more reads for the longer 
+gene under uniform coverage. This makes raw counts and CPM values 
+unsuitable for comparing expression levels between different genes 
+within the same sample.
 
-This bias is specific to sequencing platforms where reads distribute 
-along the full transcript length. It does not apply to proteomics, 
-metabolomics, or microbiome data. It also does not apply to most 
-scRNA-seq protocols, 3' end capture methods (10x Chromium, Drop-seq) 
-sequence only the end of transcripts, so reads do not accumulate 
-proportionally with gene length. Applying length correction to 
-3' scRNA-seq data is incorrect.
+This bias applies to assays/platform where reads are distributed across 
+transcript length. It does not apply to proteomics, metabolomics, 
+or microbiome data.
+
+For scRNA-seq, the picture depends on the protocol:
+
+- **Full-length protocols** (e.g. Smart-seq2) exhibit gene length 
+  bias similar to bulk RNA-seq, length correction is appropriate.
+- **UMI-based 3′/5′ capture protocols** (e.g. 10x Chromium, 
+  Drop-seq) show substantially reduced length bias because 
+  sequencing is concentrated near transcript ends rather than 
+  distributed across the full transcript. Length correction is 
+  generally not recommended for standard gene level analyses 
+  with these protocols, though some residual bias can still exist.
 
