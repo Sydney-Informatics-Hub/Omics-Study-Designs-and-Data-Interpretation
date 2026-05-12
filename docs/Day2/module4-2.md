@@ -56,3 +56,20 @@ introduce systematic shifts in measured abundance across runs. The
 problem is **structurally identical to sequencing depth variation**; the
 methods used to correct it differ because the data structure differs.
 
+**Gene length bias (sequencing platforms)**
+
+In RNA-seq, longer genes accumulate more reads simply because they 
+offer more base pairs for sequencing fragments to map to, not because 
+they are more highly expressed. A 10kb gene and a 1kb gene expressed 
+at identical levels will produce roughly 10× more reads for the longer 
+gene. This makes raw counts and count per million (CPM) values unsuitable for comparing 
+expression levels between different genes within the same sample.
+
+This bias is specific to sequencing platforms where reads distribute 
+along the full transcript length. It does not apply to proteomics, 
+metabolomics, or microbiome data. It also does not apply to most 
+scRNA-seq protocols, 3' end capture methods (10x Chromium, Drop-seq) 
+sequence only the end of transcripts, so reads do not accumulate 
+proportionally with gene length. Applying length correction to 
+3' scRNA-seq data is incorrect.
+
