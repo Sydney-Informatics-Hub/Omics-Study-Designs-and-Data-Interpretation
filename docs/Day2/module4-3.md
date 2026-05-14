@@ -1,4 +1,4 @@
- ### Choosing a normalisation approach
+### Choosing a normalisation approach
 
 There is no universal normalisation method. The correct choice depends
 on the platform, the experimental design, and the downstream analysis.
