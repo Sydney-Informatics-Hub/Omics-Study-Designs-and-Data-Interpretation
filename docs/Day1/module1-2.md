@@ -2,8 +2,11 @@
 ## When Omics Studies Fail — and Why It Matters
 
 !!! info "Learning objectives"
-    By the end of this module, participants will be able to:
-
+    
+    - Identify common failure modes in omics study design and classify each by recoverability
+    - Explain why most fatal flaws are introduced at the design stage but only become visible later
+    - Recognise when a platform choice, sample size, metadata decision, or control strategy creates an unrecoverable flaw
+    - Apply the recoverable / limitable / fatal framework to a real or hypothetical study design
 
 Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages — from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as 
 important as understanding the technologies themselves.

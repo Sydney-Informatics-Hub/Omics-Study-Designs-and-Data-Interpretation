@@ -1,4 +1,4 @@
-## Section 2: Sparsity and zero inflation — not all zeros mean the same thing
+## Sparsity and zero inflation: not all zeros mean the same thing
 
 !!! info "Learning objectives" 
 

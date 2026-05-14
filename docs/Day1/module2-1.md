@@ -1,214 +1,223 @@
-# Module 2 : Data types and core statistical properties
+# Module 2 : Core statistical problems
 
-!!! info "Learning objectives" 
+!!! info "Learning objectives"
 
-    - Describe what omics technologies measure and how they differ from traditional biological experiments
-    - Explain the relationship between genomics, transcriptomics, proteomics, and metabolomics as layers of biological information
-    - Distinguish between sequences, counts, and abundances as data types and explain why they require different analytical approaches
-    - Explain why a sequencing count is a relative measurement rather than an absolute one, and describe the consequences of this for study design and interpretation
+    By the end of this module, participants will be able to:
+
+    - Explain why omics measurements are relative rather than absolute and describe what this means for cross-sample comparison
+    - Identify the primary statistical challenge associated with each major omics data type and connect it to the biological or technical process that causes it
+    - Distinguish between a sampling zero and a biological zero, and explain why this distinction affects interpretation
+    - Recognise when depth, signal, or composition confounding is likely to produce misleading results, and identify which problems are recoverable at the analysis stage
+    - Describe why the same statistical approach cannot be applied uniformly across omics platforms
+
+## The problem every omics platform shares
+
+Before looking at individual data types, it helps to state the problem they all have in common.
+
+In most everyday measurements, numbers are absolute. A patient who weighs 80 kg weighs 80 kg regardless of who else is in the room or how many measurements were taken that day. The value stands on its own.
+
+Omics measurements don't work like that. Every omics instrument operates under a finite technical budget, a total number of reads, a total ion signal, a total fluorescence intensity, and what you observe for any one feature is always a share of that total. 
+
+!!! danger "The core problem"
+    **An omics measurement is not an absolute quantity. It is a proportion of a technical total that varies between samples.**
     
-When working with omics datasets, biological experiments get infinitely more complex than wet lab experiments. 
+    Because that total differs between samples — sometimes by chance, sometimes systematically, raw numbers cannot be compared directly across samples without first accounting for how they were generated.
 
-The most immediate difference is scale. Where a traditional wet lab experiment might measure one gene, one protein, or one metabolite at a time, an omics experiment measures an entire class of biological molecules simultaneously. A single RNAseq experiment doesn't measure one gene, it measures all of them, across every sample in your study. 
+TODO some diagram that communicates this 
 
-This matters for how you think about the data. In a traditional experiment, your dataset may have a handful of measurements per sample. In omics, a single sample can generate hundreds to thousands to millions of data points and you may have only a dozen samples. That inverted ratio, far more variables than observations, is one of the defining features of omics data, and it shapes almost every analytical decision that follows. 
+Each platform has its own version of the same core problem, and its own specific failure modes on top of that. Summarised:
 
-## The omics modalities
+| Platform | Data type | Core problem | Key additional challenge |
+|---|---|---|---|
+| Bulk RNA-seq | Integer counts | Depth variation | Gene length bias; sampling zeros |
+| Single-cell RNA-seq | UMI counts | Depth per cell | Cells ≠ replicates; dropout |
+| Proteomics / metabolomics | Continuous intensity | Ion signal variation | MNAR missing values; detection bias |
+| Microbiome (16S / shotgun) | Compositional counts | Compositionality | Contamination in low-biomass samples |
+| Methylation arrays | Beta values [0–1] | Cell composition | Beta vs M-value; heteroscedasticity |
 
-TODO make a diagram of central dogma as a data map. DNA > RNA > protein > metabolite > phenotype refer to module 1 diagram if you think suitable. 
+There is no universal normalisation or statistical method that works across all of these. Applying RNA-seq tools and algorithms to proteomics data, or standard differential tests to microbiome data produces systematically wrong results.
 
-- Genomics: DNA sequence > what can the cell do?
-- Transcriptomics: RNA sequence and abundances > what is the cell currently doing?
-- Proteomics: protein levels > what is being made and used? 
-- Metabolomics: small molecules > what are the products of cellular activity? 
+## Sequencing count data
 
-!!! tip "Why the layers don't always agree" 
+### The biological reality
 
-    A critical point for interpretation: measuring one layer doesn't tell you what is happening in another. A gene can be present in the genome but never transcribed. An mRNA can be transcribed but never translated into protein. A protein can be abundant but enzymatically inactive. 
+Consider the mechanism of gene expression: 
 
-    This is why collecting the right data for your research question is essential Choosing the modality is a scientific question, not a technical one. The research questions you are asking should determine which layer of biology you measure, not the other way around. 
+When a cell expresses a gene, it produces RNA molecules. Some genes are highly active and produce thousands of copies. Others are 
+expressed at very low levels, producing only a handful. This variation in expression level is real biology, it is what makes  a liver cell different from a neuron, and a normal healthy cell different from a cancerous one.
 
-## How does sequencing work? 
+The challenge we face in working with omics data is that our data generation platforms (e.g. sequencers, mass spectrometers) cannot count every RNA molecule in a sample. Instead it reads a subset of fragments and stops when it reaches a target depth, typically somewhere between 20 and 50 million reads for a bulk RNA-seq experiment. Each gene's count is therefore a share of whatever total happened to be generated for that sample.
 
-Before looking at what omics data looks like, it helps to understand how it is generated. 
+### The statistical consequence
 
-TODO create a workflow diagram for common sequencing types: WGS/WTS, DIA/DDA mass spec, anything else you think is relevant. Should follow the order: extracting and preparing biolocal materials > library preparation and amplification > sequencing > raw output 
+This produces counts that are:
 
-TODO create a diagram that explains this. 
+**Discrete integers**: counts are whole numbers, and the statistical models appropriate for them (negative binomial, Poisson) are different from those appropriate for continuous measurements.
 
-TODO create an exercise to explore this flow. 
+**Right-skewed and zero-inflated**: most genes are expressed at low levels. A typical count matrix has many small values and many zeros, with a long tail of highly expressed genes. This distribution is not normal, and treating it as though it were leads to incorrect 
+inference.
 
-## What kind of data does each modality produce? 
+**Dependent on sequencing depth**: a gene with a count of 100 in Sample A and 200 in Sample B may not have changed at all. If Sample B was sequenced twice as deeply, both observations represent exactly the same proportion of the library. The apparent difference is entirely technical.
 
-Different modalities produce fundamentally different types of measurements and understanding the differences is required before you can intepret them correctly. 
+**Affected by gene length**: longer genes produce more sequencing fragments than shorter genes at the same expression level, simply because there is more sequence to sample. A long gene and a short gene with identical biological expression will have very different raw counts. This is why methods like RPKM and TPM exist, and why length correction matters when comparing expression across genes rather than across samples.
 
-You will encounter 3 main data types: 
+!!! TIP "TODO exercise: link to webR module"
 
-### Sequences 
+    Whats the webR module that demonstrates these principles?
 
-Raw outputs of DNA and RNA sequencing technologies. A sequencer reads fragments of nucleic acid and returns the order or bases for each fragment. At this stage, the data has no inherent quantity attached to it. A sequence tells you what is present, not how much or what it can do. 
+### The zero problem
 
-### Counts 
+Zeros deserve special attention because they are common and easily misread. In a count matrix, a zero can mean one of two things:
 
-These are gained once sequences have been mapped back to a reference and tallied up. For each gene, you count how many sequencing reads overlap with it. This is the primary data format in RNAseq, a matrix of integers, one row per feature, one column per sample. 
+- **Biological zero**: the gene is genuinely not expressed in this sample under these conditions
+- **Sampling zero**: the gene was expressed, but no reads happened to be assigned to it under this sequencing budget
 
-### Abundances 
+At shallow sequencing depth, low-abundance genes drop in and out of detection across samples not because their expression changed, 
+but because the sampling was too sparse to capture them reliably. Increasing depth often makes these genes reappear. The biology hasn't changed — the measurement has simply improved.
 
-These are the equivalent measurement of counts in proteomics and metabolomics. Instead of sequencing, you're using mass spectrometry. Here, the instrument measures signal intensity, how much of a given molecule's chemical signature was detected. The output is a continouous value, not a count, and it comes with its own set of assumptions and normalisation challenges. 
+TODO a diagram? 
 
-!!! tip "Why does this distinction matter?" 
-    These distinctions matter because the statistical properties of each data type are different. The sources of technical noise are different, normalisation strategies are different. Treating them as interchangable leads to mistakes. 
+!!! warning "Why this matters for interpretation"
+    Treating sampling zeros as biological zeros inflates the apparent number of absent genes, distorts differential expression results, 
+    and makes reproducibility across studies appear worse than it is. Depth is a design decision with direct consequences for the zeros 
+    you will see in your data.
 
-## Preparing data for analysis 
+### When depth becomes a design problem
 
-TODO something about preprocessing and the sorts of resources you need to do this. To get to counts/abundances. 
+In principle, variation in sequencing depth between samples is a technical effect that normalisation can correct. In practice, it 
+becomes a design problem when depth is systematically associated with the biological groups being compared.
 
-## What does a count or abundance represent? 
+If one tissue type consistently yields lower quality RNA and therefore lower sequencing depth, genes will appear systematically 
+downregulated in that group even if nothing biologically different is happening. This looks like signal. It is noise.
 
-By the time omics data reaches you as an analyst, it has already been through substantial processing. Raw sequence reads have been assembled into a continuous sequence or aligned to a reference assembly and summarised. Mass spectrometry signals have been detected and quantified. What you're working with in many cases, is often a **count matrix** or **abundance matrix**. 
+TODO a diagram? 
 
-In most everyday measurements, numbers are absolute. If one patient weighs 80 kg and another weighs 60 kg, the comparison is straightforward. The value doesn’t depend on anything else being measured at the same time.
+!!! danger "Recoverable vs unrecoverable"
+    Depth variation distributed randomly across conditions can largely be corrected by normalisation. Depth variation that tracks with biological groups cannot. It is confounded with the signal of interest and cannot be separated from it analytically. This is a design failure, not an analysis problem.
 
-Unfortunately, neither counts, nor abundances behave like that.
+## Single-cell sequencing data
 
-### Count matrices 
+### The biological reality
 
-A count matrix is the primary data format of RNAseq. It is a table of integers, one row per genomic feature, one column per sample. Each value represents the number of sequencing reads that mapped to a feature in that sample. 
+Single-cell RNA-seq resolves what bulk RNA-seq averages away. Rather than measuring the mean expression across thousands of cells, it profiles each cell individually — revealing the heterogeneity within a tissue, identifying rare populations, and capturing cell-type-specific responses that bulk methods cannot see.
 
-!!! tip "That sounds complicated..." 
+This resolution comes from a biological fact: individual cells differ. Even cells of the same type show natural variation in 
+gene expression, cell cycle state, and activity level. Single-cell methods make this variation visible rather than averaging it out.
 
-    Recall that sequencers don't read every molecule in the library. They will only read up to a fixed total, typically 20-50 million reads for bulk RNAseq and each gene's count is just a share of that total. 
+### The statistical consequences
 
-    That means each gene’s count depends on two things:
+**Sparsity is structural, not technical**: a typical single-cell count matrix has 80–95% zeros (TODO is this true?). This is not primarily a technical failure. It reflects the genuine biology of individual cells: **most genes are not actively transcribed in any given cell at any given moment.** This level of sparsity requires specialised analytical approaches. Standard bulk RNA-seq tools are not appropriate.
 
-    - How much RNA it actually produced  
-    - How many reads were generated overall
+**UMIs reduce but do not eliminate amplification bias**: single-cell libraries use unique molecular identifiers (UMIs) attached to each molecule before amplification. Because each original molecule has a unique tag, PCR duplicates can be identified and collapsed. This substantially reduces the amplification bias described in the sequencing section, but does not eliminate variation in capture efficiency between cells.
 
-A simple example makes this concrete:
+**Cells are not independent replicates**: this is the most consequential statistical property of single-cell data and the most commonly violated assumption. Cells from the same individual share a common genetic background, environment, and sample processing history. They are subsamples of a donor, not independent biological observations.
 
-| | Sample A | Sample B |
-|---|---|---|
-| **Total reads sequenced** | 20 million | 40 million |
-| **Gene X raw count** | 100 | 200 |
+!!! danger "The pseudoreplication problem"
+    Treating 50,000 cells from 5 donors as n = 50,000 is pseudoreplication. The true biological n is 5. Statistical tests that treat cells as independent observations artificially inflate degrees of freedom, producing false positives at a rate far higher than the nominal significance threshold implies.
 
-TODO some visual to explain this.
+    The correct approach is aggregating cell-level counts to the donor level before differential testing, known as pseudobulk analysis (TODO add link: covered in Module 6). The important point here is that the unit of replication is determined by biology, not by the resolution of the technology.
 
-At first glance, Gene X looks like it doubled in Sample B. But if you look at proportions, both samples show the same value (0.0005% of the library). The difference in counts comes entirely from the difference in sequencing depth, not from changes in biology.
+!!! TIP "TODO exercise: link to webR module"
+    This connects directly to Pitfall 2 from Module 1. The Alzheimer's disease re-analysis, where reported DEGs dropped from 1,031 to 26 when pseudobulk was applied correctly, is a published demonstration of what happens when this assumption is violated.
 
-TODO some diagram and exercise that explores this 
+    make an exercise that links this pitfall with a webR module if possible? 
+    Whats the webR module that demonstrates these principles?
 
-!!! danger "Common source of misleading results"
-    This is one of the most common sources of misleading results in omics. Without accounting for sequencing depth, its easy to mistakenly call differences that aren't actually there. 
+## Proteomics and metabolomics abundance data
 
-### Abundance matrices 
+### The biological reality
 
-In proteomics and metabolomics, the instrument used to generate data is a mass spectrometer rather than a sequencer. Rather than counting reads, the machine measures signal intensity, that is, how strongly a given molecule's chemical signature was detected in a sample. 
+Proteins and metabolites are the functional outputs of gene expression. They are what the cell actually uses to do things, catalysing reactions, sending signals, building structures. Measuring them directly captures a dimension of biology that RNA cannot: **post-translational modification, protein stability, and metabolic flux are invisible to transcriptomics but visible here**.
 
-The output is a continuous value, rather than an integer and it sits in an abundance matrix structured the same way as a count matrix: one row per feature, one column per sample. 
+### The statistical consequences
 
-Abundances have the same fundamental problem as counts: they are relative, not absolute. The signal intensity for any given molecule depends not just one how much of it was present as it went through the mass spectrometer, but on the total amount of material loaded onto the instrument and how well that molecule ionised. A protein that appears less abundant in one sample may simply have been detected less efficiently, not necessarily been less present. 
+Mass spectrometry does not count molecules, instead it measures signal intensity (i.e. how strongly a molecule's chemical signature was detected by the instrument). This produces continuous values rather than integers, and the statistical properties are fundamentally different from count data.
 
-!!! tip "Different data type, same issue" 
+**Continuous, approximately log-normal**: after log2 transformation, proteomics and metabolomics intensities approximate a normal distribution. This means tools designed for normally distributed data, including limma, which was originally developed for microarrays, are appropriate here, where DESeq2 and edgeR are not.
 
-    Counts and abundances differ in their statistical properties, counts are discrete and follow specific distributional assumptions, abundances are continuous and often skewed. This matters for which tools you choose to analyse them. 
+**The budget is total ion signal**: just as sequencing counts reflect a share of total reads, MS intensities reflect a share of total ion signal loaded onto the instrument. Differences in sample loading, protein concentration, or ionisation efficiency between samples 
+create the same relative measurement problem as depth variation in sequencing.
+
+**Missing values are not random**: in sequencing data, zeros are common but distributed across all genes approximately proportionally to expression level. In mass spectrometry, missing values are structurally biased toward low-abundance features. A protein is absent from a sample not because it wasn't there, but because its signal fell below the instrument's detection threshold.
+
+!!! warning "Missingness not at random?"
+
+    See: https://stefvanbuuren.name/fimd/sec-MCAR.html 
+
+    Missing not at random — has direct consequences for imputation. Standard imputation methods that assume values are missing randomly will systematically overestimate the abundance of low-signal proteins. Methods designed for MNAR data, or explicit modelling of the 
+    detection threshold, are required. Choosing the wrong imputation approach introduces systematic bias that propagates through every downstream analysis.
+
+**Detection depends on acquisition mode**: in data-dependent acquisition (DDA), the instrument selects the most abundant ions for fragmentation. Low-abundance proteins may never be selected and are therefore absent from the data entirely, not as missing values, but as features that were never measured. Data-independent acquisition (DIA) improves coverage but introduces different analytical challenges. The platform choice directly shapes which proteins appear in the data at all.
+
+!!! TIP "TODO exercise: link to webR module"
+
+    Whats the webR module that demonstrates these principles?
+
+## Microbiome compositional data
+
+### The biological reality
+
+Microbial communities are inherently relative. In any given sample, the organisms present compete for the same niche and resources. Sequencing captures a snapshot of which organisms were detectable under the conditions of that sample, not a census of every microbe present.
+
+### The statistical consequences
+
+Microbiome count data looks superficially similar to RNA-seq count data: it is a matrix of integers, one row per taxon, one column per sample. But it has an additional mathematical constraint that makes standard statistical tests invalid.
+
+**Compositional data violates independence**: because counts sum to the total reads sequenced, individual taxon counts are not independent of each other. If one taxon genuinely increases in abundance, its larger share of the library means all other taxa must appear smaller in relative terms: even if their absolute abundance is unchanged. A taxon can appear to decrease purely 
+because something else increased.
+
+!!! danger "Why standard tests fail"
+    Standard differential abundance tests assume that features are measured independently. In compositional data, they are not. Applying a t-test, Wilcoxon test, or even DESeq2 directly to microbiome relative abundances will produce spurious results, not occasionally, but systematically. Methods designed for compositional data (ALDEx2, ANCOM-BC, log-ratio approaches) are required.
+
+**Contamination is structurally invisible**: low-biomass samples (e.g., tissue biopsies, placental swabs, blood) contain very little  microbial DNA relative to host DNA or reagent contaminants. Contaminant sequences from extraction kits, water, and lab surfaces can 
+dominate a library from a low-biomass sample, and their compositional signature is indistinguishable from true biology without negative extraction controls.
+
+!!! TIP "TODO exercise: link to webR module"
+    This connects directly to Pitfall 6 from Module 1 and the placental microbiome case study. An entire body of literature built 
+    on reagent contamination because controls were absent.
     
-    But both share the same core problem: the numbers reflect how much of the total signal was captured, not an absolute molecular quantity. Both require normalisation before cross-sample comparisons can reliably be made. 
+    TODO make an exercise that links this pitfall with a webR module if possible? 
+    Whats the webR module that demonstrates these principles?
 
-## Counts are unreliable without normalisation 
+## Methylation array data
 
-Sequencing depth affects detection, especially for lowly expressed genes. 
+### The biological reality
 
-Sequencing depth doesn't affect all genes equally. 
+DNA methylation is a chemical modification in the form of the addition of a methyl group to cytosine, primarily at CpG sites, that regulates gene expression without changing the underlying DNA sequence. It is one of the primary mechanisms of epigenetic control, and it varies between cell types, developmental stages, environmental exposures, and disease states.
 
-Highly expressed genes tend to show up reliably even when sequencing is relatively shallow. Lowly expressed genes are a different story. At lower depth, they might show up as small counts in one sample and zeros in another, simply because there weren’t enough reads to capture them consistently.
+### The statistical consequences
 
-This is where interpretation gets tricky. A zero doesn’t always mean absence. Sometimes it just means the gene wasn’t picked up in that particular sequencing run.
+Methylation arrays measure the proportion of methylated signal at each CpG site, producing a value between 0 (fully unmethylated) and 1 (fully methylated). These are called beta values.
 
-If you sequence more deeply, those same genes often appear more consistently. The biology hasn’t changed, you’re just getting a clearer look at it.
+**Beta values are intuitive but statistically problematic**: a beta value of 0.8 means 80% of cells carrying this CpG are methylated at 
+this site. This is biologically interpretable. But beta values are bounded between 0 and 1 and follow a beta distribution, not a normal distribution. They are heteroscedastic: variance is highest near 0.5 and lowest near the extremes. Standard linear models that assume homogeneous variance are inappropriate.
 
-TODO convert this to figure standard, use excalidraw 
+**M-values are needed for testing**: the logit transformation of beta values produces M-values, which are approximately normally distributed and have more uniform variance across the range. M-values are appropriate for statistical testing. Beta values are appropriate for biological interpretation and visualisation. Using beta values for testing and M-values for interpretation are both common errors.
 
-![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
+**Cell type composition is the dominant confounder**: different cell types have systematically different methylation profiles. 
+Blood-based methylation studies are particularly vulnerable: a sample with more granulocytes will look globally different 
+from a sample with more lymphocytes, regardless of disease status. Without accounting for cell type composition, statistically or by cell sorting, observed methylation differences may reflect cellular heterogeneity rather than biology.
 
-From a study design perspective, your choice of sequencing depth has real consequences. The depth you need depends on the weakest signal you care about. If depth is too low, low-abundance features start dropping in and out of detection, and that shows up later as zeros.
+!!! TIP "TODO exercise: link to webR module"
 
-### The problems start before sequencing
+    Whats the webR module that demonstrates these principles?
 
-Depth is only part of the story. As described above (TODO will be described above, just isnt yet), library preparation introduces its own variability. 
+!!! info "Coming up in Module 5"
+    Normalisation strategies appropriate to each 
+    platform — and how to choose between them based 
+    on your data and experimental design — are 
+    covered in **Module 5: Normalisation and Scaling**.
 
-PCR amplification is necessary to generate enough material, but it isn’t perfectly even across cycles. By the time the library reaches the sequencer, some molecules are overrepresented and others are underrepresented relative ot their original abundance. While they're being sequenced, some fragments will amplify more efficiently than others, especially early on. So by the time you see a count, two things have already happened:
+## Key takeaways
 
-1. Some molecules are overrepresented
-2. A subset of them was sampled during sequencing
+Every omics measurement is a relative signal captured under a finite technical budget. The budget differs by platform, reads for sequencing, ion signal for mass spectrometry, probe fluorescence for arrays, but the consequence is universal: raw numbers cannot be compared across samples without normalisation appropriate to that platform's statistical properties.
 
-Both introduce variability before any analysis begins.
+The most important things to carry forward from 
+this module:
 
-TODO create a different version of this diagram that explains library preparation. 
-
-![PCR amplification and sampling zeros (Jiang et al. 2022, Fig 3)](module2Figs/02_zero_Toy_Examplle_v1.png){width=90%}. 
-<small>. 
-Ref: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"}</small>
-
-The figure above (Jiang et al. 2022, Fig 3) shows this. Five
-genes start at equal cDNA concentrations. After PCR amplification, their
-relative proportions have shifted not because of biology, but because
-of stochastic amplification differences. When sequencing is then limited
-to a fixed depth, Gene 1 receives zero reads in three out of five
-hypothetical experiments. It was present. It was amplified. It was simply
-unlucky enough to be underrepresented at the moment the reads were
-sampled.
-
-TODO create an exercise to explore this.
-
-### Depth differences are common, and not always random
-
-In real datasets, samples rarely have identical library sizes. Two-fold differences are quite common, no matter how careful you are. 
-
-!!! warning "What causes differences in read depth?"
-
-    TODO flesh this out
-
-    - variation in RNA quality
-    - differences in library prep efficiency
-    - sequencing variability across runs or lanes
-
-    In principle, these are technical effects. In practice, they don’t always distribute evenly across your conditions.
-
-For example, one tissue type might consistently yield lower quality RNA, or one batch might perform worse during library prep. When that happens, sequencing depth ends up correlated with the biological groups you’re trying to compare.
-
-!!! note "Scenario" 
-
-    One group has systematically lower depth, and genes appear downregulated across the board. It can look like a strong biological signal, but it’s really just fewer reads being assigned overall.
-
-    A quick check, like plotting library sizes by condition, often makes this obvious. If the distributions don’t overlap much, it’s something you need to deal with before moving forward.
-
-    Normalisation helps, but it doesn’t fully fix cases where depth is tightly confounded with biology. At that point, it’s more of a design issue than an analysis problem.
-
-
-### The same princple applies across all omics platforms
-
-The underlying issue that your measurements reflect how much of the total signal was captured rather than absolute molecular quantity, appears across every platform, under different names: 
-
-- In single-cell RNA-seq, each cell has its own sequencing depth, often measured as total UMI counts, and the variation can be substantial
-- In microbiome data, total reads per sample vary widely, especially in low biomass samples
-- In proteomics and metabolomics, the equivalent is total ion signal rather than read count
-
-Different technologies, same underlying problem.
-
-### What this means before you touch the analysis?
-
-Raw counts must be normalised before any cross sample comparison is
-valid. The appropriate normalisation strategy depends on the platform,
-the experimental design, and the biological question being asked.
-Choosing the wrong approach introduces new artefacts. This is covered
-in full in **Module 5: Normalisation and Scaling**.
-
-### What to take forward
-
-The main point to carry forward is simple:
-
-> A count is not an absolute measurement. It reflects how much of a sample was    captured under a particular sequencing budget.
-
-Because that budget varies between samples, raw counts can’t be compared directly. Some form of normalisation is needed before making cross-sample comparisons.
-
-We’ll get into how to do that later. For now, the important thing is to keep in mind what these numbers actually represent — and what they don’t.
+- A count of zero does not mean absent, it may mean undetected
+- Cells are not biological replicates, individuals are
+- Missing values in proteomics are not random they are biased toward low abundance
+- Microbiome data is compositional, standard tests assume independence that doesn't exist
+- Beta values look interpretable but require transformation before statistical testing
+- No single method fits all platforms, the choice of analytical approach must follow from the data type

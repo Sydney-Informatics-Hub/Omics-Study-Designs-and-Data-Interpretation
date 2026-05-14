@@ -1,4 +1,60 @@
-# Lesson 1 : The omics landscape
+# Module 1 : The omics landscape
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 !!! info "Learning objectives"
     By the end of this module, participants will be able to:
