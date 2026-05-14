@@ -49,3 +49,11 @@ each sample by trimming the most extreme log-fold changes and computing
 a weighted mean of the remainder, removing the genes most likely to be
 compositionally dominant. TMM is the normalisation method built into
 edgeR.
+
+**DESeq2 size factors** achieve similar correction through a different
+route: for each gene, the ratio of its count to the geometric mean
+across all samples is calculated, and the median of those ratios becomes
+the size factor for that sample. The median is robust to differentially
+expressed genes. DESeq2 applies this normalisation internally — raw
+counts are the correct input; providing CPM or TPM values to DESeq2
+means normalising already-normalised data.
