@@ -7,7 +7,7 @@ failing to correct existing ones.
 
 ---
 
-#### Bulk RNA-seq
+#### Bulk RNA-seqa.      
 
 Bulk RNA-seq has the most mature normalisation landscape and the most
 common misunderstandings. The key distinction is between metrics
@@ -20,7 +20,7 @@ expression testing.
 | **CPM** (Counts Per Million) | Sequencing depth | Comparing same gene between replicates | Within-sample gene comparisons; DE testing |
 | **TPM** (Transcripts Per Million) | Depth + gene length | Within-sample gene comparisons; same gene across samples | DE testing |
 | **RPKM / FPKM** (Reads or Fragments Per Kilobase per Million) | Depth + gene length | Legacy reporting only | Between-sample comparisons; DE testing |
-| **TMM** (Trimmed Mean of M-values) — edgeR | Depth + composition | DE analysis | Within-sample comparisons |
+| **TMM** (Trimmed Mean of M-values) edgeR | Depth + composition | DE analysis | Within-sample comparisons |
 | **DESeq2 size factors** | Depth + composition | DE analysis | Within-sample comparisons |
 
 <small>Ref: [Dillies et.al. *Briefings in bioinformatics (2013)* ](https://academic.oup.com/bib/article/14/6/671/189645?login=false){target="_blank"}</small>
@@ -44,19 +44,26 @@ totals differ between samples, making direct between-sample comparisons
 unreliable. TPM is the preferred alternative when length correction is
 needed.
 
-**TMM (Trimmed Mean of M-values)** calculates a scaling factor for
-each sample by trimming the most extreme log-fold changes and computing
-a weighted mean of the remainder, removing the genes most likely to be
-compositionally dominant. TMM is the normalisation method built into
-edgeR.
+**TMM (Trimmed Mean of M-values)** is the normalisation method
+built into edgeR, which correct for both depth
+and composition. In edgeR workflows, normalisation is applied by
+calling `calcNormFactors()` before differential expression (DE) testing,
+a single function that calculates and stores the TMM scaling
+factors for use in all downstream steps.
 
-**DESeq2 size factors** achieve similar correction through a different
-route: for each gene, the ratio of its count to the geometric mean
-across all samples is calculated, and the median of those ratios becomes
-the size factor for that sample. The median is robust to differentially
-expressed genes. DESeq2 applies this normalisation internally — raw
-counts are the correct input; providing CPM or TPM values to DESeq2
-means normalising already normalised data.
+**DESeq2 size factors** achieve the same correction fully
+internally, DESeq2 calculates them automatically as part of the
+analysis pipeline, with no separate normalisation function to call.
+The only practical requirement is that you provide **raw counts**
+as input. Providing CPM, TPM, or any pre-normalised values will
+cause DESeq2 to normalise already normalised data, invalidating
+the model assumptions and producing unreliable results.  
+
+**For visualisation**, after depth and composition normalisation,
+count data still exhibit strong mean–variance dependence (which is not appropreiate input for PCA, as discussed in section 1). Apply a
+variance-stabilising transformation before PCA or heatmaps: rlog
+or VST for DESeq2 workflows, log-CPM for edgeR. 
+
 
 !!! info "TMM vs DESeq2 size factors"
     Both correct for depth and composition and perform similarly in
