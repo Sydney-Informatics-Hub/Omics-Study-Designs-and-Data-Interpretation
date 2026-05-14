@@ -69,10 +69,11 @@ or VST for DESeq2 workflows, log-CPM for edgeR.
     Both correct for depth and composition and perform similarly in
     practice. The choice is usually determined by which DE tool you
     are using: TMM with edgeR, size factors with DESeq2. Applying
-    TMM factors before running DESeq2 is double-normalising and
-    should be avoided.
+    TMM factors before running DESeq2 is double normalising and
+    should not be used.
 
-    ??? abstract "How DESeq2 and edgeR handle composition bias: conceptual summary"
+??? abstract "How DESeq2 and edgeR handle composition bias: conceptual summary"
+    
     Both methods solve the same problem from different angles: when a
     small number of genes dominate a library, simple per-million scaling
     makes everything else appear artificially lower. The question is how

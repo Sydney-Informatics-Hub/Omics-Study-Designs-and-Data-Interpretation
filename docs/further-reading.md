@@ -1,10 +1,8 @@
 TODO update as we go and simplify formatting. 
 
-From module 1-1
+From module 1.1
 
-??? abstract 
-
-### Further Reading · Emerging Omics Technologies
+??? abstract "### Further Reading · Emerging Omics Technologies"
 
     ** Spatial Transcriptomics**
     Entry-level overview, platform comparison, experimental design guidance 
@@ -26,7 +24,7 @@ From module 1-1
 
     ---
 
-  ### Further reading, Zero inflation and sparsity in omics
+    ### Further reading, Zero inflation and sparsity in omics
 
     **Conceptual framework, applies across all platforms**
 
@@ -93,7 +91,7 @@ From module 1-1
     data handling strategies. *Metabolomics* 2018; 14: 128.
     [doi:10.1007/s11306-018-1420-2](https://doi.org/10.1007/s11306-018-1420-2){target="_blank"}
 
-  ### Foundational framewor of Compositionality in Omics Data
+    ### Foundational framewor of Compositionality in Omics Data
 
     Gloor GB, Macklaim JM, Pawlowsky-Glahn V, Egozcue JJ.
     Microbiome datasets are compositional: and this is not optional.
@@ -118,7 +116,7 @@ From module 1-1
     
     ---
 
-  ### Statistical models for omics count data
+    ### Statistical models for omics count data
 
     Love MI, Huber W, Anders S. Moderated estimation of fold change
     and dispersion for RNA seq data with DESeq2. *Genome Biology*
