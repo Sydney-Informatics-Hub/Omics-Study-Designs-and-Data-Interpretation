@@ -181,3 +181,22 @@ or VST for DESeq2 workflows, log-CPM for edgeR.
     </small>
 ---
 
+!!! warning "When default normalisation breaks down"
+    DESeq2 and edgeR both assume that the majority of genes are 
+    not differentially expressed between conditions. This assumption 
+    breaks down in two common situations:
+
+    **Global perturbations** — experiments where a treatment causes 
+    widespread transcriptional activation or shutdown across the 
+    genome. The stable gene anchor no longer exists, and the scaling 
+    factor reflects biology rather than technical bias.
+
+    **Targeted gene panels** — such as NanoString nCounter or custom 
+    amplicon approaches, where genes are deliberately selected because 
+    they are expected to change. Most genes on the panel may genuinely 
+    be differentially expressed by design.
+
+    In both cases, use spike-in normalisation — adding known quantities 
+    of external RNA to each sample before sequencing — or housekeeping 
+    genes as the normalisation reference instead of relying on the 
+    default method.
