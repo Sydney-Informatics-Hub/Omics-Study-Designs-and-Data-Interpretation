@@ -27,3 +27,19 @@ expression testing.
 <small>Ref: [Lingen et.al.*Biochimica et Biophysica Acta (BBA)-Gene Regulatory Mechanisms (2024)*]( https://www.sciencedirect.com/science/article/pii/S1874939924000543){target="_blank"}</small>
 
 
+**CPM** and **TPM** are widely used for reporting and visualisation but
+neither corrects for composition effects. If a small set of highly
+expressed genes dominates one sample's library, CPM will suppress the
+apparent expression of everything else in that sample. CPM and TPM
+should not be used as input to differential expression testing.
+
+The distinction between CPM and TPM follows directly from gene length 
+bias: CPM corrects for depth only, making it valid for comparing the 
+same gene across samples (where length is constant and cancels out); 
+TPM additionally divides by gene length, making it valid for comparing 
+different genes within the same sample.
+
+**RPKM/FPKM** are not recommended for new analyses. Unlike TPM, RPKM
+totals differ between samples, making direct between-sample comparisons
+unreliable. TPM is the preferred alternative when length correction is
+needed.
