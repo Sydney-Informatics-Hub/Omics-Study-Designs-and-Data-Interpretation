@@ -87,31 +87,97 @@ or VST for DESeq2 workflows, log-CPM for edgeR.
     For each gene, DESeq2 calculates its geometric mean across all
     samples, this becomes the reference value for that gene. For each
     sample, every gene's count is divided by that gene's geometric
-    mean, producing one ratio per gene.
+    mean, producing one ratio per gene. 
 
-    For a dataset with 20,000 genes, each sample therefore has 20,000
-    gene-wise ratios. The **median of those 20,000 ratios** is the size
+    For a dataset with 20,000 genes, each sample therefore has up to
+    20,000 gene-wise ratios. The **median of those ratios** is the size
     factor for that sample, one number, derived from the middle of the
     gene-wise ratio distribution for that sample, and repeated
     independently for every sample in the dataset.
 
-    The median is the key step. A handful of massively upregulated genes
-    will produce very large ratios, outliers that the median ignores by
-    definition. The size factor is anchored by the stably expressed genes
-    that form the bulk of the distribution. The dominant genes are
-    effectively excluded from the calculation without being explicitly
-    identified.
+    The median is robust to a small number of extreme ratios. A handful
+    of massively upregulated genes will produce very large ratios, but
+    their influence on the size factor is minimised rather than
+    explicitly removed, the size factor remains anchored by the stably
+    expressed genes that form the bulk of the distribution.
 
-    The size factor is then used to calculate an effective library size:
-
-    `effective library size = actual library size × size factor`
-
-    Normalised counts are computed by dividing raw counts by this
-    effective library size, not the actual one. The adjustment
-    compensates for the reads consumed by dominant genes, and the
-    apparent downregulation of everything else disappears.
+    Counts are normalised by dividing each sample's raw counts by its
+    size factor. The adjustment reduces the artificial compression of
+    other genes caused by composition bias, making normalised counts
+    across samples more directly comparable.
 
     ---
 
-   
+    **edgeR: TMM (Trimmed Mean of M-values)**
+
+    TMM starts by selecting one reference sample. By default, edgeR
+    selects as reference the sample whose upper-quartile expression is
+    closest to the mean upper quartile across samples. This makes it
+    the most neutral, representative sample available. The reference
+    sample gets a scaling factor of 1 by definition; it is the anchor,
+    not the thing being corrected.
+
+    Every other sample is then compared to this reference
+    independently, one at a time. For each pairwise comparison,
+    TMM calculates:
+
+    - the M value (log2 fold change) for each gene between the
+      test sample and the reference; how much that gene appears
+      to have changed
+    - the A value (average log CPM across the two samples being
+      compared); how abundantly the gene is expressed
+
+    It then trims by default:
+
+    - the top and bottom 30% of genes by M value: genes with
+      extreme fold-changes that are unlikely to represent the
+      stable majority needed for normalisation
+    - the top and bottom 5% by A value: genes with extremely
+      high or extremely low expression
+
+    Of the remaining genes, a weighted average of their M values
+    becomes the scaling factor for that test sample. Each gene is
+    weighted approximately by the **inverse variance of its
+    log fold-change estimate**, which depends on its count in both
+    the test and reference samples. Genes with higher counts have
+    lower variance and therefore receive higher weight, contributing
+    more to the average. Genes with low counts have high variance
+    and contribute less. This prevents noisy low-count genes from
+    pulling the scaling factor away from a robust scaling estimate.
+
+    This process repeats independently for every non-reference
+    sample. Each gets its own scaling factor derived from its own
+    comparison to the same reference. The scaling factor is then
+    applied as an effective library size correction, adjusting the
+    denominator used for normalisation rather than the raw counts
+    themselves.
+
+    ---
+
+    **The shared logic and its limit**
+
+    Both methods rest on the same biological assumption: the majority
+    of genes are not differentially expressed between conditions. Under
+    that assumption, the median ratio (DESeq2) and the trimmed mean
+    fold-change (edgeR) **produce similar results in practice**, the
+    stable genes dominate the calculation while extreme genes
+    contribute little to the final scaling estimate.
+
+    Neither method changes the raw counts, the composition 
+    imbalance remains in the data. What changes is the scaling 
+    factor used for comparison, **which accounts for the bias so 
+    that it no longer substantially distorts relative abundance 
+    estimates**:- provided that the majority of genes are not 
+    truly differentially expressed between conditions.
+
+    <small>
+    Robinson MD, Oshlack A. *Genome Biology* 2010.
+    [doi:10.1186/gb-2010-11-3-r25](https://link.springer.com/article/10.1186/gb-2010-11-3-r25){target="_blank"}
+    *(TMM — original paper)*
+
+    Love MI, Huber W, Anders S. *Genome Biology* 2014.
+    [doi:10.1186/s13059-014-0550-8](https://doi.org/10.1186/s13059-014-0550-8){target="_blank"}
+    *(DESeq2 — original paper)*
+    </small>
 ---
+
