@@ -56,4 +56,11 @@ across all samples is calculated, and the median of those ratios becomes
 the size factor for that sample. The median is robust to differentially
 expressed genes. DESeq2 applies this normalisation internally — raw
 counts are the correct input; providing CPM or TPM values to DESeq2
-means normalising already-normalised data.
+means normalising already normalised data.
+
+!!! info "TMM vs DESeq2 size factors"
+    Both correct for depth and composition and perform similarly in
+    practice. The choice is usually determined by which DE tool you
+    are using: TMM with edgeR, size factors with DESeq2. Applying
+    TMM factors before running DESeq2 is double-normalising and
+    should be avoided.
