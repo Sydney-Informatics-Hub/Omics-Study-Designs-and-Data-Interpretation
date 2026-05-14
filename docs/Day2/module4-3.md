@@ -43,3 +43,9 @@ different genes within the same sample.
 totals differ between samples, making direct between-sample comparisons
 unreliable. TPM is the preferred alternative when length correction is
 needed.
+
+**TMM (Trimmed Mean of M-values)** calculates a scaling factor for
+each sample by trimming the most extreme log-fold changes and computing
+a weighted mean of the remainder, removing the genes most likely to be
+compositionally dominant. TMM is the normalisation method built into
+edgeR.
