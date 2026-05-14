@@ -1,1 +1,29 @@
- 
+ ### Choosing a normalisation approach
+
+There is no universal normalisation method. The correct choice depends
+on the platform, the experimental design, and the downstream analysis.
+Applying the wrong method introduces new artefacts rather than simply
+failing to correct existing ones.
+
+---
+
+#### Bulk RNA-seq
+
+Bulk RNA-seq has the most mature normalisation landscape and the most
+common misunderstandings. The key distinction is between metrics
+appropriate for visualisation and those appropriate for differential
+expression testing.
+
+
+| Method | Corrects for | Use | Not appropriate for |
+|---|---|---|---|
+| **CPM** (Counts Per Million) | Sequencing depth | Comparing same gene between replicates | Within-sample gene comparisons; DE testing |
+| **TPM** (Transcripts Per Million) | Depth + gene length | Within-sample gene comparisons; same gene across samples | DE testing |
+| **RPKM / FPKM** (Reads or Fragments Per Kilobase per Million) | Depth + gene length | Legacy reporting only | Between-sample comparisons; DE testing |
+| **TMM** (Trimmed Mean of M-values) — edgeR | Depth + composition | DE analysis | Within-sample comparisons |
+| **DESeq2 size factors** | Depth + composition | DE analysis | Within-sample comparisons |
+
+<small>Ref: [Dillies et.al. *Briefings in bioinformatics (2013)* ](https://academic.oup.com/bib/article/14/6/671/189645?login=false){target="_blank"}</small>
+<small>Ref: [Lingen et.al.*Biochimica et Biophysica Acta (BBA)-Gene Regulatory Mechanisms (2024)*]( https://www.sciencedirect.com/science/article/pii/S1874939924000543){target="_blank"}</small>
+
+
