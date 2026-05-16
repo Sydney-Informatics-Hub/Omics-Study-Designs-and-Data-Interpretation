@@ -1,4 +1,4 @@
-# Module 2 : Data modalities
+# Module 2: Omics data modalities
 
 !!! info "Learning objectives" 
 
