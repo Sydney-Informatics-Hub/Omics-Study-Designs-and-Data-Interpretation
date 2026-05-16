@@ -1,4 +1,4 @@
-# Module 2: Sparsity and zero inflation
+# Module 2.2: Sparsity and zero inflation
 
 !!! info "Learning objectives" 
 

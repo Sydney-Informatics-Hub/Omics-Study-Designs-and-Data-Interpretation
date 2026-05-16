@@ -1,4 +1,4 @@
-# Module 2: Core statistical problems
+# Module 2.1: Core statistical problems
 
 !!! info "Learning objectives"
 
