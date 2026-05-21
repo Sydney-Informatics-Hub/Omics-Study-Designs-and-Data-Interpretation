@@ -1,38 +1,34 @@
-# Lesson 1 : The omics landscape
+# The omics landscape
 
 !!! info "Learning objectives"
-    By the end of this module, participants will be able to:
+    By the end of this section, participants will be able to:
 
     - Identify the seven common failure modes in omics study design and classify each by recoverability.
     - Recognise when a platform choice, sample size, or metadata decision creates an unrecoverable flaw.
     - Match a biological question to the most suitable omics platform and justify that choice.
 
-## The omics landscape​
+Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly termed "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether that's a bacterium, a migratory bird, or person, can be interrogated at the molecular level across these multiple layers. 
 
-Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly terms "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether it be bacterium, wheat, migratory birds, or people, can be interrogated at the molecular level across these multiple layers so we can understand how they function and respond to their environments. 
-
-These layers have different names, distinct molecular targets, and a distinct set of questions that they can and cannot answer:  
+These layers have different names, each with distinct molecular targets, and a defined scope of what it can and cannot answer:  
 
 | Layer | Function |
 |---|--------------------------|
-| **Genomics** | Interrogate DNA blueprint, revealing what an organism can do based on its inherited DNA sequence | 
-| **Epigenomics** | Reveals how gene activity is regulated without changes to the underlying sequence |
+| **Genomics** | Reveals what genes an organism carries and what they could encode | 
+| **Epigenomics** | Reveals how gene activity is regulated through chemical modification to DNA and its packaging proteins |
 | **Transcriptomics** | Captures which genes are turned on or off under a given condition | 
 | **Proteomics** | Measures the proteins actually present in a cell or tissue |
 | **Metabolomics** | Captures small molecule metabolites that are downstream readout of biochemical activity | 
 
-Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer, or combination of layers, to interrogate is one of the most consequential decisions a researcher will make before an experiment begins.
+Crucially, no single omics layer tells the complete story; each captures a different molecular dimension of biological systems, and the choice of which layer, or combination of layers to investigate is one of the most consequential decisions a researcher will make before an experiment begins.
 
-Each omics layer captures a different molecular dimension of biological systems: 
+The figure below shows how each layer sits within the broader molecular hierarchy of a cell. 
 
 ![](module1/figs/1-1_landscape.png){width=100%}
 
-## From research question to platform: navigating technologies
+## Choosing the right platform
 
-Each omics domain encompasses a growing ecosystem of platforms and techniques 
-and no single approach fits every question. Platforms differ not only in what 
-they measure, but in how they measure it, which directly shapes what you can 
-and cannot conclude from your data.
+Each omics domain includes multiple platforms, and no single approach fits every question. Platforms differ not only in what 
+they measure, but in how they measure it, which directly shapes what you can and cannot conclude from your data.
 
 At a broad level, omics technologies fall into two methodological families:
 
@@ -43,15 +39,9 @@ At a broad level, omics technologies fall into two methodological families:
   proteomics) preserve the physical location of molecules within tissue, adding a 
   spatial dimension that sequencing-based methods cannot capture
 
-The figure below provides an overview of commonly used analysis approaches 
-across major omics domains:
+The figure below provides an overview:
 
-![](module1/figs/01_Various_data_analysis_v1.png){width=90%}
-
-<small> Ref: [Satam, Heena, et al. **Biology** 2023
-](https://www.mdpi.com/2079-7737/12/7/997){target="_blank"} </small>
-
-TODO replace image with custom diagram as above. 
+![](module1/figs/01_Various_data_analysis_v2.png){width=100% height=50%}
 
 ### What else can 'omics data tell us
 
