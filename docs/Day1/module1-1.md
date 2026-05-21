@@ -45,25 +45,22 @@ The figure below provides an overview:
 
 ### What else can 'omics data tell us
 
-Many omics pipelines focus on a single primary output (i.e. differential gene expression from RNA-seq, variant calling from Whole Genome Sequencing). But the same raw data often contains additional layers of biological information that aren't commonly interrogated.
+Many omics pipelines focus on a single primary output, e.g. differential gene/protein expression from RNASeq/proteomics, variant calling from Whole Genome Sequencing. However, the same raw data often contains additional layers of biological information that aren't routinely explored.
 
-A growing set of secondary analyses can be applied to existing datasets, often without additional sequencing cost. Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be interrogated for alternative splicing, RNA editing events, transcript fusions, and more. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
+A growing set of secondary analyses can be applied to existing datasets, often without requiring additional sequencing. Take bulk RNA-seq as an example: beyond standard differential expression, the same dataset can be analyzed for alternative splicing, RNA editing events, transcript fusions, and more. These approaches provide complementary insights and can substantially increase the return on investment from a single experiment.
 
 The catch is that many of these analyses depend on decisions made before sequencing begins including: 
 
-- Library preparation 
+- Library preparation strategy
 - Sequencing depth 
 - Read length 
-- Metadata 
+- Experimental design and metadata collection
 
-By the time the data exists, it is often too late to recover an option that was designed out. Knowing what your data type is capable of before the experiment is designed means you can keep those options open from the start.
+Once data generation is complete, some analytical opportunities may no longer be recoverable if the experiment was not designed with them in mind. Understanding the broader capabilities and limitations of a data type during experimental planning helps preserve future analysis options and maximise the return from an omics dataset.
 
-![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=90%}
-
+![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=100%}
 <small>Ref: [Thind et.al. *Briefings in Bioinformatics* 22.6 
 (2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938){target="_blank"}</small>
-
-TODO replace image with custom diagram as above.
 
 !!! Question "Activity: planning your study" 
 
