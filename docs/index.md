@@ -1,15 +1,15 @@
 # Foundations of Omics Study Design, Bias, and Data Interpretation ​
 
-This interactive workshop spans two days, with 3.5-hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis-ready even before a single sample is processed. Additionally, you will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
+This interactive workshop spans two days, with 3.5 hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, you will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
 
 ## Why This Course Exists
 
-Most omics training focuses on tools and analysis pipelines — how to process 
+Most omics training focuses on tools and analysis pipelines, how to process 
 sequencing data, run differential expression, interpret a PCA plot. That 
 knowledge is valuable, but it arrives too late.
 
 The decisions that most often determine whether an omics study succeeds or 
-fails — platform choice, sample size, batch structure, metadata collection — 
+fails, platform choice, sample size, batch structure, metadata collection
 are made **before** a single sample is sequenced. Yet there is remarkably 
 little structured training that addresses this earlier, more consequential 
 stage of the research process.
@@ -23,7 +23,7 @@ are greatest.
 
 This workshop is designed for researchers who generate or interpret omics data 
 but want to strengthen their understanding of experimental design and study 
-planning — before the sequencing run begins.
+planning, before the sequencing run begins.
 
 **You will benefit most if you:**
 

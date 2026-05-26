@@ -1,12 +1,13 @@
 
-## When Omics Studies Fail — and Why It Matters
+## When Omics Studies Fail and Why It Matters
 
 !!! info "Learning objectives"
-    By the end of this module, participants will be able to:
+    By the end of this section, participants will be able to:
+    - Identify pitfalls in their study design
+    - Classify the risk in study design as fatal, limitable, or recoverable.
+    - identify which factor would reduce some of the identified risks.
 
-
-Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages — from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as 
-important as understanding the technologies themselves.
+Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages, from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as important as understanding the technologies themselves.
 
 ### The Cost Reality
 
@@ -26,7 +27,7 @@ Failures are therefore not just technical inconveniences, they represent lost sc
 |---|---|---|
 | <span style="color:#4a9eff">**Design**</span> | Wrong platform chosen | Question not defined before technology selection |
 | <span style="color:#4a9eff">**Design**</span> | No power calculation | Statistical planning done post-hoc or skipped |
-| <span style="color:#4a9eff">**Design**</span> | Bulk chosen, resolution insufficient | Cellular heterogeneity not anticipated |
+| <span style="color:#4a9eff">**Design**</span> | Bulk tissue chosen, resolution insufficient | Cellular heterogeneity not anticipated |
 | <span style="color:#60c689">**Wet Lab**</span> | Batch confounded with biology | No sample randomisation across processing runs |
 | <span style="color:#60c689">**Wet Lab**</span> | Poor sample quality | Preservation method mismatched to protocol |
 | <span style="color:#60c689">**Wet Lab**</span> | Samples pooled incorrectly | Pooling done despite individual-level inference needed |
@@ -43,35 +44,40 @@ Failures are therefore not just technical inconveniences, they represent lost sc
     rigour as the experiment itself.
 
 --- 
+
+??What is what a batch effect?
+
+
+?? PF1: can feel catastrophic. Can we put a positive spin on this somehow? What about a well designed study when batches are properly randomised and recorded. Could be a practical webR exercise?  
+
+
 ### Pitfall 1: Batch effect fully confounded with Biology     
 **What happens when batch tracks with biology?**
-Cases and controls processed in different batches — it becomes impossible to 
-disentangle biological signal from technical variation after the fact.
+Cases and controls processed in different batches, it becomes impossible to 
+distinghuish biological signal from technical variation after the fact.
 
-TODO replace image below with own diagram.
-
-![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v01.png){width=90%}
+![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v02.png){width=90%}
 
 ??? example "Case Study: When Batch Effects Reach the Clinic"
 
     Between 2006 and 2011, Anil Potti and colleagues at Duke published a 
-    series of high-profile papers claiming to have developed genomic 
+    series of high profile papers claiming to have developed genomic 
     predictors of chemotherapy response in cancer patients using gene 
     expression microarrays. Three clinical trials were opened using these 
     predictors to assign patients to treatment arms.
 
     Keith Baggerly and Kevin Coombes at MD Anderson had been trying and 
     failing to replicate the research methods, finding systematic errors 
-    in how the data had been processed — including off-by-one errors in 
+    in how the data had been processed; including off by one errors in 
     the assignment of drug sensitivity labels to cell lines and undisclosed 
     batch effects in the training data.
 
     ![Duke clinical trial retraction timeline](module1/figs/01_duke_case_study_01.png){width=90%}
 
-    **Outcome:** The trials were halted. Potti later resigned. The case 
+    **Outcome:** The trials were halted. The case 
     became a landmark example of how undetected batch effects, combined 
     with lack of reproducibility, can cause direct patient harm.
-
+ß
     <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291){target="_blank"}</small>
 
 ---

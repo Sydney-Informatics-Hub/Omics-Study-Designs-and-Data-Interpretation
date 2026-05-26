@@ -58,20 +58,11 @@ The catch is that many of these analyses depend on decisions made before sequenc
 
 Once data generation is complete, some analytical opportunities may no longer be recoverable if the experiment was not designed with them in mind. Understanding the broader capabilities and limitations of a data type during experimental planning helps preserve future analysis options and maximise the return from an omics dataset.
 
-![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=100%}
-<small>Ref: [Thind et.al. *Briefings in Bioinformatics* 22.6 
-(2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938){target="_blank"}</small>
+![Range of analysis approaches available from a single bulk RNA-seq dataset](module1/figs/01_RNAseq_based_analysis_v1.png){width=100%}<small>Ref: [Briefings in Bioinformatics(2021).](https://academic.oup.com/bib/article/22/6/bbab259/6330938){target="_blank"}</small>
 
-!!! Question "Activity: planning your study" 
-
-    TODO Prepare activity that summarises takeaways from above, consider using mentimeter for this in the live workshop. e.g. 
-
-    Pick one of the example studies below. You don't need to know anything about bioinformatics to do this. Read the study description and answer these questions:
-
-    1. What biological question is the study trying to answer? 
-    2. Which omics layer or combination of layers would best address it?
-    3. What would the primary analysis output be? 
-    4. What decisions made before data collection could limit what you can extract from this data later?
+!!! info "Live Activity"
+    **[Click here to join the activity](https://www.menti.com/alocqhrd8oet)**  
+    Or go to [mentimeter.com](https://mentimeter.com) and enter code **1234 567**
 
 ??? Example "Clincal: colorectal cancer"
     
