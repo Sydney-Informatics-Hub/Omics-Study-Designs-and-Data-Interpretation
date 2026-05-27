@@ -1,5 +1,5 @@
 
-## When Omics Studies Fail and Why It Matters
+## When omics studies fail and why it matters
 
 !!! info "Learning objectives"
     By the end of this section, participants will be able to:
@@ -39,22 +39,23 @@ Failures are therefore not just technical inconveniences, they represent lost sc
 
 !!! info "The central lesson"
     Most failures are introduced at the **design stage** but only become 
-    visible at the **wet lab or analysis stage** — by which point they 
+    visible at the **wet lab or analysis stage** by which point they 
     are often unrecoverable. This is why study design deserves as much 
     rigour as the experiment itself.
 
 --- 
 
-??What is what a batch effect?
+### Poor study design can introduce strong batch effects
 
-
-?? PF1: can feel catastrophic. Can we put a positive spin on this somehow? What about a well designed study when batches are properly randomised and recorded. Could be a practical webR exercise?  
+A **batch effect** is a systematic technical bias introduced when samples are processed under different experimental conditions, such as different sequencing runs, reagent lots, operators, instruments, or processing dates. Unlike random noise, batch effects produce consistent patterns in the data that can either resemble true biological variation or mask it, making technical artifacts difficult to distinguish from genuine biological signal.
 
 
 ### Pitfall 1: Batch effect fully confounded with Biology     
-**What happens when batch tracks with biology?**
-Cases and controls processed in different batches, it becomes impossible to 
-distinghuish biological signal from technical variation after the fact.
+
+Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026). The PCA shows a clean separation. But it is driven almost entirely by batch, not biology. Cases and controls cluster by processing year, not by disease. There is no way to know whether any observed difference is biological or technical, because the two are perfectly aligned. **This design is unrecoverable**.
+
+Study B distributed cases and controls across both batches. The PCA still shows a batch structure circles (Batch 1) and triangles (Batch 2) separate within each group. But cases and controls remain distinguishable within each batch. The batch effect is now estimable and correctable. **The biology is recoverable**.
+
 
 ![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v02.png){width=90%}
 
@@ -77,7 +78,6 @@ distinghuish biological signal from technical variation after the fact.
     **Outcome:** The trials were halted. The case 
     became a landmark example of how undetected batch effects, combined 
     with lack of reproducibility, can cause direct patient harm.
-ß
     <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291){target="_blank"}</small>
 
 ---
@@ -98,7 +98,6 @@ each cell **individually**, capturing the variation that bulk methods
 average away. A single experiment can generate profiles for tens of 
 thousands of cells.
 
-TODO replace image below with own diagram.
 ![](module1/figs/03_pseudoreplication_single_cell_v02.jpg){width=95%}
 
 This resolution comes with a statistical trap that is easy to miss. 
