@@ -50,9 +50,9 @@ Failures are therefore not just technical inconveniences, they represent lost sc
 A **batch effect** is a systematic technical bias introduced when samples are processed under different experimental conditions, such as different sequencing runs, reagent lots, operators, instruments, or processing dates. Unlike random noise, batch effects produce consistent patterns in the data that can either resemble true biological variation or mask it, making technical artifacts difficult to distinguish from genuine biological signal.
 
 
-### Pitfall 1: Batch effect fully confounded with Biology     
+### Pitfall 1: Batch effect fully confounded with biology     
 
-Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026). The PCA shows a clean separation. But it is driven almost entirely by batch, not biology. Cases and controls cluster by processing year, not by disease. There is no way to know whether any observed difference is biological or technical, because the two are perfectly aligned. **This design is unrecoverable**.
+Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026). The PCA shows a clean separation. But it is driven almost entirely by batch, not biology. Cases and controls cluster by processing year, not by disease. There is no way to know whether any observed difference is biological or technical, because the two are perfectly aligned. **This design is unrecoverable**, becuase no downstream computational pipeline can reliably recover signal from a fully confounded dataset. 
 
 Study B distributed cases and controls across both batches. The PCA still shows a batch structure circles (Batch 1) and triangles (Batch 2) separate within each group. But cases and controls remain distinguishable within each batch. The batch effect is now estimable and correctable. **The biology is recoverable**.
 
@@ -81,14 +81,57 @@ Study B distributed cases and controls across both batches. The PCA still shows 
     <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291){target="_blank"}</small>
 
 ---
+### Pitfall 2: Underpowered studies
 
-### Pitfall 2: Pseudoreplication
+In many omics studies, sample size is determined by budget or sample
+availability rather than by statistical need. This is particularly
+costly in omics, where thousands of molecular features are tested
+simultaneously, multiple testing correction reduces the effective
+power per feature dramatically, meaning that the sample size required to detect
+true signal is far higher than most researchers expect.
+
+The consequences are consistent across platforms:
+
+- **Transcriptomics (RNAseq):** studies with n = 3 per condition,
+  the field norm, typically detect only 20-40% of truly differentially
+  expressed genes, with high rates of false positives among those reported. <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
+
+- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.<small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
+
+- **Genomics (GWAS, variant calling):** underpowered cohorts produce
+  associations that fail to replicate in independent datasets,
+  driven by inflated effect size estimates in small discovery samples.<small>
+    Zou et al. *G3 Genes|Genomes|Genetics* 2022.
+    [doi:10.1093/g3journal/jkac261](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}
+
+    Wray et al. *Nature Communications* 2018
+    [doi:10.1038/s41467-018-07348-x](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
+    </small>
+
+- **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
+A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
+  the scale of this problem: of 2,206 unique metabolites reported as
+  statistically significant across these studies, 72% were identified by
+  only a single study, with contradictory directions of change even
+  for metabolites detected by more than one group. Small sample sizes
+  were identified as a primary driver of this reproducibility failure. <small>[Cochran, Darcy, et al. *TrAC Trends in Analytical Chemistry* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}</small>
+
+- **Single cell omics:** pseudoreplication compounds the underpowering 
+  problem, the true n is the number of donors, not cells.
+  <small>[Murphy et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
+
+In all cases, the result is the same: findings that look statistically
+significant but do not replicate. This is one of the common
+root causes of the omics reproducibility crisis. In practice, sample size requirements vary substantially by study type, e.g. discovery vs validation, We will discuss more about this issue in Module 3. 
+---
+
+### Pitfall 3: Pseudoreplication
 
  ***What happens when replicates aren't truly independent?***
 
 Pseudoreplication occurs when non independent measurements are treated as 
 independent replicates, artificially inflating the effective sample size and 
-overstating statistical confidence.
+overstating statistical confidence. For example, measuring the same patient's blood pressure five times and treating each as a separate patient.
 
 ***Pseudoreplication in Single-Cell RNAseq (scRNAseq)***
 
@@ -123,60 +166,15 @@ pipelines do not account for this dependency by default.
     <small> Re-analysis:[Murphy et. al "Avoiding false discoveries in single-cell RNAseq by revisiting the first Alzheimer’s disease dataset." Elife 12 (2023)](https://elifesciences.org/articles/90214){target="_blank"}</small>  
 
 
-> **This pitfall is not unique to single cell studies**
-> The examples/activity in module 1 use single cell RNAseq and microbiome transfer 
-> studies, but pseudoreplication applies equally to bulk RNAseq, 
-> proteomics, and any omics platform where multiple measurements are 
-> taken from the same biological unit.
+!!! info "This pitfall is not unique to single cell studies"
+    The examples/activity in module 1 use single cell RNAseq and microbiome transfer 
+    studies, but pseudoreplication applies equally to bulk RNAseq, 
+    proteomics, and any omics platform where multiple measurements are 
+    taken from the same biological unit.
 
 ---
 
-### Pitfall 3: Underpowered Studies
-
-In many omics studies, sample size is determined by budget or sample
-availability rather than by statistical need. This is particularly
-costly in omics, where thousands of molecular features are tested
-simultaneously, multiple testing correction reduces the effective
-power per feature dramatically, meaning that the sample size required to detect
-true signal is far higher than most researchers expect.
-
-The consequences are consistent across platforms:
-
-- **Transcriptomics (RNAseq):** studies with n = 3 per condition,
-  the field norm, typically detect only 20-40% of truly differentially
-  expressed genes, with high rates of false positives among those reported. <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
-
-- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.<small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
-
-- **Genomics (GWAS, variant calling):** underpowered cohorts produce
-  associations that fail to replicate in independent datasets,
-  driven by inflated effect size estimates in small discovery samples.<small>
-    Zou et al. *G3 Genes|Genomes|Genetics* 2022.
-    [doi:10.1093/g3journal/jkac261](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}
-
-    Wray et al. *Nature Communications* 2018
-    [doi:10.1038/s41467-018-07348-x](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
-    </small>
-
-- **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
-A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
-  the scale of this problem:of 2,206 unique metabolites reported as
-  statistically significant across these studies, 72% were identified by
-  only a single study, with contradictory directions of change even
-  for metabolites detected by more than one group. Small sample sizes
-  were identified as a primary driver of this reproducibility failure. <small>[Cochran, Darcy, et al. *TrAC Trends in Analytical Chemistry* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}</small>
-
-- **Single cell omics:** pseudoreplication compounds the underpowering 
-  problem, the true n is the number of donors, not cells.
-  <small>[Murphy et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
-
-In all cases, the result is the same: findings that look statistically
-significant but do not replicate. This is one of the common
-root causes of the omics reproducibility crisis.
----
-
-
-### Pitfall 4: Lost or Incomplete Metadata
+### Pitfall 4: Lost or incomplete metadata
 
 High quality sequencing data is only as useful as the information
 recorded alongside it. Missing or incomplete metadata, sample
@@ -216,16 +214,16 @@ sophisticated normalisation methods. The variation is present
 in the data but invisible to the analyst.
 
 
-??? example "Case study: When Metadata Saves the Analysis, GTEx & Ischaemia Time" 
+??? example "Case study: When metadata saves the analysis, GTEx & Ischaemia Time" 
     ![](module1/figs/01_metadata_casestudy_v01.png){width=100%}  
 
 !!! info "Coming up in Module 3"
     Designing a metadata collection plan, including a minimal
     metadata checklist for omics studies is covered in
-    **Module 3: Experimental Design Fundamentals**.
+    **Module 3: Experimental design fundamentals**.
 
 ---
-### Pitfall 5: Wrong Platform for the Biological Question
+### Pitfall 5: Wrong platform for the biological question
 
 Platform choice is a design decision, not a technical afterthought.
 Selecting the wrong platform upstream cannot be compensated for by
@@ -274,18 +272,22 @@ sample with no scientific gain over a cheaper bulk approach.
 
 ---
 ### Pitfall 6: Lack of control in experimental design
-Controls operate at two levels in omics studies — and both
-are required:
+Controls operate at multiple levels in omics studies and all contribute to robust interpretation:
+
+[CONFIRM:::::CAN WE SAY FOLLOWING AS STUDY CONTROL AND THOSE ARE SEPARATE FROM COMPUTATIONAL CONTROLS]
+
+**Study design controls** (cohort and sampling stage)
+These include prospective consideration of biological and clinical confounders such as age, sex, disease state, BMI, medication use, ethnicity, and batch structure. Control may involve matching, stratification, randomisation, balanced sampling, or careful metadata collection. Not all confounders can be fully controlled, particularly in retrospective or opportunistic cohorts, but important uncontrolled factors should be explicitly acknowledged and, where possible, incorporated into downstream statistical models as covariates.
 
 **Experimental controls** (wet lab stage)
-Negative extraction controls, positive controls, spike-ins,
+Negative extraction controls, positive controls, spike ins,
 and process blanks. These detect contamination, assay failure,
 and handling variation *before* data is generated. If missing,
 the problem cannot be identified computationally.
 
 **Computational controls** (analysis stage)
-In silico negative controls, permutation-based null distributions,
-decoy databases (proteomics), and spike-in normalisation. These
+In silico negative controls, permutation based null distributions,
+decoy databases (proteomics), and spike in normalisation. These
 detect and quantify technical noise *within* the data. They
 depend on experimental controls being in place upstream,
 a computational control cannot replace a missing wet lab control.
@@ -293,13 +295,13 @@ a computational control cannot replace a missing wet lab control.
 | Platform | Key control often missing |
 |---|---|
 | 16S / metagenomics | Negative extraction control |
-| RNA-seq (bulk) | ERCC spike-ins, no-template control |
+| RNA-seq (bulk) | ERCC spike ins, no template control |
 | Single-cell RNA-seq | Empty droplet controls, ambient RNA |
 | Proteomics (MS) | Blank injections, negative digestion control |
 | Metabolomics | Pooled QC samples, solvent blanks |
 | DNA methylation | Unmethylated/fully methylated conversion controls |
 
-??? example "Case Study: The Placental Microbiome"
+??? example "Case Study: The Placental microbiome"
 
     Multiple high profile studies reported the existence of a
     placental microbiome using 16S amplicon sequencing; a
@@ -315,7 +317,7 @@ a computational control cannot replace a missing wet lab control.
     Subsequent studies with appropriate controls found no
     evidence of a true placental microbiome. The earlier
     conclusions were entirely artefactual, and the clinical
-    follow-up work they generated was misdirected.
+    follow up work they generated was misdirected.
 
     **Why controls would have caught this:**
     A negative extraction control processed alongside placental
@@ -346,37 +348,34 @@ a computational control cannot replace a missing wet lab control.
 !!! info "Coming up in Module 3"
     Designing a control strategy for your specific omics platform,
     including which controls are mandatory vs recommended, is
-    covered in **Module 3: Experimental Design Fundamentals**.
+    covered in **Module 3: Experimental design fundamentals**.
 
 ---
-#### Pitfall 7: Discovery Without Validation
+#### Pitfall 7: Discovery without validation
 
 Finding a statistically significant result in omics is not the
 same as finding a generalisable biological truth. When thousands
 of features are tested simultaneously, some will reach significance
-by chance — and results derived from a single dataset may reflect
-dataset-specific effects (technical, cohort, or sampling variation) rather than true biology.
+by chance and results derived from a single dataset may reflect
+dataset specific effects (technical, cohort, or sampling variation) rather than true biology.
 
 Not every omics study requires external validation, but the
 requirement scales with the strength of the claim being made:
 
 | Study type | Example claim | Validation required? |
 |---|---|---|
-| Exploratory / hypothesis-generating | "We identify candidate DEGs associated with condition X" | Not strictly, if clearly labelled as exploratory |
+| Exploratory / hypothesis generating | "We identify candidate DEGs associated with condition X" | Not strictly, if clearly labelled as exploratory |
 | Confirmatory / mechanistic | "Gene X drives this pathway in disease Y" | Strongly recommended |
-| Translational / clinical | "This 10-gene signature predicts patient outcome" | Essential |
+| Translational / clinical | "This 10 gene signature predicts patient outcome" | Essential |
 
 !!! info "The key principle"
     Any claim intended to generalise beyond the original dataset
     requires independent validation. Without it, results should
     be treated as exploratory candidates, not confirmed biology.
 
-**Why omics is particularly vulnerable**
-
-The combination of high feature counts, small sample sizes, and
-biological variability between cohorts means that omics findings
-are especially susceptible to dataset-specific noise. This is not
-unique to machine learning, it applies equally to:
+**Why omics is particularly vulnerable to above mentioned pitfalls**
+Since omics measures high features (gene/proteins), sample size is often very small and biological variability between cohort sample is often high; so combination of all of them means that omics findings
+are especially susceptible to dataset specific noise. 
 
 - Differential expression analysis; gene signatures derived from small or heterogeneous cohorts often show limited reproducibility across independent datasets of the same disease
 - Metabolomics biomarkers, as shown in Pitfall 3, 72% of
@@ -426,9 +425,9 @@ signatures, or mechanisms, without independent validation.***
     Strategies for building validation into omics study design,
     including cohort splitting, use of external datasets, and
     when cross-validation is appropriate, are covered in
-    **Module 3: Experimental Design Fundamentals**.
+    **Module 3: Experimental design fundamentals**.
 ---
-### Can It Be Fixed?
+### Can it be fixed?
 
 !!! success "Recoverable :— fixable at analysis stage"
     - Normalisation method choice

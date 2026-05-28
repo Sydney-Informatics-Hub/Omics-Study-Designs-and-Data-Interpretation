@@ -9,8 +9,8 @@ You will learn how to design omics experiments that are statistically sound and 
 #### Module 1: The Omics Landscape and Why Studies Fail​
 #### Module 2: Data Types and Core Statistical Properties​
 #### Module 3: Experimental Design Fundamentals for Omics​
-#### Module 5: Normalisation and Scaling​
-#### Module 6: Interpretation Traps and Common Pitfalls
+#### Module 4: Normalisation and Scaling​
+#### Module 5: Interpretation Traps and Common Pitfalls
 
 
 ## Overall Learning Outcomes
