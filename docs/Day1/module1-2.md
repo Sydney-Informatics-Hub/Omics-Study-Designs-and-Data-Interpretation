@@ -9,7 +9,7 @@
 
 Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages, from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as important as understanding the technologies themselves.
 
-### The Cost Reality
+### The cost reality
 
 Omics experiments carry significant costs across three dimensions:
 
@@ -21,7 +21,7 @@ Omics experiments carry significant costs across three dimensions:
 
 Failures are therefore not just technical inconveniences, they represent lost scientific opportunities that often cannot be recovered.
 
-### Where Failures Are Introduced
+### Where failures are introduced
 
 | Stage | What Goes Wrong | Root Cause |
 |---|---|---|
@@ -59,7 +59,7 @@ Study B distributed cases and controls across both batches. The PCA still shows 
 
 ![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v02.png){width=90%}
 
-??? example "Case Study: When Batch Effects Reach the Clinic"
+??? example "Case Study: When batch effects reach the clinic"
 
     Between 2006 and 2011, Anil Potti and colleagues at Duke published a 
     series of high profile papers claiming to have developed genomic 
@@ -271,35 +271,61 @@ sample with no scientific gain over a cheaper bulk approach.
     to omics platforms is covered in **Module 3**.
 
 ---
-### Pitfall 6: Lack of control in experimental design
-Controls operate at multiple levels in omics studies and all contribute to robust interpretation:
+### Pitfall 6: Inadequate Controls Across the Study Pipeline
 
-[CONFIRM:::::CAN WE SAY FOLLOWING AS STUDY CONTROL AND THOSE ARE SEPARATE FROM COMPUTATIONAL CONTROLS]
+Controls are often discussed as if they are a single component of study design, but in practice they operate at several levels. Different controls address different sources of error, and a weakness at one stage cannot necessarily be fixed at the next.
 
-**Study design controls** (cohort and sampling stage)
-These include prospective consideration of biological and clinical confounders such as age, sex, disease state, BMI, medication use, ethnicity, and batch structure. Control may involve matching, stratification, randomisation, balanced sampling, or careful metadata collection. Not all confounders can be fully controlled, particularly in retrospective or opportunistic cohorts, but important uncontrolled factors should be explicitly acknowledged and, where possible, incorporated into downstream statistical models as covariates.
+In omics studies, controls can be broadly grouped into three categories:
 
-**Experimental controls** (wet lab stage)
-Negative extraction controls, positive controls, spike ins,
-and process blanks. These detect contamination, assay failure,
-and handling variation *before* data is generated. If missing,
-the problem cannot be identified computationally.
+-   Study design controls (cohort and sampling stage)
+-   Experimental controls (wet-lab stage)
+-   Computational controls (analysis stage)
 
-**Computational controls** (analysis stage)
-In silico negative controls, permutation based null distributions,
-decoy databases (proteomics), and spike in normalisation. These
-detect and quantify technical noise *within* the data. They
-depend on experimental controls being in place upstream,
-a computational control cannot replace a missing wet lab control.
+The distinction matters because each level protects against a different type of failure. Computational methods can help quantify or reduce some forms of technical variation, but they cannot rescue poor measurements, and high-quality measurements cannot compensate for a fundamentally flawed study design.
 
-| Platform | Key control often missing |
+#### Study design controls (cohort and sampling stage)
+
+Study design controls determine whether observed differences can reasonably be attributed to the biological question being studied rather than to systematic differences between groups.
+
+Important considerations include age, sex, disease state, BMI, medication use, ethnicity, recruitment source, and batch structure. Depending on the study, these factors may be addressed through matching, stratification, randomisation, balanced sampling, or careful collection of metadata.
+
+Not all confounders can be controlled, particularly in retrospective studies where samples have already been collected. However, important sources of variation should be measured whenever possible and recorded in the study metadata so they can be evaluated during analysis.
+
+!!! danger "Design principle"
+    A confounder that was neither controlled nor recorded cannot be modelled directly. Once information is missing at the time of collection, there is usually no reliable way to recover it later. If a variable may influence the outcome, it is generally better to measure it than to assume it can be addressed retrospectively.
+
+#### Experimental controls (wet-lab stage)
+
+Experimental controls determine whether measurements are technically reliable.
+
+Examples include negative extraction controls, positive controls, spike-ins, process blanks, and technical replicates. These controls help identify contamination, assay failure, reagent problems, sample handling artefacts, and other sources of technical variation before data enter the analysis pipeline.
+
+Without appropriate controls, technical artefacts may be difficult or impossible to distinguish from genuine biological signal. The resulting bias is carried forward into every downstream analysis.
+
+| Platform	| Commonly overlooked control|
 |---|---|
-| 16S / metagenomics | Negative extraction control |
-| RNA-seq (bulk) | ERCC spike ins, no template control |
-| Single-cell RNA-seq | Empty droplet controls, ambient RNA |
-| Proteomics (MS) | Blank injections, negative digestion control |
-| Metabolomics | Pooled QC samples, solvent blanks |
-| DNA methylation | Unmethylated/fully methylated conversion controls |
+| 16S sequencing / metagenomics	| Negative extraction control |
+| Bulk RNA-seq | RNA integrity assessment and balanced batch design|
+| Single-cell RNA-seq |	Empty droplet controls, ambient RNA assessment|
+| Proteomics (MS)	| Blank injections, digestion controls|
+| Metabolomics	| Pooled QC samples, solvent blanks|
+| DNA methylation assays	| Conversion efficiency controls|
+
+#### Computational and statistical controls (analysis stage)
+
+Analytical controls are used to evaluate, quantify, and sometimes reduce technical noise within the generated dataset.
+
+Examples include permutation based null distributions, decoy databases in proteomics, batch effect assessment, and spike-in based normalisation strategies.
+
+These approaches can be extremely valuable, but they are constrained by the information available in the data. Computational methods cannot measure contamination that was never assessed experimentally, nor can they recover metadata that were never collected.
+
+#### How the levels relate to study failure
+| Level	| What it protects |	Consequence of failure	| Can it usually be fixed later? |
+|---|---|---|---|
+| Study design	| Validity of inference	| Misleading biological conclusions	| Rarely |
+| Experimental	| Validity of measurement	| Technical artefacts and unreliable data	| Rarely|
+| Computational	| Validity of interpretation	|Mischaracterised signal or bias	| Sometimes|
+
 
 ??? example "Case Study: The Placental microbiome"
 
@@ -340,10 +366,14 @@ a computational control cannot replace a missing wet lab control.
     </small>
 
 !!! danger "The unrecoverable rule"
-    If controls were not included at the time of experiment,
-    contamination and technical artefacts cannot be distinguished
-    from biology retrospectively. The only fix is to repeat
-    the experiment with proper controls.
+    Once information was never collected or never measured, it cannot be reconstructed retrospectively. At best, its impact can be assessed, acknowledged, or partially mitigated. In many situations, the only definitive solution is to redesign and repeat the study.
+
+!!! info "Four principles worth remembering"
+
+    - Study design failures compromise inference.
+    - Experimental failures compromise measurement.
+    - Computational failures compromise interpretation.
+    - Problems introduced early are the hardest to fix later.
 
 !!! info "Coming up in Module 3"
     Designing a control strategy for your specific omics platform,
@@ -355,7 +385,7 @@ a computational control cannot replace a missing wet lab control.
 
 Finding a statistically significant result in omics is not the
 same as finding a generalisable biological truth. When thousands
-of features are tested simultaneously, some will reach significance
+of genes/proteins are tested simultaneously, some will reach significance
 by chance and results derived from a single dataset may reflect
 dataset specific effects (technical, cohort, or sampling variation) rather than true biology.
 
@@ -368,6 +398,8 @@ requirement scales with the strength of the claim being made:
 | Confirmatory / mechanistic | "Gene X drives this pathway in disease Y" | Strongly recommended |
 | Translational / clinical | "This 10 gene signature predicts patient outcome" | Essential |
 
+Validation can take two forms: **independent cohort replication** (the same measurement platform applied to a new dataset) and **orthogonal validation** (a different measurement technology applied to the same finding. For example, confirming a proteomics finding with immunohistochemistry, an RNAseq hit with RT-qPCR or a variant call with Sanger sequencing). Orthogonal validation is particularly valuable when an independent cohort is not available, and is standard practice before functional follow up.
+
 !!! info "The key principle"
     Any claim intended to generalise beyond the original dataset
     requires independent validation. Without it, results should
@@ -378,7 +410,7 @@ Since omics measures high features (gene/proteins), sample size is often very sm
 are especially susceptible to dataset specific noise. 
 
 - Differential expression analysis; gene signatures derived from small or heterogeneous cohorts often show limited reproducibility across independent datasets of the same disease
-- Metabolomics biomarkers, as shown in Pitfall 3, 72% of
+- Metabolomics biomarkers, as shown in Pitfall 2, 72% of
   reported significant metabolites were found in only one study
 - **Proteomics:** a striking gap exists between biomarker discovery and clinical translation. Rifai et al. 
   described this validation gap in 2006 and nearly two decades 
@@ -396,7 +428,7 @@ are especially susceptible to dataset specific noise.
 discovery to claims of generalisable biomarkers, clinical
 signatures, or mechanisms, without independent validation.***
 
-??? example "Case study: Two decades of unreplicable Genetics; The candidate Gene era"
+??? example "Case study: Two decades of unreplicable genetics; The candidate gene era"
 
     From the 1990s through the mid 2000s, hundreds of candidate gene
     association studies were published linking specific genetic variants
@@ -457,7 +489,7 @@ signatures, or mechanisms, without independent validation.***
 
     Discuss in your group:
 
-    1. What is the true experimental unit — the mouse or the human donor?
+    1. What is the true experimental unit, the mouse or the human donor?
     2. What is the actual n per condition?
     3. Are the six mice independent biological replicates? Why or why not?
     4. What does this mean for the p-values reported?
@@ -494,14 +526,14 @@ signatures, or mechanisms, without independent validation.***
       rather than the pool?
 
         If all donor material was irreversibly pooled and no
-        individual aliquots were retained — this is **unrecoverable**.
+        individual aliquots were retained, this is **unrecoverable**.
         The biological contributions of individual donors cannot
         be separated from a mixed inoculum after the fact.
         The experiment would need to be repeated with one
         inoculum per donor.
 
     **Q6. Is this recoverable?**  
-    No — unrecoverable. Pooling happened at sample collection. 
+    No: unrecoverable. Pooling happened at sample collection. 
     Donor contributions cannot be separated retrospectively.
 
     <small>Ref: Wagner & Kleiner, *Nat Commun* 16, 7263 (2025)</small>
@@ -510,7 +542,7 @@ signatures, or mechanisms, without independent validation.***
 
 -->
 
-??? question "Part 2: Apply to Your Own Study"
+??? question "Part 2: Apply to your own study"
 
     Briefly describe a study you are planning or have
     been involved in. In small groups:
