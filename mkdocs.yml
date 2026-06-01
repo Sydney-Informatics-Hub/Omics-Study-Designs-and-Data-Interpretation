@@ -10,11 +10,11 @@ nav:
     - The 'omics landscape: Day1/module1-1.md
     - Why 'omics studies fail: Day1/module1-2.md
   - Module 2: 
-    - Omics data modalities: Day1/module2-0.md
-    - Core statistical properties: Day1/module2-1.md
-    - Sparsity and zero inflation: Day1/module2-2.md
-    - Compositionality: Day1/module2-3.md
-    - Classical statistics struggle with omics: Day1/module2-4.md
+    - Omics data modalities: Day1/module2-1.md
+    - Core statistical properties: Day1/module2-2.md
+    - Sparsity and zero inflation: Day1/module2-3.md
+    - Compositionality: Day1/module2-4.md
+    - Classical statistics struggle with omics: Day1/module2-5.md
   - Module 3:
     - Module3: Day1/module3.md
     - Module4: Day2/module4.md

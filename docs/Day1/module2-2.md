@@ -1,193 +1,223 @@
-# Module 2.2: Sparsity and zero inflation
+# Module 2.2: Core statistical problems
 
-!!! info "Learning objectives" 
+!!! info "Learning objectives"
 
-    By the end of this module, participants will be able to:  
+    By the end of this module, participants will be able to:
 
-    - Distinguish between biological zeroes, technical zeroes, and sampling zeroes, and explain the mechanism behind each
-    - Identify which type of zero or missing value is most likely given a platform, depth, and biological context 
-    - Describe specific forms of zeros and missing values in different scenarios 
-    - Explain what goes wrong analytically when zeros are misclassified 
+    - Explain why omics measurements are relative rather than absolute and describe what this means for cross-sample comparison
+    - Identify the primary statistical challenge associated with each major omics data type and connect it to the biological or technical process that causes it
+    - Distinguish between a sampling zero and a biological zero, and explain why this distinction affects interpretation
+    - Recognise when depth, signal, or composition confounding is likely to produce misleading results, and identify which problems are recoverable at the analysis stage
+    - Describe why the same statistical approach cannot be applied uniformly across omics platforms
 
-## Sparsity is normal but not all sparsity is the same
+## The problem every omics platform shares
 
-The first thing most people notice when they take a look at their omics datasets is how many zero values it contains. In bulk RNA-seq 10-40% of gene-sample entries are zeros, in single-cell RNA-seq that number can exceed 90%, and in microbiome data it can exceed 95%. 
+Before looking at individual data types, it helps to state the problem they all have in common.
 
-This often feels alarming at first but it is not necessarily a sign something is wrong. It is a direct consequence of trying to measure hundreds to millions of features simultaneously with a finite technical budget. Most features are not detectable in most samples under most conditions. The challenge we face in data analysis is not the presence of zeros, it’s understanding what they actually represent.
+In most everyday measurements, numbers are absolute. A patient who weighs 80 kg weighs 80 kg regardless of who else is in the room or how many measurements were taken that day. The value stands on its own.
 
-TODO add references to support these numbers and causes. 
+Omics measurements don't work like that. Every omics instrument operates under a finite technical budget, a total number of reads, a total ion signal, a total fluorescence intensity, and what you observe for any one feature is always a share of that total. 
 
-| Platform | Missing rate | Primary cause |
-|---|---|---|
-| Bulk RNA-seq | 10–40% | Many genes genuinely not expressed |
-| 10x scRNA-seq | >90% | Shallow depth per cell + capture inefficiency |
-| SMART-seq2 | 60–80% | Better detection per cell, but still limited |
-| 16S / metagenomics | 50–90% | True absence + undersampling of rare taxa |
-| Proteomics (DDA) | 10–50% missing | Below detection limit |
-| Metabolomics | 20–50% missing | Detection limits + ionisation variability |
+!!! danger "The core problem"
+    **An omics measurement is not an absolute quantity. It is a proportion of a technical total that varies between samples.**
+    
+    Because that total differs between samples — sometimes by chance, sometimes systematically, raw numbers cannot be compared directly across samples without first accounting for how they were generated.
 
-## Not all zeros mean the same thing
+TODO some diagram that communicates this 
 
-A zero in any matrix arises from one of three causes. It means the feature was not detected but it does **not** tell you why.
+Each platform has its own version of the same core problem, and its own specific failure modes on top of that. Summarised:
 
-TODO: diagram summarising these concepts
-
-### 1. Biological zeros
-
-These are the straightforward ones. The feature really is absent. 
-
-- A gene is not expressed in a given cell type  
-- A microbe is not present in a sample  
-- A protein is not produced under certain conditions  
-
-These zeros carry biological meaning and should be preserved as they are. Imputing values here (replacing a zero with an estimate) would be inventing biology that does not exist.  
-
-### 2. Technical zeros
-
-Here, the molecule exists, but it was lost before it could be detected. In single-cell RNA-seq, for example, only a fraction of transcripts are captured during library preparation. Capture efficiency can be as low as 10–15%, so most molecules are simply lost before sequencing.
-
-Technical zeroes reflect a failure of the measurement process,n ot an absence of biology. They cannot be resolved by deeper sequencing, the molecule was lost before the detection process took place. 
-
-### 3. Sampling zeros
-
-These arise at the sequencing stage. By this point, the molecule has already been successfully extracted, converted, and amplified. It is in the library but the sequencer only reads a finite number of fragments. In complex samples containing tens of thousands to millions of sequences, low abundance molecules are less likely to be sampled by chance. 
-
-!!! tip "Like eating jellybeans from a jar" 
-    If you only pick out 20 jellybeans from a jar containing 10,000, you might miss any flavour thats only represented by less than 10 jellybeans. Not because the flavours don't exist, but because your sample size was too small to encounter them reliably. 
-
-    Sequencing works in the same way. A gene expressed at low levels contributes only a tiny fraction of the fragments in the library. At 20 million reads, there may simply not be enough handfuls to guarantee a gene gets counted. Sequence the same library to 100 million reads and the same gene will appear more frequently.  
-
-TODO make a diagram like this of our own 
-![Sources of zeros in scRNAseq data: biological, technical, and sampling](module2Figs/01_zero_technical_Biological_v1.png){width=90%}
-
-<small>Adapted from: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"} (CC BY 4.0)</small>
-
-### 4. Analytical zeros 
-
-The three scenarios above arise from the measurement process itself, from biology, from capture failure, or sequencing budget. Analytical zeros are different, they are created by decisions made after the data is generated. 
-
-Before data can be analysed, it undergoes pre-processing to convert raw sequence to a format that can be analysed. Preprocessing pipelines may apply filters and features that fall outside the permitted range are removed from the dataset. In some outputs, they are indistinguishable from features that were never detected at all. 
-
-Common examples include: 
-
-- **Variant calling**: a variant detected at 8x coverage is removed by a minimum depth filter of 10x. The site does not appear in the VCF
-- **Bulk RNA-seq**: a gene with counts in two out of six samples is removed by a minimum prevalence filter before differential expression testing 
-- **Single-cell RNA-seq**: a small quiecent cell type falls below the minimum UMI threshold and is removed during QC filtering 
-- **Proteomics**: a low abundance protein detected in 40% of samples is excluded by a minimum 70% observation threshold. It is absent from the results 
-
-!!! warning "Filters are directional and may leave no trace"
-    Analytical filters are not neutral. They systematically remove low-signal features like rare variants, lowly expressed genes, small cell populations, low-abundance proteins, or rare taxa. These are often exactly the features a study is designed to find.
-
-!!! tip "What this means in practice"
-    Filters are often necessary. They reduce noise, improve statistical power, and make analyses more computationally tractable. The problem is not filtering itself but treating filtered output as though it represents the complete dataset.
-
-    Two habits protect against this:
-
-    - **Always report filter parameters alongside results**: how many features were removed, by which threshold, and in which direction
-    - **Check what you lost**: before finalising a filter, examine what was removed and whether it clusters non-randomly by condition, sample quality, or biological group
-
-## When data looks the same but means something different
-
-In every omics platform, the same raw data value can arise from completely different causes. The correct interpretation and analytical response depends on which cause applies. This is a structural property of high-throughput measurements: when you are trying to detect thousands of features simultaneously, the boundary between not there and not detected is often blurred. What changes between platforms is where that boundary sits, what causes things to fall below it, and what you can reasonably infer when they do.
-
-In the count matrix, all three cases are just zeros.
-
-There’s no flag that tells you whether a zero is biological, technical, or due to sampling. Interpreting them requires context:   
-- how highly the feature is expressed elsewhere  
-- the sequencing depth  
-- the platform you’re using  
-- what you expect biologically  
-
-This is why zero handling isn’t something you can fully automate.
-
-## A simple example
-
-Consider a gene measured across four single cells:
-
-| Cell 1 | Cell 2 | Cell 3 | Cell 4 |
+| Platform | Data type | Core problem | Key additional challenge |
 |---|---|---|---|
-| 0 | 0 | 3 | 0 |
+| Bulk RNA-seq | Integer counts | Depth variation | Gene length bias; sampling zeros |
+| Single-cell RNA-seq | UMI counts | Depth per cell | Cells ≠ replicates; dropout |
+| Proteomics / metabolomics | Continuous intensity | Ion signal variation | MNAR missing values; detection bias |
+| Microbiome (16S / shotgun) | Compositional counts | Compositionality | Contamination in low-biomass samples |
+| Methylation arrays | Beta values [0–1] | Cell composition | Beta vs M-value; heteroscedasticity |
 
-It’s tempting to say the gene is “off” in most cells.
+There is no universal normalisation or statistical method that works across all of these. Applying RNA-seq tools and algorithms to proteomics data, or standard differential tests to microbiome data produces systematically wrong results.
 
-But with typical single-cell capture rates, it’s just as plausible that the gene is expressed at low levels in all four cells, and only one of them happened to register counts.
+## Sequencing count data
 
-You can’t resolve that ambiguity from this table alone.
+### The biological reality
 
-## Same zero, different meaning
+Consider the mechanism of gene expression: 
 
-Context changes everything.
+When a cell expresses a gene, it produces RNA molecules. Some genes are highly active and produce thousands of copies. Others are 
+expressed at very low levels, producing only a handful. This variation in expression level is real biology, it is what makes  a liver cell different from a neuron, and a normal healthy cell different from a cancerous one.
 
-- If a gene known to be T-cell specific is zero across B cells, that’s almost certainly a biological zero
-- If the same gene shows patchy detection across T cells, that pattern is more consistent with sampling or technical zeros  
+The challenge we face in working with omics data is that our data generation platforms (e.g. sequencers, mass spectrometers) cannot count every RNA molecule in a sample. Instead it reads a subset of fragments and stops when it reaches a target depth, typically somewhere between 20 and 50 million reads for a bulk RNA-seq experiment. Each gene's count is therefore a share of whatever total happened to be generated for that sample.
 
-Treating both situations the same leads to incorrect conclusions.
+### The statistical consequence
 
-## Platform matters
+This produces counts that are:
 
-What a zero *likely* means depends heavily on the technology.
+**Discrete integers**: counts are whole numbers, and the statistical models appropriate for them (negative binomial, Poisson) are different from those appropriate for continuous measurements.
 
-- **Bulk RNA-seq:** most zeros are biological, since expression is averaged across many cells.  
-- **Droplet-based scRNA-seq (e.g. 10x):** many zeros come from limited capture and shallow depth.  
-- **SMART-seq2:** higher sensitivity per cell, but amplification noise plays a larger role.  
-- **Microbiome data:** zeros can reflect both true absence and undersampling of rare taxa.  
-- **Proteomics/metabolomics:** missing values often mean “below detection limit,” not absence.  
+**Right-skewed and zero-inflated**: most genes are expressed at low levels. A typical count matrix has many small values and many zeros, with a long tail of highly expressed genes. This distribution is not normal, and treating it as though it were leads to incorrect 
+inference.
 
-The same number (0) carries different implications depending on where it came from.
+**Dependent on sequencing depth**: a gene with a count of 100 in Sample A and 200 in Sample B may not have changed at all. If Sample B was sequenced twice as deeply, both observations represent exactly the same proportion of the library. The apparent difference is entirely technical.
 
-## What goes wrong when zeros are misclassified 
+**Affected by gene length**: longer genes produce more sequencing fragments than shorter genes at the same expression level, simply because there is more sequence to sample. A long gene and a short gene with identical biological expression will have very different raw counts. This is why methods like RPKM and TPM exist, and why length correction matters when comparing expression across genes rather than across samples.
 
-Treating all zeros as the same causes problems downstream.
+!!! TIP "TODO exercise: link to webR module"
 
-TODO provide clear examples to explain this. Below I've added some extra information but its very janky. 
+    Whats the webR module that demonstrates these principles?
 
-### **Differential expression** 
+### The zero problem
 
-If one condition has systematically lower sequencing depth, sampling zeros will cluster in that condition. Genes will appear downregulated not because they are biologically downregulated but because they were not sampled. 
+Zeros deserve special attention because they are common and easily misread. In a count matrix, a zero can mean one of two things:
 
-### **Correlation analysis**  
+- **Biological zero**: the gene is genuinely not expressed in this sample under these conditions
+- **Sampling zero**: the gene was expressed, but no reads happened to be assigned to it under this sequencing budget
 
-In matrices, multiple genes with low expression will all show zeros across most samples. This may look like correlated expression. In reality, it may reflect shared dropout probability.  
+At shallow sequencing depth, low-abundance genes drop in and out of detection across samples not because their expression changed, 
+but because the sampling was too sparse to capture them reliably. Increasing depth often makes these genes reappear. The biology hasn't changed — the measurement has simply improved.
 
-### **Imputation** 
+TODO a diagram? 
 
-If missing values in a dataset are imputed using random or mean-based methods, features that are systematically below detection in one condition will be assigned imputed values that are statistically indistinguishable from measured value. Downstream abdunance or expression analyses will compare real measurements in one group against imputed estimates in another without flagging that the comparison is not equivalent. 
+!!! warning "Why this matters for interpretation"
+    Treating sampling zeros as biological zeros inflates the apparent number of absent genes, distorts differential expression results, 
+    and makes reproducibility across studies appear worse than it is. Depth is a design decision with direct consequences for the zeros 
+    you will see in your data.
 
-### **False variant calls** 
+### When depth becomes a design problem
 
-In variant calling, a no-call silently converted to a reference genotype inflates apparent concordance with the reference genome. In clinical genomics, this means a pathogenic variant in a poorly converted region may not be reported, not because it was considered and excluded, but because the tools didn't see sufficient evidence to call it. 
+In principle, variation in sequencing depth between samples is a technical effect that normalisation can correct. In practice, it 
+becomes a design problem when depth is systematically associated with the biological groups being compared.
 
-## Questions to answer before handling zeros
+If one tissue type consistently yields lower quality RNA and therefore lower sequencing depth, genes will appear systematically 
+downregulated in that group even if nothing biologically different is happening. This looks like signal. It is noise.
 
-Across all data modalities, the same reasoning process applies before any analytical decision about zeros or missing values:
+TODO a diagram? 
 
-### 1. What platform generated the data? 
+!!! danger "Recoverable vs unrecoverable"
+    Depth variation distributed randomly across conditions can largely be corrected by normalisation. Depth variation that tracks with biological groups cannot. It is confounded with the signal of interest and cannot be separated from it analytically. This is a design failure, not an analysis problem.
 
-Expected zero rates and likely causes differ substantially by technology. 
+## Single-cell sequencing data
 
-TODO find some comparison examples that connect with expected zero rates described above? 
+### The biological reality
 
-### 2. What is the most likely cause of zeros in this dataset? 
+Single-cell RNA-seq resolves what bulk RNA-seq averages away. Rather than measuring the mean expression across thousands of cells, it profiles each cell individually — revealing the heterogeneity within a tissue, identifying rare populations, and capturing cell-type-specific responses that bulk methods cannot see.
 
-Biological absence, capture failure, sampling change, detection threshold, or compositional compression? The sequencing depth, platform, and biology all inform this. 
+This resolution comes from a biological fact: individual cells differ. Even cells of the same type show natural variation in 
+gene expression, cell cycle state, and activity level. Single-cell methods make this variation visible rather than averaging it out.
 
-### 3. Is the missingness random or structured?
+### The statistical consequences
 
-If zeros cluster by samples, conditions, feature types, they are carrying information about the measurement process. Structured missingness is a signal, usually a technical one, not just noise to be removed. 
+**Sparsity is structural, not technical**: a typical single-cell count matrix has 80–95% zeros (TODO is this true?). This is not primarily a technical failure. It reflects the genuine biology of individual cells: **most genes are not actively transcribed in any given cell at any given moment.** This level of sparsity requires specialised analytical approaches. Standard bulk RNA-seq tools are not appropriate.
 
-### 4. What do the applied analytical methods assume about zeros?
+**UMIs reduce but do not eliminate amplification bias**: single-cell libraries use unique molecular identifiers (UMIs) attached to each molecule before amplification. Because each original molecule has a unique tag, PCR duplicates can be identified and collapsed. This substantially reduces the amplification bias described in the sequencing section, but does not eliminate variation in capture efficiency between cells.
 
-Different algorithms make different assumptions about where the zeros are coming from. Using a method with assumptions that do not match your data type will propagate the misclassification into your results. 
+**Cells are not independent replicates**: this is the most consequential statistical property of single-cell data and the most commonly violated assumption. Cells from the same individual share a common genetic background, environment, and sample processing history. They are subsamples of a donor, not independent biological observations.
 
-## What to take forward
+!!! danger "The pseudoreplication problem"
+    Treating 50,000 cells from 5 donors as n = 50,000 is pseudoreplication. The true biological n is 5. Statistical tests that treat cells as independent observations artificially inflate degrees of freedom, producing false positives at a rate far higher than the nominal significance threshold implies.
 
-**A zero is not a single thing. It’s an observation with multiple possible explanations.**
+    The correct approach is aggregating cell-level counts to the donor level before differential testing, known as pseudobulk analysis (TODO add link: covered in Module 6). The important point here is that the unit of replication is determined by biology, not by the resolution of the technology.
 
-Before deciding how to handle zeros, you need to think about:  
-- the platform  
-- the depth  
-- the biology you expect  
+!!! TIP "TODO exercise: link to webR module"
+    This connects directly to Pitfall 2 from Module 1. The Alzheimer's disease re-analysis, where reported DEGs dropped from 1,031 to 26 when pseudobulk was applied correctly, is a published demonstration of what happens when this assumption is violated.
 
-Zeros aren’t just missing data to “fix.” They’re part of the measurement process, and interpreting them correctly is essential for everything that follows.
+    make an exercise that links this pitfall with a webR module if possible? 
+    Whats the webR module that demonstrates these principles?
 
+## Proteomics and metabolomics abundance data
 
+### The biological reality
+
+Proteins and metabolites are the functional outputs of gene expression. They are what the cell actually uses to do things, catalysing reactions, sending signals, building structures. Measuring them directly captures a dimension of biology that RNA cannot: **post-translational modification, protein stability, and metabolic flux are invisible to transcriptomics but visible here**.
+
+### The statistical consequences
+
+Mass spectrometry does not count molecules, instead it measures signal intensity (i.e. how strongly a molecule's chemical signature was detected by the instrument). This produces continuous values rather than integers, and the statistical properties are fundamentally different from count data.
+
+**Continuous, approximately log-normal**: after log2 transformation, proteomics and metabolomics intensities approximate a normal distribution. This means tools designed for normally distributed data, including limma, which was originally developed for microarrays, are appropriate here, where DESeq2 and edgeR are not.
+
+**The budget is total ion signal**: just as sequencing counts reflect a share of total reads, MS intensities reflect a share of total ion signal loaded onto the instrument. Differences in sample loading, protein concentration, or ionisation efficiency between samples 
+create the same relative measurement problem as depth variation in sequencing.
+
+**Missing values are not random**: in sequencing data, zeros are common but distributed across all genes approximately proportionally to expression level. In mass spectrometry, missing values are structurally biased toward low-abundance features. A protein is absent from a sample not because it wasn't there, but because its signal fell below the instrument's detection threshold.
+
+!!! warning "Missingness not at random?"
+
+    See: https://stefvanbuuren.name/fimd/sec-MCAR.html 
+
+    Missing not at random — has direct consequences for imputation. Standard imputation methods that assume values are missing randomly will systematically overestimate the abundance of low-signal proteins. Methods designed for MNAR data, or explicit modelling of the 
+    detection threshold, are required. Choosing the wrong imputation approach introduces systematic bias that propagates through every downstream analysis.
+
+**Detection depends on acquisition mode**: in data-dependent acquisition (DDA), the instrument selects the most abundant ions for fragmentation. Low-abundance proteins may never be selected and are therefore absent from the data entirely, not as missing values, but as features that were never measured. Data-independent acquisition (DIA) improves coverage but introduces different analytical challenges. The platform choice directly shapes which proteins appear in the data at all.
+
+!!! TIP "TODO exercise: link to webR module"
+
+    Whats the webR module that demonstrates these principles?
+
+## Microbiome compositional data
+
+### The biological reality
+
+Microbial communities are inherently relative. In any given sample, the organisms present compete for the same niche and resources. Sequencing captures a snapshot of which organisms were detectable under the conditions of that sample, not a census of every microbe present.
+
+### The statistical consequences
+
+Microbiome count data looks superficially similar to RNA-seq count data: it is a matrix of integers, one row per taxon, one column per sample. But it has an additional mathematical constraint that makes standard statistical tests invalid.
+
+**Compositional data violates independence**: because counts sum to the total reads sequenced, individual taxon counts are not independent of each other. If one taxon genuinely increases in abundance, its larger share of the library means all other taxa must appear smaller in relative terms: even if their absolute abundance is unchanged. A taxon can appear to decrease purely 
+because something else increased.
+
+!!! danger "Why standard tests fail"
+    Standard differential abundance tests assume that features are measured independently. In compositional data, they are not. Applying a t-test, Wilcoxon test, or even DESeq2 directly to microbiome relative abundances will produce spurious results, not occasionally, but systematically. Methods designed for compositional data (ALDEx2, ANCOM-BC, log-ratio approaches) are required.
+
+**Contamination is structurally invisible**: low-biomass samples (e.g., tissue biopsies, placental swabs, blood) contain very little  microbial DNA relative to host DNA or reagent contaminants. Contaminant sequences from extraction kits, water, and lab surfaces can 
+dominate a library from a low-biomass sample, and their compositional signature is indistinguishable from true biology without negative extraction controls.
+
+!!! TIP "TODO exercise: link to webR module"
+    This connects directly to Pitfall 6 from Module 1 and the placental microbiome case study. An entire body of literature built 
+    on reagent contamination because controls were absent.
+    
+    TODO make an exercise that links this pitfall with a webR module if possible? 
+    Whats the webR module that demonstrates these principles?
+
+## Methylation array data
+
+### The biological reality
+
+DNA methylation is a chemical modification in the form of the addition of a methyl group to cytosine, primarily at CpG sites, that regulates gene expression without changing the underlying DNA sequence. It is one of the primary mechanisms of epigenetic control, and it varies between cell types, developmental stages, environmental exposures, and disease states.
+
+### The statistical consequences
+
+Methylation arrays measure the proportion of methylated signal at each CpG site, producing a value between 0 (fully unmethylated) and 1 (fully methylated). These are called beta values.
+
+**Beta values are intuitive but statistically problematic**: a beta value of 0.8 means 80% of cells carrying this CpG are methylated at 
+this site. This is biologically interpretable. But beta values are bounded between 0 and 1 and follow a beta distribution, not a normal distribution. They are heteroscedastic: variance is highest near 0.5 and lowest near the extremes. Standard linear models that assume homogeneous variance are inappropriate.
+
+**M-values are needed for testing**: the logit transformation of beta values produces M-values, which are approximately normally distributed and have more uniform variance across the range. M-values are appropriate for statistical testing. Beta values are appropriate for biological interpretation and visualisation. Using beta values for testing and M-values for interpretation are both common errors.
+
+**Cell type composition is the dominant confounder**: different cell types have systematically different methylation profiles. 
+Blood-based methylation studies are particularly vulnerable: a sample with more granulocytes will look globally different 
+from a sample with more lymphocytes, regardless of disease status. Without accounting for cell type composition, statistically or by cell sorting, observed methylation differences may reflect cellular heterogeneity rather than biology.
+
+!!! TIP "TODO exercise: link to webR module"
+
+    Whats the webR module that demonstrates these principles?
+
+!!! info "Coming up in Module 5"
+    Normalisation strategies appropriate to each 
+    platform — and how to choose between them based 
+    on your data and experimental design — are 
+    covered in **Module 5: Normalisation and Scaling**.
+
+## Key takeaways
+
+Every omics measurement is a relative signal captured under a finite technical budget. The budget differs by platform, reads for sequencing, ion signal for mass spectrometry, probe fluorescence for arrays, but the consequence is universal: raw numbers cannot be compared across samples without normalisation appropriate to that platform's statistical properties.
+
+The most important things to carry forward from 
+this module:
+
+- A count of zero does not mean absent, it may mean undetected
+- Cells are not biological replicates, individuals are
+- Missing values in proteomics are not random they are biased toward low abundance
+- Microbiome data is compositional, standard tests assume independence that doesn't exist
+- Beta values look interpretable but require transformation before statistical testing
+- No single method fits all platforms, the choice of analytical approach must follow from the data type

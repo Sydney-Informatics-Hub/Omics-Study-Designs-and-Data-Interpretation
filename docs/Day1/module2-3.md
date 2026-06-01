@@ -1,153 +1,193 @@
-# Module 2.3: Compositionality: you are always looking at a pie chart
+# Module 2.3: Sparsity and zero inflation
 
 !!! info "Learning objectives" 
 
     By the end of this module, participants will be able to:  
-    
-    - Define compositionality in plain terms 
-    - Identify which omics platforms are most severely affected by compositionality 
-    - Describe what normalisation does and does not fix in compostional data 
 
+    - Distinguish between biological zeroes, technical zeroes, and sampling zeroes, and explain the mechanism behind each
+    - Identify which type of zero or missing value is most likely given a platform, depth, and biological context 
+    - Describe specific forms of zeros and missing values in different scenarios 
+    - Explain what goes wrong analytically when zeros are misclassified 
 
-In Module 2.1, we established that omics measurements are relative, a count or intensity reflects a share of a technical total, not an absolute molecular quantity. In module 2.2, we saw that many entries in omics matrices are zero and that those zeros hve different causes and meanings. 
+## Sparsity is normal but not all sparsity is the same
 
-There’s a third property that follows directly from how the data is generated, but it’s easy to overlook:  **counts are compositional.**
+The first thing most people notice when they take a look at their omics datasets is how many zero values it contains. In bulk RNA-seq 10-40% of gene-sample entries are zeros, in single-cell RNA-seq that number can exceed 90%, and in microbiome data it can exceed 95%. 
 
-This means that what you observe in one feature is not determined solely by that feature's biology. It is constrained by everything else being measured at the same time. A change anywhere in the data creates the appearance of change everywhere, even when nothing has happened. This is a structural consequence of measuring a large number of features simultaneously with a finite technical budget. It appears across all omics platforms, under different names and with different severity. 
+This often feels alarming at first but it is not necessarily a sign something is wrong. It is a direct consequence of trying to measure hundreds to millions of features simultaneously with a finite technical budget. Most features are not detectable in most samples under most conditions. The challenge we face in data analysis is not the presence of zeros, it’s understanding what they actually represent.
 
-## The biological reality 
+TODO add references to support these numbers and causes. 
 
-Omics instruments capture molecules up to a total capacity (e.g. a fixed number of reads, a finite ion signal, a bounded flouresence range). That total is distributed across all features present in the sample. 
+| Platform | Missing rate | Primary cause |
+|---|---|---|
+| Bulk RNA-seq | 10–40% | Many genes genuinely not expressed |
+| 10x scRNA-seq | >90% | Shallow depth per cell + capture inefficiency |
+| SMART-seq2 | 60–80% | Better detection per cell, but still limited |
+| 16S / metagenomics | 50–90% | True absence + undersampling of rare taxa |
+| Proteomics (DDA) | 10–50% missing | Below detection limit |
+| Metabolomics | 20–50% missing | Detection limits + ionisation variability |
 
-The distribution is not independent. Features compete for the same budget, and their observed values are all shares of the same whole. As such, it is important to keep in mind, you are measuring proprotions not absolute quantities. And proportions are constrained to sum to a total, which means they are not independent of one another. 
+## Not all zeros mean the same thing
 
-In practical terms, this means that if one gene takes up a larger share of the reads, the relative share of other genes must decrease, even if their actual expression hasn’t changed.
+A zero in any matrix arises from one of three causes. It means the feature was not detected but it does **not** tell you why.
 
-!!! tip "You are always looking at a pie chart" 
-    A useful way to think about it is that you are always looking at a pie chart, not a bar chart. A bar chart shows absolute quantities. A pie chart shows proportions. Sequencing data gives you proportions.
+TODO: diagram summarising these concepts
 
-    Once you start looking at proportions, it becomes easy to misinterpret what’s changing.
+### 1. Biological zeros
 
-## The statistical consequences 
+These are the straightforward ones. The feature really is absent. 
 
-### Apparent changes that are not real 
+- A gene is not expressed in a given cell type  
+- A microbe is not present in a sample  
+- A protein is not produced under certain conditions  
 
-Because features share a fixed total, a genuine biological change in one feature changes the apparent relative abundance of other features, even those whose absolute abundance is unchanged. 
+These zeros carry biological meaning and should be preserved as they are. Imputing values here (replacing a zero with an estimate) would be inventing biology that does not exist.  
 
-A simple example makes this arithmetic visible to us: 
+### 2. Technical zeros
 
-| Gene | Sample 1 | Sample 2 | Reality | 
+Here, the molecule exists, but it was lost before it could be detected. In single-cell RNA-seq, for example, only a fraction of transcripts are captured during library preparation. Capture efficiency can be as low as 10–15%, so most molecules are simply lost before sequencing.
+
+Technical zeroes reflect a failure of the measurement process,n ot an absence of biology. They cannot be resolved by deeper sequencing, the molecule was lost before the detection process took place. 
+
+### 3. Sampling zeros
+
+These arise at the sequencing stage. By this point, the molecule has already been successfully extracted, converted, and amplified. It is in the library but the sequencer only reads a finite number of fragments. In complex samples containing tens of thousands to millions of sequences, low abundance molecules are less likely to be sampled by chance. 
+
+!!! tip "Like eating jellybeans from a jar" 
+    If you only pick out 20 jellybeans from a jar containing 10,000, you might miss any flavour thats only represented by less than 10 jellybeans. Not because the flavours don't exist, but because your sample size was too small to encounter them reliably. 
+
+    Sequencing works in the same way. A gene expressed at low levels contributes only a tiny fraction of the fragments in the library. At 20 million reads, there may simply not be enough handfuls to guarantee a gene gets counted. Sequence the same library to 100 million reads and the same gene will appear more frequently.  
+
+TODO make a diagram like this of our own 
+![Sources of zeros in scRNAseq data: biological, technical, and sampling](module2Figs/01_zero_technical_Biological_v1.png){width=90%}
+
+<small>Adapted from: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"} (CC BY 4.0)</small>
+
+### 4. Analytical zeros 
+
+The three scenarios above arise from the measurement process itself, from biology, from capture failure, or sequencing budget. Analytical zeros are different, they are created by decisions made after the data is generated. 
+
+Before data can be analysed, it undergoes pre-processing to convert raw sequence to a format that can be analysed. Preprocessing pipelines may apply filters and features that fall outside the permitted range are removed from the dataset. In some outputs, they are indistinguishable from features that were never detected at all. 
+
+Common examples include: 
+
+- **Variant calling**: a variant detected at 8x coverage is removed by a minimum depth filter of 10x. The site does not appear in the VCF
+- **Bulk RNA-seq**: a gene with counts in two out of six samples is removed by a minimum prevalence filter before differential expression testing 
+- **Single-cell RNA-seq**: a small quiecent cell type falls below the minimum UMI threshold and is removed during QC filtering 
+- **Proteomics**: a low abundance protein detected in 40% of samples is excluded by a minimum 70% observation threshold. It is absent from the results 
+
+!!! warning "Filters are directional and may leave no trace"
+    Analytical filters are not neutral. They systematically remove low-signal features like rare variants, lowly expressed genes, small cell populations, low-abundance proteins, or rare taxa. These are often exactly the features a study is designed to find.
+
+!!! tip "What this means in practice"
+    Filters are often necessary. They reduce noise, improve statistical power, and make analyses more computationally tractable. The problem is not filtering itself but treating filtered output as though it represents the complete dataset.
+
+    Two habits protect against this:
+
+    - **Always report filter parameters alongside results**: how many features were removed, by which threshold, and in which direction
+    - **Check what you lost**: before finalising a filter, examine what was removed and whether it clusters non-randomly by condition, sample quality, or biological group
+
+## When data looks the same but means something different
+
+In every omics platform, the same raw data value can arise from completely different causes. The correct interpretation and analytical response depends on which cause applies. This is a structural property of high-throughput measurements: when you are trying to detect thousands of features simultaneously, the boundary between not there and not detected is often blurred. What changes between platforms is where that boundary sits, what causes things to fall below it, and what you can reasonably infer when they do.
+
+In the count matrix, all three cases are just zeros.
+
+There’s no flag that tells you whether a zero is biological, technical, or due to sampling. Interpreting them requires context:   
+- how highly the feature is expressed elsewhere  
+- the sequencing depth  
+- the platform you’re using  
+- what you expect biologically  
+
+This is why zero handling isn’t something you can fully automate.
+
+## A simple example
+
+Consider a gene measured across four single cells:
+
+| Cell 1 | Cell 2 | Cell 3 | Cell 4 |
 |---|---|---|---|
-| A | 100 | 200 | Genuinely doubled|
-| B | 100 | 100 | Unchanged |
-| C | 100 | 100 | Unchanged |
-| **Total reads** | 300 | 400 | Depth increase|
+| 0 | 0 | 3 | 0 |
 
-Now expressed as proportions:
+It’s tempting to say the gene is “off” in most cells.
 
-| Gene | Sample 1 | Sample 2 | Apparent change | 
-|---|---|---|---|
-| A | 33% | 50% | Increased |
-| B | 33% | 25% | Decreased |
-| C | 33% | 25% | Decreased|
+But with typical single-cell capture rates, it’s just as plausible that the gene is expressed at low levels in all four cells, and only one of them happened to register counts.
 
-Genes B and C appear to decrease. Their counts are identical in both samples and nothing about them changed. The apparent decrease is entirely a consequence of Gene A taking a larger share of the total. 
+You can’t resolve that ambiguity from this table alone.
 
-In a real dataset with 20,000 genes, the same effect operates across the entire matrix but it is invisible without understanding what is driving it. 
+## Same zero, different meaning
 
-### Correlations become unreliable 
+Context changes everything.
 
-Compositionality also distorts relationships between features. Because all features share the same total, they are mathematically constrained against each other. If one feature's relative share increases, the sum of all others must decrease. This introduces artificial negative correlations between features that have no biological relationship. 
+- If a gene known to be T-cell specific is zero across B cells, that’s almost certainly a biological zero
+- If the same gene shows patchy detection across T cells, that pattern is more consistent with sampling or technical zeros  
 
-TODO add an example like above? 
+Treating both situations the same leads to incorrect conclusions.
 
-!!! danger "Standard normalisation does not fix this"
-    Normalisation methods such as CPM, TPM, and DESeq2 size factors adjust for differences in total library size between samples. This makes samples more comparable. But after normalisation the data is still compositional. 
-    
-    You still have proportions of a total, and the same constraints still apply. Normalisation reduces the depth problem from module 2.1. It does not remove the compositional constraint.
+## Platform matters
 
-## A worked example: antibiotic experiment 
+What a zero *likely* means depends heavily on the technology.
 
-You’ll see this often in microbiome data. If most species drop after a treatment, the remaining ones automatically take up a larger fraction of the total, even if their absolute abundance stayed the same.
+- **Bulk RNA-seq:** most zeros are biological, since expression is averaged across many cells.  
+- **Droplet-based scRNA-seq (e.g. 10x):** many zeros come from limited capture and shallow depth.  
+- **SMART-seq2:** higher sensitivity per cell, but amplification noise plays a larger role.  
+- **Microbiome data:** zeros can reflect both true absence and undersampling of rare taxa.  
+- **Proteomics/metabolomics:** missing values often mean “below detection limit,” not absence.  
 
-??? example "Case study: The antibiotic experiment that wasn't what it looked like"
+The same number (0) carries different implications depending on where it came from.
 
-    A researcher is studying the gut microbiome of mice before and after
-    a heavy dose of antibiotics. They sequence stool samples from both
-    time points.
+## What goes wrong when zeros are misclassified 
 
-    ![ anitbiotic_example](module2Figs/02_compositionality_v01.jpg){width=98%}
-    ## Species Composition Summary
+Treating all zeros as the same causes problems downstream.
 
-    | Species    | Before | After  | Reality                                                   |
-    |------------|--------|--------|------------------------------------------------------------|
-    | Species A  | 20%    | 80% ↑  | Unchanged, same absolute numbers                          |
-    | Species B  | 30%    | 0%     | Below detection, not necessarily absent                   |
-    | Species C  | 50%    | 20% ↓  | Reduced, but proportions distorted by biomass loss         |
+TODO provide clear examples to explain this. Below I've added some extra information but its very janky. 
 
-    The researcher runs a standard statistical test on these percentages.
-    Species A shows a dramatic and highly significant increase.
+### **Differential expression** 
 
-    **The published conclusion:** *"Antibiotic X acts as a growth booster
-    for Species A."*
+If one condition has systematically lower sequencing depth, sampling zeros will cluster in that condition. Genes will appear downregulated not because they are biologically downregulated but because they were not sampled. 
 
-    ---
+### **Correlation analysis**  
 
-    **What actually happened:**
+In matrices, multiple genes with low expression will all show zeros across most samples. This may look like correlated expression. In reality, it may reflect shared dropout probability.  
 
-    The antibiotics killed 99% of all bacteria in the gut. Species A did
-    not grow, its absolute numbers stayed the same. But because everything
-    else was wiped out, Species A now represents 80% of what remains. The
-    pie shrank dramatically; Species A's slice simply got bigger by
-    default.
+### **Imputation** 
 
-## Compositionality across omics platforms 
+If missing values in a dataset are imputed using random or mean-based methods, features that are systematically below detection in one condition will be assigned imputed values that are statistically indistinguishable from measured value. Downstream abdunance or expression analyses will compare real measurements in one group against imputed estimates in another without flagging that the comparison is not equivalent. 
 
-The fixed-total constraint is present in all omics platforms. What changes between platforms is the unit of the budget, the severity of effect, and how visible it is in the data. 
+### **False variant calls** 
 
-TODO a table like this? 
+In variant calling, a no-call silently converted to a reference genotype inflates apparent concordance with the reference genome. In clinical genomics, this means a pathogenic variant in a poorly converted region may not be reported, not because it was considered and excluded, but because the tools didn't see sufficient evidence to call it. 
 
-| Platform | The "budget" | How compositionality manifests | Severity | Distinctive feature | Fixed by standard normalisation? |
-|---|---|---|---|---|---|
-| **Sequencing counts** RNA-seq · ATAC-seq · WGS | Total reads sequenced | Features compete for a fixed read pool. A strongly upregulated gene reduces the apparent share of all others, even unchanged ones. | Moderate | Diluted across 20,000+ features so less visible, but not absent. Highly expressed genes that change strongly exert the most distortion on surrounding features. | **No.** Depth normalisation (CPM, size factors) corrects between-sample depth variation but data remains compositional after normalisation. |
-| **Microbiome** 16S amplicon · metagenomics | Total reads sequenced | Total microbial biomass is entirely lost during sequencing. Collapse of dominant taxa makes survivors appear to increase. A taxon can look like it grew when nothing about it changed. | Severe | Biomass information is unrecoverable without spike-ins or qPCR. Standard methods cannot distinguish absolute increase from relative re-scaling. | **No.** Rarefaction and relative abundance conversion do not remove the compositional constraint. Log-ratio methods (ALDEx2, ANCOM-BC) are required. |
-| **Single-cell RNA-seq** 10x Chromium · SMART-seq2 | Total UMIs per cell | Operates at two levels: between cells (variable total UMIs) and within cells (all genes compete for a small per-cell budget). Dominant transcripts suppress apparent signal from everything else in the same cell. | Severe | Within-cell compositionality is distinct from dropout. A cell dominated by one highly expressed gene has its entire transcriptional profile distorted as a result. | **No.** Single-cell normalisation (scran, sctransform) corrects depth variation between cells but does not remove the within-cell compositional constraint. |
-| **Proteomics · metabolomics** DDA · DIA · LC-MS | Total ion signal in injection | Signal intensity reflects a proportion of total ions detected. Inconsistent sample loading or concentration differences shift apparent abundances of all features simultaneously. | Moderate | In DDA mode, highly abundant proteins actively suppress detection of low-abundance ones at the isolation window — compositionality operates before quantification begins. | **Partially.** Total protein normalisation (proteomics) and global median normalisation (metabolomics) correct for loading differences, equivalent to depth normalisation in sequencing. |
-| **Methylation arrays** EPIC · 450K | Methylated / total probe signal ratio | Each beta value is itself a composition (methylated ÷ total signal). Global methylation shifts — such as the hypomethylation common in cancer — distort all probes simultaneously. | Lower | The compositional constraint is explicit at the probe level. Global hypomethylation changes the reference point against which every probe in the array is interpreted. | **No.** Standard array normalisation (quantile, BMIQ) corrects technical variation but does not account for genuine global methylation differences between conditions. |
-| **Spatial omics** Visium · Xenium · MERFISH | Total capture per spot or panel genes | Within each spot, cell types compete for the fixed capture budget. Dominant cell types suppress signal from minority populations. In targeted panels, a small gene set means each marker has a proportionally larger distorting effect on the others. | Moderate | Targeted panels (Xenium, MERFISH) amplify compositional effects — fewer features sharing the budget means each feature has a larger proportional influence on the rest. | **No.** Between-spot depth normalisation is standard but within-spot compositional mixing requires deconvolution methods (RCTD, STdeconvolve), not normalisation. |
+## Questions to answer before handling zeros
+
+Across all data modalities, the same reasoning process applies before any analytical decision about zeros or missing values:
+
+### 1. What platform generated the data? 
+
+Expected zero rates and likely causes differ substantially by technology. 
+
+TODO find some comparison examples that connect with expected zero rates described above? 
+
+### 2. What is the most likely cause of zeros in this dataset? 
+
+Biological absence, capture failure, sampling change, detection threshold, or compositional compression? The sequencing depth, platform, and biology all inform this. 
+
+### 3. Is the missingness random or structured?
+
+If zeros cluster by samples, conditions, feature types, they are carrying information about the measurement process. Structured missingness is a signal, usually a technical one, not just noise to be removed. 
+
+### 4. What do the applied analytical methods assume about zeros?
+
+Different algorithms make different assumptions about where the zeros are coming from. Using a method with assumptions that do not match your data type will propagate the misclassification into your results. 
 
 ## What to take forward
 
-The key point here is subtle but important:
+**A zero is not a single thing. It’s an observation with multiple possible explanations.**
 
-> **A change in proportion is not the same as a change in absolute abundance.**
+Before deciding how to handle zeros, you need to think about:  
+- the platform  
+- the depth  
+- the biology you expect  
 
-When working with count data, you are always dealing with relative measurements. That shapes how differences and relationships should be interpreted.
+Zeros aren’t just missing data to “fix.” They’re part of the measurement process, and interpreting them correctly is essential for everything that follows.
 
-If this isn’t taken into account, it’s easy to:
-- overstate increases  
-- misinterpret decreases  
-- infer relationships that aren’t actually there  
-
-
-> **You are always looking at a pie chart, not a bar chart.**
-> A bar chart shows you absolute quantities. A pie chart shows you
-> proportions. Sequencing gives you a pie chart, and a larger slice
-> for one gene automatically means smaller slices for all the others,
-> regardless of what the biology actually did.
-
-
-## Looking ahead
-
-So far, we’ve seen three structural properties of omics data:
-
-- counts depend on sequencing depth  
-- zeros have multiple causes  
-- features are compositionally constrained  
-
-The next step is to bring these together and ask a practical question:
-
-**what does this mean for statistical testing?**
-
-That’s where standard approaches start to break down, and where specialised methods come in.
 
