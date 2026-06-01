@@ -58,17 +58,30 @@ TODO create an exercise to explore this flow.
 ### Two data types, determined by the instrument
 Module 1 introduced two broad families of omics technology: **sequencing based** approaches and **non sequencing** approaches. That distinction carries directly into the data, because the two families generally produce different kinds of measurements.
 
-**Sequencing based platforms produce counts**. A sequencer reads millions of short/long fragments of DNA or RNA and reports the sequence of each. Those raw sequences: the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or other feature (genes/proteins) set, and the number of fragments associated with each feature is tallied. The results a matrix of integers, one row per feature, one column per sample, where every cell contains a whole number. RNAseq, single-cell RNAseq, ATACseq, and microbiome sequencing all commonly produce this format.
+**Sequencing based platforms produce counts**. A sequencer reads millions of short/long fragments of DNA or RNA and reports the sequence of each. Those raw sequences: the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or other feature (genes/proteins) set, and the number of fragments associated with each feature is tallied. The results [raw matrix] **a matrix of counts**, one row per feature, one column per sample, where every cell contains a whole number. RNAseq, single-cell RNAseq, ATACseq, and microbiome sequencing all commonly produce this format.
 
+**Many non-sequencing platforms produce intensities**. Rather than reading sequences, these instruments measure molecular signal directly. For example, the strength of a fluorescence signal or the abundance of detected ions. The output is typically a **continuous value** rather than a count. Mass spectrometry platforms (proteomics and metabolomics) measure ion signal intensity. Microarrays measure fluorescence from hybridised probes. Many imaging based assays begin as fluorescence intensity measurements recorded across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
 
-+++++++++++++++++++++++++++++++++++++++++++++
-### Abundances 
+ 
+|Instrument family|	Typical primary measurement|	Format [Raw matrix]	| Platforms|
+|---|---|---|---|
+| Sequencing based	| Feature level counts (post alignment)|	Count matrix (non negative integers)|	Bulk RNA-seq · scRNA-seq · ATAC-seq · 16S · metagenomics|
+| Non-sequencing	| Continuous signal (intensity or ion abundance)	|Continuous matrix |	Proteomics MS · metabolomics MS · microarrays · many imaging-based assays|
 
-These are the equivalent measurement of counts in proteomics and metabolomics. Instead of sequencing, you're using mass spectrometry. Here, the instrument measures signal intensity, how much of a given molecule's chemical signature was detected. The output is a continouous value, not a count, and it comes with its own set of assumptions and normalisation challenges. 
+!!! info "Mass spectrometry is not imaging, but it produces intensities"
+    Module 1 discussed non-sequencing methods in the context of spatial imaging technologies. Mass spectrometry, which underlies most proteomics and metabolomics workflows is a detection and ionisation technology rather than an imaging technology. Despite these differences, **both generate signal-intensity measurements** rather than sequencing read counts. The underlying instrument physics differs substantially, but many of the statistical challenges associated with intensity based data are shared.
 
-!!! tip "Why does this distinction matter?" 
+!!! info "Spatial omics sits across both families"
+    Spatial transcriptomics platforms differ in which family they belong to, and therefore what type of measurement they generate. Visium captures RNA by **sequencing barcoded spots** on a tissue section and produces count data. **Imaging-based platforms** such as Xenium and MERFISH detect fluorescently labelled RNA molecules directly within intact tissue. Although fluorescence intensities are measured during image acquisition, image-processing pipelines typically decode these signals into transcript counts assigned to individual cells. 
+    
+The biology being measured is similar across these platforms, but the measurement process differs.
+
+##### Why does this distinction between data types matter?
     These distinctions matter because the statistical properties of each data type are different. The sources of technical noise are different, normalisation strategies are different. Treating them as interchangable leads to mistakes. 
 
+!!! Tip "A note on methylation arrays"
+    Methylation arrays measure fluorescence intensity at two probes per CpG site, one for the methylated state, one for the unmethylated state. The beta value reported is the ratio of methylated signal to total signal, bounded between 0 and 1. It is derived from intensities but is not itself an intensity, its statistical properties (beta distribution, variance highest in the middle of the range) are distinct from both raw intensities and counts.
+_______________________________________________________
 ## Preparing data for analysis 
 
 TODO something about preprocessing and the sorts of resources you need to do this. To get to counts/abundances. 
