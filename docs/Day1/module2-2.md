@@ -10,6 +10,8 @@
     - Recognise when depth, signal, or composition confounding is likely to produce misleading results, and identify which problems are recoverable at the analysis stage
     - Describe why the same statistical approach cannot be applied uniformly across omics platforms
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 mins]
+
 ## The problem every omics platform shares
 
 Before looking at individual data types, it helps to state the problem they all have in common.

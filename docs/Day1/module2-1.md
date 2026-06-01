@@ -11,6 +11,7 @@
     - Recognise that counts and intensities are relative rather than absolute measurements, and understand why this shapes every
       analytical decision that follows
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 5 mins; activities: 2 mins]
 
 Module 1 focused on study design: decisions made before any data is
 generated, and the failure modes that follow from getting those decisions
@@ -51,7 +52,7 @@ TODO create a workflow diagram for common sequencing types: WGS/WTS, DIA/DDA mas
 
 TODO create a diagram that explains this. 
 
-TODO create an exercise to explore this flow. 
+TODO create an exercise to explore this flow. []
 
  +++++++++++++++++++++++++++++++++++++++++++++
 

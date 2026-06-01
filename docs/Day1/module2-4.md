@@ -8,6 +8,8 @@
     - Identify which omics platforms are most severely affected by compositionality 
     - Describe what normalisation does and does not fix in compostional data 
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 8 mins: activities 4 mins]
+
 
 In Module 2.1, we established that omics measurements are relative, a count or intensity reflects a share of a technical total, not an absolute molecular quantity. In module 2.2, we saw that many entries in omics matrices are zero and that those zeros hve different causes and meanings. 
 

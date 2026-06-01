@@ -7,6 +7,9 @@
     - Recognise when a platform choice, sample size, or metadata decision creates an unrecoverable flaw.
     - Match a biological question to the most suitable omics platform and justify that choice.
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 12 mins + 3 mins Menti activities]
+
+
 Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly termed "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether that's a bacterium, a migratory bird, or person, can be interrogated at the molecular level across these multiple layers. 
 
 These layers have different names, each with distinct molecular targets, and a defined scope of what it can and cannot answer:  

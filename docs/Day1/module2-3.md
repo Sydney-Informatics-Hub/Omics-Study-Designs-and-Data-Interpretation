@@ -9,6 +9,8 @@
     - Describe specific forms of zeros and missing values in different scenarios 
     - Explain what goes wrong analytically when zeros are misclassified 
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 min]
+
 ## Sparsity is normal but not all sparsity is the same
 
 The first thing most people notice when they take a look at their omics datasets is how many zero values it contains. In bulk RNA-seq 10-40% of gene-sample entries are zeros, in single-cell RNA-seq that number can exceed 90%, and in microbiome data it can exceed 95%. 
