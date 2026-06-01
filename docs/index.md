@@ -1,15 +1,15 @@
 # Foundations of Omics Study Design, Bias, and Data Interpretation ​
 
-This interactive workshop spans two days, with 3.5-hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis-ready even before a single sample is processed. Additionally, you will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
+This interactive workshop spans two days, with 3.5 hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, you will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
 
 ## Why This Course Exists
 
-Most omics training focuses on tools and analysis pipelines — how to process 
+Most omics training focuses on tools and analysis pipelines, how to process 
 sequencing data, run differential expression, interpret a PCA plot. That 
 knowledge is valuable, but it arrives too late.
 
 The decisions that most often determine whether an omics study succeeds or 
-fails — platform choice, sample size, batch structure, metadata collection — 
+fails, platform choice, sample size, batch structure, metadata collection
 are made **before** a single sample is sequenced. Yet there is remarkably 
 little structured training that addresses this earlier, more consequential 
 stage of the research process.
@@ -22,20 +22,30 @@ are greatest.
 ## Who Should Attend
 
 This workshop is designed for researchers who generate or interpret omics data 
-but want to strengthen their understanding of experimental design and study 
-planning — before the sequencing run begins.
+but want to strengthen their understanding of study design and study 
+planning, before the sequencing run begins.
 
 **You will benefit most if you:**
 
-- Work with or plan to use omics technologies (genomics, transcriptomics, 
-  proteomics, metabolomics, or related fields)
-- Are involved in study design, sample collection, or data interpretation
-- Have no prior bioinformatics or programming experience — none is required
+- Work with or plan to use omics technologies (genomics, transcriptomics, proteomics, metabolomics, or related fields)
+- Are involved in study design, sample collection, or data interpretation, as a wet lab researcher, clinician, or PI
+- Want to understand why omics studies fail and how to prevent the most common design errors 
+Have no prior bioinformatics or programming experience, none is required
+
+### Required:
+
+- Familiarity with at least one omics platform at a conceptual level, for example, you understand that RNAseq measures gene expression, that samples are sequenced to produce reads, and that results are interpreted in a biological context
+- Basic molecular biology: what genes, transcripts, proteins, and metabolites are and how they relate to each other
+- Basic knowledge and experience generating, commissioning, or interpreting omics data in any capacity; wet lab, clinical, or analytical
 
 **Helpful but not required:**
 
-- Basic familiarity with how sequencing works (e.g. read depth, alignment)
-- Prior exposure to any omics platform in a wet lab or clinical context
+- Prior exposure to concepts like sequencing depth, count matrices, or differential expression, even if only encountered briefly in a paper or seminar
+- Familiarity with batch effects or QC steps in any omics workflow
+
+**Not required at all:**
+- Bioinformatics or programming skills
+- Statistical training beyond basic concepts (p-values, sample size)
 
 ## What you will walk away with: 
 
@@ -44,6 +54,7 @@ planning — before the sequencing run begins.
 - The ability to identify batch effects, confounding, and technical bias — and to know which can be corrected and which cannot 
 
 - Confidence reading QC plots, PCA, and UMAP outputs without falling into the most common interpretation traps 
+
 
 ## Developers
 - Amarinder Singh Thind, Senior Research Bioinformatician, Sydney Informatics Hub, University of Sydney
