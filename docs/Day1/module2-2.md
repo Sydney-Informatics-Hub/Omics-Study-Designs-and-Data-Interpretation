@@ -222,4 +222,5 @@ this module:
 - Missing values in proteomics are not random they are biased toward low abundance
 - Microbiome data is compositional, standard tests assume independence that doesn't exist
 - Beta values look interpretable but require transformation before statistical testing
-- No single method fits all platforms, the choice of analytical approach must follow from the data type
+- 
+No single method fits all platforms, the choice of analytical approach must follow from the data type
