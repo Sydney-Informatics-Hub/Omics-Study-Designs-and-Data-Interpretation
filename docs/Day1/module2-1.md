@@ -39,22 +39,13 @@ interpretation.
 
     This is why collecting the right data for your research question is essential Choosing the modality is a scientific question, not a technical one. The research questions you are asking should determine which layer of biology you measure, not the other way around. 
 
+## Omics data generation 
 
+ ![](module2Figs/02_sequencing_vs_nonSequencing_v01.png){width=100%}  
 
+### Mentimeter Exercise
+https://www.menti.com/aluadu62pnrb
 
- +++++++++++++++++++++++++++++++++++++++++++++
-
-## How does sequencing work? 
-
-Before looking at what omics data looks like, it helps to understand how it is generated. 
-
-TODO create a workflow diagram for common sequencing types: WGS/WTS, DIA/DDA mass spec, anything else you think is relevant. Should follow the order: extracting and preparing biological materials > library preparation and amplification > sequencing > raw output 
-
-TODO create a diagram that explains this. 
-
-TODO create an exercise to explore this flow. []
-
- +++++++++++++++++++++++++++++++++++++++++++++
 
 ### Two data types, determined by the instrument
 Module 1 introduced two broad families of omics technology: **sequencing based** approaches and **non sequencing** approaches. That distinction carries directly into the data, because the two families generally produce different kinds of measurements.
@@ -78,9 +69,9 @@ Module 1 introduced two broad families of omics technology: **sequencing based**
 The biology being measured is similar across these platforms, but the measurement process differs.
 
 ##### Why does this distinction between data types matter?
-    These distinctions matter because the statistical properties of each data type are different. The sources of technical noise are different, normalisation strategies are different. Treating them as interchangable leads to mistakes. 
+These distinctions matter because the statistical properties of each data type are different. The sources of technical noise are different, normalisation strategies are different. Treating them as interchangable leads to mistakes. 
 
-!!! Tip "A note on methylation arrays"
+!!! tip "A note on methylation arrays"
     Methylation arrays measure fluorescence intensity at two probes per CpG site, one for the methylated state, one for the unmethylated state. The beta value reported is the ratio of methylated signal to total signal, bounded between 0 and 1. It is derived from intensities but is not itself an intensity, its statistical properties (beta distribution, variance highest in the middle of the range) are distinct from both raw intensities and counts.
 _______________________________________________________
 ## Preparing data for analysis 
