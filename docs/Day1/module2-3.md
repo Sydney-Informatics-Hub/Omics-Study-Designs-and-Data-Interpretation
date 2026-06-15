@@ -2,53 +2,66 @@
 
 !!! info "Learning objectives" 
 
-    By the end of this module, participants will be able to:  
+    By the end of this section, participants will be able to:  
 
-    - Distinguish between biological zeroes, technical zeroes, and sampling zeroes, and explain the mechanism behind each
-    - Identify which type of zero or missing value is most likely given a platform, depth, and biological context 
-    - Describe specific forms of zeros and missing values in different scenarios 
-    - Explain what goes wrong analytically when zeros are misclassified 
+    - Distinguish between biological, technical,sampling and analytical zeroes, and explain the mechanism that produces each
+    - Identify which zero type is most likely given a platform, sequencing depth, and biological context 
+    - Explain what goes wrong analytically when zeros are misclassified or treated uniformly
 
 ## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 min]
 
 ## Sparsity is normal but not all sparsity is the same
 
-The first thing most people notice when they take a look at their omics datasets is how many zero values it contains. In bulk RNA-seq 10-40% of gene-sample entries are zeros, in single-cell RNA-seq that number can exceed 90%, and in microbiome data it can exceed 95%. 
+The first thing most people notice when they start exploring their omics datasets is how many zero values it contains. In bulk RNAseq 10-40% of gene sample entries are zeros, in single-cell RNAseq that number can be as high as 90%, and in microbiome data it typically ranges from 80–95%.
 
-This often feels alarming at first but it is not necessarily a sign something is wrong. It is a direct consequence of trying to measure hundreds to millions of features simultaneously with a finite technical budget. Most features are not detectable in most samples under most conditions. The challenge we face in data analysis is not the presence of zeros, it’s understanding what they actually represent.
+This is not a sign something has gone wrong. It is a direct consequence of trying to measure hundreds to millions of features (genes/proteins) simultaneously with a finite technical budget. Most features are not detectable in most samples under most conditions. The challenge in data analysis is not the presence of zeros, it’s understanding what they actually represent.
 
-TODO add references to support these numbers and causes. 
 
-| Platform | Missing rate | Primary cause |
-|---|---|---|
-| Bulk RNA-seq | 10–40% | Many genes genuinely not expressed |
-| 10x scRNA-seq | >90% | Shallow depth per cell + capture inefficiency |
-| SMART-seq2 | 60–80% | Better detection per cell, but still limited |
-| 16S / metagenomics | 50–90% | True absence + undersampling of rare taxa |
-| Proteomics (DDA) | 10–50% missing | Below detection limit |
-| Metabolomics | 20–50% missing | Detection limits + ionisation variability |
+| Platform | Typical sparsity (zero or missing entries) | Primary cause | References |
+|---|---|---|---|
+| Bulk RNA-seq | ~10–40% zeros | Lowly expressed genes and genes genuinely not expressed in a sample | [Jiang et al. 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5) |
+| scRNA-seq | ~80–95% zeros (protocol dependent) | Limited transcript capture, shallow sequencing per cell, and biological heterogeneity; droplet-based protocols often exceed 90% and are generally sparser than plate based methods | [Jiang et al. 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5), [Qiu 2020](https://www.nature.com/articles/s41467-020-14976-9) |
+| 16S amplicon (microbiome) | ~80–95% zeros | True absence plus undersampling of rare taxa due to finite sequencing depth | [Abegaz et al. 2024](https://www.nature.com/articles/s41598-024-62437-w) |
+| Shotgun metagenomics | Typically lower than 16S; highly dataset dependent | Greater feature recovery than 16S but still affected by rare taxa and sequencing depth | [Bars-Cortina et al. 2024](https://link.springer.com/article/10.1186/s12864-024-10621-7) |
+| Proteomics (DDA) | ~10–50% missing values | Stochastic precursor selection and signals below the instrument detection limit | [Webel et al. 2024](https://www.nature.com/articles/s41467-024-48711-5), [Liu & Dongre 2021](https://academic.oup.com/bib/article-abstract/22/3/bbaa112/5855395) |
+| Metabolomics (untargeted) | ~20–50% missing values | Detection limits, ion suppression, and variable ionisation efficiency | [Do et al. 2018](https://link.springer.com/article/10.1007/s11306-018-1420-2), [Krutkin et al. 2025](https://pmc.ncbi.nlm.nih.gov/articles/PMC11969646/) |
 
-## Not all zeros mean the same thing
+Note: proteomics and metabolomics entries generally represent missing values rather
+than integer zeros, means they arise from a detection threshold rather than a
+count of zero, and their statistical properties differ accordingly.
 
-A zero in any matrix arises from one of three causes. It means the feature was not detected but it does **not** tell you why.
+## Four types of zeros
 
-TODO: diagram summarising these concepts
+A zero in any matrix arises from one of four distinct causes. In
+every case the data looks the same: an empty cell in the matrix. The
+correct analytical response is not the same. 
+
+<!-- TODO make a diagram like this of our own 
+
+Response by AT: I believe that this is well prepared figure by the original Author; we should just burrow and cite it; untill unless someone has better idea for improvement and would like to create a new one.
+-->
+
+![Sources of zeros in scRNAseq data: biological, technical, and sampling](module2Figs/01_zero_technical_Biological_v1.png){width=90%}
+
+<small>Adapted from: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"} (CC BY 4.0)</small> 
 
 ### 1. Biological zeros
 
 These are the straightforward ones. The feature really is absent. 
 
 - A gene is not expressed in a given cell type  
-- A microbe is not present in a sample  
-- A protein is not produced under certain conditions  
+- A microbial taxon is not present in a sample  
+- A protein is not synthesised under certain conditions  
 
-These zeros carry biological meaning and should be preserved as they are. Imputing values here (replacing a zero with an estimate) would be inventing biology that does not exist.  
+These zeros carry biological meaning and should be preserved as they are. Replacing them with imputed values would be inventing biology that does not exist.  
 
 ### 2. Technical zeros
 
-Here, the molecule exists, but it was lost before it could be detected. In single-cell RNA-seq, for example, only a fraction of transcripts are captured during library preparation. Capture efficiency can be as low as 10–15%, so most molecules are simply lost before sequencing.
+The molecule is present in the cell, but was lost before it could reach sequencer. In single-cell RNAseq, for example, only a fraction of transcripts are captured during library preparation. Capture efficiency can be as low as 10–15%, so most molecules are simply lost before sequencing. The remainder are lost
+during extraction, reverse transcription, and amplification. A gene expressed at low levels may produce zero counts not because it is off but because none of its transcripts survived to be sequenced.
 
-Technical zeroes reflect a failure of the measurement process,n ot an absence of biology. They cannot be resolved by deeper sequencing, the molecule was lost before the detection process took place. 
+Technical zeros cannot be resolved by deeper sequencing. By the time sequencing begins, the molecule is already gone. Increasing read depth
+samples the surviving library more thoroughly; it cannot recover molecules that were never captured.
 
 ### 3. Sampling zeros
 
@@ -59,34 +72,24 @@ These arise at the sequencing stage. By this point, the molecule has already bee
 
     Sequencing works in the same way. A gene expressed at low levels contributes only a tiny fraction of the fragments in the library. At 20 million reads, there may simply not be enough handfuls to guarantee a gene gets counted. Sequence the same library to 100 million reads and the same gene will appear more frequently.  
 
-TODO make a diagram like this of our own 
-![Sources of zeros in scRNAseq data: biological, technical, and sampling](module2Figs/01_zero_technical_Biological_v1.png){width=90%}
-
-<small>Adapted from: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"} (CC BY 4.0)</small>
 
 ### 4. Analytical zeros 
 
-The three scenarios above arise from the measurement process itself, from biology, from capture failure, or sequencing budget. Analytical zeros are different, they are created by decisions made after the data is generated. 
+The previous three types arise from the measurement process itself. Analytical zeros are different, they are created by decisions made after the data is generated. 
 
-Before data can be analysed, it undergoes pre-processing to convert raw sequence to a format that can be analysed. Preprocessing pipelines may apply filters and features that fall outside the permitted range are removed from the dataset. In some outputs, they are indistinguishable from features that were never detected at all. 
+Pre-processing pipelines apply filters to convert raw data into an analysis ready format. These steps of the pipelines may filters features that fall outside the permitted range. In the outputs, they are indistinguishable from features that were never detected. 
 
 Common examples include: 
 
 - **Variant calling**: a variant detected at 8x coverage is removed by a minimum depth filter of 10x. The site does not appear in the VCF
 - **Bulk RNA-seq**: a gene with counts in two out of six samples is removed by a minimum prevalence filter before differential expression testing 
-- **Single-cell RNA-seq**: a small quiecent cell type falls below the minimum UMI threshold and is removed during QC filtering 
-- **Proteomics**: a low abundance protein detected in 40% of samples is excluded by a minimum 70% observation threshold. It is absent from the results 
+- **Proteomics**: a low abundance protein detected in 40% of samples is excluded by a minimum 70% observation threshold and disappear from all results 
 
 !!! warning "Filters are directional and may leave no trace"
-    Analytical filters are not neutral. They systematically remove low-signal features like rare variants, lowly expressed genes, small cell populations, low-abundance proteins, or rare taxa. These are often exactly the features a study is designed to find.
+    Analytical filters systematically remove low signal features like lowly expressed genes, small cell populations, low abundance proteins, rare variants, rare taxa. These are often exactly the features a study is most interested in detecting. Always report which filters were applied and how many features were removed, and check whether removed features cluster non randomly by condition or sample group.
 
-!!! tip "What this means in practice"
-    Filters are often necessary. They reduce noise, improve statistical power, and make analyses more computationally tractable. The problem is not filtering itself but treating filtered output as though it represents the complete dataset.
-
-    Two habits protect against this:
-
-    - **Always report filter parameters alongside results**: how many features were removed, by which threshold, and in which direction
-    - **Check what you lost**: before finalising a filter, examine what was removed and whether it clusters non-randomly by condition, sample quality, or biological group
+!!! tip "Filtering is necessary, the problem is treating the output as complete"
+    Filters reduce noise, improve statistical power, and make analyses more computationally tractable. The problem is not filtering itself but treating filtered output as if it represents the full biological picture. Two habits protect against this: report filter parameters alongside results, and examine what was removed before finalising any threshold.
 
 ## When data looks the same but means something different
 

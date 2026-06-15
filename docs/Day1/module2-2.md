@@ -3,11 +3,11 @@
 !!! info "Learning objectives"
 
     By the end of this module, participants will be able to:
-
-        - Explain why omics measurements are relative rather than absolute and describe the implications for comparing samples.
-        - Describe how measurement depth influences feature (Genes/Taxa) detection and the appearance of zeros or missing values.
-        - Identify the primary statistical challenge associated with major omics platforms and relate it to the underlying biological or technical process.
-        - Explain why statistical methods and normalisation strategies cannot be applied uniformly across omics platforms and recognise when technical factors such as    depth, signal intensity, or sample composition may confound biological interpretation.
+    
+    - Explain why omics measurements are relative rather than absolute and describe the implications for comparing samples.
+    - Describe how measurement depth influences feature (Genes/Taxa) detection and the appearance of zeros or missing values.
+    - Identify the primary statistical challenge associated with major omics platforms and relate it to the underlying biological or technical process.
+    - Explain why statistical methods and normalisation strategies cannot be applied uniformly across omics platforms and recognise when technical factors such as    depth, signal intensity, or sample composition may confound biological interpretation.
 
 ## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 mins]
 
