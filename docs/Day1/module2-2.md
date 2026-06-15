@@ -4,10 +4,10 @@
 
     By the end of this module, participants will be able to:
 
-    - Explain why omics measurements are relative rather than absolute and describe what this means for cross sample comparison
-    - Identify the primary statistical challenge associated with each major omics data type and connect it to the biological or technical process that causes it
-    - Recognise when depth, signal, or composition confounding is likely to produce misleading results
-    - Describe why the same statistical approach cannot be applied uniformly across omics platforms
+        - Explain why omics measurements are relative rather than absolute and describe the implications for comparing samples.
+        - Describe how measurement depth influences feature (Genes/Taxa) detection and the appearance of zeros or missing values.
+        - Identify the primary statistical challenge associated with major omics platforms and relate it to the underlying biological or technical process.
+        - Explain why statistical methods and normalisation strategies cannot be applied uniformly across omics platforms and recognise when technical factors such as    depth, signal intensity, or sample composition may confound biological interpretation.
 
 ## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 mins]
 
@@ -17,9 +17,9 @@ By the time omics data reaches you as an analyst, it has already been through su
 
 In most everyday measurements, numbers are absolute. A patient who weighs 80 kg weighs 80 kg regardless of who else is in the room or how many measurements were taken that day. The value stands on its own. 
 
-Omics data do not behave this way. ***Omics Data reflect sampling, not absolute quantity***
+Omics data do not behave this way. ***Omics data reflect sampling, not absolute quantity***
 
-Most omics platforms operate under a finite measurement budget, such as a fixed number of reads in Sequencing, a fixed ion signal capacity in mass spectrometry, a bounded fluorescence range in arrays. 
+Most omics platforms operate under a finite measurement budget, such as a fixed number of reads in sequencing, a fixed ion signal capacity in mass spectrometry, a bounded fluorescence range in arrays. 
 
 As a result, **the count/abundance measured for any feature is relative rather than absolute**. Features effectively compete for a share of the total measurement capacity. Consequently, an increase in one feature can alter the observed abundance of other features, even if their true biological abundance has not changed.
 
@@ -49,7 +49,7 @@ varies between samples, not an absolute molecular quantity.
 ## Depth affects detection
 Consider the mechanism of gene expression: When a cell expresses a gene, it produces RNA molecules. Some genes are highly active and produce thousands of copies. Others are expressed at very low levels, producing only a handful. This variation in expression level is real biology, it is what makes  a liver cell different from a neuron, and a normal healthy cell different from a cancerous one.
 
-The challenge we face in working with omics data is that our data generation platforms (e.g. sequencers, mass spectrometers) cannot count every RNA molecule in a sample. Instead it reads a subset of fragments and stops when it reaches a target depth. Each gene's count is therefore a proportion of whatever total happened to be generated for that sample. At shallow sequencing depth, low-abundance genes drop in and out of detection across samples not because their expression changed, 
+The challenge we face in working with omics data is that our data generation platforms (e.g. sequencers) cannot count every RNA molecule in a sample. Instead it reads a subset of fragments and stops when it reaches a target depth. Each gene's count is therefore a proportion of whatever total happened to be generated for that sample. At shallow sequencing depth, low-abundance genes drop in and out of detection across samples not because their expression changed, 
 but because the sampling was too sparse to capture them reliably. Increasing depth often makes these genes reappear. The biology hasn't changed, the measurement has simply improved.
 
 ![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
@@ -90,7 +90,7 @@ At that point it is no longer just noise: **it becomes a systematic confounder
 that mimics or masks biological signal.**
 
 !!! danger "Recoverable vs unrecoverable"
-    Depth variation distributed randomly across conditions can largely be corrected by normalisation. Depth variation that correlate with biological groups cannot be corrected. It is confounded with the signal of interest and cannot be separated from it analytically. This is a design failure, not an analysis problem. It is discussed in module 3. 
+    Depth variation distributed randomly across conditions can largely be corrected by normalisation. Depth variation that correlates with biological groups cannot be corrected. It is confounded with the signal of interest and cannot be separated from it analytically. This is a design failure, not an analysis problem. It is discussed in module 3. 
 
 
 !!! info "Activity: when depth confounds differential expression"
@@ -126,7 +126,7 @@ A cell that was captured poorly will have more zeros than a cell of equivalent b
 
 #### Proteomics and metabolomics abundance data
 
-As mentioned in table above, Mass spectrometry detects ions and measures signal intensity. The budget here is **total ion signal**: a sample run at lower
+Mass spectrometry detects ions and measures signal intensity. The budget here is **total ion signal**: a sample run at lower
 concentration, or with different ionisation efficiency between runs, will show lower apparent signal across all detected features, not because concentrations
 changed, but because less material was detected.
 
