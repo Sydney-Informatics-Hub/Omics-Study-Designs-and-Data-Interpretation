@@ -91,19 +91,13 @@ Common examples include:
 !!! tip "Filtering is necessary, the problem is treating the output as complete"
     Filters reduce noise, improve statistical power, and make analyses more computationally tractable. The problem is not filtering itself but treating filtered output as if it represents the full biological picture. Two habits protect against this: report filter parameters alongside results, and examine what was removed before finalising any threshold.
 
-## When data looks the same but means something different
+## Same number, different meaning
 
-In every omics platform, the same raw data value can arise from completely different causes. The correct interpretation and analytical response depends on which cause applies. This is a structural property of high-throughput measurements: when you are trying to detect thousands of features simultaneously, the boundary between not there and not detected is often blurred. What changes between platforms is where that boundary sits, what causes things to fall below it, and what you can reasonably infer when they do.
+All four zero types produce the same entry in the count matrix. There
+is no flag to indicate whether a zero is biological, technical, a
+sampling artefact, or a filtering decision.
 
-In the count matrix, all three cases are just zeros.
-
-There’s no flag that tells you whether a zero is biological, technical, or due to sampling. Interpreting them requires context:   
-- how highly the feature is expressed elsewhere  
-- the sequencing depth  
-- the platform you’re using  
-- what you expect biologically  
-
-This is why zero handling isn’t something you can fully automate.
+Consider a gene measured across four single cells:
 
 ## A simple example
 
@@ -113,24 +107,61 @@ Consider a gene measured across four single cells:
 |---|---|---|---|
 | 0 | 0 | 3 | 0 |
 
-It’s tempting to say the gene is “off” in most cells.
+It’s tempting to say the gene is “off” in most cells. But at a typical single-cell capture rate of 10-15%, it’s equally likely that the gene is expressed at low levels in all four cells, and only one happened to have a transcript captured. The three zeros may be biological,
+technical, or sampling and the data alone cannot resolve that.
 
-But with typical single-cell capture rates, it’s just as plausible that the gene is expressed at low levels in all four cells, and only one of them happened to register counts.
+Context is what distinguishes them.
 
-You can’t resolve that ambiguity from this table alone.
-
-## Same zero, different meaning
-
-Context changes everything.
-
-- If a gene known to be T-cell specific is zero across B cells, that’s almost certainly a biological zero
+- If a gene known to be T-cell specific showing zeros across B cells is almost certainly a biological zero
 - If the same gene shows patchy detection across T cells, that pattern is more consistent with sampling or technical zeros  
+- That same gene showing zeros only in cells with uniformly low total UMI counts is a strong indicator of capture failure, suggesting an association between low UMI counts and zero expression.
 
-Treating both situations the same leads to incorrect conclusions.
+Interpreting zeros requires combining knowledge of the platform, the
+sequencing depth, what the feature is expected to do biologically, and
+how its pattern compares across the full dataset. This is why zero
+handling cannot be fully automated.
 
-## Platform matters
+!!! tip "Activity"
+    ***Head to webR page and check out the Zeros and Sparsity tab***
 
-What a zero *likely* means depends heavily on the technology.
+## What goes wrong when zeros are misclassified 
+
+Treating all zeros as the same causes specific and predictable failure.
+
+### Differential expression
+
+If one condition has systematically lower sequencing depth, sampling zeros will cluster in that condition. Genes will appear downregulated not because they are biologically downregulated but because they were not sampled. 
+
+If one condition has systematically lower sequencing depth, sampling zeros will cluster in that condition. Genes will appear downregulated
+not because their biology changed but because there were too few reads to detect them reliably. This is a depth confound masquerading as
+biology, and it is undetectable from the output alone without examining the relationship between depth and the differential expression
+results across samples.
+
+### Spurious Correlation analysis
+
+In sparse matrices, genes with low expression show zeros across most
+samples regardless of whether they share any biological relationship.
+If two lowly expressed genes are both rarely detected, their patterns
+will appear correlated, both absent in the same samples, not because
+they are co-regulated, but because they share the same dropout probability. Network analyses built on sparse data can produce entire
+modules of apparently co-expressed genes that reflect measurement noise rather than biology.
+
+### Imputation
+
+When missing values in proteomics or metabolomics data are imputed using methods that assume values are **missing at random (MAR)**, for example,
+replacing them with the feature mean or a random draw from the observed distribution, the assumption often does not hold. In label-free mass spectrometry, proteins most likely to be absent from a sample are the least abundant ones: their signal fell below the instrument's detection
+threshold, not by chance. This pattern is called **Missing Not At Random
+(MNAR)**.
+
+Applying MAR imputation to MNAR data assigns model-imposed values to features that are systematically absent in one condition. Downstream analyses (like differential expression) then compare real measurements in one group against imputed estimates in another, with no indication that the comparison is not equivalent, and a systematic bias in the direction of the low-abundance features.
+
+## Questions to answer before handling zeros
+
+Across all data generation platforms, the same reasoning process applies before any analytical decision about zeros or missing values:
+
+**1. What platform generated the data?** 
+
+Expected zero rates and the predominant zero type differ substantially by technology.
 
 - **Bulk RNA-seq:** most zeros are biological, since expression is averaged across many cells.  
 - **Droplet-based scRNA-seq (e.g. 10x):** many zeros come from limited capture and shallow depth.  
@@ -138,61 +169,26 @@ What a zero *likely* means depends heavily on the technology.
 - **Microbiome data:** zeros can reflect both true absence and undersampling of rare taxa.  
 - **Proteomics/metabolomics:** missing values often mean “below detection limit,” not absence.  
 
-The same number (0) carries different implications depending on where it came from.
+**2. What is the most likely cause of zeros in this dataset?** 
 
-## What goes wrong when zeros are misclassified 
+Biological absence, capture failure, sampling change, detection threshold, or pipeline filter? Sequencing depth, platform, and the
+biology of the features in question all inform this. A zero for a housekeeping gene in a low-depth cell is a different inference from a
+zero for a tissue specific gene in an irrelevant cell type.
 
-Treating all zeros as the same causes problems downstream.
+**3. Is the missingness random or structured?**
 
-TODO provide clear examples to explain this. Below I've added some extra information but its very janky. 
+If zeros cluster by samples, conditions, feature types or any metadata variable, they are carrying information about the measurement process. Structured missingness is a technical signal, and should be investigated before any analytical decision is made, not treated as noise to be removed or imputed away.
 
-### **Differential expression** 
+**4. What do the applied analytical methods assume about zeros?**
 
-If one condition has systematically lower sequencing depth, sampling zeros will cluster in that condition. Genes will appear downregulated not because they are biologically downregulated but because they were not sampled. 
+Differential expression tools, imputation algorithms and correlation methods make different assumptions about where the zeros are coming from. Using a method with assumptions that do not match your data type will propagate the misclassification into your results. Check the assumption
+before applying the method.
 
-### **Correlation analysis**  
-
-In matrices, multiple genes with low expression will all show zeros across most samples. This may look like correlated expression. In reality, it may reflect shared dropout probability.  
-
-### **Imputation** 
-
-If missing values in a dataset are imputed using random or mean-based methods, features that are systematically below detection in one condition will be assigned imputed values that are statistically indistinguishable from measured value. Downstream abdunance or expression analyses will compare real measurements in one group against imputed estimates in another without flagging that the comparison is not equivalent. 
-
-### **False variant calls** 
-
-In variant calling, a no-call silently converted to a reference genotype inflates apparent concordance with the reference genome. In clinical genomics, this means a pathogenic variant in a poorly converted region may not be reported, not because it was considered and excluded, but because the tools didn't see sufficient evidence to call it. 
-
-## Questions to answer before handling zeros
-
-Across all data modalities, the same reasoning process applies before any analytical decision about zeros or missing values:
-
-### 1. What platform generated the data? 
-
-Expected zero rates and likely causes differ substantially by technology. 
-
-TODO find some comparison examples that connect with expected zero rates described above? 
-
-### 2. What is the most likely cause of zeros in this dataset? 
-
-Biological absence, capture failure, sampling change, detection threshold, or compositional compression? The sequencing depth, platform, and biology all inform this. 
-
-### 3. Is the missingness random or structured?
-
-If zeros cluster by samples, conditions, feature types, they are carrying information about the measurement process. Structured missingness is a signal, usually a technical one, not just noise to be removed. 
-
-### 4. What do the applied analytical methods assume about zeros?
-
-Different algorithms make different assumptions about where the zeros are coming from. Using a method with assumptions that do not match your data type will propagate the misclassification into your results. 
-
-## What to take forward
-
-**A zero is not a single thing. It’s an observation with multiple possible explanations.**
-
-Before deciding how to handle zeros, you need to think about:  
-- the platform  
-- the depth  
-- the biology you expect  
-
-Zeros aren’t just missing data to “fix.” They’re part of the measurement process, and interpreting them correctly is essential for everything that follows.
+!!! info "Coming up in Section 4"
+    There is a third structural property of omics data that follows directly from how counts are generated. A genuine biological change
+    in one feature's abundance alters the apparent abundance of everything else measured simultaneously; even features whose true
+    biology did not change. **Section 4** examines this compositional
+    constraint, how it operates across platforms, and what it means for
+    interpreting fold changes and correlations.
 
 
