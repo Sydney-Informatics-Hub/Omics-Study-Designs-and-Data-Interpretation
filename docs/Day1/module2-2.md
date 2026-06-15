@@ -32,7 +32,7 @@ Each platform has its own version of the same core problem, and its own specific
 | Bulk RNA-seq | Integer counts | Depth variation | Gene length bias; sampling zeros |
 | Single-cell RNA-seq | UMI counts | Depth per cell | Cells ≠ replicates; dropout |
 | Proteomics / metabolomics | Continuous intensity | Ion signal variation | MNAR missing values; detection bias |
-| Microbiome (16S / shotgun) | Compositional counts | Compositionality | Contamination in low biomass samples |
+| Microbiome (16S / shotgun) | Sequencing counts | Compositionality | Contamination in low biomass samples |
 | Methylation arrays | Beta values [0–1] | Cell composition | Beta vs M-value; heteroscedasticity |
 
 In mass spectrometry, a sample with lower overall ion signal, from loading
@@ -108,7 +108,7 @@ individual cell** and the per cell budget is far smaller.
 Standard 10x Chromium protocols capture approximately [10–30% of transcripts per cell](https://kb.10xgenomics.com/s/article/360001539051-What-fraction-of-mRNA-transcripts-are-captured-per-cell){target="_blank"}. Most RNA molecules are lost before sequencing begins. A gene
 expressed at low levels in a cell may produce zero counts not because it is
 off, but because none of its transcripts were captured. The result is a count
-matrix with zero entries in more than 70% of gene cell combinations, a
+matrix with zero entries in more than 90% of gene cell combinations, a
 direct consequence of the per cell sequencing budget, not a failure of data
 quality.
 

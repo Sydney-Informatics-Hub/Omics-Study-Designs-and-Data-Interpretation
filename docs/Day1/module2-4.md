@@ -2,11 +2,13 @@
 
 !!! info "Learning objectives" 
 
-    By the end of this module, participants will be able to:  
+    By the end of this section, participants will be able to:  
     
-    - Define compositionality in plain terms 
-    - Identify which omics platforms are most severely affected by compositionality 
+    - Define compositionality and explain why it is a structural property of omics data rather than a technical artefact
+    - Demonstrate with a worked example how a genuine biological change in one feature produces apparent changes in others
+    - Identify which omics platforms are most severely affected and explain why severity differs across platforms
     - Describe what normalisation does and does not fix in compostional data 
+    - Explain why standard normalisation reduces the depth problem but does not remove the compositional constraint
 
 ## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 8 mins: activities 4 mins]
 
