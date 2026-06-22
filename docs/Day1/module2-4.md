@@ -13,66 +13,74 @@
 ## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 8 mins: activities 4 mins]
 
 
-In Module 2.1, we established that omics measurements are relative, a count or intensity reflects a share of a technical total, not an absolute molecular quantity. In module 2.2, we saw that many entries in omics matrices are zero and that those zeros hve different causes and meanings. 
+In Module 2.2 and 2.3, we established that omics measurements are relative, a count or intensity reflects a share of a technical total, not an absolute molecular quantity. We saw that many entries in omics matrices are zero and that those zeros have different causes and meanings depending on the paltform and context. 
 
-There’s a third property that follows directly from how the data is generated, but it’s easy to overlook:  **counts are compositional.**
+There’s a third structural property that follows directly from how the data is generated, but it’s easy to overlook:  **counts are compositional.**
 
-This means that what you observe in one feature is not determined solely by that feature's biology. It is constrained by everything else being measured at the same time. A change anywhere in the data creates the appearance of change everywhere, even when nothing has happened. This is a structural consequence of measuring a large number of features simultaneously with a finite technical budget. It appears across all omics platforms, under different names and with different severity. 
+This means that what you observe in one feature is not determined solely by that feature's biology. It is constrained by everything else being measured at the same time. A genuine change anywhere in the data creates the *appearance* of change everywhere even in features whose
+true abundance has not changed at all. 
 
-## The biological reality 
+It appears across all omics platforms, under different names and with different severity. It is a mathematical consequence of measuring many features simultaneously with a fixed total budget.
 
-Omics instruments capture molecules up to a total capacity (e.g. a fixed number of reads, a finite ion signal, a bounded flouresence range). That total is distributed across all features present in the sample. 
+## What compositionality means
 
-The distribution is not independent. Features compete for the same budget, and their observed values are all shares of the same whole. As such, it is important to keep in mind, you are measuring proprotions not absolute quantities. And proportions are constrained to sum to a total, which means they are not independent of one another. 
+Omics instruments capture molecules up to a total capacity (e.g. a fixed number of reads in sequencing, a finite ion signal in mass spectrometry, a bounded flouresence range in arrays). That total is distributed across all features present in the sample. 
 
-In practical terms, this means that if one gene takes up a larger share of the reads, the relative share of other genes must decrease, even if their actual expression hasn’t changed.
+Because all features (genes/proteins) in a given sample share the same budget, their observed values are not independent of one another. Feature compete for a share of the total. If one feature's share increases, the relative share of all
+others must decrease, not because their biology changed, but because the total is fixed.
 
 !!! tip "You are always looking at a pie chart" 
-    A useful way to think about it is that you are always looking at a pie chart, not a bar chart. A bar chart shows absolute quantities. A pie chart shows proportions. Sequencing data gives you proportions.
 
-    Once you start looking at proportions, it becomes easy to misinterpret what’s changing.
+    A bar chart shows absolute quantities, each bar stands on its own. A pie chart shows proportions, each slice is defined by its
+    relationship to all the others. Omics output with fixed budget gives you a pie chart.
+
+    A larger slice for one gene automatically creates smaller slices for all the others, regardless of what the biology actually did.
 
 ## The statistical consequences 
 
-### Apparent changes that are not real 
+### Noticeable changes that are not real 
 
-Because features share a fixed total, a genuine biological change in one feature changes the apparent relative abundance of other features, even those whose absolute abundance is unchanged. 
+Because features share a fixed total, a genuine biological change in one feature changes the relative abundance of other features, even those whose absolute abundance is unchanged. 
 
-A simple example makes this arithmetic visible to us: 
+A simple example makes this arithmetic concrete: 
 
 | Gene | Sample 1 | Sample 2 | Reality | 
 |---|---|---|---|
-| A | 100 | 200 | Genuinely doubled|
+| A | 100 | **200** | Genuinely doubled|
 | B | 100 | 100 | Unchanged |
 | C | 100 | 100 | Unchanged |
 | **Total reads** | 300 | 400 | Depth increase|
 
 Now expressed as proportions:
 
-| Gene | Sample 1 | Sample 2 | Apparent change | 
+| Gene | Sample 1 | Sample 2 | change | 
 |---|---|---|---|
 | A | 33% | 50% | Increased |
 | B | 33% | 25% | Decreased |
 | C | 33% | 25% | Decreased|
 
-Genes B and C appear to decrease. Their counts are identical in both samples and nothing about them changed. The apparent decrease is entirely a consequence of Gene A taking a larger share of the total. 
+Genes B and C appear to decrease. Their counts are identical in both samples and nothing about them changed. The decrease is entirely a consequence of Gene A taking a larger share of the total. 
 
-In a real dataset with 20,000 genes, the same effect operates across the entire matrix but it is invisible without understanding what is driving it. 
+In a real dataset with 20,000 genes, the same effect operates silently across the entire matrix. The distortion is invisible without understanding what is driving it. 
 
 ### Correlations become unreliable 
 
-Compositionality also distorts relationships between features. Because all features share the same total, they are mathematically constrained against each other. If one feature's relative share increases, the sum of all others must decrease. This introduces artificial negative correlations between features that have no biological relationship. 
+The same constraint that create false fold changes also distorts relationships between features: becuase all features share the same total, they are mathematically constrained against each other. If one feature's relative share increases, the sum of all others must decrease. This introduces artificial correlation and negative correlations between features that have no biological relationship. 
 
-TODO add an example like above? 
+| Gene | Sample 1 | Sample 2 | Sample 3 | Sample 4 |
+|------|----------|----------|----------|----------|
+| A    | 10%      | 20%      | 30%      | 40%      |
+| B    | 45%      | 40%      | 35%      | 30%      |
+| C    | 45%      | 40%      | 35%      | 30%      |
+|------|----------|----------|----------|----------|
+|Total | 100%     |   100%   |    100%  | 100%     |    
 
-!!! danger "Standard normalisation does not fix this"
-    Normalisation methods such as CPM, TPM, and DESeq2 size factors adjust for differences in total library size between samples. This makes samples more comparable. But after normalisation the data is still compositional. 
-    
-    You still have proportions of a total, and the same constraints still apply. Normalisation reduces the depth problem from module 2.1. It does not remove the compositional constraint.
+In above table, **only feature A increases** while features B and C remain unchanged in absolute abundance, the relative abundances of B and C must decrease because all features share a fixed total. Across samples this creates negative correlations between A and B/C, and positive correlations between B and C, despite no underlying biological relationship among them. This phenomenon arises solely from the compositional constraint
+
 
 ## A worked example: antibiotic experiment 
 
-You’ll see this often in microbiome data. If most species drop after a treatment, the remaining ones automatically take up a larger fraction of the total, even if their absolute abundance stayed the same.
+Compositionality is most visible in microbiome data. If most species drop after a treatment, the remaining ones automatically take up a larger fraction of the total, even if their absolute abundance stayed the same.
 
 ??? example "Case study: The antibiotic experiment that wasn't what it looked like"
 
@@ -105,28 +113,30 @@ You’ll see this often in microbiome data. If most species drop after a treatme
     pie shrank dramatically; Species A's slice simply got bigger by
     default.
 
+    This is not a growth efeect. It is a compositional artefact.
+
 ## Compositionality across omics platforms 
+A compositional constraint is present to varying degrees across most omics platforms, although its mathematical form differs between sequencing based and signal based technologies.
+The table below summarises how the fixed total constraint manifests across platforms and We will discuss in module 4, whether standard normalisation addresses it or not.
 
-The fixed-total constraint is present in all omics platforms. What changes between platforms is the unit of the budget, the severity of effect, and how visible it is in the data. 
-
-TODO a table like this? 
-
-| Platform | The "budget" | How compositionality manifests | Severity | Distinctive feature | Fixed by standard normalisation? |
-|---|---|---|---|---|---|
-| **Sequencing counts** RNA-seq · ATAC-seq · WGS | Total reads sequenced | Features compete for a fixed read pool. A strongly upregulated gene reduces the apparent share of all others, even unchanged ones. | Moderate | Diluted across 20,000+ features so less visible, but not absent. Highly expressed genes that change strongly exert the most distortion on surrounding features. | **No.** Depth normalisation (CPM, size factors) corrects between-sample depth variation but data remains compositional after normalisation. |
-| **Microbiome** 16S amplicon · metagenomics | Total reads sequenced | Total microbial biomass is entirely lost during sequencing. Collapse of dominant taxa makes survivors appear to increase. A taxon can look like it grew when nothing about it changed. | Severe | Biomass information is unrecoverable without spike-ins or qPCR. Standard methods cannot distinguish absolute increase from relative re-scaling. | **No.** Rarefaction and relative abundance conversion do not remove the compositional constraint. Log-ratio methods (ALDEx2, ANCOM-BC) are required. |
-| **Single-cell RNA-seq** 10x Chromium · SMART-seq2 | Total UMIs per cell | Operates at two levels: between cells (variable total UMIs) and within cells (all genes compete for a small per-cell budget). Dominant transcripts suppress apparent signal from everything else in the same cell. | Severe | Within-cell compositionality is distinct from dropout. A cell dominated by one highly expressed gene has its entire transcriptional profile distorted as a result. | **No.** Single-cell normalisation (scran, sctransform) corrects depth variation between cells but does not remove the within-cell compositional constraint. |
-| **Proteomics · metabolomics** DDA · DIA · LC-MS | Total ion signal in injection | Signal intensity reflects a proportion of total ions detected. Inconsistent sample loading or concentration differences shift apparent abundances of all features simultaneously. | Moderate | In DDA mode, highly abundant proteins actively suppress detection of low-abundance ones at the isolation window — compositionality operates before quantification begins. | **Partially.** Total protein normalisation (proteomics) and global median normalisation (metabolomics) correct for loading differences, equivalent to depth normalisation in sequencing. |
-| **Methylation arrays** EPIC · 450K | Methylated / total probe signal ratio | Each beta value is itself a composition (methylated ÷ total signal). Global methylation shifts — such as the hypomethylation common in cancer — distort all probes simultaneously. | Lower | The compositional constraint is explicit at the probe level. Global hypomethylation changes the reference point against which every probe in the array is interpreted. | **No.** Standard array normalisation (quantile, BMIQ) corrects technical variation but does not account for genuine global methylation differences between conditions. |
-| **Spatial omics** Visium · Xenium · MERFISH | Total capture per spot or panel genes | Within each spot, cell types compete for the fixed capture budget. Dominant cell types suppress signal from minority populations. In targeted panels, a small gene set means each marker has a proportionally larger distorting effect on the others. | Moderate | Targeted panels (Xenium, MERFISH) amplify compositional effects — fewer features sharing the budget means each feature has a larger proportional influence on the rest. | **No.** Between-spot depth normalisation is standard but within-spot compositional mixing requires deconvolution methods (RCTD, STdeconvolve), not normalisation. |
-
+<!-- TODO a table like this?-->
+<!-- This is not that simple with the proposed details initially, I will keep only what is relevant for this module .... Fixed by stansdard col required ....carefull evaluation and not relevant to this module... we will explain some normalization in the module 4. While, I am pretty familiat with transcriptomics related normalization but I may need to get some more knowledge for normalization in various omics field like proteomics, metabolomics etc
+-->
+<!-- -->
+| Platform | The budget | How compositionality manifests | Severity |  
+|---|---|---|---|
+| **RNA-seq · ATAC-seq** | Total reads sequenced | Features compete for a fixed read pool. A highly upregulated gene reduces the proportional share of all others, including unchanged ones. Under conditions of global expression shifts, such as  global transcriptional amplification or broad transcriptional reprogramming, compositional bias can be substantial regardless of feature count. | Moderate-Severe  |
+| **Microbiome** 16S · metagenomics · shotgun WGS | Total reads sequenced | Information about total microbial biomass is not retained in standard relative abundance sequencing. A decrease in the absolute abundance of a dominant taxon forces the relative abundances of all remaining taxa upward, even when their absolute counts are unchanged. | Severe |
+| **Single-cell RNA-seq** 10x · SMART-seq2 | Total UMIs per cell | Operates at two levels: between cells (variable total UMIs reflecting capture efficiency) and within each cell (all genes compete for a small, highly variable per-cell UMI budget). Highly abundant transcripts occupy a larger share of the finite UMI budget, reducing the proportional representation of other transcripts. High sparsity amplifies the effect. | Severe | 
+| **Proteomics · metabolomics** DDA · DIA · LC-MS | Total ion signal per injection | Signal intensity is proportional to abundance but also depends on molecule specific ionization efficiency and instrument response. Without external standards, absolute concentrations are generally not directly observable. Note: in DDA acquisition, stochastic precursor selection introduces an additional and distinct dynamic range bias — separate from, but compounding, the compositional constraint. | Moderate | 
+ 
 ## What to take forward
 
 The key point here is subtle but important:
 
 > **A change in proportion is not the same as a change in absolute abundance.**
 
-When working with count data, you are always dealing with relative measurements. That shapes how differences and relationships should be interpreted.
+When working with most high throughput omics measurements, the observed data are primarily relative rather than absolute. That shapes how differences and relationships should be interpreted.
 
 If this isn’t taken into account, it’s easy to:
 - overstate increases  

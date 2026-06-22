@@ -1,4 +1,4 @@
-# Module 2: Data types  
+# Module 2.1: Data types  
 
 ## Section 1: What the data actually is
 
