@@ -123,12 +123,12 @@ The table below summarises how the fixed total constraint manifests across platf
 <!-- This is not that simple with the proposed details initially, I will keep only what is relevant for this module .... Fixed by stansdard col required ....carefull evaluation and not relevant to this module... we will explain some normalization in the module 4. While, I am pretty familiat with transcriptomics related normalization but I may need to get some more knowledge for normalization in various omics field like proteomics, metabolomics etc
 -->
 <!-- -->
-| Platform | The budget | How compositionality manifests | Severity |  
+| Platform | The budget | How compositionality manifests | Potential impact if unaddressed |  
 |---|---|---|---|
 | **RNA-seq · ATAC-seq** | Total reads sequenced | Features compete for a fixed read pool. A highly upregulated gene reduces the proportional share of all others, including unchanged ones. Under conditions of global expression shifts, such as  global transcriptional amplification or broad transcriptional reprogramming, compositional bias can be substantial regardless of feature count. | Moderate-Severe  |
 | **Microbiome** 16S · metagenomics · shotgun WGS | Total reads sequenced | Information about total microbial biomass is not retained in standard relative abundance sequencing. A decrease in the absolute abundance of a dominant taxon forces the relative abundances of all remaining taxa upward, even when their absolute counts are unchanged. | Severe |
 | **Single-cell RNA-seq** 10x · SMART-seq2 | Total UMIs per cell | Operates at two levels: between cells (variable total UMIs reflecting capture efficiency) and within each cell (all genes compete for a small, highly variable per-cell UMI budget). Highly abundant transcripts occupy a larger share of the finite UMI budget, reducing the proportional representation of other transcripts. High sparsity amplifies the effect. | Severe | 
-| **Proteomics · metabolomics** DDA · DIA · LC-MS | Total ion signal per injection | Signal intensity is proportional to abundance but also depends on molecule specific ionization efficiency and instrument response. Without external standards, absolute concentrations are generally not directly observable. Note: in DDA acquisition, stochastic precursor selection introduces an additional and distinct dynamic range bias — separate from, but compounding, the compositional constraint. | Moderate | 
+| **Proteomics · metabolomics** DDA · DIA · LC-MS | Total ion signal per injection | Signal intensity is proportional to abundance but also depends on molecule specific ionization efficiency and instrument response. Without external standards, absolute concentrations are generally not directly observable. Note: in DDA acquisition, stochastic precursor selection introduces an additional and distinct dynamic range bias, separate from, but compounding, the compositional constraint. | Moderate | 
  
 ## What to take forward
 
