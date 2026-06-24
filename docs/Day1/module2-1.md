@@ -1,131 +1,67 @@
-# Module 2 : Data types and core statistical properties
+# Module 2.1: Data types  
+
+## Section 1: What the data actually is
 
 !!! info "Learning objectives" 
 
-    By the end of this module, participants will be able to:  
+    - Distinguish between sequencing counts and intensities as the two primary omics data types, connect each to the instrument family that
+      produces it, and explain why the two require different analytical approaches
+    - Describe what happens to raw instrument output before it reaches an analyst as a matrix of numbers
 
-    - Explain what a sequencing count represents and why raw counts
-      cannot be compared directly across samples without accounting for
-      sequencing depth.  
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 5 mins; activities: 2 mins]
+
+Module 1 focused on study design: decisions made before any data is
+generated, and the failure modes that follow from getting those decisions
+wrong. Module 2 shifts to the data itself.
+
+Before asking what omics data means statistically, it helps to ask a
+more basic question: **what kind of number are you actually looking at,
+and how did it get there?** The answer is less obvious than it seems,
+and getting it wrong early leads to systematic errors that no amount of
+downstream analysis can fix.
+
+### The omics layers: a brief recap
+
+Module 1 introduced the major omics platforms and when to choose between
+them. That framework matters, because the type of number an experiment produces is determined both by the biological layer being measured and by the instrument used to measure it. 
+
+Each layer targets a different class of molecule and answers a different
+biological question. These layers do not map cleanly onto each other, and that matters for
+interpretation.
+
+
+!!! tip "Why the layers don't always agree" 
+
+    A critical point for interpretation: measuring one layer doesn't tell you what is happening in another. A gene can be present in the genome but never transcribed. An mRNA can be transcribed but never translated into protein. A protein can be abundant but enzymatically inactive. 
+
+    This is why collecting the right data for your research question is essential. Choosing the modality is a scientific question, not a technical one. The research questions you are asking should determine which layer of biology you measure, not the other way around. 
+
+
+### Two main data types, determined by the instrument
+Module 1 introduced two broad families of omics technology: **sequencing based** approaches and **non sequencing** approaches. That distinction carries directly into the data, because the two families generally produce different kinds of measurements.
+
+**Sequencing based platforms produce counts**. A sequencer reads millions of short/long fragments of DNA or RNA and reports the sequence of each. Those raw sequences: the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or other feature (genes/taxa) set, and the number of fragments associated with each feature is tallied. The results [raw matrix] **a matrix of counts**, one row per feature, one column per sample, where every cell contains a whole number. RNAseq, single-cell RNAseq, ATACseq, and microbiome sequencing all commonly produce this format.
+
+**Many non-sequencing platforms produce intensities**. Rather than reading sequences, these instruments measure molecular signal directly. For example, the strength of a fluorescence signal or the abundance of detected ions. The output is typically a **continuous value** rather than a count. Mass spectrometry platforms (proteomics and metabolomics) measure ion signal intensity. Microarrays measure fluorescence from hybridised probes. Many imaging based assays begin as fluorescence intensity measurements recorded across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
+
+
+ ![](module2Figs/02_sequencing_vs_nonSequencing_v01.png){width=100%}  
+
+### Live Activity
+
+***[Click here to join the activity](https://www.menti.com/aluadu62pnrb)***
+
+
+
+!!! info "Spatial omics sits across both families"
+    Spatial transcriptomics platforms differ in which family they belong to, and therefore what type of measurement they generate. Visium captures RNA by **sequencing barcoded spots** on a tissue section and produces count data. **Imaging-based platforms** such as Xenium and MERFISH detect fluorescently labelled RNA molecules directly within intact tissue. Although fluorescence intensities are measured during image acquisition, image-processing pipelines typically decode these signals into transcript counts assigned to individual cells. 
     
+    The biology being measured is similar across these platforms, but the measurement process differs.
 
-## Section 1: What a count actually is ?
+#### Why does this distinction between various Instrument based data types matter?
+These distinctions matter because the sources of technical noise are different. Normalisation strategies appropriate for read counts are not appropriate for intensities (discussed in module 4). Treating them as interchangable leads to systematic errors that create issues for downstream data analysis. The correct normalization and statistical test follow from data types.
 
-Before jumping into interpretation, it helps to pause on a simpler question: what does a number in a count matrix actually represent?
+!!! tip "A note on methylation arrays"
+    Methylation arrays measure fluorescence intensity at two probes per CpG site, one for the methylated state, one for the unmethylated state. The beta value reported is the ratio of methylated signal to total signal, bounded between 0 and 1. It is derived from intensities but is not itself an intensity, its statistical properties (beta distribution, variance highest in the middle of the range) are distinct from both raw intensities and counts.
 
-In most everyday measurements, numbers are absolute. If one patient weighs 80 kg and another weighs 60 kg, the comparison is straightforward. The value doesn’t depend on anything else being measured at the same time.
-
-Sequencing counts don’t behave like that.
-
-### Counts reflect sampling, not absolute quantity
-
-When you sequence an RNA-seq library, the machine isn’t counting every RNA molecule in the sample. Instead, it samples a fixed number of fragments — say 20 million or 40 million reads, depending on how deeply the library was sequenced.
-
-In practice, that means each gene’s count is just a share of the total reads you happened to collect. So a gene’s observed count depends on two things:
-
-- How much RNA it actually produced  
-- How many reads were generated overall
-
-A simple example makes this concrete:
-
-| | Sample A | Sample B |
-|---|---|---|
-| **Total reads sequenced** | 20 million | 40 million |
-| **Gene X raw count** | 100 | 200 |
-
-
-At first glance, Gene X looks like it doubled in Sample B. But if you look at proportions, both samples show the same value (0.0005% of the library). The difference in counts comes entirely from the difference in sequencing depth.
-
-You’ll see this kind of pattern all the time in real data. Without accounting for depth, it’s easy to call changes that aren’t actually there.
-
-### Depth affects detection, especially for lowly expressed genes
-
-Depth doesn’t affect all genes equally.
-
-Highly expressed genes tend to show up reliably even when sequencing is relatively shallow. Lowly expressed genes are a different story. At lower depth, they might show up as small counts in one sample and zeros in another, simply because there weren’t enough reads to capture them consistently.
-
-This is where interpretation gets tricky. A zero doesn’t always mean absence. Sometimes it just means the gene wasn’t picked up in that particular sequencing run.
-
-If you sequence more deeply, those same genes often appear more consistently. The biology hasn’t changed, you’re just getting a better look at it.
-
-![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
-
-
-From a study design perspective, this matters more than people expect. The depth you need depends on the weakest signal you care about. If depth is too low, low-abundance features start dropping in and out of detection, and that shows up later as zeros.
-
-### Where the problem starts: before sequencing even begins
-
-Depth is only part of the story.
-
-Before sequencing even happens, the library preparation step can shift what ends up being measured. PCR amplification is necessary to generate enough material, but it isn’t perfectly even. Some fragments amplify more efficiently than others, especially early on.
-
-Small differences at that stage can get amplified quickly. By the time the library is sequenced, some molecules are over-represented while others are under-represented, regardless of their original abundance. So by the time you see a count, two things have already happened:
-
-- molecules were unevenly amplified
-- a subset of them was sampled during sequencing
-
-Both introduce variability before any analysis begins.
-
-![PCR amplification and sampling zeros (Jiang et al. 2022, Fig 3)](module2Figs/02_zero_Toy_Examplle_v1.png){width=90%}. 
-<small>. 
-Ref: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"}</small>
-
-The figure above (Jiang et al. 2022, Fig 3) shows this concretely. Five
-genes start at equal cDNA concentrations. After PCR amplification, their
-relative proportions have shifted not because of biology, but because
-of stochastic amplification differences. When sequencing is then limited
-to a fixed depth, Gene 1 receives zero reads in three out of five
-hypothetical experiments. It was present. It was amplified. It was simply
-unlucky enough to be underrepresented at the moment the reads were
-sampled.
-
-
-### Depth differences are common, and not always random
-
-In real datasets, samples rarely have identical library sizes. Two-fold differences are quite common, even with careful protocols. There are a few usual reasons for this:
-
-- variation in RNA quality
-- differences in library prep efficiency
-- sequencing variability across runs or lanes
-
-In principle, these are technical effects. In practice, they don’t always distribute evenly across your conditions.
-
-For example, one tissue type might consistently yield lower quality RNA, or one batch might perform worse during library prep. When that happens, sequencing depth ends up correlated with the biological groups you’re trying to compare.
-
-That’s where problems start.
-
-
-A typical scenario looks like this: one group has systematically lower depth, and genes appear downregulated across the board. It can look like a strong biological signal, but it’s really just fewer reads being assigned overall.
-
-A quick check, like plotting library sizes by condition, often makes this obvious. If the distributions don’t overlap much, it’s something you need to deal with before moving forward.
-
-Normalisation helps, but it doesn’t fully fix cases where depth is tightly confounded with biology. At that point, it’s more of a design issue than an analysis problem.
-
-
-### The same logic applies across omics platforms: the terminology differs, not the principle
-
-The same idea shows up across other omics platforms.
-
-- In single-cell RNA-seq, each cell has its own sequencing depth, often measured as total UMI counts, and the variation can be substantial.
-- In microbiome data, total reads per sample vary widely, especially in low biomass settings.
-- In proteomics and metabolomics, the equivalent is total ion signal rather than read count.
-
-Different technologies, same underlying issue: the numbers reflect how much of the total signal was captured, not an absolute quantity.
-
-### What this means before you touch the analysis?
-
-Raw counts must be normalised before any cross sample comparison is
-valid. The appropriate normalisation strategy depends on the platform,
-the experimental design, and the biological question being asked.
-Choosing the wrong approach introduces new artefacts. This is covered
-in full in **Module 5: Normalisation and Scaling**.
-
-### What to take forward
-
-The main point to carry forward is simple:
-
-> A count is not an absolute measurement. It reflects how much of a sample was    captured under a particular sequencing budget.
-
-Because that budget varies between samples, raw counts can’t be compared directly. Some form of normalisation is needed before making cross-sample comparisons.
-
-We’ll get into how to do that later. For now, the important thing is to keep in mind what these numbers actually represent — and what they don’t.
+Section 2 examines what those numbers actually represent once they arrive, and why the same count in two different samples can mean very different things.
