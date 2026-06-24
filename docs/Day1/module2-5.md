@@ -79,183 +79,252 @@ models used in practice.
 
 ## From naive to principled: four levels
 
-The progression below uses **bulk RNAseq as the working example** because
-it is the most widely used and has the most mature statistical
-literature. The core logic, variance shrinkage across features,
-applies to all omics platforms, with **platform specific adaptations
-noted at the end**.
+The progression below uses **bulk RNA-seq as the working example**
+because it is the most widely used and has the most mature statistical
+literature. The core logic, **variance shrinkage across features**
+applies to all omics platforms, with platform specific adaptations
+noted at the end.
 
+---
 
-### Level 1: t-test on raw counts
+### Level 1: t-test on raw counts, treating RNA-seq like microarrays (incorrectly)
 
 Applying a standard t-test directly to raw count data fails
 immediately on all four assumptions:
 
-- Counts are not absolute, they depend on sequencing depth
-- The distribution is discrete and heavily right-skewed, not normal
+- Counts depend on sequencing depth (not directly comparable across samples)
+- Data are discrete and heavily skewed (not normally distributed)
 - Variance is not homogeneous, it scales with the mean
-- With n = 3, there are only 2 degrees of freedom per gene, far too
-  few for a stable variance estimate
+- With n = 3, variance per gene is extremely unstable
 
-Nothing is fixed. This approach should not be used.
+So in practice, this approach produces unreliable results and should not be used.
+---
 
-### Level 2: t-test on log-normalised counts (log count per million (CPM))
+### Level 2: t-test on log-normalised counts (log CPM); partial fix, partial problem
 
-A common next step is:
+A common next step:
 
-1. Normalise for library size (CPM)  
-2. Apply a log transformation  
-3. Run a t-test  
+1. Normalise for library size (CPM)
+2. Apply a log2 transformation
+3. Run a t-test
 
-This fixes some of the obvious issues.
+This helps because:
 
-- Normalisation makes samples broadly comparable  
-- Log transformation compresses the range (large values) and reduces skew  
+- Samples become more comparable after normalization
+- Log transform reduces skew and stabilises large values
 
-For moderately and highly expressed genes, this approach can behave reasonably well, especially if you have many replicates.
+For moderately/highly expressed genes, this often behaves reasonably well.
 
-But two problems remain.
+Two problems remain.
 
-#### Problem 1: low counts still behave poorly
+**Problem 1: low counts still behave poorly.** At low expression levels (0–10 counts), small absolute changes become large fold changes after log transformation. This creates the classic “fan shape” in MA plots: high variability at low expression.
 
-For genes with very low counts, log transformation doesn’t really “fix” the data.
+Importantly, much of this variability is not biological, it reflects sampling noise.
 
-Values like 0, 1, and 2 are still effectively discrete after transformation, and small differences translate into large apparent fold changes. At the same time, lowly expressed genes tend to be more variable between replicates, independently of biology.
 
-You can see this in practice as a characteristic “fan shape” in MA plots:  
-at low average expression, the spread of log fold changes becomes very wide.
+**Problem 2: variance is still estimated per gene (major issue)** Each gene gets its own variance estimate based only on its few replicates.
 
-![MA plot without and with shrinkage (Derakhshani et al. (2020), CC BY)](module2Figs/02_MLE_plot_dispersion_v01.jpg){style="width:90%; height:auto; min-height:500px"}
+With n ≈ 3–5:
 
-This variability is not primarily biological, it reflects unstable estimates at low counts.
+some genes appear artificially stable
+others appear artificially variable
+differences are often just random noise
 
-#### Problem 2: variance is still estimated per gene
-
-Even after transformation, a standard t-test still treats each gene independently.
-
-That means the variance estimate for gene X comes only from its own replicates. With small sample sizes, that estimate is noisy. Some genes will appear artificially stable, others artificially variable, just by chance.
-
-The test has no mechanism to recognise or correct for this.
+So we fix mean scaling and distribution shape, but variance remains unreliable.
 
 ---
 
-### Level 3: limma-voom package fixs the t-test framework
+### Level 3: limma-voom; learning which observations we can trust
 
-**limma-voom** keeps the general idea of working with log-transformed data, but changes how variability is handled.
+**limma-voom** retains the idea of working with log-transformed data
+but improves the two weakest points: unequal reliability and unstable variance estimates.
 
-It addresses the two problems above, directly.
+#### A) Mean–variance relationship (voom weights)
 
-#### Mean–variance weighting
+Across a dataset, variability is not random, it follows a pattern.
+Lowly expressed genes are consistently more variable than highly
+expressed ones. Rather than ignoring this, `voom` estimates the
+mean–variance relationship across all genes and uses it to assign
+**precision weights**:
 
-Across the dataset, variability is not random, it follows a pattern.
+- Observations expected to be noisy (low counts) get lower weight
+- More stable observations get higher weight
 
-Lowly expressed genes are consistently more variable than highly expressed ones. Instead of ignoring this, `voom` estimates the relationship across all genes and uses it to assign **precision weights**.
+So the model no longer treats every data point equally.
 
-- Observations expected to be noisy (low counts) get lower weight  
-- More stable observations get higher weight  
+This turns the analysis into a [weighted linear model](https://link.springer.com/article/10.1186/gb-2014-15-2-r29), where unreliable measurements contribute less to the final result.
 
-The model then fits a [weighted linear model](https://link.springer.com/article/10.1186/gb-2014-15-2-r29), rather than treating all points equally.
+#### B) Empirical Bayes variance shrinkage
 
-#### Empirical Bayes variance shrinkage (Borrowing information across genes)
+limma stabilises variance estimates using an **empirical Bayes**
+approach. Instead of relying entirely on the variance of a single
+gene, it shrinks each gene's estimate toward a global trend derived
+from all genes in the dataset.
 
-limma also uses an **empirical Bayes** approach to stabilise variance estimates.
+!!! tip "What empirical Bayes does and does not do"
+    Empirical Bayes does not change the model structure. It improves
+    how the model parameters are estimated, by drawing on information
+    from all genes rather than each gene in isolation.
 
-Instead of relying entirely on the variance of a single gene, it shrinks each estimate toward a global trend derived from all genes.
+In practice this means noisy estimates from small sample sizes are
+stabilised, the effective degrees of freedom increase, and test
+statistics become more reliable. This borrowing of strength across
+genes is the key conceptual shift that separates modern omics methods
+from naive approaches.
 
-In practice, this means:
+![Schematic illustration](module2Figs/02_limma-voom-deseq2-cpm-raw_v01.png){style="width:100%; height:auto; min-height:500px"}
 
-- noisy estimates from small sample sizes are stabilised  
-- the effective degrees of freedom increase  
-- test statistics become more reliable  
-
-This “borrowing strength” across genes is one of the key ideas that makes modern methods work.
-
+<small>**Figure** Conceptual illustration of how successive methodological improvements in RNA-seq analysis increase the separation of biological signal from noise. Point locations represent simulated ground truth rather than software output. The visual progression is schematic and reflects variance moderation, information sharing across genes, and (where applied) effect-size shrinkage.
+</small>
 
 ### Level 4: DESeq2 and edgeR, modelling counts directly
 
-Rather than transforming the data, **DESeq2** and **edgeR** model the counts themselves.
+Rather than transforming the data to approximate normality, **DESeq2**
+and **edgeR** model the raw counts directly using a **negative
+binomial distribution**.
 
-They use the **negative binomial distribution**, which is well suited to count data with biological variability. This distribution has two parameters:
+Why this matters:
 
-- a mean (expected count)  
-- a dispersion term (extra variability between replicates)
+RNAseq variability is not purely Poisson (technical sampling noise). There is also:
 
-This is important because real RNAseq data is more variable than a simple Poisson model would predict.
+biological variability between samples
+library preparation effects
+unobserved heterogeneity
 
-Like limma, both methods:
+This extra variability is called overdispersion, and the negative binomial explicitly models it.
 
-- estimate a mean–variance (mean–dispersion) relationship across all genes  
-- shrink individual gene estimates toward that trend  
-- effectively share information across the dataset  
+Var(Y) = μ + ϕμ²
 
-They also incorporate normalisation internally and fit **generalised linear models**, which makes it straightforward to handle more complex experimental designs.
+Where:
 
-This approach is particularly important for **lowly expressed genes**, where log-based methods are least stable.
+μ = mean expression
+φ = dispersion (extra biological variability)
+The key idea is the same as limma:
 
-Most improvement comes from better estimation of variability, not just better distributions.
+Both methods:
 
-### Putting it together
+estimate a mean–variance relationship across all genes
+shrink gene-specific dispersion estimates toward that trend
+borrow information across the entire dataset
 
-| Approach | What it fixes | What remains wrong |
+Difference is only in representation:
+
+limma: works on log-expression (Gaussian model)
+DESeq2/edgeR: works on counts (negative binomial GLM)
+
+Rather than transforming the data to approximate normality, DESeq2 and edgeR model the counts directly using a negative binomial distribution. This is particularly helpful at low expression levels, where log-transformed data can exhibit unstable fold changes and sampling noise can be amplified by the transformation. Modelling counts directly avoids many of these artefacts.
+
+Much of the practical improvement comes from estimating dispersion more accurately by borrowing information across genes. The distinction between Poisson and negative binomial models becomes increasingly important at higher expression levels, where biological overdispersion, represented by the φμ² term dominates the variance. In this regime, a pure Poisson model can substantially underestimate variability between biological replicates.
+
+!!! note "Fold-change shrinkage is a separate step"
+    Empirical Bayes dispersion shrinkage improves standard errors,
+    variance estimates, and p-values, but it does not itself pull
+    fold-change estimates toward zero.
+
+    The Level 4 panel is a conceptual illustration of improved
+    signal-to-noise separation rather than the exact output of a
+    DESeq2 analysis. In practice, additional shrinkage of
+    log-fold-change estimates requires a separate step. In DESeq2,
+    this is performed using `lfcShrink()` and is not part of the
+    default `DESeq()` → `results()` workflow.
+---
+
+## Putting it all together
+
+| Method | What it fixes | What still breaks |
 |---|---|---|
-| t-test on raw counts | Nothing | Not comparable; discrete; normal approximation fails; variance estimates are unstable |
-| t-test on log CPM | Makes samples comparable; improves behaviour at higher counts | Breaks down at low counts; per-gene variance still unreliable with small n |
-| limma-voom | Accounts for mean–variance relationship; stabilises variance using empirical Bayes | Less reliable for very low counts |
-| DESeq2 / edgeR | All of the above, and NB model for count data; Best for low count genes; equivalent to limma voom at higher counts  | ------------ |
+| t-test on raw counts | nothing | everything (scale, distribution, variance) |
+| t-test on log CPM | scaling + skew | unstable variance; poor low-count behaviour |
+| limma-voom | unequal reliability + variance shrinkage | still approximate at very low counts |
+| DESeq2 / edgeR | full count model + shrinkage | Very low count genes still require filtering; sensitive to extreme outliers (Cook's distance) |
 
-The difference between these methods is not just the distribution they assume.
+## The key conceptual shift (most important takeaway)
 
-The key shift is this:
+Across all modern methods, the improvement is not "a better test."
 
-> **variance is no longer estimated gene by gene in isolation.**
+It is this:
 
-Instead, each gene’s behaviour is interpreted in the context of all others.  
+> **We stop estimating variance independently for each gene. Instead,
+> we learn the variance structure from all genes and share information
+> across them.**
 
-**edgeR vs limma-voom: what is actually different?**
+This is what makes RNAseq analysis statistically stable with small
+sample sizes.
 
+## Practical message (for biologists)
 
-| Component                  | limma-voom                         | edgeR                  |
-| -------------------------- | ---------------------------------- | ---------------------- |
-| Data scale                 | logCPM (continous)                 | raw counts (integers)  |
-| Variance object            | residual variance (σ²)             | dispersion (φ)         |
-| Model type                 | Gaussian linear model              | Negative Binomial GLM  |
-| EB acts on                 | Gene wise variances.               | Gene wise dispersions  |
-| Mean–variance relationship | estimated from data (Voom weights) | modeled in NB          |
+Most RNAseq experiments have too few replicates to estimate gene-wise
+variability reliably.
 
+Modern methods (limma-voom, DESeq2, edgeR) work because they:
 
-### The same principle applies across platforms
+- recognise that gene-wise variability cannot be estimated reliably
+  from small sample sizes
+- borrow information across thousands of genes to stabilise those
+  estimates
 
-The core problem, small sample sizes combined with thousands of
-features gives unstable per-feature variance estimates is universal.
-The distributional solutions differ by platform.
+That is why they outperform simple t-tests, not because they are
+more complex, but because they are more statistically honest about
+what can and cannot be estimated from the data.
 
-- **Single-cell RNA-seq**: cells are not independent biological
-  replicates. Pseudobulk aggregation to the donor level before
-  applying bulk methods (DESeq2, edgeR) is the principled approach.
-- **Microbiome**: the compositional constraint means that
-  even a well-specified count model still produces spurious results
-  if independence is assumed. Log-ratio methods are required
-  in addition to handling overdispersion.
-- **Proteomics and metabolomics**: data are continuous after log
-  transformation and approximately normal; limma's empirical Bayes
-  framework applies directly. MNAR aware imputation strategies are
-  needed before modelling.
+---
+
+## The same principle applies across platforms
+
+The core challenge is widespread across high dimensional omics data:
+the number of measured features far exceeds the number of biological
+replicates, making feature-specific variance estimates unstable and
+unreliable.
+
+Although the statistical models differ across platforms, successful
+modern methods share a common principle:
+
+> **Information is not estimated independently for each feature.**
+
+Instead, features collectively inform the estimation of variance,
+dispersion, compositional structure, missingness patterns, or other
+parameters that cannot be reliably estimated from a single feature
+alone. This is what makes modern methods work at typical omics sample
+sizes, not just a better distributional assumption, but a
+fundamentally different way of using the data.
+
+- **Single-cell RNAseq**: individual cells are not independent
+  biological replicates. Pseudobulk aggregation to the donor level
+  before applying bulk methods (DESeq2, edgeR) is a widely recommended
+  approach because it avoids pseudoreplication and performs well in
+  benchmarking studies.
+
+- **Microbiome**: sequencing data are compositional, only relative
+  abundances are observed, and the observed total is determined by the
+  sampling process rather than the true total microbial load.
+  Applying count-based differential abundance methods without
+  accounting for compositionality can produce spurious differential
+  abundance calls. Methods based on log-ratio transformations or
+  compositionally aware models are generally preferred.
+
+- **Proteomics and metabolomics**: after log transformation, intensity
+  measurements are often reasonably approximated by continuous models,
+  and limma's empirical Bayes framework is widely used. Missing values
+  require careful handling, particularly when missingness is likely to
+  be non-random (MNAR); several modern workflows handle this within
+  the model rather than through imputation.
+
 - **Methylation arrays**: linear models on M-values with empirical
-  Bayes shrinkage (limma) are standard; cell type deconvolution is
-  needed to avoid confounding composition with methylation state.
+  Bayes shrinkage (limma) are standard. In heterogeneous tissues such
+  as blood, estimated cell-type composition is commonly included as a
+  covariate to reduce confounding with methylation state.
 
-The framework table below summarises the recommended approach for
-each platform.
-
-| Platform | Primary violation | Appropriate framework | Key methods |
+| Platform | Primary challenge | Appropriate framework | Key methods |
 |---|---|---|---|
-| Bulk RNA-seq | Overdispersed counts; heteroscedastic variance | Negative binomial model with empirical Bayes shrinkage | DESeq2, edgeR |
-| Bulk RNA-seq (high depth / many replicates) | Heteroscedastic log-space variance | Weighted linear model with empirical Bayes | limma-voom |
-| Proteomics · metabolomics | Heteroscedastic continuous intensity; MNAR missing values | Linear model with empirical Bayes; MNAR-aware imputation | limma, MSstats |
-| Methylation arrays | Bounded beta distribution; cell composition confounding | Linear model on M-values with empirical Bayes; cell type deconvolution | limma + minfi / ChAMP |
-| Microbiome | Compositional counts; independence violation | Log-ratio transformation; compositionally aware models | ALDEx2, ANCOM-BC |
-| Single-cell RNA-seq | Count overdispersion + pseudoreplication | Pseudobulk aggregation then bulk methods | DESeq2 / edgeR on pseudobulk |
-| Spatial omics | Count distribution + within-spot mixing | Spatial-aware models; deconvolution [VERIFY WITH EXPERT] | SPARK, SpatialDE |
+| Bulk RNA-seq | Overdispersed counts | Negative binomial model with empirical Bayes shrinkage | DESeq2, edgeR |
+| Bulk RNA-seq | Mean-dependent variance after log transformation | Weighted linear model with empirical Bayes | limma-voom |
+| Proteomics · metabolomics | Heteroscedastic continuous intensities; missing values | Linear model with empirical Bayes; careful handling of missingness | limma, MSstats |
+| Methylation arrays | Non-constant variance of β-values; cell composition confounding in heterogeneous tissues | Linear model on M-values with empirical Bayes; cell-type covariates where appropriate | limma, minfi, ChAMP |
+| Microbiome | Compositional data | Log-ratio transformation; compositionally aware models | ALDEx2, ANCOM-BC |
+| Single-cell RNA-seq | Pseudoreplication; count overdispersion | Pseudobulk aggregation followed by bulk RNAseq methods | DESeq2, edgeR |
+| Spatial omics *(emerging)* | Spatial dependence; spot-level cell-type mixing | Spatially aware statistical models (active research area) | SPARK, SpatialDE (spatially variable genes); RCTD, cell2location (spot deconvolution) |
+
+---
 
 ## What to take forward
 
@@ -263,14 +332,15 @@ The takeaway is not that classical statistics are wrong. It is that
 they rely on assumptions that do not hold for this type of data,
 especially at low counts and small sample sizes.
 
-Modern methods do not just tweak the model. They change how
-information is used across the dataset to produce stable inference
-where a gene-by-gene approach cannot.
+> **Modern methods do not just change the distributional assumptions
+> of the model. They change how information is shared across the
+> dataset to produce stable inference where a feature-by-feature
+> approach cannot.**
 
 !!! info "Coming up in Module 4"
     Normalisation mechanics, how TMM, size factors, CPM, and
-    transformations work and when each is
-    appropriate, are covered in **Module 4**.
+    variance-stabilising transformations work and when each is
+    appropriate are covered in **Module 4**.
 
 ---
 
@@ -282,16 +352,16 @@ why omics data requires its own analytical framework:
 - **Section 2-1**: counts and intensities are the two primary data
   types; how they are generated determines their statistical
   properties
-- **Section 2-2**: counts are relative measurements constrained by a
-  finite sequencing budget; depth variation must be corrected before
-  cross-sample comparison is valid
-- **Section 2-3**: zeros have four distinct causes:- biological,
+- **Section 2-2**: sequencing counts are relative measurements
+  constrained by a finite sequencing budget; depth variation must be
+  corrected before cross-sample comparison is valid
+- **Section 2-3**: zeros have four distinct causes- biological,
   technical, sampling, and analytical; misclassifying them propagates
   errors into differential expression, imputation, and correlation
   analyses
-- **Section 2-4**: features are compositionally constrained;
-  a genuine change in one feature creates apparent changes in all
-  others, and standard normalisation does not remove this constraint
+- **Section 2-4**: features are compositionally constrained; a genuine
+  change in one feature creates apparent changes in all others, and
+  standard normalisation does not remove this constraint
 - **Section 2-5**: classical t-tests fail on count data not simply
   because the distribution is non-normal, but because per-feature
   variance cannot be reliably estimated from small n; limma-voom,
