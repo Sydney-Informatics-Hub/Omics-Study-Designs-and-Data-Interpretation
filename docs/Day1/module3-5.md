@@ -1,4 +1,4 @@
-## Metadata: Putting Data in Context
+## Metadata: Putting Data in Context.
 
 !!! info "Learning objectives"
     By the end of this section, participants will be able to:
