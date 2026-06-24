@@ -57,7 +57,7 @@ Have no prior bioinformatics or programming experience, none is required
 
 
 ## Developers
-- Amarinder Singh Thind, Senior Research Bioinformatician, Sydney Informatics Hub, University of Sydney
+- 
 - ##
 
 ## Facilitators
