@@ -1,0 +1,2085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 3: Experimental Design Exercises</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #ffffff;
+    --bg-soft:   #d3a6a3;
+    --bg-code:   #dfe3d6a5;
+    --fg:        #1c2230;
+    --fg-soft:   #708fc8;
+    --rule:      #d8d1bf;
+    --accent:    #b54a2f;
+    --accent-soft:#dfb7a7;
+    --teal:      #2f6b6b;
+    --teal-soft: #9fcece;
+    --warn:      #203b95;
+    --output-bg: #c4d5e0;
+    --error:     #a3221a;
+    --shadow:    0 1px 2px rgba(28,34,48,0.04), 0 4px 14px rgba(28,34,48,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--fg);
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 800px 400px at 10% -10%, rgba(181,74,47,0.04), transparent 60%),
+      radial-gradient(ellipse 600px 300px at 110% 110%, rgba(47,107,107,0.03), transparent 70%);
+    min-height: 100vh;
+  }
+
+  /* ---------- TYPOGRAPHY ---------- */
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+  h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; margin: 0 0 0.4rem; }
+  h2 { font-size: 1.85rem; line-height: 1.2; margin: 0 0 1rem; }
+  h3 { font-size: 1.25rem; line-height: 1.3; margin: 1.4rem 0 0.4rem;
+       font-weight: 600; }
+  h4 { font-size: 1.05rem; margin: 1.2rem 0 0.4rem; }
+  p  { margin: 0 0 0.8rem; }
+
+  code, pre, .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+  }
+  em { font-style: italic; }
+  strong { font-weight: 600; color: var(--fg); }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  header.page-header {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0;
+    position: relative;
+  }
+  header.page-header::before {
+    content: '';
+    position: absolute;
+    top: 24px; left: 24px;
+    width: 32px; height: 4px;
+    background: var(--accent);
+  }
+  .page-header .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .page-header .subtitle {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--fg-soft);
+    max-width: 720px;
+    margin-top: 8px;
+  }
+
+  /* ---------- LOADING BANNER ---------- */
+  #status-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 10px 24px;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: background-color 0.4s, color 0.4s;
+  }
+  #status-bar.ready {
+    background: var(--teal);
+    color: #fff;
+  }
+  #status-bar.error {
+    background: var(--error);
+    color: #fff;
+  }
+  #status-bar .spinner {
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+  }
+  #status-bar.ready .spinner,
+  #status-bar.error .spinner { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #status-text { flex: 1; }
+  #status-detail {
+    font-size: 0.78rem;
+    opacity: 0.75;
+    font-style: italic;
+  }
+
+  /* ---------- INTRO ---------- */
+  .intro {
+    padding: 32px 0 16px;
+    max-width: 760px;
+  }
+  .intro p { font-size: 1.02rem; }
+
+  .callout-tip {
+    border-left: 3px solid var(--teal);
+    background: var(--teal-soft);
+    padding: 14px 18px;
+    margin: 24px 0;
+    font-size: 0.95rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-tip strong { color: var(--teal); }
+  .callout-predict {
+    border-left: 3px solid var(--warn);
+    background: #faf3da;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 0.93rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-predict strong { color: var(--warn); }
+  .callout-teach {
+    border-left: 3px solid var(--accent);
+    background: #f7e6dc;
+    padding: 16px 20px;
+    margin: 24px 0 12px;
+    font-size: 0.96rem;
+    border-radius: 0 4px 4px 0;
+  }
+  .callout-teach .label {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ---------- INTERPRETATION (expandable) ---------- */
+  details.interpretation {
+    margin: 16px 0 32px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--bg-soft);
+    overflow: hidden;
+  }
+  details.interpretation > summary {
+    cursor: pointer;
+    padding: 14px 20px;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--fg);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+  }
+  details.interpretation > summary::-webkit-details-marker { display: none; }
+  details.interpretation > summary::before {
+    content: '▸';
+    color: var(--accent);
+    font-size: 0.85em;
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  details.interpretation[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  details.interpretation > summary:hover {
+    background: rgba(181,74,47,0.04);
+  }
+  details.interpretation .interp-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  .interp-body {
+    padding: 4px 24px 20px;
+    font-size: 0.94rem;
+    line-height: 1.65;
+    color: var(--fg);
+  }
+  .interp-body h4 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    margin: 18px 0 6px;
+    font-size: 1.05rem;
+    color: var(--fg);
+  }
+  .interp-body p { margin: 0 0 10px; }
+  .interp-body table {
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 0.88rem;
+    width: 100%;
+  }
+  .interp-body th,
+  .interp-body td {
+    border: 1px solid var(--rule);
+    padding: 6px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .interp-body th {
+    background: var(--bg-code);
+    font-weight: 600;
+  }
+
+  /* small toggle that lives in the code-toolbar */
+  .code-toggle-btn {
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--fg-soft);
+    padding: 4px 10px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 8px;
+    letter-spacing: 0.02em;
+    transition: all 0.15s;
+  }
+  .code-toggle-btn:hover {
+    background: var(--bg-soft);
+    color: var(--fg);
+  }
+
+  /* ---------- TABS ---------- */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+    margin: 32px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tabs button {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 14px 22px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 500;
+    color: var(--fg-soft);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: -1px;
+    letter-spacing: 0.01em;
+  }
+  .tabs button:hover { color: var(--fg); }
+  .tabs button.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+  .tab-panel { display: none; padding: 32px 0 64px; }
+  .tab-panel.active { display: block; }
+
+  /* ---------- EXERCISE BLOCKS ---------- */
+  .exercise-block {
+    margin: 28px 0;
+  }
+  .exercise-block .step-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .exercise-block .step-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-size: 0.95rem;
+  }
+
+  /* ---------- CODE EDITOR ---------- */
+  .code-shell {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--bg-code);
+    margin: 12px 0;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .code-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 8px 16px;
+    background: linear-gradient(to bottom, #fff, var(--bg-code));
+    border-bottom: 1px solid var(--rule);
+  }
+  .code-toolbar .label {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--fg-soft);
+    font-weight: 600;
+  }
+  .run-btn {
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    padding: 6px 16px;
+    border-radius: 3px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.02em;
+  }
+  .run-btn:hover:not(:disabled) {
+    background: var(--accent);
+  }
+  .run-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  .run-btn .play-icon { font-size: 0.7em; }
+  .run-btn.running .play-icon { display: none; }
+  .run-btn.running::before {
+    content: '';
+    width: 10px; height: 10px;
+    border: 2px solid rgba(245,241,232,0.3);
+    border-top-color: var(--bg);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .run-btn-secondary {
+    background: transparent !important;
+    color: var(--fg-soft) !important;
+    border: 1px solid var(--rule) !important;
+    font-weight: 500 !important;
+  }
+  .run-btn-secondary:hover:not(:disabled) {
+    background: var(--bg-soft) !important;
+    color: var(--fg) !important;
+  }
+
+  /* ---------- DIAGNOSTIC CONTROL PANEL (M3-2) ---------- */
+  .diag-panel {
+    background: var(--bg-code);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    box-shadow: var(--shadow);
+  }
+  .diag-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px 16px;
+  }
+  .diag-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 0 0 auto;
+  }
+  .diag-picker-label {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-soft);
+    font-weight: 600;
+  }
+  .diag-select {
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.9rem;
+    color: var(--fg);
+    min-width: 140px;
+    cursor: pointer;
+  }
+  .diag-select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-soft);
+  }
+  .diag-action-btn {
+    margin-left: auto;
+    align-self: flex-end;
+  }
+  @media (max-width: 640px) {
+    .diag-action-btn { margin-left: 0; }
+  }
+
+  textarea.code-editor {
+    width: 100%;
+    min-height: 60px;
+    padding: 14px 16px;
+    border: none;
+    background: var(--bg-code);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--fg);
+    resize: vertical;
+    outline: none;
+    tab-size: 2;
+  }
+  textarea.code-editor:focus {
+    background: #fff;
+  }
+
+  /* ---------- OUTPUT ---------- */
+  .output {
+    margin: 8px 0 0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .output:empty { display: none; }
+  .output pre {
+    background: var(--output-bg);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin: 8px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    color: var(--fg);
+  }
+  .output pre.stderr {
+    background: #fff8f7;
+    border-color: var(--accent-soft);
+    color: var(--error);
+  }
+  .output pre.error {
+    background: #fff0ee;
+    border-left: 3px solid var(--error);
+    color: var(--error);
+  }
+  .output canvas.plot {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: white;
+    margin: 12px 0;
+    display: block;
+    box-shadow: var(--shadow);
+  }
+
+  /* ---------- FOOTER CHECKLIST ---------- */
+  .checklist {
+    margin: 64px 0 48px;
+    padding: 32px;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+  }
+  .checklist h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+  }
+  .checklist ol {
+    padding-left: 0;
+    list-style: none;
+    counter-reset: q;
+  }
+  .checklist li {
+    counter-increment: q;
+    padding: 10px 0 10px 48px;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: 'Q' counter(q);
+    position: absolute;
+    left: 0; top: 12px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .checklist .tag {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+
+  /* ---------- MISC ---------- */
+  .meta-line {
+    color: var(--fg-soft);
+    font-size: 0.88rem;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  hr.section-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 48px 0 32px;
+  }
+  ul.dash-list {
+    list-style: none;
+    padding-left: 0;
+  }
+  ul.dash-list li {
+    padding-left: 18px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+  ul.dash-list li::before {
+    content: '-';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<div id="status-bar">
+  <div class="spinner"></div>
+  <div id="status-text">Initialising R in your browser…</div>
+  <div id="status-detail">first load takes ~30–60 seconds</div>
+</div>
+
+<header class="page-header">
+  <div class="wrap">
+    <div class="eyebrow">Module 3 · webR Practical</div>
+    <h1>Experimental Design for Omics</h1>
+  <div class="subtitle">Three hands-on exercises.</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section class="intro">
+  <p>Each tab below contains one exercise with a few runnable code blocks.
+  Click <strong>Run</strong> to execute a block, variables persist across
+  blocks within a tab, so run them in order the first time through.</p>
+
+  <p>Suggested order: <strong>M3-1 → M3-2 → M3-4</strong>.</p>
+
+  <div class="callout-tip">
+    <strong>Working habit.</strong> Before running a block, make a short guess
+    about the output. If your expectation differs from the result, pause and
+  think about why; that mismatch is where the idea becomes clear.
+  </div>
+</section>
+
+<ul class="tabs" id="tabs"></ul>
+<div id="panels"></div>
+
+<hr class="section-rule">
+ 
+
+</main>
+
+<!-- ============================================================ -->
+<!-- EXERCISE DATA + webR LOGIC                                  -->
+<!-- ============================================================ -->
+<script type="module">
+
+import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
+
+// -------------------------------------------------------------
+// Exercise definitions
+// -------------------------------------------------------------
+const EXERCISES = [
+  {
+    id: 'm3-1',
+    title: 'M3-1 · Spot the Confound',
+    intro: `
+  <h2>M3-1 : Spot the Confound</h2>
+  <p><strong>Concept.</strong> PCA shows the biggest patterns in the data,
+  but it can't tell you whether a pattern is technical (batch) or biological.
+  Inspecting the metadata table (cross-tab) shows whether the two are mixed up.</p>
+      <p>We simulate three RNA-seq scenarios (1,000 genes × 24 samples),
+      each with 12 cases and 12 controls processed across 2 batches. They
+      differ only in how samples were assigned to batches.</p>
+    `,
+    blocks: [
+      {
+        title: 'Step 1 : Simulate the three scenarios',
+        description: '',
+        code: `library(ggplot2)
+library(dplyr)
+library(patchwork)
+
+set.seed(42)
+
+simulate_scenario <- function(condition, batch, n_genes = 1000,
+                              batch_effect = 2, biology_effect = 1.5,
+                              noise_sd = 0.3) {
+  n <- length(condition)
+  
+  # baseline expression
+  expr <- matrix(rnorm(n_genes * n, mean = 5, sd = 1), nrow = n_genes)
+  
+  # define gene sets
+  bio_genes   <- 1:100
+  batch_genes <- 101:300
+  
+  # add biological effect
+  expr[bio_genes, condition == "case"] <-
+    expr[bio_genes, condition == "case"] + biology_effect
+  
+  # add batch effect
+  expr[batch_genes, batch == "B2"] <-
+    expr[batch_genes, batch == "B2"] + batch_effect
+  
+  # add noise
+  expr <- expr + matrix(rnorm(n_genes * n, sd = noise_sd), nrow = n_genes)
+  
+  rownames(expr) <- paste0("G", 1:n_genes)
+  colnames(expr) <- paste0("S", 1:n)
+  
+  return(expr)
+}
+
+# -------------------------
+# Scenario A: BAD (confounded)
+# Batch perfectly aligned with condition
+# Batch effect >> biology
+# -------------------------
+meta_A <- data.frame(
+  condition = c(rep("case", 12), rep("control", 12)),
+  batch     = c(rep("B1", 12),   rep("B2", 12))
+)
+
+expr_A <- simulate_scenario(
+  meta_A$condition, meta_A$batch,
+  batch_effect = 3,       # strong batch
+  biology_effect = 1      # weaker biology
+)
+
+# -------------------------
+# Scenario B: BALANCED
+# Mixed batches across conditions
+# Biology > batch
+# -------------------------
+meta_B <- data.frame(
+  condition = rep(c("case", "control"), each = 12),
+  batch     = rep(c("B1", "B2", "B1", "B2"), each = 6)
+)
+
+expr_B <- simulate_scenario(
+  meta_B$condition, meta_B$batch,
+  batch_effect = 1,        # moderate batch
+  biology_effect = 2       # stronger biology
+)
+
+# -------------------------
+# Scenario C: IDEAL
+# Biology dominates, batch negligible
+# -------------------------
+meta_C <- meta_B
+
+expr_C <- simulate_scenario(
+  meta_C$condition, meta_C$batch,
+  batch_effect = 0.2,      # almost no batch
+  biology_effect = 2.5     # strong biology
+)
+
+cat("Three datasets simulated correctly.\n")`
+      },
+      {
+        title: 'Step 2 :Diagnose from metadata alone',
+        description: `<div class="callout-predict"><strong>Predict.</strong>
+          Which scenario can a correction recover? Which cannot? Which
+          scenario does not need correction?</div>`,
+        code: `cat("=== Scenario A ===\\n");  print(table(meta_A$condition, meta_A$batch))
+cat("\\n=== Scenario B ===\\n"); print(table(meta_B$condition, meta_B$batch))
+cat("\\n=== Scenario C ===\\n"); print(table(meta_C$condition, meta_C$batch))`
+      },
+      {
+        title: 'Step 3 : PCA grid',
+        description: '',
+        code: `plot_pca_pretty <- function(expr, meta, title) {
+  pca <- prcomp(t(expr), scale. = TRUE)
+  
+  var_exp <- (pca$sdev^2) / sum(pca$sdev^2)
+  
+  df <- data.frame(
+    PC1 = pca$x[,1],
+    PC2 = pca$x[,2],
+    condition = factor(meta$condition),
+    batch = factor(meta$batch)
+  )
+  
+  # ---- Compute convex hulls safely (base R) ----
+  hull_list <- lapply(split(df, df$condition), function(subdf) {
+    if (nrow(subdf) < 3) return(NULL)
+    idx <- chull(subdf$PC1, subdf$PC2)
+    subdf[idx, ]
+  })
+  
+  hull_df <- do.call(rbind, hull_list)
+  
+  # ---- Plot ----
+  library(ggplot2)
+  
+  p <- ggplot(df, aes(PC1, PC2, color = condition, shape = batch)) +
+    geom_point(size = 3.5, alpha = 0.9)
+  
+  # Add hulls only if valid
+  if (!is.null(hull_df)) {
+    p <- p + geom_polygon(
+      data = hull_df,
+      aes(x = PC1, y = PC2, fill = condition, group = condition),
+      alpha = 0.15,
+      color = NA,
+      inherit.aes = FALSE
+    )
+  }
+  
+  p +
+    labs(
+      title = title,
+      x = paste0("PC1 (", round(var_exp[1]*100, 1), "%)"),
+      y = paste0("PC2 (", round(var_exp[2]*100, 1), "%)")
+    ) +
+    scale_color_brewer(palette = "Set1") +
+    scale_fill_brewer(palette = "Set1") +
+    theme_classic(base_size = 13) +
+    theme(
+      plot.title = element_text(face = "bold", hjust = 0.5),
+      legend.title = element_blank()
+    )
+}
+p1 <- plot_pca_pretty(expr_A, meta_A, "A: Confounded design")
+p2 <- plot_pca_pretty(expr_B, meta_B, "B: Balanced design")
+p3 <- plot_pca_pretty(expr_C, meta_C, "C: Condition-driven variation")
+
+p1 + p2 + p3 + plot_layout(guides = "collect")`
+      },
+      {
+        title: 'Step 4 : Try batch correction on the balanced design',
+        description: `<p>We use a base-R substitute for limma's
+          <code>removeBatchEffect</code>: regress out batch effects per gene
+          while preserving the biological condition.</p>`,
+        code: ` # ============================================================
+# 1. BATCH CORRECTION (Base-R linear model approach)
+#    Goal: remove technical batch effects while preserving
+#    biological signal (condition effect)
+# ============================================================
+
+remove_batch <- function(expr, batch, condition) {
+  
+  # Convert inputs to factors (important for correct model encoding)
+
+  batch_f <- factor(batch)
+  cond_f  <- factor(condition)
+  
+  # Apply gene-wise linear model
+  corrected <- t(apply(expr, 1, function(y) {
+    
+    # Fit additive model:
+    # expression = batch + condition + noise
+    fit <- lm(y ~ batch_f + cond_f)
+    
+    # Extract design matrix used in model fitting
+    design <- model.matrix(fit)
+    
+    # Identify columns corresponding to batch effects
+    batch_cols <- grep("batch_f", colnames(design))
+    
+    # If no batch terms exist, return original signal
+    if (length(batch_cols) == 0) return(as.numeric(y))
+    
+    # Compute estimated batch contribution
+    batch_effect <- design[, batch_cols, drop = FALSE] %*% coef(fit)[batch_cols]
+    
+    # Subtract batch component only (retain biological signal)
+    as.numeric(y - batch_effect)
+  }))
+  
+  return(corrected)
+}
+
+# ============================================================
+# 2. APPLY BATCH CORRECTION
+#    We correct expression matrix B using metadata
+# ============================================================
+
+expr_B_corr <- remove_batch(expr_B, meta_B$batch, meta_B$condition)
+
+# Preserve original gene/sample identifiers
+rownames(expr_B_corr) <- rownames(expr_B)
+colnames(expr_B_corr) <- colnames(expr_B)
+
+# ============================================================
+# 3. PCA EXTRACTION FUNCTION
+#    Converts expression matrix into PCA-ready dataframe
+# ============================================================
+
+get_pca_df <- function(expr, meta, label) {
+  
+  # Perform PCA on transposed matrix (samples as rows)
+  pca <- prcomp(t(expr), scale. = TRUE)
+  
+  # Build plotting dataframe from first two PCs
+  data.frame(
+    PC1 = pca$x[,1],
+    PC2 = pca$x[,2],
+    
+    # Experimental metadata
+    batch = factor(meta$batch),
+    condition = factor(meta$condition),
+    
+    # Label to distinguish before/after correction
+    stage = label
+  )
+}
+
+# ============================================================
+# 4. CREATE PCA DATASETS
+#    Before vs After correction comparison
+# ============================================================
+
+df_before <- get_pca_df(expr_B, meta_B, "Before")
+df_after  <- get_pca_df(expr_B_corr, meta_B, "After")
+
+# Combine for faceted visualization
+df_all <- rbind(df_before, df_after)
+
+# ============================================================
+# 5. VISUALISATION (PCA COMPARISON PLOT)
+#    Goal: assess removal of batch effect
+# ============================================================
+
+library(ggplot2)
+
+ggplot(df_all, aes(PC1, PC2, color = condition, shape = batch)) +
+  
+  # Sample points in PCA space
+  geom_point(size = 3.2, alpha = 0.85) +
+  
+  # Separate before vs after correction
+  facet_wrap(~ stage) +
+  
+  # Clean, publication-friendly colour palette
+  scale_color_brewer(palette = "Set1") +
+  
+  # Minimal but clear theme for interpretation
+  theme_bw(base_size = 13) +
+  
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.title = element_blank()
+  ) +
+  
+  # Clear figure title
+  labs(title = "PCA Before vs After Batch Correction")`
+      }
+    ],
+    teach: `PCA alone cannot tell you whether a confound is recoverable.
+      Two scenarios with very different outcomes can produce visually
+      similar plots. The first thing to look at is the metadata
+      cross-tab, because if a biological group lives entirely inside one batch,
+      no statistical method can rescue the comparison.`,
+    interpretation: {
+      title: "Reading the three scenarios",
+      html: `
+  <h4>What each scenario was built to show</h4>
+        <table>
+          <tr><th>Scenario</th><th>Setup</th><th>Recoverable?</th></tr>
+          <tr>
+            <td><strong>A: Confounded</strong></td>
+            <td>All cases in batch 1, all controls in batch 2</td>
+            <td>No. Batch and biology are mathematically the same axis</td>
+          </tr>
+          <tr>
+            <td><strong>B: Balanced</strong></td>
+            <td>Each batch has 6 cases + 6 controls</td>
+            <td>Yes. Correction works because the model has within-batch contrast</td>
+          </tr>
+          <tr>
+            <td><strong>C: Clean</strong></td>
+            <td>Balanced design, very weak batch effect</td>
+            <td>Doesn't need correction at all</td>
+          </tr>
+        </table>
+
+  <h4>Why metadata comes before the plot</h4>
+  <p>If you look only at PCA coloured by condition, scenarios A and
+  B can look almost identical; both show two-group separation along
+        PC1. The visual signal is the same. But in scenario A that
+  separation is <em>batch</em> wearing the costume of biology, and
+        no analysis can pull them apart afterwards. The cross-tab tells you
+  which scenario you're in before you even open ggplot.</p>
+
+  <h4>What changes after correction in scenario B</h4>
+  <p>In the raw plot, batch typically dominates PC1. After
+  <code>removeBatchEffect</code>, the batch shift is gone and biology
+  emerges on PC1 instead. The total variance shrinks (because we
+  removed real variation), but the remaining variance is biological :
+  which is the goal.</p>
+
+        <h4>What would happen if you tried correction on scenario A</h4>
+        <p>The model would still run. It would produce a "corrected" matrix.
+        On PCA the points would mostly collapse together because the model
+        treats the entire condition–batch separation as batch and removes it.
+        The dataset looks fine. The biology is gone. That silent failure mode
+        is the reason design beats correction every time.</p>
+      `
+    }
+  },
+
+  // ============================================================
+  // M3-2 : Diagnose the Confounder (interactive)
+  // ============================================================
+  {
+    id: 'm3-2',
+    title: 'M3-2 · Diagnose the Confounder',
+    intro: `
+  <h2>M3-2 : Diagnose the Confounder</h2>
+  <p><strong>Concept.</strong> A clean-looking PCA can be hiding the
+  wrong story. PC1 may not be biology; it may be sex, batch, or
+      something nobody recorded. The skill we're building here is
+      reading PCA <em>against</em> metadata, not just looking at it.</p>
+
+      <p>You will:</p>
+      <ul class="dash-list">
+        <li>Inspect the metadata table.</li>
+  <li>Plot any pair of PCs (PC1-PC5), coloured by any metadata column.</li>
+        <li>Decide which variable is driving each axis.</li>
+        <li>Then check yourself with a variance-explained heatmap.</li>
+      </ul>
+  <p>Two datasets: <strong>A is a warm-up</strong> (one big confounder),
+  <strong>B is harder</strong> (multiple confounders stacked across PCs).</p>
+    `,
+    blocks: [
+      {
+        type: 'diagnostic-setup',
+        title: 'Step 1: Initialise datasets',
+        description: `<p>Click <strong>Initialise</strong> to simulate both
+          datasets and load the diagnostic tools. This step prepares the
+          R session. You only need to run it once.</p>`,
+        code: `# Simulate two clinical-omics datasets with planted confounders
+# Each: 1000 genes x 60 samples, 6 metadata columns
+set.seed(2026)
+suppressMessages({
+  library(ggplot2); library(dplyr); library(tidyr); library(patchwork)
+})
+
+# ----- helper: build expression with controllable drivers -----
+build_dataset <- function(meta, drivers, n_genes = 1000, noise = 0.4) {
+  n <- nrow(meta)
+  expr <- matrix(rnorm(n_genes * n, mean = 6, sd = 1), nrow = n_genes)
+  used <- 0
+  for (d in drivers) {
+    idx <- (used + 1):(used + d$n_genes)
+    used <- used + d$n_genes
+    var_vals <- meta[[d$variable]]
+    if (is.numeric(var_vals)) {
+      z <- scale(var_vals)[, 1]
+      expr[idx, ] <- expr[idx, ] +
+        matrix(d$effect * z, nrow = d$n_genes, ncol = n, byrow = TRUE)
+    } else {
+      lvls <- unique(var_vals)
+      shifts <- setNames(seq_along(lvls) - mean(seq_along(lvls)), lvls)
+      shifts <- shifts / max(abs(shifts))
+      expr[idx, ] <- expr[idx, ] +
+        matrix(d$effect * shifts[var_vals],
+               nrow = d$n_genes, ncol = n, byrow = TRUE)
+    }
+  }
+  expr + matrix(rnorm(n_genes * n, sd = noise), nrow = n_genes)
+}
+
+# ===== DATASET A - one big confounder =====
+# Sex is correlated with diagnosis (75% / 25% split).
+# Diagnosis has a real but small effect; sex has a large effect.
+n_A <- 60
+metaA <- data.frame(
+  sample    = paste0("A", 1:n_A),
+  diagnosis = rep(c("case", "control"), each = n_A / 2),
+  sex       = c(sample(c("F", "M"), 30, TRUE, c(0.75, 0.25)),
+                sample(c("F", "M"), 30, TRUE, c(0.25, 0.75))),
+  age       = round(rnorm(n_A, 55, 10)),
+  fasting   = sample(c("fasted", "fed"), n_A, TRUE),
+  batch     = sample(c("Mon", "Tue", "Wed"), n_A, TRUE)
+)
+exprA <- build_dataset(metaA, list(
+  list(variable = "sex",       n_genes = 350, effect = 2.5),  # BIG hidden driver
+  list(variable = "diagnosis", n_genes = 100, effect = 0.8)   # real, smaller
+))
+
+# ===== DATASET B - multiple confounders stacked across PCs =====
+# Designed so different metadata variables dominate different PCs.
+n_B <- 60
+metaB <- data.frame(
+  sample    = paste0("B", 1:n_B),
+  diagnosis = rep(c("case", "control"), each = n_B / 2),
+  sex       = sample(c("F", "M"), n_B, TRUE),
+  age       = round(rnorm(n_B, 55, 12)),
+  fasting   = sample(c("fasted", "fed"), n_B, TRUE,
+                     prob = c(0.5, 0.5)),
+  batch     = sample(c("B1", "B2", "B3", "B4"), n_B, TRUE)
+)
+exprB <- build_dataset(metaB, list(
+  list(variable = "sex",       n_genes = 250, effect = 2.2),  # PC1 driver
+  list(variable = "batch",     n_genes = 250, effect = 1.8),  # PC2 driver
+  list(variable = "age",       n_genes = 200, effect = 1.5),  # PC3 driver (numeric)
+  list(variable = "fasting",   n_genes = 100, effect = 1.0),  # smaller
+  list(variable = "diagnosis", n_genes = 100, effect = 0.9)   # real, modest
+))
+
+# ----- diagnostic helpers -----
+do_pca <- function(expr) {
+  p <- prcomp(t(expr), scale. = TRUE)
+  v <- round(100 * p$sdev^2 / sum(p$sdev^2), 1)
+  list(scores = as.data.frame(p$x[, 1:5]), var = v[1:5])
+}
+pcaA <- do_pca(exprA)
+pcaB <- do_pca(exprB)
+
+# Plot any PC pair, colour by any metadata column
+plot_pca <- function(dataset, x = 1, y = 2, color_by = "diagnosis") {
+  pc   <- if (dataset == "A") pcaA  else pcaB
+  meta <- if (dataset == "A") metaA else metaB
+  df   <- cbind(pc$scores, meta)
+  df$.color <- df[[color_by]]
+  ggplot(df, aes(.data[[paste0("PC", x)]], .data[[paste0("PC", y)]],
+                 color = .color)) +
+    geom_point(size = 3.2, alpha = 0.85) +
+  labs(title = paste0("Dataset ", dataset, ": PC", x, " vs PC", y,
+            ", coloured by ", color_by),
+         x     = paste0("PC", x, " (", pc$var[x], "%)"),
+         y     = paste0("PC", y, " (", pc$var[y], "%)"),
+         color = color_by) +
+    theme_minimal(base_size = 12) +
+    theme(panel.grid.minor = element_blank())
+}
+
+# Variance explained per PC by each metadata column (R^2 / eta^2)
+pc_meta_heatmap <- function(dataset) {
+  pc   <- if (dataset == "A") pcaA  else pcaB
+  meta <- if (dataset == "A") metaA else metaB
+  vars <- c("diagnosis", "sex", "age", "fasting", "batch")
+  out  <- expand.grid(PC = paste0("PC", 1:5), variable = vars,
+                      stringsAsFactors = FALSE)
+  out$r2 <- mapply(function(pc_name, v) {
+    y <- pc$scores[[pc_name]]
+    fit <- lm(y ~ meta[[v]])
+    summary(fit)$r.squared
+  }, out$PC, out$variable)
+
+  out$PC <- factor(out$PC, levels = paste0("PC", 5:1))
+  out$variable <- factor(out$variable, levels = vars)
+  ggplot(out, aes(variable, PC, fill = r2)) +
+    geom_tile(color = "white", linewidth = 0.5) +
+    geom_text(aes(label = sprintf("%.2f", r2)),
+              size = 3.5,
+              color = ifelse(out$r2 > 0.4, "white", "#1c2230")) +
+    scale_fill_gradient(low = "#f5f1e8", high = "#b54a2f",
+                        limits = c(0, 1),
+                        name = expression(R^2)) +
+    labs(title = paste0("Dataset ", dataset,
+                        " : variance in each PC explained by metadata"),
+         subtitle = "Read across each row: which metadata column 'owns' that PC?",
+         x = NULL, y = NULL) +
+    theme_minimal(base_size = 12) +
+    theme(panel.grid = element_blank(),
+          axis.text.x = element_text(face = "bold"))
+}
+
+cat("Datasets A and B initialised. Diagnostic tools ready.\\n")
+cat("Use the controls below to explore.\\n")`
+      },
+
+      {
+        type: 'diagnostic-pca',
+        title: 'Step 2: Inspect the metadata',
+        description: `<p>Before any plot, look at what was recorded. Pick a
+          dataset and click <strong>Show metadata</strong>.</p>`,
+        action: 'metadata'
+      },
+
+      {
+        type: 'diagnostic-pca',
+        title: 'Step 3: Plot any PC pair, coloured by any metadata column',
+        description: `
+          <div class="callout-predict">
+            <strong>Working method.</strong> Start with PC1 vs PC2, coloured
+            by <em>diagnosis</em>. If diagnosis doesn't separate cleanly,
+            change the colour-by dropdown. Cycle through every metadata
+            variable until you find what's actually driving the axis.
+          </div>
+        `,
+        action: 'plot-pca'
+      },
+
+      {
+        type: 'diagnostic-pca',
+  title: 'Step 4: Self-check: variance heatmap',
+        description: `<p>Now diagnose quantitatively. The heatmap shows how
+          much variance in each PC is explained by each metadata column
+          (R²). For each row, the column with the darkest cell is what
+          dominates that PC.</p>
+          <div class="callout-predict">
+            <strong>Predict before clicking.</strong> Which metadata column
+            do you think dominates PC1 of dataset A? PC2 of dataset B?
+            What about PC3 of dataset B?
+          </div>`,
+        action: 'heatmap'
+      }
+    ],
+    teach: `Two lessons from this exercise. <strong>One:</strong> PC1 is
+      not always biology. The largest source of variance in your data is
+      whatever happens to vary the most : often a confounder. <strong>Two:</strong>
+      visual inspection of PCA is a starting point, not a diagnosis.
+      Quantifying how each metadata variable explains each PC turns
+      "this looks suspicious" into "PC1 is 78% sex." That's the diagnosis
+      that lets you act.`,
+    interpretation: {
+      title: "How the two datasets are built and what to look for",
+      html: `
+        <h4>Dataset A : one big confounder (warm-up)</h4>
+        <p>Sex is correlated with diagnosis (75% F in cases, 25% F in
+        controls) and the sex effect on expression is much larger than
+        the diagnosis effect. So PC1 is dominated by sex, not diagnosis.</p>
+        <p><strong>What you should see:</strong> colouring PC1 vs PC2 by
+        diagnosis shows two overlapping clouds; colouring by sex shows
+        clean separation. The heatmap confirms PC1's R² is high for sex,
+        low for diagnosis.</p>
+
+        <h4>Dataset B : multiple confounders stacked across PCs</h4>
+        <p>Built so different metadata variables dominate different PCs:
+        sex on PC1, batch on PC2, age on PC3, fasting smaller, diagnosis
+        modest.</p>
+        <p><strong>What you should see:</strong> no single colouring
+        "explains" the whole picture. PC1 by sex looks clean. PC2 by sex
+        is mush, but PC2 by batch is clean. PC3 needs age (a continuous
+        gradient). The lesson: each PC needs its own diagnosis.</p>
+
+        <h4>Reading the variance heatmap</h4>
+        <p>The heatmap shows R² of each PC against each metadata column.
+        For each <em>row</em> (each PC), the metadata column with the
+        darkest cell is what dominates that axis. A clean diagnosis study
+        would have diagnosis as the dominant variable on PC1 : neither
+        of these datasets does.</p>
+
+        <h4>What this means for real data</h4>
+        <p>When you run PCA on your own data and see clean separation,
+        the question is never "is there separation?" : it's "what is the
+        separation aligned with?" If your strongest separation aligns with
+        a metadata column you didn't intend to study, your downstream
+        analysis is at risk. Either model that variable explicitly,
+        re-balance the design, or be transparent about the limitation in
+        your write-up.</p>
+      `
+    }
+  },
+
+   
+
+  // ============================================================
+  // M3-4 : Blocking
+  // ============================================================
+  {
+    id: 'm3-4',
+    title: 'M3-4 · Blocking vs Randomisation',
+    intro: `
+      <h2>M3-4 : Blocking vs Randomisation</h2>
+      <p><strong>Concept.</strong> Randomisation and blocking solve different
+      problems. Randomisation distributes <em>unknown</em> sources of variation
+      across groups so they can't bias the comparison. Blocking deliberately
+      balances <em>known</em> sources : like batch : within every group.</p>
+      <p>This exercise compares three designs side by side, all using the
+      same biology and the same batch-effect magnitude:</p>
+      <ul class="dash-list">
+        <li><strong>Confounded:</strong> all cases in batches 1–2;
+          all controls in batches 3–4. The disaster.</li>
+        <li><strong>Randomised:</strong> samples assigned to batches at
+          random. Good on average; but a single run can be unlucky.</li>
+        <li><strong>Blocked:</strong> each batch is deliberately given
+          equal cases and controls. Balance is guaranteed by construction.</li>
+      </ul>
+    `,
+    blocks: [
+      {
+        title: 'Step 1 : Build all three designs',
+        description: '',
+        code: `library(ggplot2); library(dplyr); library(patchwork)
+set.seed(123)
+
+n_samples <- 48; n_genes <- 1000
+de_genes <- 1:200; true_lfc <- 1.5
+batch_genes <- 201:400; batch_eff <- 2.0
+
+condition <- rep(c("case", "control"), each = 24)
+
+# Design 1 : CONFOUNDED: all cases in B1+B2, all controls in B3+B4
+meta_conf <- data.frame(
+  sample    = paste0("S", 1:n_samples),
+  condition = condition,
+  batch     = c(rep("B1", 12), rep("B2", 12),
+                rep("B3", 12), rep("B4", 12))
+)
+
+# Design 2 : RANDOMISED: assign samples to 4 batches uniformly at random
+meta_rand <- data.frame(
+  sample    = paste0("S", 1:n_samples),
+  condition = condition,
+  batch     = sample(rep(c("B1","B2","B3","B4"), each = 12))
+)
+
+# Design 3 : BLOCKED: 6 cases + 6 controls per batch, by construction
+meta_block <- data.frame(
+  sample    = paste0("S", 1:n_samples),
+  condition = rep(rep(c("case", "control"), each = 6), times = 4),
+  batch     = rep(c("B1","B2","B3","B4"), each = 12)
+)
+
+cat("=== CONFOUNDED ===\\n");  print(table(meta_conf$condition,  meta_conf$batch))
+cat("\\n=== RANDOMISED ===\\n"); print(table(meta_rand$condition, meta_rand$batch))
+cat("\\n=== BLOCKED ===\\n");    print(table(meta_block$condition, meta_block$batch))`
+      },
+      {
+        title: 'Step 2 : Simulate expression for all three designs',
+        description: '',
+        code: `simulate_expr <- function(meta) {
+  expr <- matrix(rnorm(n_genes * nrow(meta), 7, 1), nrow = n_genes)
+  expr[de_genes, meta$condition == "case"] <-
+    expr[de_genes, meta$condition == "case"] + true_lfc
+  for (b in unique(meta$batch)) {
+    shift <- rnorm(1, 0, batch_eff)
+    expr[batch_genes, meta$batch == b] <-
+      expr[batch_genes, meta$batch == b] + shift
+  }
+  expr <- expr + matrix(rnorm(n_genes * nrow(meta), sd = 0.4), nrow = n_genes)
+  rownames(expr) <- paste0("G", 1:n_genes); colnames(expr) <- meta$sample
+  expr
+}
+
+expr_conf  <- simulate_expr(meta_conf)
+expr_rand  <- simulate_expr(meta_rand)
+expr_block <- simulate_expr(meta_block)
+
+cat("Three expression matrices simulated.\\n")
+cat("Same biology, same batch-effect size, only design differs.\\n")`
+      },
+      {
+        title: 'Step 3 : Apply batch correction to all three',
+        description: `<div class="callout-predict"><strong>Predict.</strong>
+          Will batch correction recover biology equally well in all three
+          designs?</div>`,
+        code: `remove_batch <- function(expr, batch, condition) {
+  batch_f <- factor(batch); cond_f <- factor(condition)
+  out <- t(apply(expr, 1, function(y) {
+    fit <- lm(y ~ batch_f + cond_f)
+    nb  <- nlevels(batch_f) - 1
+    if (nb == 0) return(y)
+    bc  <- coef(fit)[2:(1 + nb)]
+    bc[is.na(bc)] <- 0
+    mm  <- model.matrix(~ batch_f)[, -1, drop = FALSE]
+    y - as.numeric(mm %*% bc)
+  }))
+  rownames(out) <- rownames(expr); colnames(out) <- colnames(expr)
+  out
+}
+
+expr_conf_corr  <- remove_batch(expr_conf,  meta_conf$batch,  meta_conf$condition)
+expr_rand_corr  <- remove_batch(expr_rand,  meta_rand$batch,  meta_rand$condition)
+expr_block_corr <- remove_batch(expr_block, meta_block$batch, meta_block$condition)
+
+cat("Batch correction applied to all three designs.\\n")`
+      },
+      {
+        title: 'Step 4 : Count true positives recovered, per design',
+        description: `<div class="callout-tip">
+          <strong>About the numbers.</strong> The recovery rates you'll see
+          (often 195+/200) are unrealistically high : real RNA-seq studies
+          recover 30–70% of true DE genes, not 99%. The simulation uses a
+          strong planted effect (log2FC = 1.5), generous sample size
+          (n = 24/group), and low noise to make the design contrast
+          maximally visible. The relative ranking : Confounded, Corrected
+          always last, Blocked always wins or ties : holds in real data
+          even though the absolute numbers do not.
+        </div>`,
+        code: `de_test <- function(expr, meta) {
+  cond_f <- factor(meta$condition)
+  pvals  <- apply(expr, 1, function(y) summary(lm(y ~ cond_f))$coefficients[2,4])
+  data.frame(adj.P.Val = p.adjust(pvals, method = "BH"))
+}
+count_tp <- function(res, fdr = 0.05) sum(res$adj.P.Val[de_genes] < fdr)
+
+results <- data.frame(
+  design     = rep(c("Confounded", "Randomised", "Blocked"), each = 2),
+  correction = factor(rep(c("Raw","Corrected"), 3), levels = c("Raw","Corrected")),
+  TP         = c(
+    count_tp(de_test(expr_conf,       meta_conf)),
+    count_tp(de_test(expr_conf_corr,  meta_conf)),
+    count_tp(de_test(expr_rand,       meta_rand)),
+    count_tp(de_test(expr_rand_corr,  meta_rand)),
+    count_tp(de_test(expr_block,      meta_block)),
+    count_tp(de_test(expr_block_corr, meta_block))
+  )
+)
+results$design <- factor(results$design,
+                         levels = c("Confounded","Randomised","Blocked"))
+
+cat("True DE genes recovered (out of 200) at FDR < 0.05:\\n")
+print(results)
+
+ggplot(results, aes(correction, TP, fill = design)) +
+  geom_col(position = position_dodge(0.7), width = 0.6) +
+  geom_hline(yintercept = 200, linetype = "dashed", color = "grey50") +
+  annotate("text", x = 1.5, y = 205, label = "200 true DE planted",
+           color = "grey40", size = 3) +
+  scale_fill_manual(values = c("Confounded" = "#b54a2f",
+                               "Randomised" = "#d8a657",
+                               "Blocked"    = "#2f6b6b")) +
+  labs(title = "True DE recovered : three designs",
+       subtitle = "Correction restores biology only when the design allows it",
+       x = NULL, y = "True positives at FDR < 0.05") +
+  theme_minimal(base_size = 11)`
+      },
+      {
+        title: 'Step 5 : The randomisation lottery : repeat 50 times',
+        description: `<p>Randomisation is good <em>on average</em>. But in
+          any single experiment, you only get <em>one</em> random allocation
+           and that one allocation might be unlucky. To see how variable
+          random allocation is, we'll repeat it 50 times and check what
+          kind of batch imbalance each run produces.</p>
+
+          <p><strong>What "worst-batch imbalance" means.</strong> We have
+          24 cases distributed across 4 batches. A perfectly balanced
+          batch contains exactly 6 cases (and therefore 6 controls). If
+          a batch ends up with more or fewer than 6 cases, it's imbalanced.
+          For each random allocation, we look at all 4 batches and report
+          the <em>worst</em> one the batch that deviates the most from 6.</p>
+
+          <table style="border-collapse: collapse; margin: 12px 0; font-size: 0.92rem;">
+            <tr style="background: var(--bg-code);">
+              <th style="border: 1px solid var(--rule); padding: 6px 12px; text-align: left;">Worst-batch imbalance</th>
+              <th style="border: 1px solid var(--rule); padding: 6px 12px; text-align: left;">What that means</th>
+            </tr>
+            <tr>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;"><strong>0</strong></td>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;">Every batch has exactly 6 cases + 6 controls. Perfect: this is what blocking always gives you.</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;"><strong>1</strong></td>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;">Worst batch has 7 cases + 5 controls (or 5 + 7). Mild : usually fine.</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;"><strong>2</strong></td>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;">Worst batch has 8 cases + 4 controls (or 4 + 8). Noticeable.</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;"><strong>3</strong></td>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;">Worst batch has 9 cases + 3 controls. Concerning: correction starts to struggle here.</td>
+            </tr>
+            <tr>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;"><strong>4+</strong></td>
+              <td style="border: 1px solid var(--rule); padding: 6px 12px;">Worst batch has 10+ cases (or fewer than 2). Bad luck: close to the confounded scenario.</td>
+            </tr>
+          </table>
+
+          <div class="callout-predict">
+            <strong>Predict.</strong> Out of 50 random allocations, how many
+            do you think produce a worst-batch imbalance of 3 or more
+            (i.e. at least one batch with 9 cases and 3 controls, or worse)?
+          </div>`,
+        code: `# For each of 50 independent random allocations of the 48 samples
+# into 4 batches, compute the WORST-BATCH imbalance.
+#
+# Definition (recap):
+#   imbalance of a batch = |cases_in_batch - 6|
+#   worst-batch imbalance = max imbalance across the 4 batches
+#
+# Examples:
+#   batches with case counts (6, 6, 6, 6)  -> worst imbalance = 0
+#   batches with case counts (7, 6, 5, 6)  -> worst imbalance = 1
+#   batches with case counts (8, 7, 4, 5)  -> worst imbalance = 2
+#   batches with case counts (9, 7, 5, 3)  -> worst imbalance = 3
+
+imbalance_runs <- replicate(50, {
+  random_batch <- sample(rep(c("B1","B2","B3","B4"), each = 12))
+  batch_table  <- table(condition, random_batch)
+  # Deviation of each batch's case count from the perfect 6.
+  # Take the worst (largest absolute deviation).
+  max(abs(batch_table["case", ] - 6))
+})
+
+# ---- Summary table ----
+imbalance_freq <- as.data.frame(table(imbalance_runs))
+names(imbalance_freq) <- c("worst_imbalance", "n_runs")
+
+cat("Distribution of worst-batch imbalance over 50 random allocations:\\n\\n")
+print(imbalance_freq, row.names = FALSE)
+
+n_bad <- sum(imbalance_runs >= 3)
+cat(sprintf(
+  "\\n%d / 50 runs (%.0f%%) produced imbalance >= 3 in some batch.\\n",
+  n_bad, 100 * n_bad / 50
+))
+cat("Blocking guarantees imbalance = 0 by construction, always.\\n")
+
+# ---- Plot ----
+ggplot(data.frame(imbalance = imbalance_runs), aes(imbalance)) +
+  geom_bar(fill = "#d8a657") +
+  geom_vline(xintercept = 0, color = "#2f6b6b", linewidth = 1.2) +
+  annotate("text", x = 0.18,
+           y = max(table(imbalance_runs)) * 0.85,
+           label = "blocked design\\nalways here",
+           hjust = 0, color = "#2f6b6b", fontface = "italic", size = 3.5) +
+  scale_x_continuous(breaks = 0:max(imbalance_runs)) +
+  labs(title = "Random allocation produces variable batch imbalance",
+       subtitle = "Each bar = number of runs (out of 50) with that worst-batch imbalance",
+       x = "Worst-batch imbalance (cases away from 6 in the worst batch)",
+       y = "Number of runs (out of 50)") +
+  theme_minimal(base_size = 11)`
+      },
+      {
+        title: 'Step 6 : PCA — see what the three designs look like',
+        description: '',
+        code: `pca_df <- function(expr, meta, label) {
+  pca <- prcomp(t(expr), scale. = TRUE)
+  v   <- round(100 * pca$sdev^2 / sum(pca$sdev^2), 1)
+  df  <- data.frame(PC1 = pca$x[,1], PC2 = pca$x[,2],
+                    condition = meta$condition, batch = meta$batch,
+                    panel = label)
+  attr(df, "var") <- v[1:2]; df
+}
+plot_pca <- function(df) {
+  v <- attr(df, "var")
+  ggplot(df, aes(PC1, PC2, color = condition, shape = batch)) +
+    geom_point(size = 2.6, alpha = 0.85) +
+    labs(title = df$panel[1],
+         x = paste0("PC1 (", v[1], "%)"),
+         y = paste0("PC2 (", v[2], "%)")) +
+    theme_minimal(base_size = 9)
+}
+
+ p1 <- plot_pca(pca_df(expr_conf,       meta_conf,  "Confounded - raw"))
+ p2 <- plot_pca(pca_df(expr_conf_corr,  meta_conf,  "Confounded - corrected"))
+ p3 <- plot_pca(pca_df(expr_rand,       meta_rand,  "Randomised - raw"))
+ p4 <- plot_pca(pca_df(expr_rand_corr,  meta_rand,  "Randomised - corrected"))
+ p5 <- plot_pca(pca_df(expr_block,      meta_block, "Blocked - raw"))
+ p6 <- plot_pca(pca_df(expr_block_corr, meta_block, "Blocked - corrected"))
+
+(p1 | p2) / (p3 | p4) / (p5 | p6)`
+      }
+    ],
+    teach: `Randomisation and blocking solve different problems. Randomisation
+      protects against <em>unknown</em> sources of variation by spreading
+      them out. Blocking deliberately balances <em>known</em> sources within
+      every group. You want both. Randomise across things you can't measure;
+      block across things you can.`,
+    interpretation: {
+      title: "When to randomise, when to block, and why correction can't save you",
+      html: `
+        <h4>The three designs at a glance</h4>
+        <table>
+          <tr>
+            <th>Design</th>
+            <th>What it does</th>
+            <th>When it works</th>
+          </tr>
+          <tr>
+            <td><strong>Confounded</strong></td>
+            <td>Each batch contains only one biological group</td>
+            <td>Never : batch and biology are mathematically inseparable</td>
+          </tr>
+          <tr>
+            <td><strong>Randomised</strong></td>
+            <td>Samples assigned to batches at random</td>
+            <td>Most of the time : but with bad luck a batch can still be skewed</td>
+          </tr>
+          <tr>
+            <td><strong>Blocked</strong></td>
+            <td>Each batch deliberately given equal cases and controls</td>
+            <td>Always : balance is guaranteed by construction</td>
+          </tr>
+        </table>
+
+        <h4>Why correction works for two of the three</h4>
+        <p>Batch correction works by estimating a "batch shift" for each
+        batch and subtracting it. To estimate that shift cleanly, the model
+        needs to see both cases and controls within the same batch; that's
+        the only way to separate "batch B2 is shifted" from "B2 just happens
+        to contain more cases."</p>
+        <p>In the <strong>confounded</strong> design that requirement is
+        violated outright. Every model fit assigns the entire batch–biology
+        difference to "batch", and correction obediently strips it out; taking
+        the biology with it. The "corrected" dataset looks clean but contains
+        no signal.</p>
+        <p>In the <strong>randomised</strong> and <strong>blocked</strong>
+        designs the model has the within-batch contrast it needs, and
+        correction recovers most of the planted DE.</p>
+
+        <h4>Why blocking still beats randomisation</h4>
+        <p>Step 5 simulates 50 independent random allocations of 48 samples
+        into 4 batches. Most are reasonably balanced; but a few will be
+        unlucky enough to produce a batch with 9 cases and 3 controls (or
+        worse). Imbalance reduces the model's ability to estimate the batch
+        effect cleanly. With small studies (n = 12, 16, 20), the bad-luck
+        rate is much higher.</p>
+        <p>Blocking eliminates this variability. A blocked design always
+        gets the balance you intended. Randomisation is the right answer for
+        sources of variation you can't anticipate or measure (subtle reagent
+        differences, operator effects, time of day); but for variables you
+        <em>know</em> matter, blocking is the safer choice.</p>
+
+        <h4>The unrecoverable case</h4>
+        <p>Notice that the confounded bar in Step 4 stays near zero whether
+        or not correction is applied. That isn't a software failure, it's
+        the design failing. No statistical method can disentangle two
+        signals that are perfectly aligned in the data. The only fix is to
+        repeat the experiment with a better design.</p>
+
+        <h4>Reading PCA across the six panels</h4>
+        <p>In Step 6, look across the rows:</p>
+        <ul>
+          <li><strong>Confounded raw:</strong> condition and batch
+            both align with PC1, they're the same axis. Correction
+            removes both.</li>
+          <li><strong>Randomised raw:</strong> batch dominates PC1,
+            condition is on PC2 (or invisible). After correction, batch is
+            gone and condition emerges.</li>
+          <li><strong>Blocked raw:</strong> same story as randomised, but
+            cleaner because the within-batch balance is exact.</li>
+        </ul>
+      `
+    }
+  }
+];
+
+// -------------------------------------------------------------
+// Render UI
+// -------------------------------------------------------------
+const tabsEl   = document.getElementById('tabs');
+const panelsEl = document.getElementById('panels');
+
+// Tracks whether the M3-2 setup block has run (datasets initialised in R).
+// Hoisted here so renderers and runCode can both reference it.
+let diagnosticSetupDone = false;
+
+EXERCISES.forEach((ex, i) => {
+  // Tab button
+  const btn = document.createElement('button');
+  btn.textContent = ex.title;
+  btn.dataset.target = ex.id;
+  if (i === 0) btn.classList.add('active');
+  btn.addEventListener('click', () => activateTab(ex.id));
+  tabsEl.appendChild(btn);
+
+  // Tab panel
+  const panel = document.createElement('section');
+  panel.className = 'tab-panel' + (i === 0 ? ' active' : '');
+  panel.id = ex.id;
+  panel.innerHTML = ex.intro;
+
+  ex.blocks.forEach((blk, j) => {
+    const block = document.createElement('div');
+    block.className = 'exercise-block';
+
+    const header = document.createElement('div');
+    header.className = 'step-header';
+    header.innerHTML = `<h3 style="margin: 0;">${blk.title}</h3>`;
+    block.appendChild(header);
+
+    if (blk.description) {
+      const desc = document.createElement('div');
+      desc.innerHTML = blk.description;
+      block.appendChild(desc);
+    }
+
+    if (blk.type === 'diagnostic-setup') {
+      // One-time R setup: simulate datasets + register helpers.
+      // Looks like a code block but the editor is hidden by default.
+      renderDiagnosticSetup(block, blk);
+    } else if (blk.type === 'diagnostic-pca') {
+      // HTML control panel : no R code visible.
+      renderDiagnosticPCA(block, blk);
+    } else {
+      // Default: editable R code block.
+      renderCodeBlock(block, blk);
+    }
+
+    panel.appendChild(block);
+  });
+
+  // Teaching point (callout)
+  if (ex.teach) {
+    const teachEl = document.createElement('div');
+    teachEl.className = 'callout-teach';
+    teachEl.innerHTML = `<span class="label">What we learned?</span>${ex.teach}`;
+    panel.appendChild(teachEl);
+  }
+
+  // Interpretation (expandable)
+  if (ex.interpretation) {
+    const det = document.createElement('details');
+    det.className = 'interpretation';
+    const summary = document.createElement('summary');
+    summary.innerHTML =
+      `<span class="interp-eyebrow">How to read the results</span>` +
+      `<span>${ex.interpretation.title || 'Interpretation guide'}</span>`;
+    det.appendChild(summary);
+    const body = document.createElement('div');
+    body.className = 'interp-body';
+    body.innerHTML = ex.interpretation.html;
+    det.appendChild(body);
+    panel.appendChild(det);
+  }
+
+  panelsEl.appendChild(panel);
+});
+
+// -------------------------------------------------------------
+// Renderers : one per block type
+// -------------------------------------------------------------
+
+function renderCodeBlock(block, blk) {
+  const shell = document.createElement('div');
+  shell.className = 'code-shell';
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'code-toolbar';
+  toolbar.innerHTML = `<span class="label">R · webR</span>`;
+
+  // Right-side toolbar group: hide-code toggle + run button
+  const toolbarRight = document.createElement('div');
+  toolbarRight.style.display = 'flex';
+  toolbarRight.style.alignItems = 'center';
+
+  const toggleBtn = document.createElement('button');
+  toggleBtn.className = 'code-toggle-btn';
+  toggleBtn.textContent = 'Show code';
+  toolbarRight.appendChild(toggleBtn);
+
+  const runBtn = document.createElement('button');
+  runBtn.className = 'run-btn';
+  runBtn.disabled = true;
+  runBtn.innerHTML = `<span class="play-icon">▶</span><span>Run Code</span>`;
+  toolbarRight.appendChild(runBtn);
+
+  toolbar.appendChild(toolbarRight);
+  shell.appendChild(toolbar);
+
+  const editor = document.createElement('textarea');
+  editor.className = 'code-editor';
+  editor.spellcheck = false;
+  editor.value = blk.code;
+  const lines = blk.code.split('\n').length;
+  editor.style.height = (Math.min(Math.max(lines, 4), 30) * 1.55 + 1.5) + 'em';
+  editor.style.display = 'none';
+  shell.appendChild(editor);
+
+  // Toggle behaviour: hide / show the editor
+  toggleBtn.addEventListener('click', () => {
+    const isHidden = editor.style.display === 'none';
+    editor.style.display = isHidden ? 'block' : 'none';
+    toggleBtn.textContent = isHidden ? 'Hide code' : 'Show code';
+  });
+
+  block.appendChild(shell);
+
+  const output = document.createElement('div');
+  output.className = 'output';
+  block.appendChild(output);
+
+  runBtn.addEventListener('click', () => runCode(editor.value, output, runBtn));
+}
+
+// Setup block : runs hidden R code once when "Initialise" is clicked.
+function renderDiagnosticSetup(block, blk) {
+  const shell = document.createElement('div');
+  shell.className = 'code-shell';
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'code-toolbar';
+  toolbar.innerHTML = `<span class="label">R · webR (setup)</span>`;
+  const initBtn = document.createElement('button');
+  initBtn.className = 'run-btn';
+  initBtn.disabled = true;
+  initBtn.innerHTML = `<span class="play-icon">▶</span><span>Initialise</span>`;
+  toolbar.appendChild(initBtn);
+
+  const showCodeBtn = document.createElement('button');
+  showCodeBtn.className = 'run-btn run-btn-secondary';
+  showCodeBtn.style.marginLeft = '8px';
+  showCodeBtn.innerHTML = `<span>Show code</span>`;
+  toolbar.appendChild(showCodeBtn);
+
+  shell.appendChild(toolbar);
+
+  const editor = document.createElement('textarea');
+  editor.className = 'code-editor';
+  editor.spellcheck = false;
+  editor.value = blk.code;
+  editor.style.display = 'none';
+  const lines = blk.code.split('\n').length;
+  editor.style.height = (Math.min(Math.max(lines, 4), 30) * 1.55 + 1.5) + 'em';
+  shell.appendChild(editor);
+
+  showCodeBtn.addEventListener('click', () => {
+    const isHidden = editor.style.display === 'none';
+    editor.style.display = isHidden ? 'block' : 'none';
+    showCodeBtn.querySelector('span').textContent =
+      isHidden ? 'Hide code' : 'Show code';
+  });
+
+  block.appendChild(shell);
+
+  const output = document.createElement('div');
+  output.className = 'output';
+  block.appendChild(output);
+
+  initBtn.addEventListener('click', async () => {
+    await runCode(editor.value, output, initBtn);
+    diagnosticSetupDone = true;
+    // Enable any diagnostic-pca blocks that were waiting.
+    document.querySelectorAll('.diag-action-btn').forEach(b => {
+      b.disabled = false;
+      b.title = '';
+    });
+    initBtn.querySelector('span:last-child').textContent = 'Re-initialise';
+  });
+}
+
+// Interactive PCA / metadata / heatmap controls.
+function renderDiagnosticPCA(block, blk) {
+  const panel = document.createElement('div');
+  panel.className = 'diag-panel';
+
+  if (blk.action === 'metadata') {
+    panel.appendChild(buildMetadataControls(panel));
+  } else if (blk.action === 'plot-pca') {
+    panel.appendChild(buildPCAControls(panel));
+  } else if (blk.action === 'heatmap') {
+    panel.appendChild(buildHeatmapControls(panel));
+  }
+
+  block.appendChild(panel);
+
+  const output = document.createElement('div');
+  output.className = 'output';
+  block.appendChild(output);
+
+  // Wire each action button to runCode with a generated R expression.
+  panel.querySelectorAll('.diag-action-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!diagnosticSetupDone) {
+        output.innerHTML =
+          `<pre class="error">Run Step 1 first to initialise the datasets.</pre>`;
+        return;
+      }
+      const code = btn.dataset.codeBuilder
+        ? CODE_BUILDERS[btn.dataset.codeBuilder](panel)
+        : btn.dataset.code;
+      runCode(code, output, btn);
+    });
+  });
+}
+
+// ---- diagnostic control builders ----
+
+function diagPicker(label, options, name, defaultValue) {
+  const wrap = document.createElement('label');
+  wrap.className = 'diag-picker';
+  wrap.innerHTML = `<span class="diag-picker-label">${label}</span>`;
+  const sel = document.createElement('select');
+  sel.name = name;
+  sel.className = 'diag-select';
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = String(o.value);
+    opt.textContent = o.label;
+    if (String(o.value) === String(defaultValue)) opt.selected = true;
+    sel.appendChild(opt);
+  });
+  wrap.appendChild(sel);
+  return wrap;
+}
+
+function buildMetadataControls() {
+  const wrap = document.createElement('div');
+  wrap.className = 'diag-controls';
+  wrap.appendChild(diagPicker('Dataset',
+    [{value: 'A', label: 'Dataset A (warm-up)'},
+     {value: 'B', label: 'Dataset B (harder)'}],
+    'dataset', 'A'));
+  const btn = document.createElement('button');
+  btn.className = 'run-btn diag-action-btn';
+  btn.disabled = true;
+  btn.title = 'Run Step 1 first';
+  btn.innerHTML = `<span class="play-icon">▶</span><span>Show metadata</span>`;
+  btn.dataset.codeBuilder = 'metadata';
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+function buildPCAControls() {
+  const wrap = document.createElement('div');
+  wrap.className = 'diag-controls';
+
+  wrap.appendChild(diagPicker('Dataset',
+    [{value: 'A', label: 'Dataset A (warm-up)'},
+     {value: 'B', label: 'Dataset B (harder)'}],
+    'dataset', 'A'));
+
+  const pcs = [1,2,3,4,5].map(n => ({value: n, label: 'PC' + n}));
+  wrap.appendChild(diagPicker('X axis', pcs, 'x', 1));
+  wrap.appendChild(diagPicker('Y axis', pcs, 'y', 2));
+
+  const metaCols = [
+    {value: 'diagnosis', label: 'diagnosis'},
+    {value: 'sex',       label: 'sex'},
+    {value: 'age',       label: 'age'},
+    {value: 'fasting',   label: 'fasting'},
+    {value: 'batch',     label: 'batch'}
+  ];
+  wrap.appendChild(diagPicker('Colour by', metaCols, 'color_by', 'diagnosis'));
+
+  const btn = document.createElement('button');
+  btn.className = 'run-btn diag-action-btn';
+  btn.disabled = true;
+  btn.title = 'Run Step 1 first';
+  btn.innerHTML = `<span class="play-icon">▶</span><span>Plot PCA</span>`;
+  btn.dataset.codeBuilder = 'plotPCA';
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+function buildHeatmapControls() {
+  const wrap = document.createElement('div');
+  wrap.className = 'diag-controls';
+  wrap.appendChild(diagPicker('Dataset',
+    [{value: 'A', label: 'Dataset A (warm-up)'},
+     {value: 'B', label: 'Dataset B (harder)'}],
+    'dataset', 'A'));
+  const btn = document.createElement('button');
+  btn.className = 'run-btn diag-action-btn';
+  btn.disabled = true;
+  btn.title = 'Run Step 1 first';
+  btn.innerHTML = `<span class="play-icon">▶</span><span>Show variance heatmap</span>`;
+  btn.dataset.codeBuilder = 'heatmap';
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+// Build the R command for each diagnostic action.
+const CODE_BUILDERS = {
+  metadata: (panel) => {
+    const ds = panel.querySelector('select[name="dataset"]').value;
+    return `meta_to_show <- if ("${ds}" == "A") metaA else metaB
+cat("Metadata for dataset ${ds} (first 15 rows):\\n\\n")
+print(head(meta_to_show, 15))
+cat("\\n--- Cross-tabs ---\\n")
+cat("\\ndiagnosis x sex:\\n");      print(table(meta_to_show$diagnosis, meta_to_show$sex))
+cat("\\ndiagnosis x batch:\\n");    print(table(meta_to_show$diagnosis, meta_to_show$batch))
+cat("\\ndiagnosis x fasting:\\n");  print(table(meta_to_show$diagnosis, meta_to_show$fasting))
+cat("\\nage summary by diagnosis:\\n")
+print(tapply(meta_to_show$age, meta_to_show$diagnosis, summary))`;
+  },
+  plotPCA: (panel) => {
+    const ds = panel.querySelector('select[name="dataset"]').value;
+    const x  = panel.querySelector('select[name="x"]').value;
+    const y  = panel.querySelector('select[name="y"]').value;
+    const cb = panel.querySelector('select[name="color_by"]').value;
+    return `plot_pca("${ds}", x = ${x}, y = ${y}, color_by = "${cb}")`;
+  },
+  heatmap: (panel) => {
+    const ds = panel.querySelector('select[name="dataset"]').value;
+    return `pc_meta_heatmap("${ds}")`;
+  }
+};
+
+function activateTab(id) {
+  document.querySelectorAll('#tabs button').forEach(b =>
+    b.classList.toggle('active', b.dataset.target === id));
+  document.querySelectorAll('.tab-panel').forEach(p =>
+    p.classList.toggle('active', p.id === id));
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+// -------------------------------------------------------------
+// webR setup
+// -------------------------------------------------------------
+const statusBar    = document.getElementById('status-bar');
+const statusText   = document.getElementById('status-text');
+const statusDetail = document.getElementById('status-detail');
+
+let webR;
+let ready = false;
+
+async function initWebR() {
+  try {
+    statusText.textContent = 'Loading R runtime…';
+    statusDetail.textContent = 'first load takes ~30–60 seconds';
+
+    webR = new WebR();
+    await webR.init();
+
+    statusText.textContent = 'Installing packages: ggplot2, dplyr, tidyr, patchwork…';
+    await webR.installPackages(
+      ['ggplot2', 'dplyr', 'tidyr', 'patchwork'],
+      { quiet: true }
+    );
+
+    ready = true;
+    statusBar.classList.add('ready');
+    statusText.textContent = 'R ready · click Run on any code block';
+    statusDetail.textContent = 'all computation runs in your browser : no data leaves your machine';
+    // Enable all run buttons EXCEPT the M3-2 diagnostic action buttons,
+    // which require the Step-1 setup to have run first.
+    document.querySelectorAll('.run-btn').forEach(b => {
+      if (!b.classList.contains('diag-action-btn')) b.disabled = false;
+    });
+  } catch (err) {
+    statusBar.classList.add('error');
+    statusText.textContent = 'Failed to load R: ' + err.message;
+    statusDetail.textContent = 'try reloading the page';
+    console.error(err);
+  }
+}
+
+// -------------------------------------------------------------
+// Run a code block
+// -------------------------------------------------------------
+async function runCode(code, outputDiv, runBtn) {
+  if (!ready) return;
+  outputDiv.innerHTML = '';
+  runBtn.classList.add('running');
+  runBtn.disabled = true;
+  const otherBtns = document.querySelectorAll('.run-btn');
+  otherBtns.forEach(b => b.disabled = true);
+
+  const shelter = await new webR.Shelter();
+  try {
+    const result = await shelter.captureR(code, {
+      withAutoprint: true,
+      captureGraphics: { width: 900, height: 550 }
+    });
+
+    // Safely coerce a webR output message's data to a string.
+    // msg.data can be: string, R proxy object, or an object that
+    // doesn't have a default toString : naive concatenation throws
+    // "Cannot convert object to primitive value".
+    const safeText = (v) => {
+      if (v == null)               return '';
+      if (typeof v === 'string')   return v;
+      if (typeof v === 'number' ||
+          typeof v === 'boolean')  return String(v);
+      try { return String(v); }
+      catch (_) {
+        try { return JSON.stringify(v); }
+        catch (_) { return '[unprintable]'; }
+      }
+    };
+
+    let stdout = '';
+    let stderr = '';
+    for (const msg of (result.output || [])) {
+      const txt = safeText(msg && msg.data);
+      if (msg && msg.type === 'stderr') stderr += txt + '\n';
+      else                              stdout += txt + '\n';
+    }
+
+    if (stdout.trim()) {
+      const pre = document.createElement('pre');
+      pre.textContent = stdout.trimEnd();
+      outputDiv.appendChild(pre);
+    }
+    if (stderr.trim()) {
+      const pre = document.createElement('pre');
+      pre.className = 'stderr';
+      pre.textContent = stderr.trimEnd();
+      outputDiv.appendChild(pre);
+    }
+
+    // Render plots : defensively, since image objects can be
+    // ImageBitmap, OffscreenCanvas, or HTMLImageElement depending
+    // on the webR version.
+    if (Array.isArray(result.images) && result.images.length > 0) {
+      for (const img of result.images) {
+        try {
+          const w = img.width  || 900;
+          const h = img.height || 650;
+          const canvas = document.createElement('canvas');
+          canvas.className = 'plot';
+          canvas.width  = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          outputDiv.appendChild(canvas);
+        } catch (imgErr) {
+          const pre = document.createElement('pre');
+          pre.className = 'stderr';
+          pre.textContent = 'Could not render plot: ' + (imgErr.message || imgErr);
+          outputDiv.appendChild(pre);
+        }
+      }
+    }
+  } catch (err) {
+    const pre = document.createElement('pre');
+    pre.className = 'error';
+    pre.textContent = 'Error: ' + (err && err.message ? err.message : String(err));
+    outputDiv.appendChild(pre);
+    console.error('runCode failed:', err);
+  } finally {
+    try { await shelter.purge(); } catch (_) {}
+    runBtn.classList.remove('running');
+    otherBtns.forEach(b => {
+      // Keep diagnostic action buttons disabled until setup has run.
+      if (b.classList.contains('diag-action-btn') && !diagnosticSetupDone) return;
+      b.disabled = false;
+    });
+  }
+}
+
+// kick off
+initWebR();
+</script>
+
+</body>
+</html>
