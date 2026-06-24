@@ -7,6 +7,9 @@
     - Recognise when a platform choice, sample size, or metadata decision creates an unrecoverable flaw.
     - Match a biological question to the most suitable omics platform and justify that choice.
 
+## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 12 mins + 3 mins Menti activities]
+
+
 Modern biology has undergone a fundamental shift from measuring one molecule at a time to profiling entire classes of biological molecules simultaneously. This collective approach, broadly termed "omics" operates across multiple layers of biological organisation, each revealing a different dimension of how living systems function. Every living system, whether that's a bacterium, a migratory bird, or person, can be interrogated at the molecular level across these multiple layers. 
 
 These layers have different names, each with distinct molecular targets, and a defined scope of what it can and cannot answer:  
@@ -32,12 +35,8 @@ they measure, but in how they measure it, which directly shapes what you can and
 
 At a broad level, omics technologies fall into two methodological families:
 
-- **Sequencing-based approaches** (e.g., DNA-seq, RNA-seq, ATAC-seq) quantify 
-  molecules by converting them into readable sequence, offering high throughput 
-  and genome-wide coverage
-- **Imaging-based approaches** (e.g., spatial transcriptomics, microscopy-based 
-  proteomics) preserve the physical location of molecules within tissue, adding a 
-  spatial dimension that sequencing-based methods cannot capture
+- **Sequencing based approaches** (e.g., DNAseq, RNAseq, ATACseq, 16S amplicon sequencing) quantify molecules by converting them into sequence reads. The primary analytical output is typically a **count** matrix obtained by assigning reads to genes, genomic regions, or taxa.
+- **Non-sequencing approaches** measure molecular signals directly. This family includes mass spectrometry platforms (proteomics, metabolomics), fluorescence arrays (microarrays, methylation arrays), and spatial imaging technologies. Many of these platforms produce **continuous** intensity measurements. However, some imaging based transcriptomics technologies, such as Xenium, MERFISH, and CosMx, use image processing algorithms to convert fluorescence signals into **counts** of individual transcript molecules. As a result, their final analytical output may **resemble a count matrix** rather than an intensity matrix.
 
 The figure below provides an overview:
 
