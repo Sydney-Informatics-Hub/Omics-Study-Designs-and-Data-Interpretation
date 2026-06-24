@@ -15,7 +15,7 @@ little structured training that addresses this earlier, more consequential
 stage of the research process.
 
 This course is designed to fill that gap. Rather than starting at the 
-computational pipeline, we start at the experimental design — where the 
+computational pipeline, we start at the experimental design, where the 
 opportunities to get things right, and the risks of getting them wrong, 
 are greatest.
 
@@ -51,7 +51,7 @@ Have no prior bioinformatics or programming experience, none is required
 
 - A practical framework for experimental design that applies across genomics, transcriptomics, proteomics, metagenomics, and metabolomics 
 
-- The ability to identify batch effects, confounding, and technical bias — and to know which can be corrected and which cannot 
+- The ability to identify batch effects, confounding, and technical bias, and to know which can be corrected and which cannot 
 
 - Confidence reading QC plots, PCA, and UMAP outputs without falling into the most common interpretation traps 
 
