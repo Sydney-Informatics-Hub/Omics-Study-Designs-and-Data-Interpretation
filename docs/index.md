@@ -1,6 +1,6 @@
 # Foundations of Omics Study Design, Bias, and Data Interpretation ​
 
-This interactive workshop spans two days, with 3.5 hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, you will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
+This interactive workshop spans two days, with 3.5 hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, you will learn to identify bias, detect quality issues.
 
 ## Why This Course Exists
 
@@ -28,9 +28,9 @@ planning, before the sequencing run begins.
 **You will benefit most if you:**
 
 - Work with or plan to use omics technologies (genomics, transcriptomics, proteomics, metabolomics, or related fields)
-- Are involved in study design, sample collection, or data interpretation, as a wet lab researcher, clinician, or PI
+- Are involved in study design, sample collection, or data interpretation, as a wet lab researcher, or clinician or junior bioinformaticians.
 - Want to understand why omics studies fail and how to prevent the most common design errors 
-Have no prior bioinformatics or programming experience, none is required
+
 
 ### Required:
 
@@ -53,12 +53,10 @@ Have no prior bioinformatics or programming experience, none is required
 
 - The ability to identify batch effects, confounding, and technical bias, and to know which can be corrected and which cannot 
 
-- Confidence reading QC plots, PCA, and UMAP outputs without falling into the most common interpretation traps 
-
-
 ## Developers
-- 
-- ##
+- Lead: Amarinder Singh Thind
+- Co-Developer:
+- Supporting Developer:
 
 ## Facilitators
 - ##

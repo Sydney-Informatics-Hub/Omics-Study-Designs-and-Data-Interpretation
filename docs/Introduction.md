@@ -10,19 +10,11 @@ You will learn how to design omics experiments that are statistically sound and 
 #### Module 1: The Omics Landscape and Why Studies Fail​
 #### Module 2: Data Types and Core Statistical Properties​
 #### Module 3: Experimental Design Fundamentals for Omics​
-#### Module 4: Normalisation and Scaling​
-#### Module 5: Interpretation Traps and Common Pitfalls
-
+ 
 ## Overall Learning Outcomes
 
 ### By the end of this workshop, participants will be able to: 
 
-- Compare major omics technologies and select the most appropriate platform for a given biological question 
+-- PLACE HOLDER ONE LEARNING OBJECTIVE PER MODULE
 
-- Design an omics experiment that is statistically sound, minimises technical bias, and is fit for downstream bioinformatics analysis, before data is generated 
 
-- Identify and anticipate sources of bias, confounding, and batch effects in their own experimental setup, and evaluate whether these can be corrected after the fact 
-
-- Interpret key QC and exploratory visualisations (PCA, UMAP) correctly, and avoid the most common misinterpretation traps 
-
-- Select appropriate normalisation and batch correction strategies for their omics data type and study design 
