@@ -28,10 +28,17 @@ At a broad level, omics technologies fall into two methodological families:
 - **Sequencing based approaches** (e.g., DNAseq, RNAseq, ATACseq, 16S amplicon sequencing) quantify molecules by converting them into sequence reads. The primary analytical output is typically a **count** matrix obtained by assigning reads to genes, genomic regions, or taxa.
 - **Non-sequencing approaches** measure molecular signals directly. This family includes mass spectrometry platforms (proteomics, metabolomics), fluorescence arrays (microarrays, methylation arrays), and spatial imaging technologies. Many of these platforms produce **continuous** intensity measurements. However, some imaging based transcriptomics technologies, such as Xenium, MERFISH, and CosMx, use image processing algorithms to convert fluorescence signals into **counts** of individual transcript molecules. As a result, their final analytical output may **resemble a count matrix** rather than an intensity matrix.
 
-The figure below provides an overview:
 
-![](figs_m1/01_Various_data_analysis_v2.png){width=100% height=50%}
+!!! question "Group Activity: Match the platform to the question"
 
+    Each group takes one case study. Discuss:
+
+    1. What is the biological question actually asking, in one sentence?
+    2. Sequencing-based or non-sequencing? Why?
+    3. Which specific platform would you choose, and what's the *next best* platform you rejected?
+    4. What in the study's collection conditions (storage, timing, sample type) constrains your platform choice, independent of the biology?
+
+    Report back: platform choice + the one constraint that ruled out your rejected alternative.
 
 ??? Example "Clincal: colorectal cancer"
     
@@ -51,4 +58,31 @@ The figure below provides an overview:
     Leaf tissue is harvested from six wheat varieties at two timepoints, before and during a simulated drought, in a glasshouse trial. The aim is to identify genes associated with drought tolerance.
 
 
-## ONE LINE WHAT YOU HAVE LEARNED (REFLECTION)
+<!--
+??? success "Answers"
+
+    **Colorectal cancer (tumour vs normal, gene expression)**
+    Sequencing-based → bulk RNAseq. Rejected alternative: single-cell 
+    RNAseq, richer resolution but not needed to answer "which genes 
+    differ," and biopsy logistics across two hospitals over 24 months 
+    favour a simpler, more batch-tolerant bulk workflow.
+
+    **Koala chlamydia (infection status, field swabs)**
+    Sequencing-based → 16S amplicon (or shotgun metagenomics if budget 
+    allows) on the swab microbiome/pathogen load. Rejected alternative: 
+    metabolomics, informative but field storage before lab transport 
+    risks degrading labile metabolites; nucleic acids tolerate the delay 
+    better.
+
+    **Salmon gut microbiome (diet effect)**
+    Sequencing-based → 16S or shotgun metagenomics. Rejected alternative: 
+    metaproteomics, could show functional activity, not just composition, 
+    but cost/throughput for 20 fish × 3 farms favours amplicon sequencing 
+    as the first pass.
+
+    **Wheat heat stress (drought-responsive genes)**
+    Sequencing-based → bulk RNAseq (leaf tissue, defined timepoints). 
+    Rejected alternative: metabolomics, would capture downstream stress 
+    response but the question is explicitly about *genes* associated with 
+    tolerance, which points to the transcriptome first.
+-->
