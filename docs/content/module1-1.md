@@ -16,7 +16,7 @@ Crucially, no single omics layer tells the complete story; each captures a diffe
 
 The figure below shows how each layer sits within the broader molecular hierarchy of a cell. 
 
-![](figs_m1/1-1_landscape.png){width=100%}
+![](figs_m1/1-1_landscape_v3.png){width=100%}
 
 ## Choosing the right platform
 
