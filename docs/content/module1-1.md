@@ -303,45 +303,71 @@ measure it, and the biological questions it can address.
 Layer choice and platform choice are separate decisions. First, you decide which layer answers your question (do you need to know about mutations, expression, protein activity, or metabolic state?). Only then do you choose which platform within that layer (WGS vs WES for genomics, bulk vs single-cell for transcriptomics, mass spec vs Olink for proteomics). Both decisions are consequential, and platform are the subject of later modules.
 
 -->
+!!! question "Group activity: Walk the layers"
 
+    Pick the broad question closest to your field, or reinterpret 
+    the closest example using an organism or system you work with. 
+    These examples illustrate broad biological questions rather 
+    than specific studies. The design principles apply across 
+    organisms, so feel free to translate them to your own research 
+    system.
 
+    Walk through each molecular layer: what could it tell you, 
+    and what would it miss?
 
+    These are the decisions that shape whether an omics study can 
+    answer its biological question. Choices about samples, 
+    comparisons, timing, and molecular layer are often difficult to 
+    correct after data generation.
 
-!!! question "Group Activity: Walk the layers"
+    In your group, discuss:
 
-    Pick the case study closest to your own research area. As a group, 
-    work through DNA → RNA → protein → metabolite:
+    1. **What could this layer tell us** about the question?
+    2. **What would this layer miss** or fail to resolve on its own?
+    3. **What samples would we need** to answer this question 
+       using this layer, and are they realistic to obtain?
+    4. **Budget check:** you can measure only one molecular layer 
+       initially. Which layer would you choose, and what would 
+       convince you to add a second?
 
-    1. What would this layer show you, specifically, for this question?
-    2. What would this layer *miss* or fail to resolve?
-    3. Given real-world constraints (cost, tissue access, turnaround 
-       time), which layer would you prioritise first, and why?
-    4. If another group picked the same case, compare answers, did you 
-       converge on the same priority layer? If not, what's driving the 
-       disagreement?
+    **Report back:** your priority layer, the one thing another 
+    layer would have caught that yours would have missed, and one 
+    assumption behind your choice.
 
-    Report back: your priority layer + the one thing another layer 
-    would have missed.
+??? example "Clinical / human disease"
 
-??? example "Clinical: colorectal cancer"
-    Tissue biopsies from 40 patients, tumour vs adjacent normal, 
-    collected across two hospitals over 24 months. Broad question: 
-    what is driving malignant transformation in this tissue?
+    **What drives progression from a treatable tumour to one that 
+    resists therapy?**
 
-??? example "Wildlife: koala chlamydia"
-    Swabs from 60 wild koalas, infected vs uninfected, across a 
-    fragmented landscape over 18 months, field-stored before lab 
-    transport. Broad question: what distinguishes infected from 
-    uninfected animals, at the host and/or pathogen level?
+    Consider: where would you sample from, when in the disease 
+    course, and what would each molecular layer contribute to 
+    understanding progression?
 
-??? example "Aquaculture: salmon gut microbiome"
-    Gut contents from Atlantic salmon at three farms with different 
-    feed formulations, 20 fish per farm, single harvest day. Broad 
-    question: how does diet reshape the gut ecosystem and host 
-    physiology?
+??? example "Wildlife / infectious disease"
 
-??? example "Agriculture: wheat heat stress"
-    Leaf tissue from six wheat varieties at two timepoints (pre/during 
-    simulated drought), glasshouse trial. Broad question: what is the 
-    plant's biological response to drought stress?
- 
+    **Why do some populations tolerate an infectious disease while 
+    others suffer severe disease from the same pathogen?**
+
+    Consider: is this a host question (immune response, genetic 
+    resistance), a pathogen question (strain, virulence factors), 
+    or both? Use any host–pathogen system relevant to your field.
+
+??? example "Aquaculture / production biology"
+
+    **Why do some farmed fish grow faster than others despite 
+    receiving the same diet?**
+
+    Consider: if diet is held constant, what could explain the 
+    variation? Genetics, developmental history, physiology, gut 
+    microbes? Which layer would you measure first, and how would 
+    you sample to make the comparison meaningful?
+
+??? example "Plant / environmental stress"
+
+    **How does a crop plant respond to acute environmental stress, 
+    and what makes some varieties more tolerant than others?**
+
+    Consider: the stress could be drought, heat, or salinity, pick 
+    whichever fits your system. The response happens fast, over 
+    hours to days. Which layers capture that timescale, and which 
+    are too slow or too stable to see it?
