@@ -304,70 +304,227 @@ Layer choice and platform choice are separate decisions. First, you decide which
 
 -->
 !!! question "Group activity: Walk the layers"
-
     Pick the broad question closest to your field, or reinterpret 
-    the closest example using an organism or system you work with. 
-    These examples illustrate broad biological questions rather 
-    than specific studies. The design principles apply across 
-    organisms, so feel free to translate them to your own research 
-    system.
+    the example using an organism or system you work with. These 
+    examples represent biological questions rather than specific 
+    studies, and the same design principles apply across systems.
 
-    Walk through each molecular layer: what could it tell you, 
-    and what would it miss?
-
-    These are the decisions that shape whether an omics study can 
-    answer its biological question. Choices about samples, 
-    comparisons, timing, and molecular layer are often difficult to 
-    correct after data generation.
+    Walk through the molecular layers and decide how you would 
+    approach the question.
 
     In your group, discuss:
 
-    1. **What could this layer tell us** about the question?
-    2. **What would this layer miss** or fail to resolve on its own?
-    3. **What samples would we need** to answer this question 
-       using this layer, and are they realistic to obtain?
+    1. **Which molecular layer would you start with, and why?**
+    2. **What would this layer tell you, and what would it miss?**
+    3. **What comparisons or timing would be needed to 
+       make this study meaningful?**
     4. **Budget check:** you can measure only one molecular layer 
-       initially. Which layer would you choose, and what would 
-       convince you to add a second?
+       initially. What evidence would convince you to add a second?
 
-    **Report back:** your priority layer, the one thing another 
-    layer would have caught that yours would have missed, and one 
-    assumption behind your choice.
+    **Report back:** your chosen layer, what another layer might 
+    have revealed, and one assumption behind your choice.
 
-??? example "Clinical / human disease"
+    ??? example "Clinical / human disease"
 
-    **What drives progression from a treatable tumour to one that 
-    resists therapy?**
+        **What drives progression from a treatable tumour to one that 
+        resists therapy?**
 
-    Consider: where would you sample from, when in the disease 
-    course, and what would each molecular layer contribute to 
-    understanding progression?
+        Consider: where would you sample from, when in the disease 
+        course, and what would each molecular layer contribute to 
+        understanding progression?
 
-??? example "Wildlife / infectious disease"
+    ??? example "Wildlife / infectious disease"
 
-    **Why do some populations tolerate an infectious disease while 
-    others suffer severe disease from the same pathogen?**
+        **Why do some populations tolerate an infectious disease while 
+        others suffer severe disease from the same pathogen?**
 
-    Consider: is this a host question (immune response, genetic 
-    resistance), a pathogen question (strain, virulence factors), 
-    or both? Use any host–pathogen system relevant to your field.
+        Consider: is this a host question (immune response, genetic 
+        resistance), a pathogen question (strain, virulence factors), 
+        or both? Use any host–pathogen system relevant to your field.
 
-??? example "Aquaculture / production biology"
+    ??? example "Aquaculture / production biology"
 
-    **Why do some farmed fish grow faster than others despite 
-    receiving the same diet?**
+        **Why do some farmed fish grow faster than others despite 
+        receiving the same diet?**
 
-    Consider: if diet is held constant, what could explain the 
-    variation? Genetics, developmental history, physiology, gut 
-    microbes? Which layer would you measure first, and how would 
-    you sample to make the comparison meaningful?
+        Consider: if diet is held constant, what could explain the 
+        variation? Genetics, developmental history, physiology, gut 
+        microbes? Which layer would you measure first, and how would 
+        you sample to make the comparison meaningful?
 
-??? example "Plant / environmental stress"
+    ??? example "Plant / environmental stress"
 
-    **How does a crop plant respond to acute environmental stress, 
-    and what makes some varieties more tolerant than others?**
+        **How does a crop plant respond to acute environmental stress, 
+        and what makes some varieties more tolerant than others?**
 
-    Consider: the stress could be drought, heat, or salinity, pick 
-    whichever fits your system. The response happens fast, over 
-    hours to days. Which layers capture that timescale, and which 
-    are too slow or too stable to see it?
+        Consider: the stress could be drought, heat, or salinity, pick 
+        whichever fits your system. The response happens fast, over 
+        hours to days. Which layers capture that timescale, and which 
+        are too slow or too stable to see it?
+
+
+<!--
+
+Module 1.1 Group Activity: Facilitator Guide
+
+For facilitator use only. Do not display to participants.
+
+The purpose of this activity is not to identify a single correct molecular layer. The aim is to help participants recognise that choosing an omics layer is a biological decision: each choice reflects a particular view of what is driving the phenotype, and each choice leaves some questions unanswered.
+
+During report-back, the facilitator should focus on:
+
+Why did the group choose this layer?
+What biological process are they assuming is most important?
+What information would another layer provide?
+
+Every case has multiple defensible starting points.
+
+Case 1: Clinical / human disease, treatment-resistant tumour
+
+Question:
+What drives progression from a treatable tumour to one that resists therapy?
+
+Common defensible starting points
+
+Genome
+
+Appropriate when resistance may be driven by acquired mutations, such as resistance to targeted therapies (e.g. Trastuzumab blocks HER2 signalling). Useful for identifying genetic changes that may directly alter treatment response.
+
+Transcriptome
+
+Appropriate when resistance may involve pathway rewiring, altered cell states, or changes in gene regulation.
+Useful when the biological question is broader than a single mutation.
+
+Proteome
+
+Appropriate when the important biology may occur at the level of protein abundance, activation, or signalling activity.
+Useful because protein activity does not always directly match RNA abundance.
+What another layer would have caught
+Genome alone may miss resistance mechanisms driven by changes in gene regulation or cell state.
+Transcriptome alone may not distinguish whether expression changes are causes of resistance or consequences of an underlying mutation.
+Proteome alone may not reveal upstream genetic or regulatory drivers.
+
+Hidden assumption
+Genome choice implies a model where resistance is mainly driven by inherited or acquired genetic changes.
+Transcriptome choice implies a model where resistance is mainly driven by changes in cellular regulation.
+Proteome choice implies a model where functional activity at the protein level is the key driver.
+
+Facilitation prompts
+Genome: “Could two tumours with the same mutation respond differently to treatment? What else might explain that?”
+Transcriptome: “How would you separate a cause of resistance from a downstream response?”
+Proteome: “Would measuring protein abundance capture all changes in protein activity?”
+
+
+Case 2: Wildlife / infectious disease, tolerance versus severe disease
+
+Question:
+Why do some populations tolerate an infectious disease while others suffer severe disease from the same pathogen?
+
+Common defensible starting points
+
+Pathogen genome
+
+Appropriate if differences in pathogen strain or virulence may explain different outcomes.
+
+Host transcriptome
+
+Appropriate if differences in immune response or host physiology are expected to drive disease severity.
+
+Host genome
+
+Appropriate if population-level genetic differences may contribute to resistance or tolerance.
+
+What another layer would have caught
+Pathogen genomics alone may not explain why individuals exposed to the same strain have different outcomes.
+Host transcriptomics alone may miss differences in the pathogen itself.
+Host genomics alone may not explain how genetic differences influence actual immune responses.
+
+Hidden assumption
+Pathogen focused approaches assume variation in the pathogen is a major driver of outcome.
+Host transcriptomics assumes differences in host response are central.
+Host genomics assumes tolerance or resistance has a substantial inherited component.
+
+Facilitation prompts
+“Are we sure different populations are responding differently to the same pathogen?”
+“Could environmental factors, co-infections, or nutrition also influence disease outcome?”
+“What layer would help separate host effects from pathogen effects?”
+
+
+Case 3: Aquaculture / production biology, growth variation
+
+Question:
+Why do some farmed fish grow faster than others despite receiving the same diet?
+
+Common defensible starting points
+
+Genome
+- Appropriate when growth differences may be useful for breeding and selection.
+- Assumes inherited variation contributes strongly to growth differences.
+
+Transcriptome
+- Appropriate when the goal is understanding biological mechanisms controlling growth.
+
+Metagenome or metabolome
+-Appropriate when differences may arise from nutrient utilisation, metabolism, or host–microbiome interactions.
+
+What another layer would have caught
+-Genome alone may miss environmental, metabolic, or microbiome effects.
+-Transcriptome alone may show what pathways are active but not necessarily why they differ.
+-Microbiome composition alone may not reveal microbial function or metabolic output.
+
+Hidden assumption
+-Genome choice assumes growth differences are largely explained by inherited variation.
+-Transcriptome choice assumes differences arise mainly from regulatory changes in the fish.
+-Microbiome/metabolome choice assumes differences arise mainly from biological efficiency and nutrient processing.
+
+Facilitation prompts
+-“If two fish have similar genetics but different growth rates, what else could explain the difference?”
+-“Does seeing an active growth pathway tell us why it is active?”
+-“Does measuring microbial composition tell us what the microbes are doing?”
+
+
+Case 4: Plant / environmental stress — stress response and tolerance
+
+Question:
+How does a crop plant respond to acute environmental stress, and what makes some varieties more tolerant than others?
+
+Common defensible starting points
+
+Transcriptome
+- Appropriate when the focus is rapid stress responses and changes in gene regulation.
+
+Metabolome
+- Appropriate when tolerance depends on protective compounds, energy balance, or biochemical adaptation.
+
+Epigenome
+- Appropriate when stress memory or longer-term adaptation is important.
+
+Genome
+-Appropriate when the goal is identifying genetic variation linked to tolerance for breeding.
+
+What another layer would have caught
+-Transcriptome alone may show stress responses without showing whether those responses successfully protect the plant.
+-Metabolome alone may show protective compounds without identifying the regulatory pathways controlling them.
+-Genome alone may miss environmental effects and regulatory responses.
+
+Hidden assumption
+Transcriptome choice assumes tolerance depends mainly on the ability to activate stress responses.
+Metabolome choice assumes tolerance depends mainly on biochemical protection.
+Epigenome choice assumes previous exposure and cellular memory contribute to tolerance.
+Genome choice assumes tolerance has a stable inherited component.
+Facilitation prompts
+“Does a stronger stress response always mean a more tolerant plant?”
+“If two plants have similar tolerance-associated genes but respond differently, what else could explain this?”
+“Would your chosen layer explain the mechanism or only identify the phenotype?”
+Closing facilitator note
+
+A successful discussion is not one where groups select the same molecular layer. The goal is for participants to recognise that every choice represents a biological model and a trade off.
+
+The strongest answers are those that:
+
+justify why a layer was selected,
+identify what information it cannot provide,
+recognise what additional evidence would strengthen the conclusion.
+
+The activity should reinforce the central message of the workshop: omics study design begins with defining the biological question, not choosing a technology.
+-->
