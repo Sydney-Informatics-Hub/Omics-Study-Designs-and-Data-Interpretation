@@ -2,9 +2,9 @@
 
 !!! info "Learning objectives"
     By the end of this section, participants will be able to:  
-        - Identify pitfalls in their study design
-        - Classify the risk in study design as fatal, limitable, or recoverable.
-        - identify which factor would reduce some of the identified risks.
+        - Identify pitfalls in their study design  
+        - Classify the risk in study design as fatal, limitable, or recoverable   
+        - identify which factor would reduce some of the identified risks  
 
 Despite rapid advances in 'omics technologies, successful studies depend on more than the technology itself. Careful experimental design, data analysis, and interpretation are critical at every stage of the study design. Understanding the factors that contribute to robust and reproducible studies is just as important as understanding the technologies themselves.
 
@@ -35,7 +35,7 @@ Depending on the study, these factors may be addressed through matching, stratif
 
 Not all confounders can be controlled, particularly in retrospective studies where samples have already been collected. However, important sources of variation should be measured whenever possible and recorded in the study metadata so they can be evaluated during analysis.
 
-Example: A transcriptomics study recruiting cancer cases from an oncology ward (median age 64) against controls from a university health check (median age 29) will find hundreds of "disease" genes that are really immune-ageing genes. Once the groups are recruited unmatched on age, no downstream analysis can separate the two signals.
+*Example*: A transcriptomics study recruiting cancer cases from an oncology ward (median age 64) against controls from a university health check (median age 29) will find hundreds of "disease" genes that are really immune-ageing genes. Once the groups are recruited unmatched on age, no downstream analysis can separate the two signals.
 
 ??? example "Case study: The reference dataset has the same bias it's used to study"
 
@@ -115,11 +115,7 @@ The consequences are consistent across platforms:
 - **Genomics (GWAS, variant calling):** underpowered cohorts produce
   associations that fail to replicate in independent datasets,
   driven by inflated effect size estimates in small discovery samples.<small>
-    Zou et al. *G3 Genes|Genomes|Genetics* 2022.
-    [doi:10.1093/g3journal/jkac261](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}
-
-    Wray et al. *Nature Communications* 2018
-    [doi:10.1038/s41467-018-07348-x](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
+    [Zou et al. *G3 Genes|Genomes|Genetics* 2022.](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}. [Wray et al. *Nature Communications* 2018](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
     </small>
 
 - **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
@@ -136,7 +132,7 @@ A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
 
 In all cases, the result is the same: findings that look statistically
 significant but do not replicate. This is one of the common
-root causes of the omics reproducibility crisis. In practice, sample size requirements vary substantially by study type, e.g. discovery vs validation, We will discuss more about this issue in Module 3. 
+root causes of the omics reproducibility crisis. In practice, sample size requirements vary substantially by study type, e.g. discovery vs validation.
 
 ---
 
@@ -146,8 +142,7 @@ root causes of the omics reproducibility crisis. In practice, sample size requir
 
 A **batch effect** is a systematic technical bias introduced when samples are processed under different experimental conditions, such as different sequencing runs, reagent lots, operators, instruments, or processing dates. Unlike random noise, batch effects produce consistent patterns in the data that can either resemble true biological variation or mask it, making technical artifacts difficult to distinguish from genuine biological signal.
 
-**Example: Batch effect fully confounded with biology**     
-
+*Example*: Batch effect fully confounded with biology.  
 Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026). The PCA shows a clean separation. But it is driven almost entirely by batch, not biology. Cases and controls cluster by processing year, not by disease. There is no way to know whether any observed difference is biological or technical, because the two are perfectly aligned. **This design is unrecoverable**, becuase no downstream computational pipeline can reliably recover signal from a fully confounded dataset. 
 
 Study B distributed cases and controls across both batches. The PCA still shows a batch structure circles (Batch 1) and triangles (Batch 2) separate within each group. But cases and controls remain distinguishable within each batch. The batch effect is now estimable and correctable. **The biology is recoverable**.
@@ -228,7 +223,7 @@ Some normalisation methods only work if a reference sample, spike-in, or technic
 ---
 ## 🟠 Stage D: Analysis 
 
-### Pitfall 7: Inadequate Controls Across the Study Pipeline
+### Pitfall 7: Inadequate controls across the study pipeline
  
 **Computational and statistical controls**
 Analytical controls are used to evaluate, quantify, and sometimes reduce technical noise within the generated dataset.
@@ -238,10 +233,10 @@ Examples include permutation based null distributions, decoy databases in proteo
 These approaches can be extremely valuable, but they are constrained by the information available in the data. Computational methods cannot measure contamination that was never assessed experimentally, nor can they recover metadata that were never collected.
 
 
-??? example "Case Study: The Placental microbiome"
+??? example "Case Study: The placental microbiome"
 
     Multiple high profile studies reported the existence of a
-    placental microbiome using 16S amplicon sequencing; a
+    placental microbiome using 16S amplicon sequencing; a 
     clinically significant claim with implications for preterm
     birth and neonatal health.
 
@@ -280,14 +275,60 @@ These approaches can be extremely valuable, but they are constrained by the info
     Once information was never collected or never measured, it cannot be reconstructed retrospectively. At best, its impact can be assessed, acknowledged, or partially mitigated. In many situations, the only definitive solution is to redesign and repeat the study.
 ---
 
-### Pitfall 8:  Pseudoreplication
-***What happens when replicates aren't truly independent?***
+### Pitfall 8: Experimental unit vs. Observational unit
 
-Pseudoreplication occurs when non independent measurements are treated as 
-independent replicates, artificially inflating the effective sample size and 
-overstating statistical confidence. For example, measuring the same patient's blood pressure five times and treating each as a separate patient.
+**Experimental unit (EU)**: the smallest unit that could independently have received a different condition or treatment.
 
-***Pseudoreplication in Single-Cell RNAseq (scRNAseq)***
+Examples:
+
+- Each patient, in a case-control cohort
+- Each mouse, in an animal study
+- Each independently treated culture dish, in a cell-culture experiment
+
+**Observational unit (OU)**: the entity a measurement is actually taken on.
+
+Examples:
+
+- The tissue biopsy or blood draw taken from that patient
+- The individual cell profiled in a single-cell assay
+<!-- Leave this for exercise: let them think....The dose of pooled material a given mouse received --> 
+
+In the simplest designs, EU and OU are the same thing: one patient, one sample, one measurement. The distinction only starts to matter once they come apart, and that happens in two different ways.
+
+**Subsampling** profiling many observational units (OUs) from one experimental unit (EU). Thousands of cells from one donor is the clearest case: the donor is still the EU, the cells are OUs nested inside it, and treating each cell as its own independent data point inflates a sample size that was never really there.
+
+**Pooling** merging material from several donors into one shared unit before anything is measured. This is the case that needs a third term: the **biological unit (BU)** is what you actually want to draw a conclusion about, the donor, the participant, the source population. In every example above, BU and EU were the same thing, which is why the distinction hasn't come up yet. Pooling is exactly what breaks it apart: however many donors go into a shared pool, only one pooled unit was ever independently created, so the EU collapses to one, no matter how many downstream samples get measured from it. Those downstream measurements are OUs of that single pooled EU, not EUs in their own right, so pooling typically compounds the same problem subsampling does, just one step earlier in the workflow.
+
+!!! info "Multiplexing vs Pooling"
+    Importantly, multiplexing should not be confused with biological pooling: multiplexing combines separately labelled libraries for sequencing efficiency while preserving the identity and independence of each experimental unit.
+
+!!! info "Multiplexing vs. pooling"
+    Multiplexing should not be confused with biological pooling. Multiplexing 
+    combines separately barcoded libraries onto the same sequencing run purely 
+    for efficiency; each library still traces back to one experimental unit, 
+    and demultiplexing after sequencing recovers them as cleanly separated, 
+    fully independent samples. Ten barcoded patient samples run together on 
+    one lane are still ten EUs once demultiplexed. Pooling merges the 
+    biological material itself, before any barcode is attached, once that 
+    happens, there is no computational step that can separate the 
+    contributions back out.
+
+Both subsampling and pooling break the same assumption, that each measurement reflects one independent unit, but they fail at different points in the workflow. Subsampling is a modelling choice made at analysis, and is sometimes correctable there. Pooling happens before data collection, so by the time you're analysing the data the number of true experimental units is already fixed, however many observational units you measured.
+
+This general failure, treating non-independent measurements as if they were independent replicates, is called **pseudoreplication**. It artificially inflates the effective sample size and overstates statistical confidence. A simple version: measuring the same patient's blood pressure five times and treating each reading as a separate patient.
+
+??? example "Terminology: biological vs. technical replicate"
+    A **biological replicate** is an independent biological sample drawn from 
+    the same population: a different patient, a different mouse, a different 
+    culture flask. Biological replicates capture natural variation within the 
+    population and are the unit of statistical inference — they drive the n 
+    in every power calculation and every statistical test.
+
+    A **technical replicate** is the same biological sample measured more than 
+    once. Technical replicates capture measurement variability, not 
+    additional biological information, and do not increase n.
+
+***Subsampling in practice: pseudoreplication in single-cell RNAseq (scRNAseq)***
 
 Unlike bulk RNAseq, which measures the **average gene expression** 
 across thousands of cells in a sample, scRNAseq profiles 
@@ -320,11 +361,12 @@ pipelines do not account for this dependency by default.
     <small> Re-analysis: [Murphy et al. "Avoiding false discoveries in single-cell RNAseq by revisiting the first Alzheimer's disease dataset." Elife 12 (2023)](https://elifesciences.org/articles/90214){target="_blank"}</small>  
 
 !!! info "This pitfall is not unique to single cell studies"
-    The examples/activity in module 1 use single cell RNAseq and microbiome transfer 
-    studies, but pseudoreplication applies equally to bulk RNAseq, 
-    proteomics, and any omics platform where multiple measurements are 
-    taken from the same biological unit.
----
+    The case study above and the activity at the end of this module (a microbiome
+    transfer study) use two different platforms on purpose: pseudoreplication
+    applies equally to bulk RNAseq, proteomics, and any platform where multiple
+    measurements are taken from the same biological unit. The two also show
+    different mechanisms i.e. subsampling and pooling.  
+
 ## 🟠 Stage E: Reporting 
 
 ### Pitfall 9: Lost or incomplete metadata
@@ -415,7 +457,8 @@ are especially susceptible to dataset specific noise.
   unresolved barriers at major proteomics symposia as recently as 2024.
   The problem Rifai described has not been solved, it has persisted 
   for two decades. <small>
-    [Rifai et al. *Nature Biotechnology* 2006](https://doi.org/10.1038/nbt1235){target="_blank"} [Proceedings of the 68th Benzon Foundation Symposium.
+    [Rifai et al. *Nature Biotechnology* 2006](https://doi.org/10.1038/nbt1235){target="_blank"}  
+       [Proceedings of the 68th Benzon Foundation Symposium.
     *Journal of Proteome Research* 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC11652764/){target="_blank"}</small>
  
 ***The consequences are most severe when studies move from
@@ -447,13 +490,7 @@ signatures, or mechanisms, without independent validation.***
     this history. <small> [Border et al. *American Journal of Psychiatry* 2019](https://psychiatryonline.org/doi/10.1176/appi.ajp.2018.18070881){target="_blank"} [Ioannidis et al. *Nature Genetics* 2009](https://doi.org/10.1038/ng.295){target="_blank"}
     </small>
 ---
-!!! info "Four principles worth remembering"
 
-    - Study design failures compromise inference.
-    - Experimental failures compromise measurement.
-    - Computational failures compromise interpretation.
-    - Problems introduced early are the hardest to fix later.
----
 !!! info "Can pitfalls be fixed?"
     
     !!! success "Recoverable :— fixable at analysis stage"
@@ -542,9 +579,9 @@ signatures, or mechanisms, without independent validation.***
     Briefly describe a study you are planning or have
     been involved in. In small groups:
 
-    1. Identify which of the 7 pitfalls your study
+    1. Identify which one of the pitfalls your study
        is most vulnerable to
-    2. Classify the risk:- fatal, limitable,
+    2. Classify the risk: fatal, limitable,
        or recoverable?
     3. What one change at the design stage would
        reduce that risk?

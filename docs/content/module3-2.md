@@ -9,6 +9,28 @@ most frequently confused concepts in omics and one of the most
 consequential. Getting it wrong inflates apparent sample size, produces 
 false positive results, and generates findings that do not replicate.
 
+!!! info "Terms introduced in Module 1"
+    Experimental unit, observational unit, and pseudoreplication were defined in
+    **Module 1, Pitfall 8**, along with biological vs. technical replicate above.
+    The table below adds one more term, needed specifically for pooled designs,
+    and shows how all five relate.
+
+| Concept | Definition | Determines statistical power? | Determines independence? |
+| --- | --- | --- | --- |
+| **Biological unit (BU)** | The entity you actually want to draw a conclusion about | Not necessarily | Not necessarily |
+| **Experimental unit (EU)** | Smallest unit independently assigned to treatment/exposure | Yes | Yes |
+| **Observational unit (OU)** | Entity on which measurements are recorded | Not necessarily | No |
+| **Biological replicate** | Independent biological sample representing the population | Yes | Yes |
+| **Technical replicate** | Repeated measurement of the same biological sample | No | No |
+
+BU only earns a row of its own once pooling is on the table: in every unpooled
+design, BU and EU are the same thing. Pooling is what separates them — donors
+merged into one shared inoculum still count fully as biological units, but only
+the pool itself was independently created, so the EU collapses to one no matter
+how many biological units fed into it. The case study below (Walter et al.,
+2020) shows exactly this pattern at the scale of an entire literature.
+
+<!-- NOW DEFINED IN MODULE 1 SECTION 2>
 ### The definition, stated precisely
 
 A **biological replicate** is an independent biological sample drawn from 
@@ -28,20 +50,7 @@ produces p-values that are lower than they should be. The result is false
 positives that appear statistically robust but vanish in independent 
 datasets.
 
-??? example "Terminology"
-    **Biological unit (BU)**: The biological entity of interest about which conclusions are drawn in an omics study.
-    Examples:
-        A patient in RNA-seq or proteomics
-        A mouse in an experiment
-        A soil site in metagenomics   
-    **Experimental unit (EU)**: The smallest unit that is independently subjected to a condition or treatment in the experiment.
-    Examples:
-        Each patient sample in bulk RNA-seq
-        Each independently treated cell culture
-        Each stool sample in a microbiome study  
-    **Observational unit (OU)**: In standard statistical usage, the observational unit is the entity on which measurements are directly recorded. Example: In omics studies, sample taken from patient (e.g. tissue biopsy, blood draw) are observational unit, or the individual cell in single-cell assays.
-
-
+-->
 
 ### The platform determines whether technical replicates are useful at all
 

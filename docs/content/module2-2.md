@@ -9,7 +9,6 @@
     - Identify the primary statistical challenge associated with major omics platforms and relate it to the underlying biological or technical process.
     - Explain why statistical methods and normalisation strategies cannot be applied uniformly across omics platforms and recognise when technical factors such as    depth, signal intensity, or sample composition may confound biological interpretation.
 
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 mins]
 
 ## What the numbers in your data actually represent
 

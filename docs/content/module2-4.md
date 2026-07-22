@@ -10,7 +10,6 @@
     - Describe what normalisation does and does not fix in compostional data 
     - Explain why standard normalisation reduces the depth problem but does not remove the compositional constraint
 
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 8 mins: activities 4 mins]
 
 
 In Module 2.2 and 2.3, we established that omics measurements are relative, a count or intensity reflects a share of a technical total, not an absolute molecular quantity. We saw that many entries in omics matrices are zero and that those zeros have different causes and meanings depending on the paltform and context. 

@@ -1,40 +1,27 @@
-# Module 2.1: Data types  
-
-## Section 1: What the data actually is
+# Module 2.1: Omics Platforms and Technology  
 
 !!! info "Learning objectives" 
 
-    - Distinguish between sequencing counts and intensities as the two primary omics data types, connect each to the instrument family that
-      produces it, and explain why the two require different analytical approaches
+    - Distinguish between sequencing and intensities platforms
     - Describe what happens to raw instrument output before it reaches an analyst as a matrix of numbers
 
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 5 mins; activities: 2 mins]
+Module 1 focused on study design pitfalls. Module 2 shifts to various types of omics platforms and data types.
 
-Module 1 focused on study design: decisions made before any data is
-generated, and the failure modes that follow from getting those decisions
-wrong. Module 2 shifts to the data itself.
+### The omics platforms
 
-Before asking what omics data means statistically, it helps to ask a
-more basic question: **what kind of number are you actually looking at,
-and how did it get there?** The answer is less obvious than it seems,
-and getting it wrong early leads to systematic errors that no amount of
-downstream analysis can fix.
-
-### The omics layers: a brief recap
-
-Module 1 introduced the major omics platforms and when to choose between
-them. That framework matters, because the type of number an experiment produces is determined both by the biological layer being measured and by the instrument used to measure it. 
-
-Each layer targets a different class of molecule and answers a different
+In module 1, we learned each layer targets a different class of molecule and answers a different
 biological question. These layers do not map cleanly onto each other, and that matters for
-interpretation.
+interpretation. To answer the omics related questions, we need to consider, both by the biological layer and the instrument used. 
 
+Each omics field is enabled by a distinct family of laboratory 
+platforms, because different molecules require different instruments 
+to measure them. DNA and RNA can be sequenced directly. Proteins and 
+metabolites cannot, they are measured mostly by mass spectrometry or 
+by antibody and affinity-based methods. The figure below maps each 
+biological layer to the molecule it targets, the platforms used to 
+measure it, and the biological questions it can address.
 
-!!! tip "Why the layers don't always agree" 
-
-    A critical point for interpretation: measuring one layer doesn't tell you what is happening in another. A gene can be present in the genome but never transcribed. An mRNA can be transcribed but never translated into protein. A protein can be abundant but enzymatically inactive. 
-
-    This is why collecting the right data for your research question is essential. Choosing the modality is a scientific question, not a technical one. The research questions you are asking should determine which layer of biology you measure, not the other way around. 
+![](figs_m1/2.1-omics-types-platfomrs.png){width=100%}
 
 
 ### Two main data types, determined by the instrument
