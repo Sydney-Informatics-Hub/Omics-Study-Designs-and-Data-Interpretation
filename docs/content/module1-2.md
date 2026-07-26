@@ -1,28 +1,6 @@
-## Understanding the factors that shape study success
-
-!!! info "Learning objectives"
-    By the end of this section, participants will be able to:  
-        - Identify pitfalls in their study design  
-        - Classify the risk in study design as fatal, limitable, or recoverable   
-        - identify which factor would reduce some of the identified risks  
-
-Despite rapid advances in 'omics technologies, successful studies depend on more than the technology itself. Careful experimental design, data analysis, and interpretation are critical at every stage of the study design. Understanding the factors that contribute to robust and reproducible studies is just as important as understanding the technologies themselves.
-
-![](figs_m1/1-1Omics_study_design_workfloe.png){width=100%}
-
-**Thoughtful study design helps in saving cost across three dimensions:**
-
-| Cost dimension | Examples |
-|---|---|
-| **Financial** | Sequencing runs, reagents, platform fees |
-| **Time** | Sample processing, analysis pipelines, validation |
-| **Irreplaceability** | Clinical biopsies, rare cohorts, longitudinal samples cannot simply be recollected |
-
-
-Most poor study design decision are made during the **design stage** but only become visible at the **analysis stage** by which point they are often already compromised the study's results. This is why study design deserves as much rigour as the experiment itself.
-
+  
 We will examine the key pitfalls encountered across different stages of the omics study workflow.
----  
+
 ## 🟠 Stage A: Design</span>
  
 ### Pitfall 1: Sampling bias and inappropriate cohort design
@@ -298,9 +276,6 @@ In the simplest designs, EU and OU are the same thing: one patient, one sample, 
 **Subsampling** profiling many observational units (OUs) from one experimental unit (EU). Thousands of cells from one donor is the clearest case: the donor is still the EU, the cells are OUs nested inside it, and treating each cell as its own independent data point inflates a sample size that was never really there.
 
 **Pooling** merging material from several donors into one shared unit before anything is measured. This is the case that needs a third term: the **biological unit (BU)** is what you actually want to draw a conclusion about, the donor, the participant, the source population. In every example above, BU and EU were the same thing, which is why the distinction hasn't come up yet. Pooling is exactly what breaks it apart: however many donors go into a shared pool, only one pooled unit was ever independently created, so the EU collapses to one, no matter how many downstream samples get measured from it. Those downstream measurements are OUs of that single pooled EU, not EUs in their own right, so pooling typically compounds the same problem subsampling does, just one step earlier in the workflow.
-
-!!! info "Multiplexing vs Pooling"
-    Importantly, multiplexing should not be confused with biological pooling: multiplexing combines separately labelled libraries for sequencing efficiency while preserving the identity and independence of each experimental unit.
 
 !!! info "Multiplexing vs. pooling"
     Multiplexing should not be confused with biological pooling. Multiplexing 

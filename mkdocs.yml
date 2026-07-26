@@ -21,7 +21,11 @@ nav:
     - Sample Size: content/module3-3.md
     - Study Design: content/module3-4.md
     - Meta Data: content/module3-5.md
-  - Further reading: further-reading.md 
+  - Further reading: further-reading.md
+  - Temp to move:
+    - solution 2: content/module-nm2.2.md
+    - solution 3: content/module-nm2.3.md
+    - solution 3: content/module-nm2.3-short.md
   
   # Example top-level page
   #- Setup: setup.md
