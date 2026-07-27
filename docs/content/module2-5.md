@@ -172,7 +172,7 @@ statistics become more reliable. This borrowing of strength across
 genes is the key conceptual shift that separates modern omics methods
 from naive approaches.
 
-![Schematic illustration](module2Figs/02_limma-voom-deseq2-cpm-raw_v01.png){style="width:100%; height:auto; min-height:500px"}
+![Schematic illustration](figs_m2/02_limma-voom-deseq2-cpm-raw_v01.png){style="width:100%; height:auto; min-height:500px"}
 
 <small>**Figure** Conceptual illustration of how successive methodological improvements in RNA-seq analysis increase the separation of biological signal from noise. Point locations represent simulated ground truth rather than software output. The visual progression is schematic and reflects variance moderation, information sharing across genes, and (where applied) effect-size shrinkage.
 </small>

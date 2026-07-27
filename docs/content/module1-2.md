@@ -59,7 +59,7 @@ Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026)
 Study B distributed cases and controls across both batches. The PCA still shows a batch structure circles (Batch 1) and triangles (Batch 2) separate within each group. But cases and controls remain distinguishable within each batch. The batch effect is now estimable and correctable. **The biology is recoverable**.
 
 
-![Batch effect fully confounded with Biology](module1/figs/01_batch_Effect_v02.png){width=90%}
+![Batch effect fully confounded with Biology](figs_m1/01_batch_Effect_v02.png){width=90%}
 
 ??? example "Case Study: When batch effects reach the clinic"
 
@@ -75,7 +75,7 @@ Study B distributed cases and controls across both batches. The PCA still shows 
     the assignment of drug sensitivity labels to cell lines and undisclosed 
     batch effects in the training data.
 
-    ![Duke clinical trial retraction timeline](module1/figs/01_duke_case_study_01.png){width=90%}
+    ![Duke clinical trial retraction timeline](figs_m1/01_duke_case_study_01.png){width=90%}
 
     **Outcome:** The trials were halted. The case 
     became a landmark example of how undetected batch effects, combined 
@@ -143,7 +143,7 @@ each cell **individually**, capturing the variation that bulk methods
 average away. A single experiment can generate profiles for tens of 
 thousands of cells.
 
-![](module1/figs/03_pseudoreplication_single_cell_v02.jpg){width=95%}
+![](figs_m1/03_pseudoreplication_single_cell_v02.jpg){width=95%}
 
 This resolution comes with a statistical trap that is easy to miss. 
 Cells from the same individual share a common genetic and environmental 
@@ -162,7 +162,7 @@ pipelines do not account for this dependency by default.
     expressed genes dropped from 1,031 to just 26 at FDR < 0.01,
     549 fold inflation. Critically, the corrected analysis also pointed 
     to a different, biologically correct cell type.  
-    ![](module1/figs/01pseudoreplication__case_study_v02.png){width=100%}  
+    ![](figs_m1/01pseudoreplication__case_study_v02.png){width=100%}  
 
     <small>Original study:  [Mathyset al. "Single cell transcriptomic analysis of Alzheimer’s disease." Nature 570.7761 (2019)](https://www.nature.com/articles/s41586-019-1195-2){target="_blank"}</small> 
     <small> Re-analysis:[Murphy et. al "Avoiding false discoveries in single-cell RNAseq by revisiting the first Alzheimer’s disease dataset." Elife 12 (2023)](https://elifesciences.org/articles/90214){target="_blank"}</small>  
@@ -217,7 +217,7 @@ in the data but invisible to the analyst.
 
 
 ??? example "Case study: When metadata saves the analysis, GTEx & Ischaemia Time" 
-    ![](module1/figs/01_metadata_casestudy_v01.png){width=100%}  
+    ![](figs_m1/01_metadata_casestudy_v01.png){width=100%}  
 
 !!! info "Coming up in Module 3"
     Designing a metadata collection plan, including a minimal
@@ -485,7 +485,7 @@ signatures, or mechanisms, without independent validation.***
     per condition, pooled them into a single inoculum, and inoculated 
     six germ-free mice per condition. Statistics were performed on n = 6 mice.
 
-    ![](module1/figs/01_pseudoreplication_activity01_v01.png){width=90%}
+    ![](figs_m1/01_pseudoreplication_activity01_v01.png){width=90%}
 
     <small>Ref: Koren et al., *Cell* 150, 470–480 (2012)</small>
 
@@ -540,7 +540,7 @@ signatures, or mechanisms, without independent validation.***
 
     <small>Ref: Wagner & Kleiner, *Nat Commun* 16, 7263 (2025)</small>
 
-    ![](module1/figs/02_pseudoreplication_activity01_v02.png){width=100%}
+    ![](figs_m1/02_pseudoreplication_activity01_v02.png){width=100%}
 
 -->
 

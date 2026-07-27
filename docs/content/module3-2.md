@@ -89,7 +89,7 @@ microbiomes; they are three observations of Lake Tahoe. Panel B shows the
 correct design: one vial from each of three independently selected 
 freshwater bodies. 
 
-![Valid vs pseudoreplicated experimental designs across four scenarios](Figures_module3/wagner2025_fig1_replication_v02.jpg){width=90%}
+![Valid vs pseudoreplicated experimental designs across four scenarios](figs_m3/wagner2025_fig1_replication_v02.jpg){width=90%}
 
 <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
 [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
@@ -117,7 +117,7 @@ freshwater bodies.
     **Observational Unit (OU)** is the individual mouse, just a measurement 
     platform, not an independent replicate.
 
-    ![BU/EU/OU structure in HMA rodent studies:- how pooling reduces n and pseudoreplication inflates it](Figures_module3/walter2020_fig1_BU_EU_OU.png){width=90%}
+    ![BU/EU/OU structure in HMA rodent studies:- how pooling reduces n and pseudoreplication inflates it](figs_m3/walter2020_fig1_BU_EU_OU.png){width=90%}
 
     <small>Ref: Walter J, Armet AM, Finlay BB, Shanahan F. Establishing or 
     Exaggerating Causality for the Gut Microbiome: Lessons from Human 

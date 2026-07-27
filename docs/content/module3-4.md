@@ -57,9 +57,9 @@ Consider 20 samples (10 cases, 10 controls) processed in two batches.
   The batch effect can now be estimated from within batch contrasts and 
   adjusted for during analysis.
 
-![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction — possible only with balanced design](figs_m3/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
 
-![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction — possible only with balanced design](figs_m3/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
   
 
 Importantly, the corrected design requires no additional cost or samples,
@@ -104,7 +104,7 @@ The plots below illustrate this distinction. In a balanced design, batch
 effects can be removed, revealing the underlying biological structure. In a 
 confounded design, the same separation is not achievable.
 
-![Dimension reduction before and after batch correction — possible only with balanced design](Figures_module3/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction — possible only with balanced design](figs_m3/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
 
 <small>Ref: [Zhu, Xun, et al. "Granatum: a graphical single-cell RNA-Seq analysis pipeline for genomics scientists." Genome medicine 9.1 (2017): ](https://link.springer.com/article/10.1186/s13073-017-0492-3?utm_source=researchgate.net&utm_medium=article)</small>
 

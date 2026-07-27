@@ -45,7 +45,7 @@ Module 1 introduced two broad families of omics technology: **sequencing based**
 **Many non-sequencing platforms produce intensities**. Rather than reading sequences, these instruments measure molecular signal directly. For example, the strength of a fluorescence signal or the abundance of detected ions. The output is typically a **continuous value** rather than a count. Mass spectrometry platforms (proteomics and metabolomics) measure ion signal intensity. Microarrays measure fluorescence from hybridised probes. Many imaging based assays begin as fluorescence intensity measurements recorded across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
 
 
- ![](module2Figs/02_sequencing_vs_nonSequencing_v01.png){width=100%}  
+ ![](figs_m2/02_sequencing_vs_nonSequencing_v01.png){width=100%}  
 
 ### Live Activity
 

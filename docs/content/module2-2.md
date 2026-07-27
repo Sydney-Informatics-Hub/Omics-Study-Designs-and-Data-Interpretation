@@ -23,7 +23,7 @@ Most omics platforms operate under a finite measurement budget, such as a fixed 
 
 As a result, **the count/abundance measured for any feature is relative rather than absolute**. Features effectively compete for a share of the total measurement capacity. Consequently, an increase in one feature can alter the observed abundance of other features, even if their true biological abundance has not changed.
 
-![](module2Figs/02-module2.2-omics-platform-problem.png){width=95%}
+![](figs_m2/02-module2.2-omics-platform-problem.png){width=95%}
 
 Each platform has its own version of the same core problem, and its own specific failure modes on top of that. Summarised:
 
@@ -52,7 +52,7 @@ Consider the mechanism of gene expression: When a cell expresses a gene, it prod
 The challenge we face in working with omics data is that our data generation platforms (e.g. sequencers) cannot count every RNA molecule in a sample. Instead it reads a subset of fragments and stops when it reaches a target depth. Each gene's count is therefore a proportion of whatever total happened to be generated for that sample. At shallow sequencing depth, low-abundance genes drop in and out of detection across samples not because their expression changed, 
 but because the sampling was too sparse to capture them reliably. Increasing depth often makes these genes reappear. The biology hasn't changed, the measurement has simply improved.
 
-![Shallow vs deep sequencing: how depth affects gene detection](module2Figs/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
+![Shallow vs deep sequencing: how depth affects gene detection](figs_m2/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
 
 <small>The figure above illustrates this directly. At total 10 reads, a gene present at
 1% true abundance receives zero reads and is invisible to the analysis. Another

@@ -97,7 +97,7 @@ The figures below show two versions of this problem:
 - spatial structure producing an apparent difference that isn’t real  
 - timing differences masking one that is  
 
-![Spatial and temporal confounding — false positive from temperature gradient (A) and false negative from measurement order (B)](Figures_module3/wagner2025_fig3_AB.jpg){width=90%}
+![Spatial and temporal confounding — false positive from temperature gradient (A) and false negative from measurement order (B)](figs_m3/wagner2025_fig3_AB.jpg){width=90%}
 
 <small>
 **Figure explanation.** Panel A: shows *spatial confounding*: a temperature gradient across the plate creates an apparent difference between groups because samples were arranged by condition. This produces a **false positive**, the effect is technical, not biological. Panel B : shows *temporal confounding*: samples measured later have more time to grow, masking a real difference between conditions. This produces a **false negative**.   
@@ -119,7 +119,7 @@ That’s the difference randomisation makes in practice.
 
 The example below shows how grouping conditions within batches exaggerates separation, while mixing them gives a more honest picture. Including shared controls across batches helps you spot drift when it does happen.
 
-![Batch design: conditions nested within batches (left) vs randomised across batches (right)](Figures_module3/wagner2025_fig3_C.jpg){width=90%}
+![Batch design: conditions nested within batches (left) vs randomised across batches (right)](figs_m3/wagner2025_fig3_C.jpg){width=90%}
 
 <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).  
 [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}  

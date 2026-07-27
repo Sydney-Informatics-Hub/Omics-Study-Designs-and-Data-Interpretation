@@ -41,7 +41,7 @@ correct analytical response is not the same.
 Response by AT: I believe that this is well prepared figure by the original Author; we should just burrow and cite it; untill unless someone has better idea for improvement and would like to create a new one.
 -->
 
-![Sources of zeros in scRNAseq data: biological, technical, and sampling](module2Figs/01_zero_technical_Biological_v1.png){width=90%}
+![Sources of zeros in scRNAseq data: biological, technical, and sampling](figs_m2/01_zero_technical_Biological_v1.png){width=90%}
 
 <small>Adapted from: [Jiang et al. *Genome Biology* 2022](https://link.springer.com/article/10.1186/s13059-022-02601-5){target="_blank"} (CC BY 4.0)</small> 
 

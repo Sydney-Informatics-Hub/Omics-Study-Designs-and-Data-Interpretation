@@ -88,7 +88,7 @@ Compositionality is most visible in microbiome data. If most species drop after 
     a heavy dose of antibiotics. They sequence stool samples from both
     time points.
 
-    ![ anitbiotic_example](module2Figs/02_compositionality_v01.jpg){width=98%}
+    ![ anitbiotic_example](figs_m2/02_compositionality_v01.jpg){width=98%}
     ## Species Composition Summary
 
     | Species    | Before | After  | Reality                                                   |

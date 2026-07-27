@@ -34,7 +34,7 @@ Neither approach is perfect. Pilot datasets may not capture the full study popul
 
 Even when **effect sizes** are similar, higher **biological variability** substantially increases the number of samples required to achieve the same power. In omics, this is compounded by multiple testing (FDR, usually BH method), which makes it harder for any individual feature to reach statistical significance.
 
-![Statistical power depends on both effect size and within group variance; minimum sample sizes from power analysis](Figures_module3/wagner2025_fig2_A.jpg){width=90%}
+![Statistical power depends on both effect size and within group variance; minimum sample sizes from power analysis](figs_m3/wagner2025_fig2_A.jpg){width=90%}
 
 <small>
 Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).  
@@ -81,7 +81,7 @@ These differences reflect genuine differences in how platforms behave, including
 
 
 
-![Figures of Merit across omic platforms — comparative summary of quality properties that drive sample size requirements](Figures_module3/tarazona2020_fig2_FoM.png){width=90%}
+![Figures of Merit across omic platforms — comparative summary of quality properties that drive sample size requirements](figs_m3/tarazona2020_fig2_FoM.png){width=90%}
 
 <small>
 Ref: Tarazona S, et al. *Nature Communications* 11, 3092 (2020).  
@@ -97,7 +97,7 @@ In multi-omics studies, sample size cannot be optimised independently for each p
 
 The figure below (Tarazona et al., 2020) makes this concrete. Using a conservative dispersion estimate (75th percentile of pooled standard deviation), the MultiPower tool identifies n = 16 per group as the jointly optimal sample size across platforms in a real multi-omics study. Panels D and E show both that this target is achievable and that the recommendation holds up across the range of variability observed in the data. 
 
-![MultiPower output: per-omic power curves and combined multi-omic optimisation for RNA-seq and metabolomics](Figures_module3/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
+![MultiPower output: per-omic power curves and combined multi-omic optimisation for RNA-seq and metabolomics](figs_m3/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
 ---
 
 
@@ -126,7 +126,7 @@ There are situations where sequencing depth is genuinely limiting.
 - **Somatic variant detection in tumour samples**  
   Detecting low-frequency variants (approximately 1–5% allele fraction) requires high coverage to separate signal from sequencing noise.
 
-![Sequencing depth requirements for variant detection](Figures_module3/03_Sequencing_depth.jpg){width=90%}
+![Sequencing depth requirements for variant detection](figs_m3/03_Sequencing_depth.jpg){width=90%}
 
 - **Rare cell populations in single-cell studies**  
   Very rare populations may require deeper sequencing or targeted enrichment, depending on the biological question.
@@ -143,7 +143,7 @@ In these cases, the issue is not classical statistical power but whether the sig
 
     Moving from 5 to 20 donors substantially increases power because each donor contributes new biological information. By contrast, increasing cells per donor from 25 to 500 has relatively little impact on power.
 
-    ![Donors vs cells per donor in scRNA-seq power](Figures_module3/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
+    ![Donors vs cells per donor in scRNA-seq power](figs_m3/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
 
     <small>
     Zimmerman K, et al. *Nature Communications* (2021)  

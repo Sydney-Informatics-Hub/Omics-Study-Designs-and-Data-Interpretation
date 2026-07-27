@@ -1,11 +1,11 @@
 # Foundations of omics study design, bias, and data interpretation
 
-This interactive workshop spans two days, with 3.5 hour sessions each day. Users will gain the skills to design omics studies that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, they will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data interpretation that can mislead even experienced researchers.
+This interactive workshop spans two days, with 3.5 hour sessions each day. Users will gain the skills to design omics studies that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, they will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data.
 
 ## Why this course exists
 
 Most omics training focuses on tools and analysis pipelines; how to process 
-sequencing data, run differential expression, interpret a PCA plot. That 
+sequencing data, run differential expression or similar. That 
 knowledge is valuable, but it arrives too late.
 
 The decisions that most often determine whether an omics study succeeds or 
@@ -36,15 +36,9 @@ planning before the sample processing begins.
 
 By the end of this workshop, participants will be able to: 
 
-- Compare major omics technologies and select the most appropriate platform for a given biological question 
-
-- Design an omics experiment that is statistically sound, minimises technical bias, and is fit for downstream bioinformatics analysis; before data is generated 
-
-- Identify and anticipate sources of bias, confounding, and batch effects in experimental setup, and evaluate whether these can be corrected after the fact 
-
-- Interpret key QC and exploratory visualisations (PCA, UMAP) correctly, and avoid the most common misinterpretation traps 
-
-- Select appropriate normalisation and batch correction strategies for their omics data type and study design 
+ - module 1: TODO 
+ - module 2: TODO
+ -module 3: TODO
 
 # For developers 
 
@@ -69,8 +63,19 @@ All content merged to main will be rendered at github.io pages by [`mkdocs_deplo
 Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities.
 
 ## Developers:
+- Lead: Amarinder Singh Thind
+- Co-lead: 
+- Supportive
+-
+-
+-
+ 
+## Facilitator:
+-
+-
+-
+-
 
-##
 
 ## Suggested acknowledgement
 The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney.  
