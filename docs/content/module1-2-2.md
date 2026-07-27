@@ -1,4 +1,7 @@
-## 🟠 Stage B : Wet Lab
+## 🟠 Stage B : Sample acquition 
+
+### Path A: collect and sequrence your own 
+### Path B: using Other people dataset
 
 ### Pitfall 4: Batch effects
 

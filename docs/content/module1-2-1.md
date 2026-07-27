@@ -10,7 +10,7 @@
 
 
 Most poor study design decision are made during the **design stage** but only become visible at the **analysis stage** by which point they are often already compromised the study's results. This is why study design deserves as much rigour as the experiment itself.
- 
+
 ### Pitfall 1: Sampling bias and inappropriate cohort design
 
 Study design controls determine whether observed differences can reasonably be attributed to the biological question being studied rather than to systematic differences between groups.
