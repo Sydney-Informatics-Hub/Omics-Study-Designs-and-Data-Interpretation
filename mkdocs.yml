@@ -16,23 +16,24 @@ nav:
     - Reporting: content/module1-2-5.md
     - Activity: content/module1-2-6.md
     - Study design factors (old): content/module1-2.md
-  - Module 2: 
+  - Module 2:
+    - Omics Platforms: content/module-nm2.2.md
+    - Sample Size: content/module-nm2.3-short.md
+
+  - Module 2 (old): 
     - Data types & platforms: content/module2-1.md
     - Detection limits & budget: content/module2-2.md
     - Sparsity and zero inflation: content/module2-3.md
     - Compositionality: content/module2-4.md
     - Classical statistics struggle with omics: content/module2-5.md
-  - Module 3:
+
+  - Module 3 (old):
     - Randomisation: content/module3-1.md
     - Replication: content/module3-2.md
     - Sample Size: content/module3-3.md
     - Study Design: content/module3-4.md
     - Meta Data: content/module3-5.md
-  - Further reading: further-reading.md
-  - Temp to move:
-    - solution 2: content/module-nm2.2.md
-    - solution 3: content/module-nm2.3.md
-    - solution 3: content/module-nm2.3-short.md
+  - References: further-reading.md
   
   # Example top-level page
   #- Setup: setup.md
