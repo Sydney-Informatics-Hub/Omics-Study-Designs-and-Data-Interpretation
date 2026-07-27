@@ -277,7 +277,7 @@ has a blind spot the next layer partly fills.
 
 ---
 
-### Omics and their platforms
+### What is Omics 
 
 Up to this point we've walked through the biology, five molecular 
 layers, each with its own information content and blind spots. Each 
@@ -286,17 +286,6 @@ collectively these fields are called **omics**: genomics, epigenomics,
 transcriptomics, proteomics, metabolomics. **The suffix simply means 
 "the study of all of them at once"**, the whole genome rather than a 
 single gene, the whole proteome rather than a single protein.
-
-Each omics field is enabled by a distinct family of laboratory 
-platforms, because different molecules require different instruments 
-to measure them. DNA and RNA can be sequenced directly. Proteins and 
-metabolites cannot, they are measured mostly by mass spectrometry or 
-by antibody and affinity-based methods. The figure below maps each 
-biological layer to the molecule it targets, the platforms used to 
-measure it, and the biological questions it can address.
-
-![](figs_m1/1-1_landscape_v3.png){width=100%}
-
 
 <!--
 

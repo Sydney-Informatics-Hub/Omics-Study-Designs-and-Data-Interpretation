@@ -12,8 +12,6 @@
     - Describe how variance borrowing across features (empirical Bayes variance shrinkage) is necessary with small samples sizes
     - Match appropriate statistical frameworks to major omics data types 
 
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins: activities 5 mins]
-
 Modules 2.1 - 2.4 established structural properties that all omics data share:
 
 - **Omics measurements are relative, not absolute**: every value 

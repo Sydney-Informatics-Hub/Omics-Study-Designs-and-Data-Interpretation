@@ -1,59 +1,126 @@
+  
+We will examine the key pitfalls encountered across different stages of the omics study workflow.
 
-## When omics studies fail and why it matters
-
-!!! info "Learning objectives"
-    By the end of this section, participants will be able to:  
-        - Identify pitfalls in their study design
-        - Classify the risk in study design as fatal, limitable, or recoverable.
-        - identify which factor would reduce some of the identified risks.
-
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 25 mins + 10 mins activities]
-
-Despite rapid advances in 'omics technologies, not all studies succeed. Omics studies can fail at multiple stages, from experimental design through to data analysis and interpretation. Understanding *how* and *why* they fail is as important as understanding the technologies themselves.
-
-### The cost reality
-
-Omics experiments carry significant costs across three dimensions:
-
-| Cost dimension | Examples |
-|---|---|
-| **Financial** | Sequencing runs, reagents, platform fees |
-| **Time** | Sample processing, analysis pipelines, validation |
-| **Irreplaceability** | Clinical biopsies, rare cohorts, longitudinal samples cannot simply be recollected |
-
-Failures are therefore not just technical inconveniences, they represent lost scientific opportunities that often cannot be recovered.
-
-### Where failures are introduced
-
-| Stage | What Goes Wrong | Root Cause |
-|---|---|---|
-| <span style="color:#4a9eff">**Design**</span> | Wrong platform chosen | Question not defined before technology selection |
-| <span style="color:#4a9eff">**Design**</span> | No power calculation | Statistical planning done post-hoc or skipped |
-| <span style="color:#4a9eff">**Design**</span> | Bulk tissue chosen, resolution insufficient | Cellular heterogeneity not anticipated |
-| <span style="color:#60c689">**Wet Lab**</span> | Batch confounded with biology | No sample randomisation across processing runs |
-| <span style="color:#60c689">**Wet Lab**</span> | Poor sample quality | Preservation method mismatched to protocol |
-| <span style="color:#60c689">**Wet Lab**</span> | Samples pooled incorrectly | Pooling done despite individual-level inference needed |
-| <span style="color:#f59e42">**Analysis**</span> | Batch effects mistaken for biology | Batch structure not recorded or ignored at QC |
-| <span style="color:#f59e42">**Analysis**</span> | Inappropriate normalisation | Method not matched to data distribution or platform |
-| <span style="color:#e05c7a">**Reporting**</span> | Cannot be reproduced | Code and pipeline undocumented |
-| <span style="color:#e05c7a">**Reporting**</span> | Cannot be shared or published | Metadata incomplete or missing |
+## 🟠 Stage A: Design</span>
  
+### Pitfall 1: Sampling bias and inappropriate cohort design
 
-!!! info "The central lesson"
-    Most failures are introduced at the **design stage** but only become 
-    visible at the **wet lab or analysis stage** by which point they 
-    are often unrecoverable. This is why study design deserves as much 
-    rigour as the experiment itself.
+Study design controls determine whether observed differences can reasonably be attributed to the biological question being studied rather than to systematic differences between groups.
 
---- 
+Important considerations include age, sex, disease state, BMI, medication use, ethnicity, and recruitment source. 
 
-### Poor study design can introduce strong batch effects
+Depending on the study, these factors may be addressed through matching, stratification, randomisation, balanced sampling, or careful collection of metadata.
+
+Not all confounders can be controlled, particularly in retrospective studies where samples have already been collected. However, important sources of variation should be measured whenever possible and recorded in the study metadata so they can be evaluated during analysis.
+
+*Example*: A transcriptomics study recruiting cancer cases from an oncology ward (median age 64) against controls from a university health check (median age 29) will find hundreds of "disease" genes that are really immune-ageing genes. Once the groups are recruited unmatched on age, no downstream analysis can separate the two signals.
+
+??? example "Case study: The reference dataset has the same bias it's used to study"
+
+    In 2011, a review of 2009 publications across 10 biological fields found male-only studies outnumbering female-only studies 5.5 to 1 in neuroscience and 5 to 1 in pharmacology, sex was often not even reported. The finding was influential enough that in 2016 the NIH made considering sex as a biological variable a formal requirement for federally funded research design, not just an analysis afterthought.
+
+    Why the sampling choice matters mechanistically, not just ethically: a 2020 analysis of the GTEx project; 44 tissues, over 16,000 RNA-seq samples found that 37% of all genes show sex-biased expression in at least one tissue. A cohort imbalanced by sex isn't just missing half the population; it's silently confounding over a third of the transcriptome with a variable that was never built into the study design.
+
+    The twist: GTEx itself, the reference dataset much of the field normalises against, is not immune. Its donor pool is roughly two-thirds male and skews toward older individuals, the same two variables named in this pitfall's confounder list. A study built on GTEx as a baseline quietly inherits GTEx's own sampling composition, whether or not that composition matches the population the study is actually about.
+
+    <small>Beery & Zucker. *Neuroscience & Biobehavioral Reviews* 35, 565–572 (2011). [doi:10.1016/j.neubiorev.2010.07.002](https://doi.org/10.1016/j.neubiorev.2010.07.002){target="_blank"}</small>
+    <small>Oliva et al. *Science* 369, eaba3066 (2020). [doi:10.1126/science.aba3066](https://doi.org/10.1126/science.aba3066){target="_blank"}</small>
+
+!!! danger "Design principle"
+    A confounder that was neither controlled nor recorded cannot be modelled directly. Once information is missing at the time of collection, there is usually no reliable way to recover it later. If a variable may influence the outcome, it is generally better to measure it than to assume it can be addressed retrospectively.
+
+
+### Pitfall 2: Wrong platform for the biological question
+
+Platform choice is a design decision, not a technical afterthought.
+Selecting the wrong platform upstream cannot be compensated for by
+better analysis downstream. The data simply does not contain the
+information required to answer the question.
+
+**Sequencing technology mismatch, short-read where long-read is needed**
+Short-read sequencing cannot resolve structural variants, full length
+isoforms, or repetitive regions, regardless of depth. This is a
+read-length limitation, not a coverage problem.
+
+*Example:* Short-read WES applied to structural variant detection
+in repeat rich regions will produce false negatives that deeper
+sequencing cannot recover.
+
+**Proteomics acquisition mismatch**
+In mass spectrometry proteomics, the instrument acquisition mode
+determines which proteins get measured at all. Some modes
+systematically miss low-abundance proteins by design, meaning
+key targets may be absent from the data entirely, not just
+under-quantified.
+
+**Resolution mismatch, bulk where single-cell was needed**
+Bulk RNAseq permanently averages signal across all cell types.
+Rare populations and cell-type specific responses cannot be
+recovered by deconvolution alone.
+
+*Example:* Studying tumour infiltrating immune cells with bulk
+RNA-seq produces a single averaged signal across cancer cells,
+T cells, and macrophages, with no ability to identify which
+population is driving the difference.
+
+**Technology adopted for novelty rather than fit**
+Single-cell omics adopted primarily because it is current, then
+analysed as bulk, represents a significant waste of cost and
+sample with no scientific gain over a cheaper bulk approach.
+
+!!! danger "The unrecoverable rule"
+    If the platform cannot capture the biological signal of interest,
+    no analysis method can recover it. The choice must be made
+    before data collection, not revisited after.
+
+### Pitfall 3: Underpowered studies
+
+In many omics studies, sample size is determined by budget or sample
+availability rather than by statistical need. This is particularly
+costly in omics, where thousands of molecular features are tested
+simultaneously, multiple testing correction reduces the effective
+power per feature dramatically, meaning that the sample size required to detect
+true signal is far higher than most researchers expect.
+
+The consequences are consistent across platforms:
+
+- **Transcriptomics (RNAseq):** studies with n = 3 per condition,
+  the field norm, typically detect only 20-40% of truly differentially
+  expressed genes, with high rates of false positives among those reported. <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
+
+- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.<small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
+
+- **Genomics (GWAS, variant calling):** underpowered cohorts produce
+  associations that fail to replicate in independent datasets,
+  driven by inflated effect size estimates in small discovery samples.<small>
+    [Zou et al. *G3 Genes|Genomes|Genetics* 2022.](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}. [Wray et al. *Nature Communications* 2018](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
+    </small>
+
+- **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
+A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
+  the scale of this problem: of 2,206 unique metabolites reported as
+  statistically significant across these studies, 72% were identified by
+  only a single study, with contradictory directions of change even
+  for metabolites detected by more than one group. Small sample sizes
+  were identified as a primary driver of this reproducibility failure. <small>[Cochran, Darcy, et al. *TrAC Trends in Analytical Chemistry* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}</small>
+
+- **Single cell omics:** pseudoreplication compounds the underpowering 
+  problem, the true n is the number of donors, not cells.
+  <small>[Murphy et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
+
+In all cases, the result is the same: findings that look statistically
+significant but do not replicate. This is one of the common
+root causes of the omics reproducibility crisis. In practice, sample size requirements vary substantially by study type, e.g. discovery vs validation.
+
+---
+
+## 🟠 Stage B : Wet Lab
+
+### Pitfall 4: Batch effects
 
 A **batch effect** is a systematic technical bias introduced when samples are processed under different experimental conditions, such as different sequencing runs, reagent lots, operators, instruments, or processing dates. Unlike random noise, batch effects produce consistent patterns in the data that can either resemble true biological variation or mask it, making technical artifacts difficult to distinguish from genuine biological signal.
 
-
-### Pitfall 1: Batch effect fully confounded with biology     
-
+*Example*: Batch effect fully confounded with biology.  
 Study A processed all cases in Batch 1 (2023) and all controls in Batch 2 (2026). The PCA shows a clean separation. But it is driven almost entirely by batch, not biology. Cases and controls cluster by processing year, not by disease. There is no way to know whether any observed difference is biological or technical, because the two are perfectly aligned. **This design is unrecoverable**, becuase no downstream computational pipeline can reliably recover signal from a fully confounded dataset. 
 
 Study B distributed cases and controls across both batches. The PCA still shows a batch structure circles (Batch 1) and triangles (Batch 2) separate within each group. But cases and controls remain distinguishable within each batch. The batch effect is now estimable and correctable. **The biology is recoverable**.
@@ -83,59 +150,160 @@ Study B distributed cases and controls across both batches. The PCA still shows 
     <small>Ref: [Baggerly & Coombes, *Ann. Appl. Stat.* 2009](https://doi.org/10.1214/09-AOAS291){target="_blank"}</small>
 
 ---
-### Pitfall 2: Underpowered studies
+### Pitfall 5: Experimental controls 
 
-In many omics studies, sample size is determined by budget or sample
-availability rather than by statistical need. This is particularly
-costly in omics, where thousands of molecular features are tested
-simultaneously, multiple testing correction reduces the effective
-power per feature dramatically, meaning that the sample size required to detect
-true signal is far higher than most researchers expect.
+Experimental controls determine whether measurements are technically reliable.
 
-The consequences are consistent across platforms:
+Examples include negative extraction controls, positive controls, spike-ins, process blanks, and technical replicates. These controls help identify contamination, assay failure, reagent problems, sample handling artefacts, and other sources of technical variation before data enter the analysis pipeline.
 
-- **Transcriptomics (RNAseq):** studies with n = 3 per condition,
-  the field norm, typically detect only 20-40% of truly differentially
-  expressed genes, with high rates of false positives among those reported. <small>[Schurch et al. *Rna* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}</small>
+Without appropriate controls, technical artefacts may be difficult or impossible to distinguish from genuine biological signal. The resulting bias is carried forward into every downstream analysis.
 
-- **Proteomics:** low sample size exacerbates the effects of missing values and technical variability, reducing statistical power and introducing bias, which can compromise reliable quantification across samples.<small>[Kong et al., *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}</small>
+| Platform	| Commonly overlooked control|
+|---|---|
+| 16S sequencing / metagenomics	| Negative extraction control |
+| Bulk RNA-seq | RNA integrity assessment and balanced batch design|
+| Single-cell RNA-seq |	Empty droplet controls, ambient RNA assessment|
+| Proteomics (MS)	| Blank injections, digestion controls|
+| Metabolomics	| Pooled QC samples, solvent blanks|
+| DNA methylation assays	| Conversion efficiency controls|
 
-- **Genomics (GWAS, variant calling):** underpowered cohorts produce
-  associations that fail to replicate in independent datasets,
-  driven by inflated effect size estimates in small discovery samples.<small>
-    Zou et al. *G3 Genes|Genomes|Genetics* 2022.
-    [doi:10.1093/g3journal/jkac261](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}
+---
+## 🟠 Stage C :  Preprocessing
+ 
+### Pitfall 6: Missingness & normalisation
 
-    Wray et al. *Nature Communications* 2018
-    [doi:10.1038/s41467-018-07348-x](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}
+#### Missingness
+**Imputation choice depends on why data is missing, not how much is missing.** Whether a gap should be filled (imputed) and how, depends on the platform, the proportion missing, and whether the pattern is random or structured. Treating every missing value the same way carries whichever assumption is wrong straight into the results.
+
+*Example:* Filling a protein's missing values with the **sample mean** assumes they're missing at random. But in label-free mass spectrometry, missing usually means the signal fell below the detection threshold the true value is more likely low, not average. Mean-imputation systematically inflates exactly the low-abundance proteins a discovery study is trying to find.
+
+Sample mean approach can:
+
+- underestimate differences between groups,
+- bias fold-change estimates,
+- and lead to misleading statistical results.
+
+**Filtering can quietly remove exactly the features a study cares about most.** Rare taxa, lowly-expressed genes, and low-abundance proteins are the first to be dropped by a standard threshold and could be of biological interest.
+
+*Example*: A microbiome study removes all taxa present in less than 20% of samples before analysis.
+One pathogen associated with disease is present in only 15% of cases and absent from controls.
+
+The filtering threshold removed the very organism driving the biological effect.
+
+Potential consequence
+Loss of biologically relevant features
+False conclusion that no disease-associated taxa exist
+
+#### Normalisation 
+
+Some normalisation methods only work if a reference sample, spike-in, or technical replicate was included at the wet-lab stage. Pooled QC injections and shared batch references have to be planned and prepared before data collection starts. If they were never included, that normalisation strategy isn't available later, no analysis choice can substitute for it.
+
+---
+## 🟠 Stage D: Analysis 
+
+### Pitfall 7: Inadequate controls across the study pipeline
+ 
+**Computational and statistical controls**
+Analytical controls are used to evaluate, quantify, and sometimes reduce technical noise within the generated dataset.
+
+Examples include permutation based null distributions, decoy databases in proteomics, 
+
+These approaches can be extremely valuable, but they are constrained by the information available in the data. Computational methods cannot measure contamination that was never assessed experimentally, nor can they recover metadata that were never collected.
+
+
+??? example "Case Study: The placental microbiome"
+
+    Multiple high profile studies reported the existence of a
+    placental microbiome using 16S amplicon sequencing; a 
+    clinically significant claim with implications for preterm
+    birth and neonatal health.
+
+    All of these studies lacked negative extraction controls.
+    Samples processed through the full extraction workflow but
+    containing no input material. When later studies included
+    proper controls, the bacterial signal was traced to reagent
+    and laboratory contamination, not placental tissue.
+
+    Subsequent studies with appropriate controls found no
+    evidence of a true placental microbiome. The earlier
+    conclusions were entirely artefactual, and the clinical
+    follow up work they generated was misdirected.
+
+    **Why controls would have caught this:**
+    A negative extraction control processed alongside placental
+    samples would have shown the same bacterial signal in the
+    no input control as in the tissue samples, immediately
+    flagging contamination before any biological conclusions
+    were drawn.
+
+    <small>
+    Wagner & Kleiner. How thoughtful experimental design can
+    empower biologists in the omics era.
+    *Nature Communications* 16, 7263 (2025).
+    [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
+
+    Salter et al. Reagent and laboratory contamination can critically
+    impact sequence-based microbiome analyses.
+    *BMC Biology* 12, 87 (2014).
+    [doi:10.1186/s12915-014-0087-z](https://doi.org/10.1186/s12915-014-0087-z){target="_blank"}
+    ← **primary reference — first systematic demonstration of kit contamination**
     </small>
 
-- **Metabolomics:** Reproducibility crisis in metabolomics biomarker studies
-A 2024 meta analysis study of 244 clinical metabolomics studies illustrates
-  the scale of this problem: of 2,206 unique metabolites reported as
-  statistically significant across these studies, 72% were identified by
-  only a single study, with contradictory directions of change even
-  for metabolites detected by more than one group. Small sample sizes
-  were identified as a primary driver of this reproducibility failure. <small>[Cochran, Darcy, et al. *TrAC Trends in Analytical Chemistry* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}</small>
-
-- **Single cell omics:** pseudoreplication compounds the underpowering 
-  problem, the true n is the number of donors, not cells.
-  <small>[Murphy et al., *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}</small>
-
-In all cases, the result is the same: findings that look statistically
-significant but do not replicate. This is one of the common
-root causes of the omics reproducibility crisis. In practice, sample size requirements vary substantially by study type, e.g. discovery vs validation, We will discuss more about this issue in Module 3. 
+!!! danger "The unrecoverable rule"
+    Once information was never collected or never measured, it cannot be reconstructed retrospectively. At best, its impact can be assessed, acknowledged, or partially mitigated. In many situations, the only definitive solution is to redesign and repeat the study.
 ---
 
-### Pitfall 3: Pseudoreplication
+### Pitfall 8: Experimental unit vs. Observational unit
 
- ***What happens when replicates aren't truly independent?***
+**Experimental unit (EU)**: the smallest unit that could independently have received a different condition or treatment.
 
-Pseudoreplication occurs when non independent measurements are treated as 
-independent replicates, artificially inflating the effective sample size and 
-overstating statistical confidence. For example, measuring the same patient's blood pressure five times and treating each as a separate patient.
+Examples:
 
-***Pseudoreplication in Single-Cell RNAseq (scRNAseq)***
+- Each patient, in a case-control cohort
+- Each mouse, in an animal study
+- Each independently treated culture dish, in a cell-culture experiment
+
+**Observational unit (OU)**: the entity a measurement is actually taken on.
+
+Examples:
+
+- The tissue biopsy or blood draw taken from that patient
+- The individual cell profiled in a single-cell assay
+<!-- Leave this for exercise: let them think....The dose of pooled material a given mouse received --> 
+
+In the simplest designs, EU and OU are the same thing: one patient, one sample, one measurement. The distinction only starts to matter once they come apart, and that happens in two different ways.
+
+**Subsampling** profiling many observational units (OUs) from one experimental unit (EU). Thousands of cells from one donor is the clearest case: the donor is still the EU, the cells are OUs nested inside it, and treating each cell as its own independent data point inflates a sample size that was never really there.
+
+**Pooling** merging material from several donors into one shared unit before anything is measured. This is the case that needs a third term: the **biological unit (BU)** is what you actually want to draw a conclusion about, the donor, the participant, the source population. In every example above, BU and EU were the same thing, which is why the distinction hasn't come up yet. Pooling is exactly what breaks it apart: however many donors go into a shared pool, only one pooled unit was ever independently created, so the EU collapses to one, no matter how many downstream samples get measured from it. Those downstream measurements are OUs of that single pooled EU, not EUs in their own right, so pooling typically compounds the same problem subsampling does, just one step earlier in the workflow.
+
+!!! info "Multiplexing vs. pooling"
+    Multiplexing should not be confused with biological pooling. Multiplexing 
+    combines separately barcoded libraries onto the same sequencing run purely 
+    for efficiency; each library still traces back to one experimental unit, 
+    and demultiplexing after sequencing recovers them as cleanly separated, 
+    fully independent samples. Ten barcoded patient samples run together on 
+    one lane are still ten EUs once demultiplexed. Pooling merges the 
+    biological material itself, before any barcode is attached, once that 
+    happens, there is no computational step that can separate the 
+    contributions back out.
+
+Both subsampling and pooling break the same assumption, that each measurement reflects one independent unit, but they fail at different points in the workflow. Subsampling is a modelling choice made at analysis, and is sometimes correctable there. Pooling happens before data collection, so by the time you're analysing the data the number of true experimental units is already fixed, however many observational units you measured.
+
+This general failure, treating non-independent measurements as if they were independent replicates, is called **pseudoreplication**. It artificially inflates the effective sample size and overstates statistical confidence. A simple version: measuring the same patient's blood pressure five times and treating each reading as a separate patient.
+
+??? example "Terminology: biological vs. technical replicate"
+    A **biological replicate** is an independent biological sample drawn from 
+    the same population: a different patient, a different mouse, a different 
+    culture flask. Biological replicates capture natural variation within the 
+    population and are the unit of statistical inference — they drive the n 
+    in every power calculation and every statistical test.
+
+    A **technical replicate** is the same biological sample measured more than 
+    once. Technical replicates capture measurement variability, not 
+    additional biological information, and do not increase n.
+
+***Subsampling in practice: pseudoreplication in single-cell RNAseq (scRNAseq)***
 
 Unlike bulk RNAseq, which measures the **average gene expression** 
 across thousands of cells in a sample, scRNAseq profiles 
@@ -164,19 +332,19 @@ pipelines do not account for this dependency by default.
     to a different, biologically correct cell type.  
     ![](figs_m1/01pseudoreplication__case_study_v02.png){width=100%}  
 
-    <small>Original study:  [Mathyset al. "Single cell transcriptomic analysis of Alzheimer’s disease." Nature 570.7761 (2019)](https://www.nature.com/articles/s41586-019-1195-2){target="_blank"}</small> 
-    <small> Re-analysis:[Murphy et. al "Avoiding false discoveries in single-cell RNAseq by revisiting the first Alzheimer’s disease dataset." Elife 12 (2023)](https://elifesciences.org/articles/90214){target="_blank"}</small>  
-
+    <small>Original study:  [Mathys et al. "Single cell transcriptomic analysis of Alzheimer's disease." Nature 570.7761 (2019)](https://www.nature.com/articles/s41586-019-1195-2){target="_blank"}</small> 
+    <small> Re-analysis: [Murphy et al. "Avoiding false discoveries in single-cell RNAseq by revisiting the first Alzheimer's disease dataset." Elife 12 (2023)](https://elifesciences.org/articles/90214){target="_blank"}</small>  
 
 !!! info "This pitfall is not unique to single cell studies"
-    The examples/activity in module 1 use single cell RNAseq and microbiome transfer 
-    studies, but pseudoreplication applies equally to bulk RNAseq, 
-    proteomics, and any omics platform where multiple measurements are 
-    taken from the same biological unit.
+    The case study above and the activity at the end of this module (a microbiome
+    transfer study) use two different platforms on purpose: pseudoreplication
+    applies equally to bulk RNAseq, proteomics, and any platform where multiple
+    measurements are taken from the same biological unit. The two also show
+    different mechanisms i.e. subsampling and pooling.  
 
----
+## 🟠 Stage E: Reporting 
 
-### Pitfall 4: Lost or incomplete metadata
+### Pitfall 9: Lost or incomplete metadata
 
 High quality sequencing data is only as useful as the information
 recorded alongside it. Missing or incomplete metadata, sample
@@ -224,166 +392,7 @@ in the data but invisible to the analyst.
     metadata checklist for omics studies is covered in
     **Module 3: Experimental design fundamentals**.
 
----
-### Pitfall 5: Wrong platform for the biological question
-
-Platform choice is a design decision, not a technical afterthought.
-Selecting the wrong platform upstream cannot be compensated for by
-better analysis downstream. The data simply does not contain the
-information required to answer the question.
-
-**Resolution mismatch, bulk where single-cell was needed**
-Bulk RNAseq permanently averages signal across all cell types.
-Rare populations and cell-type specific responses cannot be
-recovered by deconvolution alone.
-
-*Example:* Studying tumour infiltrating immune cells with bulk
-RNA-seq produces a single averaged signal across cancer cells,
-T cells, and macrophages, with no ability to identify which
-population is driving the difference.
-
-**Sequencing technology mismatch, short-read where long-read is needed**
-Short-read sequencing cannot resolve structural variants, full length
-isoforms, or repetitive regions, regardless of depth. This is a
-read-length limitation, not a coverage problem.
-
-*Example:* Short-read WES applied to structural variant detection
-in repeat rich regions will produce false negatives that deeper
-sequencing cannot recover.
-
-**Proteomics acquisition mismatch**
-In mass spectrometry proteomics, the instrument acquisition mode
-determines which proteins get measured at all. Some modes
-systematically miss low-abundance proteins by design, meaning
-key targets may be absent from the data entirely, not just
-under-quantified.
-
-**Technology adopted for novelty rather than fit**
-Single-cell omics adopted primarily because it is current, then
-analysed as bulk, represents a significant waste of cost and
-sample with no scientific gain over a cheaper bulk approach.
-
-!!! danger "The unrecoverable rule"
-    If the platform cannot capture the biological signal of interest,
-    no analysis method can recover it. The choice must be made
-    before data collection, not revisited after.
-
-!!! info "Coming up in Module 3"
-    A structured decision framework for matching biological questions
-    to omics platforms is covered in **Module 3**.
-
----
-### Pitfall 6: Inadequate Controls Across the Study Pipeline
-
-Controls are often discussed as if they are a single component of study design, but in practice they operate at several levels. Different controls address different sources of error, and a weakness at one stage cannot necessarily be fixed at the next.
-
-In omics studies, controls can be broadly grouped into three categories:
-
--   Study design controls (cohort and sampling stage)
--   Experimental controls (wet-lab stage)
--   Computational controls (analysis stage)
-
-The distinction matters because each level protects against a different type of failure. Computational methods can help quantify or reduce some forms of technical variation, but they cannot rescue poor measurements, and high-quality measurements cannot compensate for a fundamentally flawed study design.
-
-#### Study design controls (cohort and sampling stage)
-
-Study design controls determine whether observed differences can reasonably be attributed to the biological question being studied rather than to systematic differences between groups.
-
-Important considerations include age, sex, disease state, BMI, medication use, ethnicity, recruitment source, and batch structure. Depending on the study, these factors may be addressed through matching, stratification, randomisation, balanced sampling, or careful collection of metadata.
-
-Not all confounders can be controlled, particularly in retrospective studies where samples have already been collected. However, important sources of variation should be measured whenever possible and recorded in the study metadata so they can be evaluated during analysis.
-
-!!! danger "Design principle"
-    A confounder that was neither controlled nor recorded cannot be modelled directly. Once information is missing at the time of collection, there is usually no reliable way to recover it later. If a variable may influence the outcome, it is generally better to measure it than to assume it can be addressed retrospectively.
-
-#### Experimental controls (wet-lab stage)
-
-Experimental controls determine whether measurements are technically reliable.
-
-Examples include negative extraction controls, positive controls, spike-ins, process blanks, and technical replicates. These controls help identify contamination, assay failure, reagent problems, sample handling artefacts, and other sources of technical variation before data enter the analysis pipeline.
-
-Without appropriate controls, technical artefacts may be difficult or impossible to distinguish from genuine biological signal. The resulting bias is carried forward into every downstream analysis.
-
-| Platform	| Commonly overlooked control|
-|---|---|
-| 16S sequencing / metagenomics	| Negative extraction control |
-| Bulk RNA-seq | RNA integrity assessment and balanced batch design|
-| Single-cell RNA-seq |	Empty droplet controls, ambient RNA assessment|
-| Proteomics (MS)	| Blank injections, digestion controls|
-| Metabolomics	| Pooled QC samples, solvent blanks|
-| DNA methylation assays	| Conversion efficiency controls|
-
-#### Computational and statistical controls (analysis stage)
-
-Analytical controls are used to evaluate, quantify, and sometimes reduce technical noise within the generated dataset.
-
-Examples include permutation based null distributions, decoy databases in proteomics, batch effect assessment, and spike-in based normalisation strategies.
-
-These approaches can be extremely valuable, but they are constrained by the information available in the data. Computational methods cannot measure contamination that was never assessed experimentally, nor can they recover metadata that were never collected.
-
-#### How the levels relate to study failure
-| Level	| What it protects |	Consequence of failure	| Can it usually be fixed later? |
-|---|---|---|---|
-| Study design	| Validity of inference	| Misleading biological conclusions	| Rarely |
-| Experimental	| Validity of measurement	| Technical artefacts and unreliable data	| Rarely|
-| Computational	| Validity of interpretation	|Mischaracterised signal or bias	| Sometimes|
-
-
-??? example "Case Study: The Placental microbiome"
-
-    Multiple high profile studies reported the existence of a
-    placental microbiome using 16S amplicon sequencing; a
-    clinically significant claim with implications for preterm
-    birth and neonatal health.
-
-    All of these studies lacked negative extraction controls.
-    Samples processed through the full extraction workflow but
-    containing no input material. When later studies included
-    proper controls, the bacterial signal was traced to reagent
-    and laboratory contamination, not placental tissue.
-
-    Subsequent studies with appropriate controls found no
-    evidence of a true placental microbiome. The earlier
-    conclusions were entirely artefactual, and the clinical
-    follow up work they generated was misdirected.
-
-    **Why controls would have caught this:**
-    A negative extraction control processed alongside placental
-    samples would have shown the same bacterial signal in the
-    no input control as in the tissue samples, immediately
-    flagging contamination before any biological conclusions
-    were drawn.
-
-    <small>
-    Wagner & Kleiner. How thoughtful experimental design can
-    empower biologists in the omics era.
-    *Nature Communications* 16, 7263 (2025).
-    [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
-
-    Salter et al. Reagent and laboratory contamination can critically
-    impact sequence-based microbiome analyses.
-    *BMC Biology* 12, 87 (2014).
-    [doi:10.1186/s12915-014-0087-z](https://doi.org/10.1186/s12915-014-0087-z){target="_blank"}
-    ← **primary reference — first systematic demonstration of kit contamination**
-    </small>
-
-!!! danger "The unrecoverable rule"
-    Once information was never collected or never measured, it cannot be reconstructed retrospectively. At best, its impact can be assessed, acknowledged, or partially mitigated. In many situations, the only definitive solution is to redesign and repeat the study.
-
-!!! info "Four principles worth remembering"
-
-    - Study design failures compromise inference.
-    - Experimental failures compromise measurement.
-    - Computational failures compromise interpretation.
-    - Problems introduced early are the hardest to fix later.
-
-!!! info "Coming up in Module 3"
-    Designing a control strategy for your specific omics platform,
-    including which controls are mandatory vs recommended, is
-    covered in **Module 3: Experimental design fundamentals**.
-
----
-#### Pitfall 7: Discovery without validation
+#### Pitfall 10: Discovery without validation
 
 Finding a statistically significant result in omics is not the
 same as finding a generalisable biological truth. When thousands
@@ -423,7 +432,8 @@ are especially susceptible to dataset specific noise.
   unresolved barriers at major proteomics symposia as recently as 2024.
   The problem Rifai described has not been solved, it has persisted 
   for two decades. <small>
-    [Rifai et al. *Nature Biotechnology* 2006](https://doi.org/10.1038/nbt1235){target="_blank"} [Proceedings of the 68th Benzon Foundation Symposium.
+    [Rifai et al. *Nature Biotechnology* 2006](https://doi.org/10.1038/nbt1235){target="_blank"}  
+       [Proceedings of the 68th Benzon Foundation Symposium.
     *Journal of Proteome Research* 2024](https://pmc.ncbi.nlm.nih.gov/articles/PMC11652764/){target="_blank"}</small>
  
 ***The consequences are most severe when studies move from
@@ -455,29 +465,24 @@ signatures, or mechanisms, without independent validation.***
     this history. <small> [Border et al. *American Journal of Psychiatry* 2019](https://psychiatryonline.org/doi/10.1176/appi.ajp.2018.18070881){target="_blank"} [Ioannidis et al. *Nature Genetics* 2009](https://doi.org/10.1038/ng.295){target="_blank"}
     </small>
 ---
-!!! info "Coming up in Module 3"
-    Strategies for building validation into omics study design,
-    including cohort splitting, use of external datasets, and
-    when cross-validation is appropriate, are covered in
-    **Module 3: Experimental design fundamentals**.
----
-### Can it be fixed?
 
-!!! success "Recoverable :— fixable at analysis stage"
-    - Normalisation method choice
-    - Some batch effects (if not confounded with biology)
-    - Outlier handling
+!!! info "Can pitfalls be fixed?"
+    
+    !!! success "Recoverable :— fixable at analysis stage"
+        - Normalisation method choice
+        - Some batch effects (if not confounded with biology)
+        - Outlier handling
 
-!!! warning "Limitable :— partially addressable with caveats"
-    - Underpowered sample sizes
-    - Platform mismatch
-    - Suboptimal QC thresholds
+    !!! warning "Limitable :— partially addressable with caveats"
+        - Underpowered sample sizes
+        - Platform mismatch
+        - Suboptimal QC thresholds
 
-!!! danger "Fatal :— unrecoverable after data generation"
-    - Batch fully confounded with biological groups
-    - Missing or unrecorded metadata
-    - Wrong omics platform chosen
-    - Samples pooled where individual inference was needed
+    !!! danger "Fatal :— unrecoverable after data generation"
+        - Batch fully confounded with biological groups
+        - Missing or unrecorded metadata
+        - Wrong omics platform chosen
+        - Samples pooled where individual inference was needed
 
 ??? question "Part 1: Activity, Analyse this study design"
 
@@ -549,9 +554,9 @@ signatures, or mechanisms, without independent validation.***
     Briefly describe a study you are planning or have
     been involved in. In small groups:
 
-    1. Identify which of the 7 pitfalls your study
+    1. Identify which one of the pitfalls your study
        is most vulnerable to
-    2. Classify the risk:- fatal, limitable,
+    2. Classify the risk: fatal, limitable,
        or recoverable?
     3. What one change at the design stage would
        reduce that risk?

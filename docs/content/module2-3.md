@@ -8,7 +8,7 @@
     - Identify which zero type is most likely given a platform, sequencing depth, and biological context 
     - Explain what goes wrong analytically when zeros are misclassified or treated uniformly
 
-## TIME DURATION NOTE:: TO TO DELETED IN FINAL STAGE [Aimed for 10 mins; activities 5 min]
+
 
 ## Sparsity is normal but not all sparsity is the same
 

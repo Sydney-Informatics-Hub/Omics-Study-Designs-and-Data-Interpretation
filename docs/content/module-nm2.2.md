@@ -1,6 +1,6 @@
-# Module 2.1: Omics Platforms and Technology  
+# Module 2.2: Omics Platforms and Technology 
 
-## NEW PROPOSAL AS A SOLUTION OF PITFALL 2 (I.E. WRONG PLATFORM CHOICE); SO ==> MAY BE NEW MODULE 2.2 (NM 2.2)
+<-  TRACK BACK TO PITFALL 2- WRONG PLATFORM CHOICE.  -> 
 
 !!! info "Learning objectives" 
 
