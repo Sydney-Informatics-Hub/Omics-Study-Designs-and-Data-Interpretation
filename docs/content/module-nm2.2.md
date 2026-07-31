@@ -25,14 +25,29 @@ Each decision constrains the next. Once samples are collected on a particular pl
 
 Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly, whereas proteins and metabolites generally cannot and are instead measured using approaches such as mass spectrometry or affinity-based assays. The molecule determines the platform, not the other way around.
 
-The figure below maps each biological layer to the molecule it targets, the platforms used to measure it, and the biological questions it can address.
+The figure below maps each biological layer to the molecule it targets, the platforms available to measure it, the analyses each enables, and — in the final column — when you would choose one platform over another within the same layer.
 
 ![](figs_m2/02_omics-platforms.png){width=100%}
 
-
+Read the figure left to right, but note that the rightmost column is where the design decision actually lives. The same pattern recurs down every row: the choice is almost always **discovery versus targeted** (can the platform see things you didn't specify in advance?) or **resolution versus average** (does it resolve individual cells or locations, or only their pooled signal?). Platforms shown greyed, such as expression microarrays, are largely legacy for these questions and are included only for orientation.
 
 !!! tip "The question chooses the layer; the layer chooses the platform"
     As in Module 1, the research question should decide which layer of biology you measure, not the other way around. A platform adopted because it is current, then pointed at a question it does not fit, is one of the most common and most expensive versions of this pitfall.
+
+---
+
+### Read length: the one sequencing choice the figure doesn't settle
+
+The figure lists sequencing platforms but does not distinguish the single most consequential choice within DNA and RNA sequencing: **read length**.
+
+**Short-read sequencing** (e.g. Illumina) reads fragments of roughly 50–300 bases. It is cheap, high-throughput, and highly accurate per base, which makes it the default for quantifying known features such as gene expression across many samples. Its limitation is structural: anything longer than a single fragment has to be reconstructed computationally, and some things cannot be reconstructed reliably at all.
+
+**Long-read sequencing** (e.g. PacBio, Oxford Nanopore) produces single reads spanning thousands of bases. Because a read can cover a whole molecule, long reads resolve full-length isoforms, structural variants, and repetitive regions directly, rather than inferring them. The trade-off is higher cost per base and lower throughput.
+
+The decision follows from the question, not the budget: if you need to see full-length molecules or structural features, no amount of short-read depth substitutes for read length. If you are quantifying known features cheaply and at scale, short reads are the better fit. This is a read-length limit, not a coverage one, which is why it cannot be fixed after sequencing.
+
+!!! danger "The unrecoverable rule"
+    If the platform cannot capture the biological signal of interest, no analysis method can recover it. The choice has to be made before data collection, not revisited after. This is why platform choice sits in study design, alongside sample size and randomisation, not in analysis.
 
 ---
 
@@ -54,30 +69,8 @@ This distinction is not cosmetic. Normalisation and statistical tests appropriat
 
 ---
 
-### Matching the platform to the question
-
-Within a family, the platform still has to fit the specific question. These are the choices that most often go wrong, framed as the design question to ask rather than the failure to regret.
-
-| Ask this before choosing | Because the platform must have | Failure mode if ignored |
-|---|---|---|
-| Do I need cell-type-specific signal, or is an average acceptable? | Single-cell resolution vs bulk | Bulk permanently averages across cell types; rare populations and cell-type-specific responses cannot be recovered by deconvolution alone |
-| Does my question involve structural variants, full-length isoforms, or repetitive regions? | Long-read length | Short reads cannot resolve these regardless of depth; this is a read-length limit, not a coverage one |
-| Are there molecules I can't afford to miss? | An acquisition mode that captures them | Some mass-spec acquisition modes systematically miss low-abundance proteins by design, so key targets are absent entirely, not just under-quantified |
-| Is this platform chosen because it fits, or because it is current? | Fit to the biological question | Novelty-driven choices waste cost and sample for no scientific gain over a cheaper approach that fits |
-
-!!! danger "The unrecoverable rule"
-    If the platform cannot capture the biological signal of interest, no analysis method can recover it. The choice has to be made before data collection, not revisited after. This is why platform choice sits in study design, alongside sample size and randomisation, not in analysis.
-
----
-
 !!! info "Spatial omics sits across both families"
     Spatial transcriptomics is a useful test of the framing above, because which family a platform belongs to determines the measurement it produces. Visium captures RNA by **sequencing barcoded spots** on a tissue section and produces count data. **Imaging-based platforms** such as Xenium and MERFISH detect fluorescently labelled RNA directly within intact tissue; although fluorescence intensities are measured during acquisition, the pipelines typically decode these into transcript counts per cell. The biology being measured is similar; the measurement process, and therefore the data type, is not.
-
-!!! tip "A note on methylation arrays"
-    <!-- SCOPE FLAG: non-sequencing intensity example. Keep as a brief aside
-         illustrating a third data type, or cut for strict sequencing-only
-         scope — your call. -->
-    Methylation arrays measure fluorescence intensity at two probes per CpG site, one methylated, one unmethylated. The reported beta value is the ratio of methylated signal to total signal, bounded between 0 and 1. It is derived from intensities but is not itself an intensity: its statistical properties (beta distribution, variance highest in the middle of the range) are distinct from both raw intensities and counts. A third data type, a third set of rules.
 
 ---
 
