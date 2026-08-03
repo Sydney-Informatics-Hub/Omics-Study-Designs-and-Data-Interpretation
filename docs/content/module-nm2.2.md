@@ -21,11 +21,11 @@ Each decision constrains the next. Once samples are collected on a particular pl
 
 Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly, whereas proteins and metabolites generally cannot and are instead measured using approaches such as mass spectrometry or affinity-based assays. The molecule determines the platform, not the other way around.
 
-The figure below maps each biological layer to the molecule it targets, the platforms available to measure it, the analyses each enables, and — in the final column — when you would choose one platform over another within the same layer.
+The figure below maps each biological layer to the molecule it targets, the current platforms available to measure it, examples of analyses each enables, and in the final column when you would choose one platform over another within the same layer.
 
 ![](figs_m2/02_omics-platforms.png){width=100%}
 
-Read the figure left to right, but note that the rightmost column is where the design decision actually lives. The same pattern recurs down every row: the choice is almost always **discovery versus targeted** (can the platform see things you didn't specify in advance?) or **resolution versus average** (does it resolve individual cells or locations, or only their pooled signal?). Platforms shown greyed, such as expression microarrays, are largely legacy for these questions and are included only for orientation.
+Read the figure left to right, but note that the rightmost column is where the design decision actually lives. The same pattern recurs down every row: the choice is almost always **discovery versus targeted** (can the platform see things you didn't specify in advance?) or **resolution versus average** (does it resolve individual cells or locations, or only their pooled signal?). 
 
 !!! tip "The question chooses the layer; the layer chooses the platform"
     As in Module 1, the research question should decide which layer of biology you measure, not the other way around. A platform adopted because it is current, then pointed at a question it does not fit, is one of the most common and most expensive versions of this pitfall.
@@ -33,16 +33,22 @@ Read the figure left to right, but note that the rightmost column is where the d
 
 ### The platform you choose sets your data type
 
-The sequencing-vs-non-sequencing split introduced in Module 1 carries directly into the data, because the two families produce different kinds of measurements. **Choosing the platform is therefore also choosing the statistical world you will be working in.**
+### The platform you choose sets your data type
 
-**Sequencing-based platforms produce counts.** A sequencer reads millions of short or long fragments of DNA or RNA and reports the sequence of each. Those raw sequences, the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or feature set (genes, taxa), and the number of fragments per feature is tallied. The result is **a matrix of counts**, one row per feature, one column per sample, every cell a whole number. RNA-seq, single-cell RNA-seq, ATAC-seq, and microbiome sequencing all produce this format.
+Omics platforms broadly fall into two families, distinguished by what the instrument measures. Sequencing-based platforms determine the nucleotide sequence of DNA or RNA molecules. Non-sequencing platforms measure a physical signal, such as fluorescence or ion intensity, that is used to infer a molecule's abundance or identity.
 
-**Many non-sequencing platforms produce intensities.** Rather than reading sequences, these instruments measure molecular signal directly: the strength of a fluorescence signal, or the abundance of detected ions. The output is a **continuous value** rather than a count. Mass spectrometry (proteomics, metabolomics) measures ion signal intensity; microarrays measure fluorescence from hybridised probes; many imaging-based assays begin as fluorescence intensity across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
+That split carries directly into the data, because the two families produce different kinds of measurement. **Choosing the platform is therefore also choosing the statistical world you will be working in.**
+
+**Sequencing-based platforms produce counts.** A sequencer reads millions of short or long fragments of DNA or RNA and reports the sequence of each. Those raw sequences, the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after computational processing: each read is aligned or otherwise assigned to a feature (a gene, transcript, or taxon), and the number of reads per feature is tallied. The result is **a matrix of counts**, one row per feature, one column per sample, every cell a whole number. RNA-seq, single-cell RNA-seq, ATAC-seq, and microbiome sequencing all produce this format.
+
+**Many non-sequencing platforms produce intensities.** Rather than reading sequences, these instruments measure molecular signal directly: the strength of a fluorescence signal, or the abundance of detected ions. The output is typically a **continuous measurement** rather than an integer count. Mass spectrometry (proteomics, metabolomics) measures ion signal intensity; microarrays measure fluorescence from hybridised probes; many imaging-based assays begin as fluorescence intensity across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
 
 ![](figs_m2/02_sequencing_vs_nonSequencing_v01.png){width=100%}
 
 This distinction is not cosmetic. Normalisation and statistical tests appropriate for counts are not appropriate for intensities (discussed in Module 4). Treating them as interchangeable produces systematic errors downstream. **The correct analysis follows from the data type, and the data type follows from the platform.**
 
+!!! note "Discovery is a design choice, not a family"
+    Sequencing platforms are often used for discovery, and many signal-based platforms measure predefined targets — but the two don't always line up. Untargeted mass spectrometry can also support broad discovery, while targeted sequencing panels interrogate only pre-selected regions. Whether an assay is discovery-driven or targeted is set during study design, not by whether it sequences.
 ---
 
 ### Read length: the one sequencing choice the figure doesn't settle
