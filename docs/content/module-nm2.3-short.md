@@ -15,17 +15,9 @@
 !!! info "Learning objectives"
     By the end of this section, participants should be able to:
 
-    - Explain why omics studies are so often underpowered, and why that is
-      usually invisible during analysis
+    - Explain why omics studies are so often underpowered
     - Identify what actually drives the sample size a study needs: effect
       size, biological variability, and the multiple-testing burden
-    - Describe how empirical approaches estimate sample size where classical
-      power calculations fail
-    - Distinguish the two jobs sequencing depth does, and explain why, under
-      a fixed budget, replication usually beats depth for discovery
-    - Recognise the narrow situations where increasing depth is genuinely the
-      right call
-
 
 ## 1. Why omics studies end up underpowered
 

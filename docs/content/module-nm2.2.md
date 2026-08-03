@@ -1,15 +1,11 @@
 # Module 2.2: Choosing the Right Platform
 
-<-  TRACK BACK TO PITFALL 2 — WRONG PLATFORM CHOICE  ->
-
 !!! info "Learning objectives"
 
     By the end of this section, participants will be able to:
 
     - Choose a platform that can actually capture the biological signal of
       interest, and recognise when one physically cannot
-    - Explain why that choice is a design decision that cannot be recovered
-      by better analysis downstream
 
 Module 1 named **wrong platform for the biological question** as one of the design pitfalls, and one of the unrecoverable ones: if the instrument cannot capture the signal, no downstream analysis can put it back. This section is the constructive side of that pitfall. Before looking at what omics data means statistically, the first design decision is which platform to run at all, because that choice fixes everything that follows.
 
@@ -33,6 +29,19 @@ Read the figure left to right, but note that the rightmost column is where the d
 
 !!! tip "The question chooses the layer; the layer chooses the platform"
     As in Module 1, the research question should decide which layer of biology you measure, not the other way around. A platform adopted because it is current, then pointed at a question it does not fit, is one of the most common and most expensive versions of this pitfall.
+---
+
+### The platform you choose sets your data type
+
+The sequencing-vs-non-sequencing split introduced in Module 1 carries directly into the data, because the two families produce different kinds of measurements. **Choosing the platform is therefore also choosing the statistical world you will be working in.**
+
+**Sequencing-based platforms produce counts.** A sequencer reads millions of short or long fragments of DNA or RNA and reports the sequence of each. Those raw sequences, the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or feature set (genes, taxa), and the number of fragments per feature is tallied. The result is **a matrix of counts**, one row per feature, one column per sample, every cell a whole number. RNA-seq, single-cell RNA-seq, ATAC-seq, and microbiome sequencing all produce this format.
+
+**Many non-sequencing platforms produce intensities.** Rather than reading sequences, these instruments measure molecular signal directly: the strength of a fluorescence signal, or the abundance of detected ions. The output is a **continuous value** rather than a count. Mass spectrometry (proteomics, metabolomics) measures ion signal intensity; microarrays measure fluorescence from hybridised probes; many imaging-based assays begin as fluorescence intensity across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
+
+![](figs_m2/02_sequencing_vs_nonSequencing_v01.png){width=100%}
+
+This distinction is not cosmetic. Normalisation and statistical tests appropriate for counts are not appropriate for intensities (discussed in Module 4). Treating them as interchangeable produces systematic errors downstream. **The correct analysis follows from the data type, and the data type follows from the platform.**
 
 ---
 
@@ -48,20 +57,6 @@ The decision follows from the question, not the budget: if you need to see full-
 
 !!! danger "The unrecoverable rule"
     If the platform cannot capture the biological signal of interest, no analysis method can recover it. The choice has to be made before data collection, not revisited after. This is why platform choice sits in study design, alongside sample size and randomisation, not in analysis.
-
----
-
-### The platform you choose sets your data type
-
-The sequencing-vs-non-sequencing split introduced in Module 1 carries directly into the data, because the two families produce different kinds of measurements. **Choosing the platform is therefore also choosing the statistical world you will be working in.**
-
-**Sequencing-based platforms produce counts.** A sequencer reads millions of short or long fragments of DNA or RNA and reports the sequence of each. Those raw sequences, the FASTQ files coming off the instrument, are not yet analysable as measurements. They become counts only after alignment or assignment: each fragment is mapped back to a reference genome, transcriptome, or feature set (genes, taxa), and the number of fragments per feature is tallied. The result is **a matrix of counts**, one row per feature, one column per sample, every cell a whole number. RNA-seq, single-cell RNA-seq, ATAC-seq, and microbiome sequencing all produce this format.
-
-**Many non-sequencing platforms produce intensities.** Rather than reading sequences, these instruments measure molecular signal directly: the strength of a fluorescence signal, or the abundance of detected ions. The output is a **continuous value** rather than a count. Mass spectrometry (proteomics, metabolomics) measures ion signal intensity; microarrays measure fluorescence from hybridised probes; many imaging-based assays begin as fluorescence intensity across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
-
-![](figs_m2/02_sequencing_vs_nonSequencing_v01.png){width=100%}
-
-This distinction is not cosmetic. Normalisation and statistical tests appropriate for counts are not appropriate for intensities (discussed in Module 4). Treating them as interchangeable produces systematic errors downstream. **The correct analysis follows from the data type, and the data type follows from the platform.**
 
 ### Live Activity
 
