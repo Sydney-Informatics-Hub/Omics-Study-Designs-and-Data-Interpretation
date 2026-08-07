@@ -33,8 +33,6 @@ Read the figure left to right, but note that the rightmost column is where the d
 
 ### The platform you choose sets your data type
 
-### The platform you choose sets your data type
-
 Omics platforms broadly fall into two families, distinguished by what the instrument measures. Sequencing-based platforms determine the nucleotide sequence of DNA or RNA molecules. Non-sequencing platforms measure a physical signal, such as fluorescence or ion intensity, that is used to infer a molecule's abundance or identity.
 
 That split carries directly into the data, because the two families produce different kinds of measurement. **Choosing the platform is therefore also choosing the statistical world you will be working in.**
@@ -43,9 +41,9 @@ That split carries directly into the data, because the two families produce diff
 
 **Many non-sequencing platforms produce intensities.** Rather than reading sequences, these instruments measure molecular signal directly: the strength of a fluorescence signal, or the abundance of detected ions. The output is typically a **continuous measurement** rather than an integer count. Mass spectrometry (proteomics, metabolomics) measures ion signal intensity; microarrays measure fluorescence from hybridised probes; many imaging-based assays begin as fluorescence intensity across cells or tissue regions. The numbers look different from counts, and their statistical properties are different too.
 
-![](figs_m2/02_sequencing_vs_nonSequencing_v01.png){width=100%}
+![](figs_m2/02_sequencing_vs_nonSequencing.png){width=100%}
 
-This distinction is not cosmetic. Normalisation and statistical tests appropriate for counts are not appropriate for intensities (discussed in Module 4). Treating them as interchangeable produces systematic errors downstream. **The correct analysis follows from the data type, and the data type follows from the platform.**
+This distinction is not cosmetic. Normalisation and statistical tests appropriate for counts are not appropriate for intensities. Treating them as interchangeable produces systematic errors downstream. **The correct analysis follows from the data type, and the data type follows from the platform.**
 
 !!! note "Discovery is a design choice, not a family"
     Sequencing platforms are often used for discovery, and many signal-based platforms measure predefined targets — but the two don't always line up. Untargeted mass spectrometry can also support broad discovery, while targeted sequencing panels interrogate only pre-selected regions. Whether an assay is discovery-driven or targeted is set during study design, not by whether it sequences.
