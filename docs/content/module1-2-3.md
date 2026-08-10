@@ -1,4 +1,4 @@
-module## 🟠 Stage C :  Preprocessing
+## Module 1.2 (Stage C) :  Preprocessing
  
 ### Pitfall 6: Missingness & normalisation
 

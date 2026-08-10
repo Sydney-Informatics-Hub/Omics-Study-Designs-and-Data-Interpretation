@@ -1,4 +1,4 @@
-## 🟠 Stage B : Sample acquition 
+## Module 1.2 (Stage B) : Sample acquition 
 
 Samples and data reach a study one of two ways: you generate them yourself, or
 you use what someone else generated. Both bring technical structure with them,

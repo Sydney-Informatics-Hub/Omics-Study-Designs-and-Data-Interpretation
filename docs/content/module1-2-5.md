@@ -1,4 +1,4 @@
-## 🟠 Stage E: Reporting 
+## Module 1.2 (Stage E): Reporting 
 
 ### Pitfall 9: Lost or incomplete metadata
 
