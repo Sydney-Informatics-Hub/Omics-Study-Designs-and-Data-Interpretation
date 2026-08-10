@@ -54,14 +54,9 @@ planning, before the sequencing run begins.
 - The ability to identify batch effects, confounding, and technical bias, and to know which can be corrected and which cannot 
 
 ## Developers
-- Lead: Amarinder Singh Thind
-- Co-Developer:
-- Supporting Developer:
-
-## Facilitators
-- ##
--##
-
+- Amarinder Singh Thind
+- Georgie Samaha
+- Mitchell O'Brien
  
 ## Set up requirements
 

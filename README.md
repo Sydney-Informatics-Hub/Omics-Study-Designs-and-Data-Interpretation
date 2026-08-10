@@ -34,11 +34,18 @@ planning before the sample processing begins.
   
 ## Learning objectives
 
-By the end of this workshop, participants will be able to: 
+### Module 1: The omics landscape and where studies go wrong
+* Match a biological question to the molecular layer that can answer it
+* Recognise the common design pitfalls at each stage of a study
+* Classify a design weakness as recoverable, limitable, or fatal
+* Identify the true unit of replication, and spot pseudoreplication from subsampling or pooling
 
- - module 1: TODO 
- - module 2: TODO
- -module 3: TODO
+### Module 2: Experimental design fundamentals for omics
+* Decide whether a source of variation calls for blocking, randomisation, or recording 
+* Choose a platform that can physically capture the signal of interest, and recognise when one cannot
+* Explain what drives sample size in omics: effect size, biological variability, and the multiple-testing burden
+* Distinguish what depth buys (detection) from what replication buys (power), and allocate a fixed budget between them
+* Draft a minimal metadata checklist for their own project
 
 # For developers 
 
@@ -62,19 +69,10 @@ All content merged to main will be rendered at github.io pages by [`mkdocs_deplo
 ## Acknowledgements/citations/credits
 Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities.
 
-## Developers:
-- Lead: Amarinder Singh Thind
-- Co-lead: 
-- Supportive
--
--
--
- 
-## Facilitator:
--
--
--
--
+## Developers
+- Amarinder Singh Thind
+- Georgie Samaha
+- Mitchell O'Brien
 
 
 ## Suggested acknowledgement

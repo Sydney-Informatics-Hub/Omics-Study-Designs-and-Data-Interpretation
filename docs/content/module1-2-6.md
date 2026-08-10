@@ -1,3 +1,5 @@
+## Module 1.2: Activity
+ 
 !!! question "Part 1: Activity, Analyse this study design"
 
     A 2012 gut microbiome study collected microbiota from five pregnant women 
@@ -62,15 +64,4 @@
     ![](figs_m1/02_pseudoreplication_activity01_v02.png){width=100%}
 
 -->
-
-!!! question "Part 2: Apply to your own study"
-
-    Briefly describe a study you are planning or have
-    been involved in. In small groups:
-
-    1. Identify which one of the pitfalls your study
-       is most vulnerable to
-    2. Classify the risk: fatal, limitable,
-       or recoverable?
-    3. What one change at the design stage would
-       reduce that risk?
+ 

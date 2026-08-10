@@ -1,4 +1,4 @@
-# The omics landscape
+# Module 1.1: The omics landscape
 
 !!! info "Learning objectives"
     By the end of this section, participants will be able to:  

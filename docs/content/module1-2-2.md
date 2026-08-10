@@ -1,7 +1,14 @@
-## 🟠 Stage B : Sample acquition 
+## Module 1.2 (Stage B) : Sample acquition 
 
-### Path A: collect and sequrence your own 
-### Path B: using Other people dataset
+Samples and data reach a study one of two ways: you generate them yourself, or
+you use what someone else generated. Both bring technical structure with them,
+what differs is how much of that structure you still control.
+
+**Path A: collect and sequence your own.** In most cases, samples are never all processed at once. Recruitment runs over months or years, extractions happen on different days, libraries are prepared in kit-sized sets, and sequencing happens run by run. Each of those groupings is a **batch**, and batches are unavoidable, they're a property of doing the work. The problem is only when a batch lines up with your comparison (Groups): cases recruited in year one and controls in year three, or one person running the treated samples while someone else runs the controls. Then "batch" and "biology" are the same variable. The good news is that on this path *you* decide which sample goes in which batch, day and run, so the fix is available to you before anything is processed.
+
+**Path B: using someone else's data.** Here the batch structure already exists and you didn't choose it and the batch is now the entire **study**, which bundles cohort, collection protocol, extraction kit, instrument and analysis pipeline into one label you can't take apart. The common fatal version is generating your own cases and taking controls from a public dataset: every case shares one study and every control shares another, so disease and study are perfectly confounded. The PCA will separate beautifully, but nothing in the data tells you whether you're seeing disease or the difference between two laboratories. Public data is excellent as an independent validation cohort, or when every dataset you include contributes *both* of your comparison groups. It is dangerous the moment it supplies one arm of the comparison.
+
+The two pitfalls below apply on both paths.
 
 ### Pitfall 4: Batch effects
 

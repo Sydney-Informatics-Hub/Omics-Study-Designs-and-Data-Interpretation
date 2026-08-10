@@ -1,4 +1,4 @@
-## 🟠 Stage D: Analysis 
+## Module 1.2 (Stage D): Analysis 
 
 ### Pitfall 7: Inadequate controls across the study pipeline
  
