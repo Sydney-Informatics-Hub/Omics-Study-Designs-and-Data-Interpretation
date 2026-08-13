@@ -1,4 +1,4 @@
-## Module 1.2 (Stage A): Design</span>
+## Module 1.2: Design</span>
 
 **Thoughtful study design helps in saving cost across three dimensions:**
 
