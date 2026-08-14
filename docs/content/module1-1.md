@@ -39,12 +39,29 @@ The figure below shows how each layer sits within the broader molecular hierarch
 
 ![](figs_m1/1-1_molecules_v1-part1.jpg){width=100%}
 
-To make this concrete, we will follow a single broad clinical 
-question through every layer:
+!!! question "A clinical example: unexplained heart failure"
+    Imagine a patient with heart failure where the underlying cause is unclear. Could omics data help explain what is happening?  
+    
+    We will follow this question through different omics layers:
+    
+    ***What is driving this patient's heart failure?***
+    We will see how genomics, transcriptomics, proteomics, and metabolomics can provide different pieces of evidence.
 
-!!! question "The question we'll follow"
-    **What is driving patient's heart failure?**
 
+!!! note "Layers overlap: the choice is fit, not exclusivity" 
+    Most questions can be approached from more than one layer. The lists below show what each layer is best suited to answer, not what it alone can answer.
+
+    For example, if we want to know how closely two species are related, we
+    can compare their DNA, RNA, or protein sequences. DNA is usually the best
+    starting point because the same genome can be studied from any tissue, and
+    it contains both coding and non-coding regions. With RNA, we only capture
+    genes that are expressed in the tissue we sampled. The general rule:
+    **pick the layer where your signal is the dominant source of variation,
+    not one where it competes with variation you are not studying.**
+
+    The genome-to-metabolome ordering traces information from genomic
+    variation through to its molecular consequences. It is a conceptual model,
+    not a one way pathway, the layers feed back on each other throughout.
 ---
 
 ### Layer 1: DNA / Genome
@@ -58,7 +75,7 @@ instructions required to build and maintain cells. The complete set of DNA in an
 - Determines which genes an organism possesses
 - Changes relatively little across a lifetime
 
-**What this layer can answer**
+**What this layer is best suited to answer**
 
 - Which genes are present?
 - Which mutations are present?
@@ -97,7 +114,7 @@ changing the underlying DNA sequence.
 - Explains how genetically identical cells develop specialised 
   functions
 
-**What this layer can answer**
+**What this layer is best suited to answer**
 
 - Which regions of the genome are accessible for transcription?
 - Which genes are likely to be active or repressed?
@@ -143,7 +160,7 @@ The complete set of RNA molecules a cell is producing at a given moment, is call
 - Regulates gene expression
 - Changes rapidly in response to the environment
 
-**What this layer can answer**
+**What this layer is best suited to answer**
 
 - Which genes are active?
 - Which pathways respond to disease or treatment?
@@ -182,7 +199,7 @@ work. Nearly every biological process depends on proteins. The **proteome** is t
 - Transport molecules
 - Regulate gene expression
 
-**What this layer can answer**
+**What this layer is best suited to answer**
 
 - Which proteins are present?
 - Which proteins change in abundance?
@@ -216,7 +233,7 @@ transcript can be upregulated while the protein is degraded as fast as it's made
 metabolites provide the closest molecular snapshot of the 
 cell's current physiological state.
 
-**What this layer can answer**
+**What this layer is best suited to answer**
 
 - Which metabolic pathways are active?
 - How has diet, disease, or treatment affected the organism?
@@ -264,16 +281,8 @@ has a blind spot the next layer partly fills.
 | **Proteome** | Functional molecules | Physiological consequences |
 | **Metabolome** | Current physiological state | The underlying cause |
 
-!!! note "A note on the framework"
-    Throughout this module we present the molecular layers as a 
-    progression from genome to metabolome because it provides a useful 
-    framework for understanding how biological information flows 
-    through a cell. In reality, these layers are highly interconnected. 
-    Proteins regulate transcription, metabolites influence epigenetic 
-    modifications, and feedback loops operate throughout the system. 
-    The framework is best viewed as a conceptual model rather than a 
-    strict one-way pathway.
-
+As noted at the start, these layers are interconnected: the table sets out
+where each layer is strongest, not a strict division of what each can address.
 
 ---
 
@@ -307,8 +316,9 @@ Layer choice and platform choice are separate decisions. First, you decide which
     2. **What would this layer tell you, and what would it miss?**
     3. **What comparisons or timing would be needed to 
        make this study meaningful?**
-    4. **Budget check:** you can measure only one molecular layer 
-       initially. What evidence would convince you to add a second?
+  
+    <!-- 4. **Budget check:** you can measure only one molecular layer 
+       initially. What evidence would convince you to add a second? -->
 
     **Report back:** your chosen layer, what another layer might 
     have revealed, and one assumption behind your choice.
