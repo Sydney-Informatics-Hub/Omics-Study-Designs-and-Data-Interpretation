@@ -10,7 +10,7 @@ You will learn how to design omics experiments that are statistically sound and 
 
 
 #### Module 1: Right molecule for the biological question 
-#### Module 2: Right dataset and data collection method 
+#### Module 2: Designing Robust Omics Studies
 #### Module 3: Apply the principles 
  
 ## Overall Learning Outcomes
@@ -22,7 +22,7 @@ Describe how major omics data types are generated and how they differ from conve
 
 Identify key decision points across an omics workflow and explain how decisions at each stage can affect the final result. 
 
-Evaluate an omics study design in terms of its ability to detect the signal of interest, support interpretation, use resources effectively, and generalise beyond the study cohort. 
+Evaluate an omics study design in terms of the power it delivers for its cost, the accuracy and interpretability it supports, and how far the findings generalise beyond the study cohort.
 
 Diagnose confounding and batch structure and propose design changes to reduce their impact. 
 
@@ -36,13 +36,13 @@ Match a biological question to the most suitable molecular layer, and identify w
 
 Describe the major stages of an omics workflow and identify the key pitfalls at each stage. 
 
-***Module 2: Right dataset and data collection method*** 
+***Module 2:Designing Robust Omics Studies*** 
 
 By the end of this module, participants will be able to: 
 
 Select an appropriate platform to capture the biological signal of interest and describe the type of data it produces. 
 
-Evaluate a cohort design in terms of signal detection, resource requirements, interpretability, and generalisability. 
+Evaluate a study design in terms of power and cost, accuracy and interpretability, and generalisability.
 
 ***Module 3: Apply the principles*** 
 

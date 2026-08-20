@@ -3,7 +3,7 @@
 !!! info "Learning objectives"
     By the end of this module, participants will be able to:  
     - Select an appropriate platform to capture the biological signal of interest and describe the type of data it produces. 
-    - Evaluate a study design in terms of signal detection, resource requirements, interpretability, and generalisability. 
+    - Evaluate a study design in terms of power and cost, accuracy and interpretability, and generalisability.
 
 Module 1 ended by sorting the pitfalls into three buckets: recoverable,
 limitable, and fatal. The fatal list was the short one:

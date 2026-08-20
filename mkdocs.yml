@@ -7,33 +7,22 @@ nav:
   - Home: index.md
   - Introduction: Introduction.md
   - Module 1: 
-    - Module 1.1 landscape: content/module1-1.md
-    - Module 1.2 Workflow: content/module1-2-0.md
-    - Stage A · Design: content/module1-2-1.md
-    - Stage B · Data acquisition: content/module1-2-2.md
-    - Stage C · Preprocessing: content/module1-2-3.md
-    - Stage D · Analysis: content/module1-2-4.md
-    - Stage E · Reporting: content/module1-2-5.md
-    - Activity: content/module1-2-6.md
+    - Module 1.1 landscape: module1-1.md
+    - Module 1.2 Workflow: module1-2-0.md
+    - Stage A · Design: module1-2-1.md
+    - Stage B · Data acquisition: module1-2-2.md
+    - Stage C · Preprocessing: module1-2-3.md
+    - Stage D · Analysis: module1-2-4.md
+    - Stage E · Reporting: module1-2-5.md
+    - Activity: module1-2-6.md
+
   - Module 2:
-    - Randomisation: content/module-nm2.1.md
-    - Omics Platforms: content/module-nm2.2.md
-    - Sample Size: content/module-nm2.3-short.md
-    - MetaData Guide: content/module-nm2.5.md
-
-  - Module 2 (old): 
-    - Data types & platforms: content/module2-1.md
-    - Detection limits & budget: content/module2-2.md
-    - Sparsity and zero inflation: content/module2-3.md
-    - Compositionality: content/module2-4.md
-    - Classical statistics struggle with omics: content/module2-5.md
-
-  - Module 3 (old):
-    - Randomisation: content/module3-1.md
-    - Replication: content/module3-2.md
-    - Sample Size: content/module3-3.md
-    - Study Design: content/module3-4.md
-    - Meta Data: content/module3-5.md
+    - Introduction: module-nm2.0.md
+    - Choosing platforms: module-nm2.1.md
+    - Confounding & batch effects: module-nm2.2.md
+    - Replication: module-nm2.3.md
+    - Sample Size: module-nm2.4.md
+    - MetaData Guide: module-nm2.5.md
   - References: further-reading.md
   
   # Example top-level page
