@@ -63,7 +63,7 @@ decisions.
 The figure below shows all three possibilities for the same 20 samples: 10
 cases and 10 controls, two processing batches.
 
-![Three ways to assign 20 samples (10 cases, 10 controls) to two batches: confounded, blocked, and randomised](figs_m3/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
+![Three ways to assign 20 samples (10 cases, 10 controls) to two batches: confounded, blocked, and randomised](figs_m2/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
 
 - **Confounded**: Batch 1 holds all cases, Batch 2 all controls. Batch and
   biology are the same variable, and nothing in the data separates them.
@@ -185,7 +185,7 @@ often than it should. A simple spread across lanes avoids it.
 
 #### What it looks like when this is skipped
 
-![Spatial and temporal confounding, false positive from a temperature gradient (A) and false negative from measurement order (B)](figs_m3/wagner2025_fig3_AB.jpg){width=90%}
+![Spatial and temporal confounding, false positive from a temperature gradient (A) and false negative from measurement order (B)](figs_m2/wagner2025_fig3_AB.jpg){width=90%}
 
 <small>
 **Figure explanation.** Panel A shows *spatial confounding*: a temperature
@@ -240,7 +240,7 @@ sheet written before any sample is processed, not a decision made at the bench.
 
 One addition worth planning for at the same time:
 
-![Batch design: conditions nested within batches (left) vs distributed with a shared control carried across batches (right)](figs_m3/wagner2025_fig3_C.jpg){width=90%}
+![Batch design: conditions nested within batches (left) vs distributed with a shared control carried across batches (right)](figs_m2/wagner2025_fig3_C.jpg){width=90%}
 
 <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
 [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
@@ -276,7 +276,7 @@ When factor and biology are correlated, that separation is unavailable. The
 model cannot tell which is which, and whatever it removes takes real signal with
 it.
 
-![Dimension reduction before and after correction, the structure resolves only because the design allowed it to](figs_m3/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after correction, the structure resolves only because the design allowed it to](figs_m2/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
 
 <small>Ref: [Zhu, Xun, et al. "Granatum: a graphical single-cell RNA-Seq analysis pipeline for genomics scientists." *Genome Medicine* 9, 108 (2017)](https://link.springer.com/article/10.1186/s13073-017-0492-3){target="_blank"}</small>
 
@@ -297,7 +297,7 @@ generated. **The method is the same; the design decides whether it works.**
 
 ### The three strategies compared
 
-![Comparison of confounded, blocked, and randomised batch allocation across six properties](figs_m3/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
+![Comparison of confounded, blocked, and randomised batch allocation across six properties](figs_m2/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
 
 The bottom row is the decision, and "never" is doing real work there. Note also
 the power row: blocking usually gives the highest power of the three, because

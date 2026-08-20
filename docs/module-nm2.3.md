@@ -103,7 +103,7 @@ any variation in its measurements is drift, not biology and that variation can h
       2. What is the real *n*?
       3. Is it a valid replicated design, or pseudoreplication?
 
-      ![Four sampling designs to classify as valid replication or pseudoreplication](figs_m3/wagner2025_fig1_replication_v03.jpg){width=90%}
+      ![Four sampling designs to classify as valid replication or pseudoreplication](figs_m2/wagner2025_fig1_replication_v03.jpg){width=90%}
         
       <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
       [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}

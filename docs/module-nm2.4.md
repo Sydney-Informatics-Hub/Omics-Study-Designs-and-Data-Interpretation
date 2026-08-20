@@ -2,7 +2,7 @@
 
 ## Why omics studies end up underpowered
 
-Sample size in omics is rarely set by a power calculation. It is set by budget, sample availability, or sequencing capacity, and the number is often decided before anyone asks what it takes to detect the effect of interest. The result is a study that is well executed at the bench but underpowered on paper. This does not announce itself during analysis. It shows up later, when the findings fail to replicate in a second cohort or on a second platform.
+Sample size in omics is rarely set by a power calculation. It is set by budget, sample availability, or sequencing capacity, and the number is often decided before anyone asks what it takes to detect the effect of interest. The result is a study that is well executed at the bench but ***underpowered*** on paper. This does not announce itself during analysis. It shows up later, when the findings fail to replicate in a second cohort or on a second platform.
 
 ### Why classical power calculations don't translate
 
@@ -37,7 +37,7 @@ discovery rate control, usually the Benjamini–Hochberg method), each individua
 feature has to clear a higher bar than it would in a single hypothesis study. The
 more features you measure, the higher that bar.
 
-![Statistical power depends on both effect size and within-group variance; minimum sample sizes from power analysis](figs_m3/wagner2025_fig2_A.jpg){width=90%}
+![Statistical power depends on both effect size and within-group variance; minimum sample sizes from power analysis](figs_m2/wagner2025_fig2_A.jpg){width=90%}
 
 <small>
 Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
@@ -112,7 +112,7 @@ goal is discovery or validation not on the platform alone.
     <small>
     Schurch et al. *RNA* 2016.
     [PMC4878611](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"} ·
-    Halasz / Atwal et al. *Nature Communications* 16 (2025).
+    Halasz et al. *Nature Communications* 16 (2025).
     [doi:10.1038/s41467-025-65022-5](https://www.nature.com/articles/s41467-025-65022-5){target="_blank"} ·
     Cochran et al. *TrAC* 180, 117918 (2024).
     [doi:10.1016/j.trac.2024.117918](https://www.sciencedirect.com/science/article/abs/pii/S0165993624004011){target="_blank"}
@@ -129,8 +129,8 @@ goal is discovery or validation not on the platform alone.
 ## Depth vs replication: two jobs, one budget
 
 This is the pivot of the whole section, and where the depth question usually gets
-answered wrong. Sequencing depth does **two different jobs**, and conflating them
-is the mistake.
+answered wrong. Depth and replication do **two different jobs**, and conflating
+them is the mistake.
 
 ### What depth does: detection
 
@@ -146,11 +146,12 @@ didn't change; the measurement improved.
 
 ![Shallow vs deep sequencing: how depth affects gene detection](figs_m2/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
 
-<small>At a total of 10 reads, a gene at 1% true abundance receives zero reads and is invisible. Another at 5% receives a single read, technically detectable but statistically unreliable; a replicate might return zero. At 1,000 reads, the same proportions produce reliable counts for both. **The biology did not change between the two panels. The budget did.**</small>
+<small>At a total of 10 reads, a gene at 1% true abundance receives no reads here and is invisible. Another at 5% receives a single read, technically detected but statistically unreliable; a replicate might return zero. At 1,000 reads, the same proportions produce reliable counts for both. **The biology did not change between the two panels. The budget did.**</small>
 
-So depth sets a floor on **what is visible at all**. It is determined by the
-abundance of the least-expressed feature you need to detect reliably, not chosen
-arbitrarily.
+So depth sets a practical floor on what can be detected reliably. That floor is
+set by the least-abundant feature your question depends on, not chosen
+arbitrarily, and detecting that a feature is present takes less depth than
+detecting a change in it.
 
 !!! tip "Activity"
     Head to the webR page, tab **Count & Depth** → *Multigene Detection*.
@@ -158,15 +159,16 @@ arbitrarily.
 ### What replication does: power
 
 Here is the part depth cannot do. Increasing depth improves precision *within* a
-sample. It does nothing about the variability *between* samples and
-between sample variability is what statistical power is made of.
+sample. It does nothing about the variability *between* samples, which is what
+replication allows you to estimate.
 
 As the replication section established, power comes from the number of
-independent biological units. Adding reads to the same libraries measures those
-same units more precisely; it does not add units. So under a fixed budget, the
+independent biological units. Adding reads to the same libraries measures those same units more precisely; it does not add units. So under a fixed budget, the
 lever for power is more biological replicates, not more reads per sample.
 
-> **Practical rule:** Under a fixed budget, more biological replicates usually buy more power than more reads per sample.
+> **Practical rule:** Reach adequate depth first, then spend what remains on
+> biological replicates. Beyond the depth your question needs, extra reads
+> usually buy less than extra samples.
 
 <small>
 Liu Y, et al. *Bioinformatics* 2014; 30(3): 301–304.
@@ -174,104 +176,85 @@ Liu Y, et al. *Bioinformatics* 2014; 30(3): 301–304.
 </small>
 
 !!! note "Depth as a confounder is a different problem"
-    Depth also matters when it lines up with your biological groups — e.g. one
+    Depth also matters when it lines up with your biological groups e.g. one
     condition consistently sequenced shallower than the other. That is a
-    confounding failure, not a sample-size one, and it is covered in the
-    confounding and randomisation section.
-
-
-## 5. Depth vs replication: two jobs, one budget
-
-This is the pivot of the whole section, and it is where the depth question usually gets answered wrong.
-
-Sequencing depth does **two different jobs**, and conflating them is the mistake.
-
-### What depth does: detection
-
-Depth is a measurement budget spent *within* a sample. A sequencer cannot count every molecule; it reads a subset of fragments and stops at a target depth. Each feature's count is therefore a share of whatever total was generated for that sample.
-
-At shallow depth, low-abundance features drop in and out of detection across samples, not because their expression changed but because the sampling was too sparse to catch them reliably. Increase the depth and they reappear. The biology didn't change; the measurement improved.
-
-![Shallow vs deep sequencing: how depth affects gene detection](figs_m2/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
-
-<small>At a total of 10 reads, a gene at 1% true abundance receives zero reads and is invisible. Another at 5% receives a single read, technically detectable but statistically unreliable; a replicate might return zero. At 1,000 reads, the same proportions produce reliable counts for both. **The biology did not change between the two panels. The budget did.**</small>
-
-So depth sets a floor on **what is visible at all**. It is determined by the abundance of the least-expressed feature you need to detect reliably, not chosen arbitrarily.
-
-!!! tip "Activity"
-    Head to the webR page, tab **Count & Depth** → *Multigene Detection*.
-
-### What replication does: power
-
-Here is the part depth cannot do. Increasing depth improves precision *within* a sample. It does nothing about the variability *between* samples, and between-sample variability is what statistical power is made of.
-
-Adding reads to the same six libraries measures those six biological units more precisely. It does not add biological units. Power in most omics studies is driven by the number of independent biological replicates, full stop.
-
-> **Practical rule:** Under a fixed budget, more biological replicates usually buy more power than more reads per sample.
-
-<small>
-Liu Y, et al. *Bioinformatics* 2014; 30(3): 301–304.
-[doi:10.1093/bioinformatics/btt688](https://academic.oup.com/bioinformatics/article/30/3/301/228651){target="_blank"}
-</small>
-
-!!! info "Activity"
-    Head to the webR page, tab **Count & Depth** → *Apparent FC vs True FC*.
-
-!!! note "Depth as a confounder is a different problem"
-    Depth also matters when it lines up with your biological groups, e.g. one condition consistently sequenced shallower than the other. That is a confounding failure, not a sample-size one, and it is covered in **Module 3: Randomisation**.
+    confounding problem, not a sample-size one.
 
 ---
+## When depth genuinely is the limit
 
-## 6. When depth genuinely is the limit
+The rule above is for discovery studies comparing groups. There are cases where
+the question is not "is this feature different" but "can I see this feature at
+all," and there depth is exactly the right lever.
 
-The rule above is for discovery studies comparing groups. There are cases where the question is not "is this feature different" but "can I see this feature at all," and there depth is exactly the right lever.
+- **Low-abundance transcript detection.** If a feature is never detected, more
+  replicates don't help. It has to be measurable first. This is the direct
+  continuation of the detection mechanism.
 
-- **Low-abundance transcript detection.** If a feature is never detected, more replicates don't help. It has to be measurable first. This is the direct continuation of the detection mechanism in Section 5.
+- **Somatic variant detection in tumour samples.** Calling low-frequency variants
+  (roughly 1–5% allele fraction) generally requires substantially higher coverage
+  to separate signal from sequencing noise.
 
-- **Somatic variant detection in tumour samples.** Calling low-frequency variants (roughly 1–5% allele fraction) needs high coverage to separate signal from sequencing noise.
+![Sequencing depth requirements for variant detection](figs_m2/VAF_Sequencing_depth.jpg){width=90%}
 
-![Sequencing depth requirements for variant detection](figs_m3/03_Sequencing_depth.jpg){width=90%}
+- **Rare cell populations in single-cell studies.** Seeing a rare population
+  usually means profiling more cells or enriching for them; deeper sequencing
+  helps when the limit is detecting transcripts within each cell.
 
-- **Rare cell populations in single-cell studies.** Very rare populations may need deeper sequencing or targeted enrichment.
+In each case the issue is observability, not statistical power. Targeted
+approaches (enrichment, panel-based sequencing) are often more efficient than
+deepening the whole dataset.
 
-In each case the issue is observability, not classical power. Targeted approaches (enrichment, panel-based sequencing) are often more efficient than deepening the whole dataset.
-
-??? info "scRNA-seq: donors vs cells per sample"
-    In single-cell RNA-seq the sequencing budget is shared across all genes in *each individual cell*, and the per-cell budget is small, which is why the count matrix is so sparse. That sparsity is a resolution property, not a replication one.
-
-    Statistical replication happens at the **donor** level, not the cell level. More cells per donor improve resolution; they do not add independent biological observations.
+??? info "scRNA-seq: splitting a fixed budget between donors and cells"
+    In single-cell RNA-seq the budget splits two ways: how many donors you
+    profile, and how many cells you profile per donor. The two do different
+    things: donors provide biological replication, cells provide deeper sampling
+    within each donor.
 
     - *n* = number of donors per condition
-    - Cell numbers affect resolution, not power
+    - More cells per donor improve resolution within that donor; they do not add
+      biological replicates
 
-    Moving from 5 to 20 donors substantially increases power, because each donor is new biological information. Going from 25 to 500 cells per donor barely moves it.
+    Moving from 5 to 100 donors substantially increases power, because each donor
+    is new biological information. Going from 100 to 1000 cells per donor
+    characterises each donor far better, but does not add biological replicates.
 
-    ![Donors vs cells per donor in scRNA-seq power](figs_m3/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
+    ![Donors vs cells per donor in scRNA-seq power](figs_m2/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
 
     <small>
     Zimmerman K, et al. *Nature Communications* (2021)
     [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
     </small>
 
-    The *analysis* fix that matches this design (pseudobulk aggregation) is covered in **Module 3: Replication**.
-
 ---
 
 ### Sample size in multi-omics studies
 
-In multi-omics studies, sample size cannot be optimised independently for each platform. A single sample size must support all datasets. You cannot `borrow` extra samples for one platform without affecting the others. In practice, this usually means designing around the platform with the weakest statistical power.
+In multi-omics studies, sample size cannot be optimised independently for each
+platform. One *n* has to serve every dataset. You cannot "borrow" extra samples
+for one platform without affecting the others, so in practice the design has to
+satisfy the platform with the greatest sample-size requirement.
 
-The figure below (Tarazona et al., 2020) makes this concrete. Using a conservative dispersion estimate (75th percentile of pooled standard deviation), the MultiPower tool identifies n = 16 per group as the jointly optimal sample size across platforms in a real multi-omics study. Panels D and E show both that this target is achievable and that the recommendation holds up across the range of variability observed in the data. 
+The figure below (Tarazona et al., 2020) makes this concrete: across six omics
+platforms in a real multi-omics study, n = 16 per group was the sample size
+required to meet the specified power criterion across all six platforms. That
+number was set by the most demanding platform, not by the average one.
 
-![MultiPower output: per-omic power curves and combined multi-omic optimisation for RNA-seq and metabolomics](figs_m3/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
+![MultiPower output: per-omic power curves and combined multi-omic sample-size optimisation across six omics platforms in the STATegra dataset](figs_m2/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
 
-## 7. Key takeaways
+<small>
+Tarazona S, et al. *Nature Communications* 2020; 11: 3092.
+[doi:10.1038/s41467-020-16937-8](https://www.nature.com/articles/s41467-020-16937-8){target="_blank"}
+</small>
 
-- Sample size is usually set by budget, not by power. Underpowering is invisible until findings fail to replicate.
+## Key takeaways
+
+- In omics studies, sample size is often constrained by budget rather than determined by the desired power. Underpowering is invisible until findings fail to replicate.
 - What you need is driven by **effect size, biological variability, and the multiple-testing burden**, not by intuition about "enough" samples.
-- Empirical estimates (pilot simulation, replication benchmarks) beat classical power calculations for this kind of data.
-- **Depth buys detection; replication buys power.** Depth sets what is visible within a sample. Only more biological replicates reduce between-sample uncertainty.
-- Under a fixed budget, prioritise replication, unless the question is observability itself (rare transcripts, low-frequency variants, rare cell types), where depth is the correct lever.
+- Empirical estimates (pilot simulation, replication benchmarks) can provide more realistic power assessments than simple formula-based calculations for complex omics designs.
+- **Depth buys detection; replication buys power.** Depth sets a practical floor on what can be detected reliably within a sample. Reducing between-sample uncertainty takes more biological replicates.
+- Under a fixed budget, reach adequate depth first, then spend what remains on replication, unless the question is observability itself (rare transcripts, low-frequency variants, rare cell types), where depth is the correct lever.
+- In multi-omics, one *n* has to serve every platform, so the design is set by the most demanding one.
 
 ---
 
@@ -287,3 +270,6 @@ The figure below (Tarazona et al., 2020) makes this concrete. Using a conservati
 
     Zimmerman K et al. *Nature Communications* 2021
     [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
+
+    Tarazona S et al. *Nature Communications* 2020
+    [doi:10.1038/s41467-020-16937-8](https://www.nature.com/articles/s41467-020-16937-8){target="_blank"}
