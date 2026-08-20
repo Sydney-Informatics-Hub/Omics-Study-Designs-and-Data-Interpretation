@@ -1,12 +1,5 @@
 ## Metadata: Putting Data in Context.
 
-!!! info "Learning objectives"
-    By the end of this section, participants will be able to:
-
-    - Draft a minimal metadata checklist for their own project and explain 
-      why an unrecorded variable cannot be modelled, corrected for, or even 
-      identified after data collection.
-
 High quality sequencing or omics data is only useful, if meta information recorded alongside it. Metadata is a structured record of biological and technical variables associated with each sample. For many downstream analyses, meta data helps to explore the bias, and to discover new findings.
 
 ### Why unrecorded variables are permanent confounders

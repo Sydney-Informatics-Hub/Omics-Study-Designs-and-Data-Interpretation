@@ -1,4 +1,9 @@
-# Module 2: Experimental Design Fundamentals for Omics
+# Module 2: Designing Robust Omics Studies
+
+!!! info "Learning objectives"
+    By the end of this module, participants will be able to:  
+    - Select an appropriate platform to capture the biological signal of interest and describe the type of data it produces. 
+    - Evaluate a study design in terms of signal detection, resource requirements, interpretability, and generalisability. 
 
 Module 1 ended by sorting the pitfalls into three buckets: recoverable,
 limitable, and fatal. The fatal list was the short one:
@@ -14,15 +19,13 @@ wrong; **Module 2 asks what to decide, and when.**
 
 Every decision in this module is scored three ways:
 
-- **Power and cost** — can you detect the signal you are looking for, within
+- **Power and cost**: can you detect the signal you are looking for, within
   your budget?
-- **Accuracy and interpretability** — can you connect the effect you measure to
+- **Accuracy and interpretability**: can you connect the effect you measure to
   the biological feature you care about?
-- **Generalisability** — do the findings hold beyond your cohort?
+- **Generalisability**: do the findings hold beyond your cohort?
 
 Design is hard because these three compete. Money spent on more samples is not
-spent on more depth; a tightly matched cohort is easier to interpret and harder
+spent on more data depth; a tightly matched cohort is easier to interpret and harder
 to generalise from. The sections that follow name the trade-off each time it
 appears.
-
-## Confounding: when a variable travels with your groups

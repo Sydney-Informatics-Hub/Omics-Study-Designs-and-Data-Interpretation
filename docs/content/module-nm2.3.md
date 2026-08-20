@@ -1,193 +1,117 @@
-# Module 2.3: Sample size, power, and sequencing depth
+## Replication: biological vs technical, and when technical replicates help
 
-<!-- MERGE NOTE (delete before publishing):
-     This file merges old Module 3.3 (sample size / depth trap) with the
-     depth-detection content from old Module 2.2. Scope is sequencing only:
-     metabolomics, methylation, and non-sequencing MS content removed.
+Module 1 defined the terms, biological replicates, technical replicates, and
+why treating non independent measurements as independent inflates *n*
+(pseudoreplication, Pitfall 8). This section takes those as given and answers one
+design question Module 1 did not: **should you spend part of your budget on
+technical replicates at all?**
 
-     NUMBERING: promoting this to 2.3 pushes zeros -> 2.4, compositionality
-     -> 2.5, classical stats -> 2.6. Update every internal "Section 3/4"
-     pointer and the "Module 2: Summary" block accordingly.
+A quick reminder of the distinction, because the rest of the section turns on it:
 
-     FIGURE PATHS: three assets migrate from Figures_module3/ into this
-     Module 2 file. Consolidate into one figs folder before publishing. -->
+- A **biological replicate** is an independent sample from the population, a
+  different patient, mouse, or culture. Biological replicates are what your *n*
+  is counted in.
+- A **technical replicate** is the *same* sample measured more than once. It
+  tells you how consistent the measurement is, not how variable the biology is.
 
-!!! info "Learning objectives"
-    By the end of this section, participants should be able to:
-
-    - Explain why omics studies are so often underpowered
-    - Identify what actually drives the sample size a study needs: effect
-      size, biological variability, and the multiple-testing burden
-
-## 1. Why omics studies end up underpowered
-
-Sample size in omics is rarely set by a power calculation. It is set by budget, sample availability, or sequencing capacity, and the number is often decided before anyone asks what it takes to detect the effect of interest. The result is a study that is well executed at the bench but underpowered on paper. This does not announce itself during analysis. It shows up later, when the findings fail to replicate in a second cohort or on a second platform.
-
-### Why classical power calculations don't translate
-
-Standard power calculations assume a single hypothesis, an approximately known variance, and a 0.05 threshold. None of those hold cleanly in omics.
-
-Thousands to millions of features are tested at once. Variance differs from feature to feature and is usually not known in advance. Multiple-testing correction then lowers the effective significance threshold for every feature.
-
-The practical consequence is that "powered for one feature" is not "powered for the dataset." A study with *n* = 6 per group may recover a reasonable number of signals before correction, and far fewer once false discovery rate (FDR) adjustment is applied.
+Only biological replicates add to *n*. A technical replicate measured twice is
+still one biological sample. So the question is never "do technical replicates
+increase my sample size", they don't but "are they worth the budget for what
+they *do* tell me?"
 
 ---
 
-## 2. What determines the sample size you need
+### Whether to include them is a platform decision
 
-Two things dominate, and neither is the number most people reach for first.
+Technical replicates are not a default requirement. The principle is simple:
 
-**Effect size and biological variability.** Even when the effect size is fixed, more variable biology needs more samples to reach the same power. Variability, not effect size alone, is usually what sinks a small study.
+!!! tip "When technical replication earns its place"
+    Technical replicates are worth it when measurement noise is large enough to
+    affect your scientific question. When measurement noise is small next to the
+    biological differences you care about, the same budget may buy more as another
+    biological sample.
 
-**The multiple-testing burden.** In omics this sits on top of everything else. Because every feature is corrected against every other (FDR, usually the Benjamini–Hochberg method), each individual feature has to clear a higher bar than a single-hypothesis study would face.
+Platforms differ enormously on this. On **bulk RNA-seq**, technical variance from
+library prep and sequencing is usually small compared with the biological
+differences between samples, a technical replicate spends budget measuring
+something that barely moves. In some **mass-spectrometry** applications, the situation can be different:
+run-to-run variation from ionisation, instrument drift, and injection can rival
+the biological effect, so technical replicates carry real information.
 
-![Statistical power depends on both effect size and within-group variance; minimum sample sizes from power analysis](figs_m3/wagner2025_fig2_A.jpg){width=90%}
+| Platform | Technical vs biological variance | When technical replication may be useful |
+|---|---|---|
+| **Bulk RNA-seq** | Technical ≪ biological | Rarely for power; useful for QC |
+| **Proteomics (MS)** | Often comparable, especially in discovery | Often worthwhile |
+| **Metabolomics (MS)** | Often comparable | Yes, pooled QC samples are standard practice |
+| **16S / metagenomics** | Extraction and PCR variation substantial | Useful for spotting contamination and technical bias |
 
-<small>
-Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
-[doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
-(CC BY-NC-ND 4.0)
-</small>
-
----
-
-## 3. Estimating it in practice
-
-Because closed-form calculations don't fit, empirical approaches are generally more informative.
-
-**Pilot-data simulation.** Estimate the count distribution from a small dataset, then simulate the full analysis across a range of sample sizes. This carries realistic measurement noise through the estimate instead of assuming a variance you don't have.
-
-**Learning from large replication studies.** Big benchmarking studies give direct evidence of how sample size affects detection and reproducibility. Several have shown that *n* = 3 per group misses a large fraction of true differential expression.
-
-Neither is perfect. A pilot may not represent the full study population, and published benchmarks are often specific to one platform or tissue. Both are still more informative than a simplified analytical assumption.
-
----
-
-## 4. Practical lower bounds
-
-These are not rules, but useful floors below which reproducibility tends to break down.
-
-!!! info "Indicative sample size ranges (sequencing)"
-
-    **Bulk RNA-seq (differential expression)**
-    - *n* ≥ 6 per group: workable minimum for moderate to large effects
-    - *n* ≥ 12 per group: more appropriate when smaller changes matter
-
-    **Single-cell RNA-seq**
-    - *n* = number of **donors** per condition, not number of cells
-    - See Section 6 for why cells do not count toward power
-
-    <small>
-    Schurch et al. *RNA* 2016.
-    [PMC4878611](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}
-    </small>
+Read the table as examples of the principle, not fixed rules: the question is
+always whether measurement noise is large enough to matter for what you are
+trying to detect.
 
 ---
 
-## 5. Depth vs replication: two jobs, one budget
+### The payoff: technical replicates can *remove* noise, not just measure it
 
-This is the pivot of the whole section, and it is where the depth question usually gets answered wrong.
+There is a second reason to include technical replicates, and it is the one most
+people miss. When built into the design, technical replicates can do more than measure technical noise: they can help estimate and, with appropriate methods, correct for systematic technical variation.
 
-Sequencing depth does **two different jobs**, and conflating them is the mistake.
+The idea is intuitive. If you measure the **same sample** twice, differences between the measurements cannot be attributed to biological differences between samples; they provide information about measurement variability.
 
-### What depth does: detection
+![](figs_m2/technical_replicate.png){width=100%}
 
-Depth is a measurement budget spent *within* a sample. A sequencer cannot count every molecule; it reads a subset of fragments and stops at a target depth. Each feature's count is therefore a share of whatever total was generated for that sample.
+The clearest everyday version is a **shared reference sample**: one common
+sample run repeatedly through every batch. In proteomics this is a bridge channel
+carried through each TMT set; in metabolomics it is the pooled QC injection you
+met in the mass-spec walk-through. Because it is the same material every time,
+any variation in its measurements is drift, not biology and that variation can help identify and correct systematic differences between batches.
 
-At shallow depth, low-abundance features drop in and out of detection across samples, not because their expression changed but because the sampling was too sparse to catch them reliably. Increase the depth and they reappear. The biology didn't change; the measurement improved.
+!!! example "A method that does this: RUV-III"
+    **RUV-III** ("remove unwanted variation") uses technical replicates as the
+    reference. The same sample measured in two batches *should* give the same
+    profile, so any systematic disagreement is technical noise. RUV-III learns
+    that noise from all the replicate pairs and removes it from every sample.
 
-![Shallow vs deep sequencing: how depth affects gene detection](figs_m2/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
+    Applied to a NanoString cohort where batch effects swamped the biological
+    signal, a handful of technical replicates let RUV-III recover structure the
+    biological samples alone could not have revealed.
 
-<small>At a total of 10 reads, a gene at 1% true abundance receives zero reads and is invisible. Another at 5% receives a single read, technically detectable but statistically unreliable; a replicate might return zero. At 1,000 reads, the same proportions produce reliable counts for both. **The biology did not change between the two panels. The budget did.**</small>
-
-So depth sets a floor on **what is visible at all**. It is determined by the abundance of the least-expressed feature you need to detect reliably, not chosen arbitrarily.
-
-!!! tip "Activity"
-    Head to the webR page, tab **Count & Depth** → *Multigene Detection*.
-
-### What replication does: power
-
-Here is the part depth cannot do. Increasing depth improves precision *within* a sample. It does nothing about the variability *between* samples, and between-sample variability is what statistical power is made of.
-
-Adding reads to the same six libraries measures those six biological units more precisely. It does not add biological units. Power in most omics studies is driven by the number of independent biological replicates, full stop.
-
-> **Practical rule:** Under a fixed budget, more biological replicates usually buy more power than more reads per sample.
-
-<small>
-Liu Y, et al. *Bioinformatics* 2014; 30(3): 301–304.
-[doi:10.1093/bioinformatics/btt688](https://academic.oup.com/bioinformatics/article/30/3/301/228651){target="_blank"}
-</small>
-
-!!! info "Activity"
-    Head to the webR page, tab **Count & Depth** → *Apparent FC vs True FC*.
-
-!!! note "Depth as a confounder is a different problem"
-    Depth also matters when it lines up with your biological groups, e.g. one condition consistently sequenced shallower than the other. That is a confounding failure, not a sample-size one, and it is covered in **Module 3: Randomisation**.
+    **The design lesson and the only part that matters here:** none of this
+    works after the fact. The replicates (or the reference sample) have to be in
+    the run from the start. You cannot decide at analysis that you wish you had
+    them. This is why "should I include technical replicates" is a design
+    question, not an analysis one.
 
 ---
 
-## 6. When depth genuinely is the limit
+### What to carry forward
 
-The rule above is for discovery studies comparing groups. There are cases where the question is not "is this feature different" but "can I see this feature at all," and there depth is exactly the right lever.
+- Technical replicates do **not** add to *n* only biological replicates do.
+- Whether to include them depends on the platform and the question: technical replication is rarely needed for power in bulk RNA-seq, while it can be valuable for measuring and controlling technical variation in mass spectrometry.
+- Included **by design**, technical replicates (or a shared reference sample)
+  let you measure *and* remove technical drift. Left out, that option is gone
+  it cannot be added retrospectively.
 
-- **Low-abundance transcript detection.** If a feature is never detected, more replicates don't help. It has to be measurable first. This is the direct continuation of the detection mechanism in Section 5.
 
-- **Somatic variant detection in tumour samples.** Calling low-frequency variants (roughly 1–5% allele fraction) needs high coverage to separate signal from sequencing noise.
+!!! question "Activity: is this design replicated, or pseudoreplicated?"
 
-![Sequencing depth requirements for variant detection](figs_m3/03_Sequencing_depth.jpg){width=90%}
+      Apply what you already know
 
-- **Rare cell populations in single-cell studies.** Very rare populations may need deeper sequencing or targeted enrichment.
+      You classified pseudoreplication in Module 1: the Koren pregnancy-microbiome study, where pooling collapsed the real n. These four designs test the same judgement on fresh examples. For each panel below, decide in your group:
 
-In each case the issue is observability, not classical power. Targeted approaches (enrichment, panel-based sequencing) are often more efficient than deepening the whole dataset.
+      1. What is the true biological unit, the thing the study wants to conclude about?
+      2. What is the real *n*?
+      3. Is it a valid replicated design, or pseudoreplication?
 
-??? info "scRNA-seq: donors vs cells per sample"
-    In single-cell RNA-seq the sequencing budget is shared across all genes in *each individual cell*, and the per-cell budget is small, which is why the count matrix is so sparse. That sparsity is a resolution property, not a replication one.
+      ![Four sampling designs to classify as valid replication or pseudoreplication](figs_m3/wagner2025_fig1_replication_v03.jpg){width=90%}
+        
+      <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
+      [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
+      (CC BY-NC-ND 4.0)</small>
 
-    Statistical replication happens at the **donor** level, not the cell level. More cells per donor improve resolution; they do not add independent biological observations.
-
-    - *n* = number of donors per condition
-    - Cell numbers affect resolution, not power
-
-    Moving from 5 to 20 donors substantially increases power, because each donor is new biological information. Going from 25 to 500 cells per donor barely moves it.
-
-    ![Donors vs cells per donor in scRNA-seq power](figs_m3/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
-
-    <small>
-    Zimmerman K, et al. *Nature Communications* (2021)
-    [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
-    </small>
-
-    The *analysis* fix that matches this design (pseudobulk aggregation) is covered in **Module 3: Replication**.
-
----
-
-### Sample size in multi-omics studies
-
-In multi-omics studies, sample size cannot be optimised independently for each platform. A single sample size must support all datasets. You cannot `borrow` extra samples for one platform without affecting the others. In practice, this usually means designing around the platform with the weakest statistical power.
-
-The figure below (Tarazona et al., 2020) makes this concrete. Using a conservative dispersion estimate (75th percentile of pooled standard deviation), the MultiPower tool identifies n = 16 per group as the jointly optimal sample size across platforms in a real multi-omics study. Panels D and E show both that this target is achievable and that the recommendation holds up across the range of variability observed in the data. 
-
-![MultiPower output: per-omic power curves and combined multi-omic optimisation for RNA-seq and metabolomics](figs_m3/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
-
-## 7. Key takeaways
-
-- Sample size is usually set by budget, not by power. Underpowering is invisible until findings fail to replicate.
-- What you need is driven by **effect size, biological variability, and the multiple-testing burden**, not by intuition about "enough" samples.
-- Empirical estimates (pilot simulation, replication benchmarks) beat classical power calculations for this kind of data.
-- **Depth buys detection; replication buys power.** Depth sets what is visible within a sample. Only more biological replicates reduce between-sample uncertainty.
-- Under a fixed budget, prioritise replication, unless the question is observability itself (rare transcripts, low-frequency variants, rare cell types), where depth is the correct lever.
-
----
-
-### Further reading
-
-??? abstract "Power estimation in omics"
-
-    Schurch NJ et al. *RNA* 2016
-    [PMC4878611](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}
-
-    Liu Y et al. *Bioinformatics* 2014
-    [doi:10.1093/bioinformatics/btt688](https://academic.oup.com/bioinformatics/article/30/3/301/228651){target="_blank"}
-
-    Zimmerman K et al. *Nature Communications* 2021
-    [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
+<!--
+              **Anchor case:** three vials taken from Lake Tahoe are **not** three
+              independent observations of freshwater, they are three observations of *one
+              lake*. The valid version is one vial from each of three independently chosen
+              freshwater bodies.
+        -->

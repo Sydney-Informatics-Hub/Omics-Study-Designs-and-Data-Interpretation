@@ -1,83 +1,31 @@
-# Foundations of omics study design, bias, and data interpretation
+# Module 2: Designing Robust Omics Studies
 
-This interactive workshop spans two days, with 3.5 hour sessions each day. Users will gain the skills to design omics studies that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, they will learn to identify and address bias, detect quality issues, and recognize common pitfalls in data.
+!!! info "Learning objectives"
+    By the end of this module, participants will be able to:  
+    - Select an appropriate platform to capture the biological signal of interest and describe the type of data it produces. 
+    - Evaluate a study design in terms of signal detection, resource requirements, interpretability, and generalisability. 
 
-## Why this course exists
+Module 1 ended by sorting the pitfalls into three buckets: recoverable,
+limitable, and fatal. The fatal list was the short one:
 
-Most omics training focuses on tools and analysis pipelines; how to process 
-sequencing data, run differential expression or similar. That 
-knowledge is valuable, but it arrives too late.
+- wrong omics platform chosen
+- batch fully confounded with biological groups
+- missing or unrecorded metadata
+- samples pooled where individual inference was needed
 
-The decisions that most often determine whether an omics study succeeds or 
-fails: platform choice, sample size, batch structure, metadata collection 
-are made **before** running samples. Yet there is remarkably 
-little structured training that addresses this earlier, more consequential 
-stage of the research process.
+Nothing on that list is an analysis mistake. Each one was settled before any
+data existed, which is why no analysis recovers it. Module 1 asked what can go
+wrong; **Module 2 asks what to decide, and when.**
 
-This course is designed to fill that gap. Rather than starting at the 
-computational pipeline, we start at the study design, where the 
-opportunities to get things right, and the risks of getting them wrong, 
-are greatest.
+Every decision in this module is scored three ways:
 
-## Who should attend
+- **Power and cost**: can you detect the signal you are looking for, within
+  your budget?
+- **Accuracy and interpretability**: can you connect the effect you measure to
+  the biological feature you care about?
+- **Generalisability**: do the findings hold beyond your cohort?
 
-This workshop is designed for researchers who generate or interpret omics data 
-but want to strengthen their understanding of experimental design and study 
-planning before the sample processing begins.
-
-**Reseachers will benefit most if they:**
-
-- Work with or plan to use omics technologies (genomics, transcriptomics, 
-  proteomics, metabolomics, or related fields)
-- Are involved in study design, sample collection, or data interpretation
-- Have no prior bioinformatics or programming experience
-  
-## Learning objectives
-
-### Module 1: The omics landscape and where studies go wrong
-* Match a biological question to the molecular layer that can answer it
-* Recognise the common design pitfalls at each stage of a study
-* Classify a design weakness as recoverable, limitable, or fatal
-* Identify the true unit of replication, and spot pseudoreplication from subsampling or pooling
-
-### Module 2: Experimental design fundamentals for omics
-* Decide whether a source of variation calls for blocking, randomisation, or recording 
-* Choose a platform that can physically capture the signal of interest, and recognise when one cannot
-* Explain what drives sample size in omics: effect size, biological variability, and the multiple-testing burden
-* Distinguish what depth buys (detection) from what replication buys (power), and allocate a fixed budget between them
-* Draft a minimal metadata checklist for their own project
-
-# For developers 
-
-To render docs: 
-
-1. Install mkdocs
-
-```
-pip install mkdocs
-mkdocs --version # confirm install
-```
-
-2. Render docs locally at http://127.0.0.1:8000/: 
-
-```
-mkdocs serve
-```
-
-All content merged to main will be rendered at github.io pages by [`mkdocs_deploy.yml`](https://github.com/Sydney-Informatics-Hub/nextflow-hpc-workshop/blob/main/.github/workflows/mkdocs_deploy.yml) github action.  
-
-## Acknowledgements/citations/credits
-Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities.
-
-## Developers
-- Amarinder Singh Thind
-- Georgie Samaha
-- Mitchell O'Brien
-
-
-## Suggested acknowledgement
-The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney.  
-
-## Cite us to support us!
-##
- 
+Design is hard because these three compete. Money spent on more samples is not
+spent on more data depth; a tightly matched cohort is easier to interpret and harder
+to generalise from. The sections that follow name the trade-off each time it
+appears.

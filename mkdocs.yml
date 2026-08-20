@@ -15,10 +15,13 @@ nav:
     - Stage D · Analysis: content/module1-2-4.md
     - Stage E · Reporting: content/module1-2-5.md
     - Activity: content/module1-2-6.md
+
   - Module 2:
-    - Randomisation: content/module-nm2.1.md
-    - Omics Platforms: content/module-nm2.2.md
-    - Sample Size: content/module-nm2.3-short.md
+    - Introduction: content/module-nm2.0.md
+    - Choosing platforms: content/module-nm2.1.md
+    - Confounding & batch effects: content/module-nm2.2.md
+    - Replication: content/module-nm2.3.md
+    - Sample Size: content/module-nm2.4.md
     - MetaData Guide: content/module-nm2.5.md
 
   - Module 2 (old): 

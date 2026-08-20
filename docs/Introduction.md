@@ -10,7 +10,7 @@ You will learn how to design omics experiments that are statistically sound and 
 
 
 #### Module 1: Right molecule for the biological question 
-#### Module 2: Right dataset and data collection method 
+#### Module 2: Designing Robust Omics Studies
 #### Module 3: Apply the principles 
  
 ## Overall Learning Outcomes
@@ -36,13 +36,13 @@ Match a biological question to the most suitable molecular layer, and identify w
 
 Describe the major stages of an omics workflow and identify the key pitfalls at each stage. 
 
-***Module 2: Right dataset and data collection method*** 
+***Module 2:Designing Robust Omics Studies*** 
 
 By the end of this module, participants will be able to: 
 
 Select an appropriate platform to capture the biological signal of interest and describe the type of data it produces. 
 
-Evaluate a cohort design in terms of signal detection, resource requirements, interpretability, and generalisability. 
+Evaluate an Omics study in terms of signal detection, resource requirements, interpretability, and generalisability. 
 
 ***Module 3: Apply the principles*** 
 
