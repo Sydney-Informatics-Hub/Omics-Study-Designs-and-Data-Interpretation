@@ -43,10 +43,10 @@ in the data but invisible to the analyst.
 ??? example "Case study: When metadata saves the analysis, GTEx & Ischaemia Time" 
     ![](figs_m1/01_metadata_casestudy_v01.png){width=100%}  
 
-!!! info "Coming up in Module 3"
+!!! info "Coming up in Module 2"
     Designing a metadata collection plan, including a minimal
     metadata checklist for omics studies is covered in
-    **Module 3: Experimental design fundamentals**.
+    **Module 2**.
 
 #### Pitfall 10: Discovery without validation
 
