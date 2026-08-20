@@ -11,20 +11,18 @@ When that happens the two are *confounded*. The dataset contains no case where
 they come apart, so no comparison within it can attribute a difference to one
 rather than the other.
 
-The figure below is drawn with processing batch as the factor, because that is
-the easiest version to picture.
+The figure below is the one from Module 1, Pitfall 4, and it is deliberately the
+same picture. Batch is simply the easiest version of this to draw.
 
 ![Confounded vs distributed design, the biological groups either travel with the factor or across it](figs_m1/01_batch_Effect_v02.png){width=90%}
 
-On the left, cases and controls were processed in separate batches. The two
-groups separate cleanly, and that separation is real, but it is a separation by
-batch, and there is nothing in the data that distinguishes it from a separation
-by disease. On the right, both groups appear in both batches. The batch
-structure is still visible, but cases and controls remain distinguishable
-*within* each batch, so the batch effect can be estimated and adjusted for.
+Module 1 read it as a batch problem: on the left, cases and controls processed in
+separate batches, and nothing in the data distinguishes a separation by batch
+from a separation by disease. On the right, both groups appear in both batches,
+so the batch effect is estimable and can be adjusted for.
 
-Nothing in that picture depends on the factor being batch. Substitute any of
-these and it is the same figure:
+Read it again with the word "batch" covered up. Nothing in either panel depends
+on what the factor is. Substitute any of these and it is the same figure:
 
 | Factor | The version of this you'll actually meet |
 |---|---|
