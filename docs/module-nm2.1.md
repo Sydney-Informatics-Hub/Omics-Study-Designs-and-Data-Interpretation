@@ -77,10 +77,6 @@ kind of number each produces makes sense before you rely on it.
     measured is similar; the measurement process, and therefore the data type,
     is not.
 
-### Live Activity
-
-***[Click here to join the activity](https://www.menti.com/aluadu62pnrb)***
-
 ---
 
 # 2.2 Sequencing: from sample to reads
@@ -243,3 +239,7 @@ can turn a potentially low-abundance observation into an average-abundance value
 and distort exactly the low-abundance molecules a discovery study is trying to
 find. The design decision here sets the shape of the missingness you will have
 to reason about later.
+
+### Live mentimeter activity 
+
+***[Click here to join the activity](https://www.menti.com/aluadu62pnrb)***
