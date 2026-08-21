@@ -15,7 +15,7 @@ Usage
   python serve.py          OR
   python3 serve.py
 
-Then open:  http://localhost:8000/module2_practical.html
+Then open:  http://localhost:8000/module2_design_activities.html
 
 Press Ctrl+C in this window to stop the server.
 """
@@ -26,7 +26,7 @@ import webbrowser
 import os
 import sys
 
-FILE = "module2_practical.html"
+FILE = "module2_design_activities.html"
 PORTS_TO_TRY = [8000, 8001, 8080, 8888, 9000]
 
 

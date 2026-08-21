@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2 &middot; Design Activities</title>
+
+<!-- Browser compatibility:
+  Chrome / Edge: open directly, no server needed.
+  Firefox:       serve locally so COOP+COEP headers are set.
+  Safari:        not supported (SharedArrayBuffer disabled).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+  :root {
+    --bg: #f6f8fc;
+    --surface: #ffffff;
+    --surface2: #f1f3f4;
+    --border: #dadce0;
+    --accent: #1a73e8;
+    --accent2: #d93025;
+    --accent3: #188038;
+    --accent4: #e37400;
+    --text: #202124;
+    --text-muted: #5f6368;
+    --text-dim: #9aa0a6;
+    --code-bg: #f8f9fa;
+    --s1: #1a73e8;
+    --s2: #d93025;
+    --s3: #188038;
+    --s4: #e37400;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+  }
+  .site-header h1 span { color: var(--text-muted); }
+
+  .status-pill {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--text-dim);
+    transition: background 0.3s;
+  }
+  .status-dot.ready { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
+  .status-dot.loading { background: var(--accent4); animation: pulse 1s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* ── Nav tabs ── */
+  .section-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    padding: 0 12px;
+    overflow-x: auto;
+  }
+  .section-nav button {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 7px 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-nav button .num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text-dim);
+  }
+  .section-nav button.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  .section-nav button.active .num { background: rgba(26,115,232,0.12); color: var(--accent); }
+  .section-nav button:hover:not(.active) { color: var(--text); }
+
+  /* ── Layout ── */
+  .main {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: calc(100vh - 65px);
+  }
+
+  /* ── Left panel ── */
+  .content-panel {
+    overflow-y: auto;
+    padding: 12px 16px;
+    border-right: 1px solid var(--border);
+  }
+
+  .section-page { display: none; }
+  .section-page.active { display: grid; grid-template-columns: 40% 60%; gap: 12px; align-items: start; }
+  .section-page > .questions { grid-column: 1 / -1; }
+
+  .section-left { display: flex; flex-direction: column; gap: 8px; }
+  .section-right { display: flex; flex-direction: column; gap: 8px; }
+
+  .section-intro {
+    margin-bottom: 8px;
+  }
+  .section-intro h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .section-intro p {
+    color: var(--text-muted);
+    font-size: 12px;
+    max-width: 580px;
+  }
+
+  /* ── Concept callout ── */
+  .concept-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(60,64,67,.1);
+    font-size: 12px;
+  }
+  .concept-box.warn { border-left-color: var(--accent4); }
+  .concept-box.danger { border-left-color: var(--accent2); }
+  .concept-box.success { border-left-color: var(--accent3); }
+  .concept-box strong { color: var(--text); }
+
+  /* ── Controls ── */
+  .controls {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(60,64,67,.15);
+  }
+  .controls-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .control-row:last-child { margin-bottom: 0; }
+  .control-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    min-width: 130px;
+  }
+  .control-label span {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-left: 6px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .run-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 5px 13px;
+    border-radius: 5px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 7px;
+  }
+  .run-btn:hover { background: #1765cc; transform: translateY(-1px); }
+  .run-btn:active { transform: translateY(0); }
+  .run-btn svg { width: 14px; height: 14px; }
+  .run-btn.secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .run-btn.secondary:hover { background: var(--border); }
+
+  /* ── Plot area ── */
+  .plot-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    max-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .plot-area img { width: auto; max-width: 100%; max-height: 415px; height: auto; display: block; object-fit: contain; }
+  .plot-placeholder {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+  }
+  .plot-placeholder .icon { font-size: 28px; margin-bottom: 8px; }
+
+  .spinner {
+    width: 28px; height: 28px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Questions ── */
+  .questions {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+  .questions-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent4);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .q-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .q-item:last-child { margin-bottom: 0; }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .answer-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .answer-toggle:hover { border-color: var(--accent3); color: var(--accent3); }
+  .answer-box {
+    display: none;
+    margin-top: 6px;
+    background: rgba(24,128,56,0.06);
+    border: 1px solid rgba(24,128,56,0.25);
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .answer-box.open { display: block; }
+  .answer-box .ans-item { margin-bottom: 4px; }
+  .answer-box .ans-item:last-child { margin-bottom: 0; }
+  .answer-box strong { color: var(--accent3); }
+
+  /* ── Right panel: console ── */
+  .console-panel {
+    display: none;
+  }
+  .console-panel.visible {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+    height: calc(100vh - 65px);
+    overflow: hidden;
+  }
+  .main.console-open {
+    grid-template-columns: 1fr 340px;
+  }
+  #consoleToggle {
+    margin-left: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  #consoleToggle:hover { background: var(--border); color: var(--text); }
+  #consoleToggle.open { background: rgba(24,128,56,0.1); border-color: rgba(24,128,56,0.4); color: var(--accent3); }
+  .console-header {
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .console-header span { color: var(--accent3); }
+  .console-output {
+    flex: 1;
+    overflow-y: auto;
+    padding: 7px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+  .console-output .line { margin-bottom: 2px; }
+  .console-output .line.info { color: var(--text-muted); }
+  .console-output .line.result { color: var(--accent3); }
+  .console-output .line.warn { color: var(--accent4); }
+  .console-output .line.error { color: var(--accent2); }
+  .console-output .line.prompt { color: var(--accent); }
+  .console-output .line.comment { color: var(--text-dim); }
+
+  .code-editor {
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .code-editor textarea {
+    width: 100%;
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    padding: 12px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+    border-top: 1px solid var(--border);
+  }
+  .code-editor-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+  .code-editor-bar span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .exec-btn {
+    background: var(--accent3);
+    color: #0f1117;
+    border: none;
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+  .exec-btn:hover { opacity: 0.85; }
+
+  /* ── Data table ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 16px;
+  }
+  .data-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    padding: 7px 12px;
+    text-align: left;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .data-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid rgba(180,185,210,0.6);
+    color: var(--text-muted);
+  }
+  .data-table tr:hover td { background: rgba(26,115,232,0.04); }
+  .data-table .highlight { color: var(--accent2); font-weight: 500; }
+  .data-table .good { color: var(--accent3); }
+
+  /* ── Tags ── */
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .tag.bio { background: rgba(24,128,56,0.1); color: var(--accent3); border: 1px solid rgba(24,128,56,0.3); }
+  .tag.tech { background: rgba(217,48,37,0.1); color: var(--accent2); border: 1px solid rgba(217,48,37,0.3); }
+  .tag.samp { background: rgba(227,116,0,0.1); color: var(--accent4); border: 1px solid rgba(227,116,0,0.3); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="badge">Module 2</div>
+  <h1>Design Activities <span>· Confounding &amp; Sample Size</span></h1>
+  <div class="status-pill" id="statusPill">
+    <div class="status-dot loading" id="statusDot"></div>
+    <span id="statusText">Loading R…</span>
+  </div>
+  <button id="consoleToggle" onclick="toggleConsole()" title="Show / hide R console">
+    <svg width="9" height="9" viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+    R Console
+  </button>
+</header>
+
+<!-- ── SECTION NAV ── -->
+<nav class="section-nav">
+  <button class="active" onclick="switchSection(0)"><span class="num">§2.2</span> Chance Balance</button>
+  <button onclick="switchSection(1)"><span class="num">§2.4</span> Detection Floor</button>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <div class="content-panel">
+
+    <!-- ══ ACTIVITY 1 ══ -->
+    <div class="section-page active" id="page0">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>How Reliable Is Chance Balance?</h2>
+          <p>Blocking guarantees the balance that randomisation only makes likely. This activity puts a number on "likely" at the sample sizes omics studies actually run.</p>
+        </div>
+
+        <div class="concept-box">
+          <strong>The setup:</strong> equal numbers of cases and controls, split at random into two processing batches of equal size. A blocked design puts half of each group in each batch, every time. Randomisation gets you the same thing only on average.
+        </div>
+
+        <div class="controls">
+          <div class="controls-title">⚙ Allocation Controls</div>
+          <div class="control-row">
+            <span class="control-label">Samples per group<span id="v-nper">10</span></span>
+            <input type="range" id="nper" min="5" max="50" value="10" step="5" oninput="updateLabel('nper','v-nper','')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">View</span>
+            <select id="plotModeA">
+              <option value="single">One allocation: random vs blocked</option>
+              <option value="dist">Many allocations: how often is it balanced?</option>
+            </select>
+          </div>
+          <button class="run-btn" onclick="runActivity1()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+        <div class="concept-box warn">
+          <strong>Press Run repeatedly.</strong> Each press is a fresh randomisation, exactly as if you had shuffled the samples again before processing. Keep a tally of what you get. The <em>Many allocations</em> view draws 100 at once.
+        </div>
+
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plotA">
+          <div class="plot-placeholder"><div class="icon">🎲</div>Press Run to draw an allocation</div>
+        </div>
+        <div id="tableAContainer"></div>
+      </div><!-- /section-right -->
+
+      <div class="questions">
+        <div class="questions-title">💬 Discussion Questions</div>
+        <div class="q-item"><span class="q-num">Q1</span><span>Keep <em>One allocation</em> selected with 10 samples per group. Press Run fifteen times and record each split. How many came out exactly balanced (5 cases and 5 controls in each batch)? What was the worst split you saw?</span></div>
+        <div class="q-item"><span class="q-num">Q2</span><span>Switch to <em>Many allocations</em>. What percentage of random allocations land exactly balanced? What percentage land at 7:3 or worse? Were your fifteen draws typical?</span></div>
+        <div class="q-item"><span class="q-num">Q3</span><span>Stay on <em>Many allocations</em> and move the samples-per-group slider: run at 5, then at 25, then at 50. What happens to the spread of the distribution, and to the percentage landing at 70:30 or worse? At which of these sample sizes would you be comfortable relying on chance alone?</span></div>
+        <div class="q-item"><span class="q-num">Q4</span><span>The blocked panel is identical on every press. It costs no extra samples and no extra sequencing. So why is randomisation still necessary, what does it protect you from that blocking cannot?</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer('ansA')">Reveal answers</button>
+        <div class="answer-box" id="ansA">
+          <div class="ans-item"><strong>Q1:</strong> With 10 per group, roughly a third of allocations come out exactly 5:5. Most groups will see five or six exact splits out of fifteen, several 6:4 splits, and typically one or two at 7:3. An 8:2 split appears in about one draw in fifty, so most groups will not see one, which is itself the point. Randomisation rarely produces disaster; it routinely produces imbalance.</div>
+          <div class="ans-item"><strong>Q2:</strong> About 34% land exactly balanced, meaning two-thirds do not. Roughly 18% land at 7:3 or worse. This is the honest version of the claim: chance balance is not dependable at these sample sizes. Note that "not balanced" is not the same as "confounded"; a 7:3 split is still analysable, but the batch effect is estimated from fewer within-batch contrasts, and precision suffers.</div>
+          <div class="ans-item"><strong>Q3:</strong> The distribution tightens sharply around 50:50. At n = 5 severe imbalance is common; by n = 50 it is rare. Watch the exactly-balanced percentage too, because it <em>falls</em> as n grows and that surprises people: with more samples there are more possible splits, so any single one becomes less probable. That is not the number that matters. What threatens a study is not missing perfect balance but landing far enough from it that the technical factor is poorly separated from biology, and that risk drops steadily with n. This is why "randomisation will sort it out" is advice imported from trials running at sample sizes omics studies rarely reach.</div>
+          <div class="ans-item"><strong>Q4:</strong> Blocking only works on factors you named in advance. You can block on batch, plate, site and sex because you know they exist. You cannot block on a thermocycler gradient nobody has measured, a reagent lot that changed mid-study, or an operator having a bad afternoon. Randomisation is what stops those unnamed factors from lining up with your comparison. The two tools are not alternatives: block on what you can name, randomise everything else.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ACTIVITY 2 ══ -->
+    <div class="section-page" id="page1">
+      <div class="section-left">
+        <div class="section-intro">
+          <h2>Multi-gene Detection: What Depth Makes Visible</h2>
+          <p>The same 25 genes, at the same true abundances, sequenced at two different depths. Nothing biological differs between the panels. Only the budget does.</p>
+        </div>
+
+        <div class="concept-box">
+          <strong>Core idea:</strong> a gene that receives zero reads is not absent; it was not sampled. At shallow depth, low-abundance genes drop out; at greater depth the same genes reappear. Depth sets a practical floor on what can be detected reliably.
+        </div>
+
+        <div class="controls">
+          <div class="controls-title">⚙ Sequencing Budget</div>
+          <div class="control-row">
+            <span class="control-label">Sample A depth<span id="v-depthA">5M</span></span>
+            <input type="range" id="depthA" min="5" max="80" value="5" step="5" oninput="updateLabel('depthA','v-depthA','M')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Sample B depth<span id="v-depthB">40M</span></span>
+            <input type="range" id="depthB" min="5" max="80" value="40" step="5" oninput="updateLabel('depthB','v-depthB','M')">
+          </div>
+          <div class="control-row">
+            <span class="control-label">Highest gene abundance<span id="v-prop">0.0010%</span></span>
+            <input type="range" id="trueProp" min="1" max="20" value="10" step="1" oninput="updatePropLabel()">
+          </div>
+          <button class="run-btn" onclick="runActivity2()">
+            <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3 2.5l10 5.5-10 5.5V2.5z"/></svg>
+            Run in R
+          </button>
+        </div>
+
+        <div class="concept-box warn">
+          <strong>The design question.</strong> The floor is not chosen arbitrarily, it is set by the least-abundant feature your question depends on. Detecting that a feature is <em>present</em> takes less depth than detecting a <em>change</em> in it.
+        </div>
+
+      </div><!-- /section-left -->
+
+      <div class="section-right">
+        <div class="plot-area" id="plotB">
+          <div class="plot-placeholder"><div class="icon">📉</div>Press Run to generate plot</div>
+        </div>
+        <div id="tableBContainer"></div>
+      </div><!-- /section-right -->
+
+      <div class="questions">
+        <div class="questions-title">💬 Discussion Questions</div>
+        <div class="q-item"><span class="q-num">Q1</span><span>Run with the defaults (Sample A at 5M, Sample B at 40M). Compare the zero counts in the two subtitles. Which genes ; left or right of the x-axis ; are the ones that vanish, and why those?</span></div>
+        <div class="q-item"><span class="q-num">Q2</span><span>Drag Sample A up to match Sample B. What happens to its zeros? Did any gene become more abundant in doing so? What exactly changed between the two runs?</span></div>
+        <div class="q-item"><span class="q-num">Q3</span><span>Return Sample A to 5M. Now move the abundance slider down. Watch genes switch from blue to red in both panels at once. If these two samples were a case and a control in your study, what would you conclude about the red genes ; and would you be right?</span></div>
+        <div class="q-item"><span class="q-num">Q4</span><span>Suppose you add ten more biological replicates, all sequenced at 5M. Does that recover the genes sitting at zero? Which design lever does, and what does this tell you about the difference between a detection problem and a power problem?</span></div>
+        <button class="answer-toggle" onclick="toggleAnswer('ansB')">Reveal answers</button>
+        <div class="answer-box" id="ansB">
+          <div class="ans-item"><strong>Q1:</strong> The genes on the left; the lowest-abundance ones. A highly abundant gene accumulates reads even at shallow depth, so it clears zero comfortably. A gene at a very low proportion may receive no reads at 5M and several at 40M. The abundances are identical across both panels by construction; only the number of reads drawn differs.</div>
+          <div class="ans-item"><strong>Q2:</strong> Sample A's zeros drop to match Sample B's. No gene became more abundant ; the true proportions are fixed in the simulation and identical in both panels. All that changed is how many reads were drawn from each library. This is the point the shallow-versus-deep figure in the module makes: the biology did not change between the panels, the budget did.</div>
+          <div class="ans-item"><strong>Q3:</strong> You would conclude those genes are absent in both, and you would be wrong ; they are present at the same abundance as always, simply below what 5M reads can reliably sample. The danger in a real study is the asymmetric version: if one group were consistently sequenced shallower than the other, its zeros would look like biological absence. That is depth acting as a confounder, which is a design problem rather than a sample-size one.</div>
+          <div class="ans-item"><strong>Q4:</strong> No. More replicates at the same shallow depth give you more samples in which the gene is undetected ; a more confident measurement of nothing. Only depth (or enrichment, or a targeted assay) makes an invisible feature visible. Replication addresses variability between biological units; depth addresses whether the feature is observable at all. They are not interchangeable, which is why the practical rule is to reach adequate depth first and then spend what remains on replication.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-panel -->
+
+  <!-- RIGHT: R console -->
+  <div class="console-panel">
+    <div class="console-header">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" style="color:#52e0a0"><circle cx="8" cy="8" r="8"/></svg>
+      <span>R Console</span>
+      <span style="color:var(--text-dim);margin-left:auto;font-size:10px" id="rVersion">webR 0.4.x</span>
+    </div>
+    <div class="console-output" id="consoleOut">
+      <div class="line comment"># Module 2 · Design Activities</div>
+      <div class="line comment"># Initialising WebAssembly R engine…</div>
+      <div class="line info" id="initLine">⏳ Loading R…</div>
+    </div>
+    <div class="code-editor">
+      <textarea id="codeInput" rows="5" placeholder="# Type R code here and press Run&#10;# Example: rhyper(10, 10, 10, 10)"></textarea>
+      <div class="code-editor-bar">
+        <span>Ctrl+Enter to run</span>
+        <button onclick="runUserCode()">Run</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+<script type="module">
+  import { WebR } from 'https://webr.r-wasm.org/latest/webr.mjs';
+
+  const webR = new WebR();
+  window._webR = webR;
+  window._rReady = false;
+
+  window.toggleConsole = function() {
+    const panel = document.querySelector('.console-panel');
+    const main  = document.querySelector('.main');
+    const btn   = document.getElementById('consoleToggle');
+    const open  = main.classList.toggle('console-open');
+    panel.classList.toggle('visible', open);
+    btn.classList.toggle('open', open);
+    btn.querySelector('svg').style.transform = open ? 'rotate(90deg)' : '';
+  };
+
+  const consoleOut = document.getElementById('consoleOut');
+  const statusDot  = document.getElementById('statusDot');
+  const statusText = document.getElementById('statusText');
+
+  function log(msg, cls='info') {
+    const d = document.createElement('div');
+    d.className = 'line ' + cls;
+    d.textContent = msg;
+    consoleOut.appendChild(d);
+    consoleOut.scrollTop = consoleOut.scrollHeight;
+  }
+  window._log = log;
+
+  async function init() {
+    await webR.init();
+    log('R engine ready', 'result');
+
+    (async () => {
+      for await (const msg of webR) {
+        if (msg.type === 'stdout') log(msg.data, 'info');
+        else if (msg.type === 'stderr' && !msg.data.startsWith('trying URL')) log(msg.data, 'warn');
+      }
+    })();
+
+    log('> webr::install("ggplot2") - please wait...', 'prompt');
+    try {
+      await webR.evalR('webr::install("ggplot2", quiet=TRUE)');
+      await webR.evalR('suppressPackageStartupMessages(library(ggplot2))');
+      log('ggplot2 ready', 'result');
+    } catch(e) {
+      log('ggplot2 unavailable - Activity 2 will not plot', 'warn');
+    }
+
+    statusDot.classList.remove('loading');
+    statusDot.classList.add('ready');
+    statusText.textContent = 'R Ready';
+    window._rReady = true;
+    const il = document.getElementById('initLine');
+    il.className = 'line result';
+    il.textContent = 'Ready - press Run in either activity';
+    log('', 'info');
+    log('# Activity 1 uses base R; Activity 2 uses ggplot2', 'comment');
+  }
+
+  init().catch(e => {
+    log('Failed to load R: ' + e, 'error');
+    statusText.textContent = 'Load failed';
+  });
+
+  // ── Plot rendering ──
+  const PLOT_W = 480, PLOT_H = 340;
+  const CANVAS_W = PLOT_W * 2, CANVAS_H = PLOT_H * 2;
+
+  async function renderPlot(rCode) {
+    const shelter = await new webR.Shelter();
+    let images = [], outputLines = [];
+    try {
+      const capture = await shelter.captureR(rCode, {
+        captureGraphics: { width: PLOT_W, height: PLOT_H, bg: 'white' },
+        withAutoprint: true
+      });
+      images = capture.images || [];
+      outputLines = capture.output || [];
+    } catch(e) {
+      throw new Error(e.message || String(e));
+    } finally {
+      shelter.purge();
+    }
+
+    for (const line of outputLines) {
+      if (line.type === 'stdout') log(line.data, 'info');
+      else if (line.type === 'stderr') log(line.data, 'warn');
+    }
+    if (images.length === 0) throw new Error('No plot returned - see console');
+
+    const oc = document.createElement('canvas');
+    oc.width = CANVAS_W; oc.height = CANVAS_H;
+    const ctx = oc.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    for (const bitmap of images) {
+      ctx.drawImage(bitmap, 0, 0, CANVAS_W, CANVAS_H);
+      bitmap.close();
+    }
+    return oc.toDataURL('image/png');
+  }
+
+  function setPlotLoading(id) {
+    document.getElementById(id).innerHTML = '<div class="spinner" style="display:block"></div>';
+  }
+  function plotError(id) {
+    document.getElementById(id).innerHTML = '<div class="plot-placeholder"><div class="icon">!</div>Error generating plot - check console</div>';
+  }
+  function showPlot(id, src) {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = src; img.style.width = '100%';
+    el.appendChild(img);
+  }
+
+  window.runUserCode = async function() {
+    if (!window._rReady) { log('R not ready yet', 'warn'); return; }
+    const code = document.getElementById('codeInput').value.trim();
+    if (!code) return;
+    log('> ' + code, 'prompt');
+    try {
+      const shelter = await new webR.Shelter();
+      const cap = await shelter.captureR(code, { withAutoprint: true });
+      for (const l of cap.output) log(l.data, l.type === 'stderr' ? 'warn' : 'info');
+      shelter.purge();
+    } catch(e) { log(String(e), 'error'); }
+  };
+
+  // ══════════ ACTIVITY 1: CHANCE BALANCE ══════════
+  window.runActivity1 = async function() {
+    if (!window._rReady) { log('R not ready yet', 'warn'); return; }
+    const n    = parseInt(document.getElementById('nper').value);
+    const nsim = 100;
+    const mode = document.getElementById('plotModeA').value;
+
+    setPlotLoading('plotA');
+    document.getElementById('tableAContainer').innerHTML = '';
+
+    let rcode = '';
+
+    if (mode === 'single') {
+      rcode = `
+n <- ${n}
+set.seed(NULL)
+k <- rhyper(1, n, n, n)
+
+par(mfrow = c(1, 2), mar = c(4, 4, 4, 1), cex = 0.85)
+cols <- c("#d93025", "#1a73e8")
+
+m_rand <- matrix(c(k, n - k, n - k, k), nrow = 2)
+barplot(m_rand, names.arg = c("Batch 1", "Batch 2"), col = cols,
+        ylim = c(0, n * 1.25), border = "white",
+        main = paste0("Randomised\\n", k, ":", n - k, " and ", n - k, ":", k),
+        ylab = "Samples")
+abline(h = n / 2, lty = 2, col = "#5f6368")
+
+m_blk <- matrix(c(n/2, n/2, n/2, n/2), nrow = 2)
+barplot(m_blk, names.arg = c("Batch 1", "Batch 2"), col = cols,
+        ylim = c(0, n * 1.25), border = "white",
+        main = paste0("Blocked\\n", n/2, ":", n/2, " every time"),
+        ylab = "")
+abline(h = n / 2, lty = 2, col = "#5f6368")
+
+legend("topright", legend = c("Cases", "Controls"), fill = cols,
+       bty = "n", cex = 0.8, border = "white")
+
+worst <- max(k, n - k)
+cat("Cases in Batch 1:", k, "of", n, "\\n")
+cat("Split:", k, ":", n - k, "  Largest group share in a batch:",
+    round(100 * worst / n), "%\\n")
+if (k == n/2) cat("-> exactly balanced\\n") else cat("-> not balanced\\n")
+`;
+    } else {
+      rcode = `
+n <- ${n}
+nsim <- ${nsim}
+set.seed(NULL)
+k <- rhyper(nsim, n, n, n)
+
+exact <- mean(k == n/2) * 100
+sev   <- mean(pmax(k, n - k) >= 0.7 * n) * 100
+
+tb <- table(factor(k, levels = 0:n))
+lv <- as.integer(names(tb))
+cols <- ifelse(lv == n/2, "#188038",
+        ifelse(pmax(lv, n - lv) >= 0.7 * n, "#d93025", "#e37400"))
+
+par(mar = c(4.5, 4.5, 4, 1), cex = 0.85)
+barplot(as.numeric(tb), names.arg = names(tb), col = cols, border = "white",
+        xlab = "Cases allocated to Batch 1",
+        ylab = paste0("Allocations (of ", nsim, ")"),
+        main = paste0(nsim, " random allocations, n = ", n, " per group"))
+legend("topright",
+       legend = c("Exactly balanced", "Mild imbalance", "70% or worse"),
+       fill = c("#188038", "#e37400", "#d93025"), bty = "n",
+       cex = 0.75, border = "white")
+
+cat("Exactly balanced:", round(exact), "%\\n")
+cat("70:30 or worse:  ", round(sev), "%\\n")
+cat("Blocked design:   100% balanced, every time\\n")
+`;
+    }
+
+    log('# Activity 1: chance balance (n = ' + n + ')', 'comment');
+    try {
+      const src = await renderPlot(rcode);
+      showPlot('plotA', src);
+    } catch(e) {
+      plotError('plotA');
+      log(String(e), 'error');
+    }
+  };
+
+  // ══════════ ACTIVITY 2: DETECTION FLOOR ══════════
+  window.runActivity2 = async function() {
+    if (!window._rReady) { window._log('R not ready yet', 'warn'); return; }
+    const depthA = parseInt(document.getElementById('depthA').value);
+    const depthB = parseInt(document.getElementById('depthB').value);
+    const prop   = parseInt(document.getElementById('trueProp').value) / 1000000;
+
+    setPlotLoading('plotB');
+
+    const rcode = `
+library(ggplot2)
+set.seed(42)
+depthA <- ${depthA} * 1e6
+depthB <- ${depthB} * 1e6
+focal_prop <- ${prop}
+
+n_genes <- 25
+props <- exp(seq(log(focal_prop / 2000), log(focal_prop), length.out = n_genes))
+
+cA <- rpois(n_genes, lambda = depthA * props)
+cB <- rpois(n_genes, lambda = depthB * props)
+
+labelA <- paste0("Sample A (${depthA}M reads)")
+labelB <- paste0("Sample B (${depthB}M reads)")
+
+df <- data.frame(
+  log_prop = rep(log10(props * 1e6), 2),
+  count    = c(cA, cB),
+  sample   = factor(rep(c(labelA, labelB), each = n_genes),
+                    levels = c(labelA, labelB))
+)
+df$detected <- df$count > 0
+
+nzeroA <- sum(!df$detected[df$sample == labelA])
+nzeroB <- sum(!df$detected[df$sample == labelB])
+
+p <- ggplot(df, aes(x = log_prop, y = count, color = detected)) +
+  geom_segment(aes(xend = log_prop, yend = 0), alpha = 0.35, linewidth = 0.6) +
+  geom_point(size = 3, alpha = 0.95) +
+  facet_wrap(~ sample, ncol = 2) +
+  scale_color_manual(
+    values = c("TRUE" = "#1a73e8", "FALSE" = "#d93025"),
+    labels = c("TRUE" = "Detected (count \u2265 1)", "FALSE" = "Zero \u2014 invisible"),
+    name = NULL
+  ) +
+  labs(
+    title    = "Depth determines which genes are visible",
+    subtitle = paste0("25 genes \u2014 identical abundances in both samples.  ",
+      "Sample A zeros: ", nzeroA, "/25  |  Sample B zeros: ", nzeroB, "/25"),
+    x = "Gene abundance  (log\u2081\u2080 proportion \u00d7 1M)  \u2192  higher = more abundant",
+    y = "Observed count"
+  ) +
+  theme_minimal(base_size = 9) +
+  theme(
+    plot.background  = element_rect(fill = "#ffffff", color = NA),
+    panel.background = element_rect(fill = "#f1f3f4", color = NA),
+    panel.grid.major = element_line(color = "#e0e4ea", linewidth = 0.4),
+    panel.grid.minor = element_blank(),
+    text             = element_text(color = "#202124"),
+    axis.text        = element_text(color = "#5f6368", size = 8),
+    axis.title.x     = element_text(size = 9, color = "#5f6368"),
+    strip.text       = element_text(color = "#202124", size = 9, face = "bold"),
+    strip.background = element_rect(fill = "#e8eaed", color = NA),
+    plot.title       = element_text(size = 10, face = "bold", color = "#202124"),
+    plot.subtitle    = element_text(size = 8, color = "#5f6368"),
+    legend.background = element_rect(fill = "#ffffff", color = NA),
+    legend.text      = element_text(color = "#5f6368", size = 8),
+    legend.position  = "bottom"
+  )
+print(p)
+`;
+
+    window._log('# Activity 2: multi-gene detection (' + depthA + 'M vs ' + depthB + 'M)', 'comment');
+    try {
+      const src = await renderPlot(rcode);
+      showPlot('plotB', src);
+      window._log('[1] Red = zero reads. Move the abundance slider to see more/fewer zeros', 'info');
+    } catch(e) {
+      plotError('plotB');
+      window._log(String(e), 'error');
+    }
+  };
+</script>
+
+<script>
+  function switchSection(idx) {
+    document.querySelectorAll('.section-page').forEach((p,i) => {
+      p.classList.toggle('active', i === idx);
+    });
+    document.querySelectorAll('.section-nav button').forEach((b,i) => {
+      b.classList.toggle('active', i === idx);
+    });
+  }
+  function updateLabel(sliderId, labelId, suffix) {
+    document.getElementById(labelId).textContent =
+      document.getElementById(sliderId).value + suffix;
+  }
+  function updatePropLabel() {
+    const v = parseInt(document.getElementById('trueProp').value);
+    document.getElementById('v-prop').textContent = (v / 10000).toFixed(4) + '%';
+  }
+  function toggleAnswer(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+      const ta = document.getElementById('codeInput');
+      if (document.activeElement === ta) window.runUserCode();
+    }
+  });
+</script>
+</body>
+</html>
