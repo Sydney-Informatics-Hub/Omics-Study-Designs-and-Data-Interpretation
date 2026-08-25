@@ -95,23 +95,64 @@ any variation in its measurements is drift, not biology and that variation can h
 
 !!! question "Activity: is this design replicated, or pseudoreplicated?"
 
-      Apply what you already know
+    **The study.** A team wants to know whether microbial communities differ
+    between freshwater and marine environments. Two sampling designs are
+    proposed. Both produce six samples and cost the same to sequence.
 
-      You classified pseudoreplication in Module 1: the Koren pregnancy-microbiome study, where pooling collapsed the real n. These four designs test the same judgement on fresh examples. For each panel below, decide in your group:
+    ![Two sampling designs: repeated vials from one lake and one sea (A) versus one vial from each of three lakes and three seas (B)](figs_m2/wagner2025_fig1_replication_v03.jpg){width=90%}
 
-      1. What is the true biological unit, the thing the study wants to conclude about?
-      2. What is the real *n*?
-      3. Is it a valid replicated design, or pseudoreplication?
+    **In your group, for panel A and then panel B:**
 
-      ![Four sampling designs to classify as valid replication or pseudoreplication](figs_m2/wagner2025_fig1_replication_v03.jpg){width=90%}
-        
-      <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
-      [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
-      (CC BY-NC-ND 4.0)</small>
+    1. What is the biological unit the study wants to draw a conclusion about?
+    2. What is the real *n* per environment?
+    3. Is this valid biological replication (vial as sample), or pseudoreplication?
+
+    **Then:** one design gives an answer to the research question and the other
+    does not. Which, and what exactly does the failing design measure instead?
+
+    <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
+    [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
+    (CC BY-NC-ND 4.0)</small>
+
 
 <!--
-              **Anchor case:** three vials taken from Lake Tahoe are **not** three
-              independent observations of freshwater, they are three observations of *one
-              lake*. The valid version is one vial from each of three independently chosen
-              freshwater bodies.
+            ??? success "Answers: reveal after group discussion"
+
+        **Panel A pseudoreplication.**
+
+        - *Biological unit:* the water body. The study wants to conclude about
+          freshwater and marine environments as **categories**, so one lake is
+          one observation of "freshwater."
+        - *Real n:* **1 per environment**, not 3. The three vials are
+          observational units nested inside a single biological unit.
+        - Three vials from Lake Tahoe are three observations of *one lake*, not
+          three observations of freshwater. Analysing them as n = 3 inflates the
+          degrees of freedom and produces a p-value that describes a comparison
+          the study never made.
+
+        **Panel B valid replication.**
+
+        - *Biological unit:* unchanged, the water body.
+        - *Real n:* **3 per environment**, one vial from each of three
+          independently chosen bodies.
+        - Because the three lakes differ from each other, the variation between
+          them is the variation the question is about. That is what makes the
+          freshwater/marine contrast estimable.
+
+        **Which design answers the question?**
+
+        Only B. Panel A can detect a difference between Lake Tahoe and the Sea of
+        Japan, but "freshwater versus marine" 
+
+        Panel A is not measuring nothing, it estimates **within-body
+        variability**, which is real information. It simply is not the quantity
+        the research question asked for, and no analysis converts one into the
+        other.
+
+        **Note the mechanism.** This is *subsampling* (many observational units
+        from one biological unit), not the *pooling* seen in the Koren study,
+        where donor material was merged before measurement. Both collapse the
+        real *n*; they do it at different points in the workflow, and
+        subsampling is sometimes recoverable at analysis if the nesting was
+        recorded. Pooling is not.
         -->

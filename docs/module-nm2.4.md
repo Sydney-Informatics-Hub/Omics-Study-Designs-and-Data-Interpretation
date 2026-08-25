@@ -153,9 +153,6 @@ set by the least-abundant feature your question depends on, not chosen
 arbitrarily, and detecting that a feature is present takes less depth than
 detecting a change in it.
 
-!!! tip "Activity"
-    Head to the webR page, tab **Count & Depth** → *Multigene Detection*.
-
 ### What replication does: power
 
 Here is the part depth cannot do. Increasing depth improves precision *within* a
@@ -273,3 +270,16 @@ Tarazona S, et al. *Nature Communications* 2020; 11: 3092.
 
     Tarazona S et al. *Nature Communications* 2020
     [doi:10.1038/s41467-020-16937-8](https://www.nature.com/articles/s41467-020-16937-8){target="_blank"}
+
+!!! question "Activity: what depth makes visible"
+
+    Download the activities page 
+    <a href="../Activities-webR/module2/module2_design_activities.html">
+    <button style="background-color: blue; color: white;">
+        ⬇ Download HTML
+      </button>
+    </a>
+        </a>.  
+        or 
+    from the repo folder `Activities-webR/module2/`
+    and open it in Chrome or Edge. Head to the tab **Detection Floor**.

@@ -70,8 +70,7 @@ cases and 10 controls, two processing batches.
 - **Randomised**: samples are assigned by chance. Balance comes out
   approximate rather than exact, and that is the part worth noticing: chance
   balance is dependable at large *n* and unreliable at the sample sizes omics
-  studies actually run. With five samples per group per batch, a random
-  allocation can land close to confounded without anyone intending it.
+  studies actually run. With ten samples per group split across two batches, only about a third of random allocations come out exactly balanced, and roughly one in five lands at 7:3 or worse.
 
 That last point is why the two tools aren't interchangeable. **For any factor you
 can name, block on it. Randomise everything else.** Blocking guarantees the
@@ -320,8 +319,18 @@ factors you never thought to name, randomisation is the only tool there is.
 - Correction methods are not a fallback for a confounded design. They only
   recover what the design left recoverable.
 
-!!! tip "Activity"
-    TODO
-     <!-- Head to the webR page, tab **Confounding** → *Hidden Confounders*. -->
-      <!-- Head to the webR page, tab **Confounding** → *Blocking*. -->
+!!! question "Activity: how reliable is chance balance?"
 
+       Download the activities page 
+    <a href="../Activities-webR/module2/module2_design_activities.html">
+    <button style="background-color: blue; color: white;">
+        ⬇ Download HTML
+      </button>
+    </a>
+          or 
+    from the repo folder `Activities-webR/module2/`
+    and open it in Chrome or Edge. Head to the tab **Chance Balance**.
+
+    Blocking guarantees the balance that randomisation only makes likely, the
+    activity puts a number on "likely" at the sample sizes omics studies
+    actually run.

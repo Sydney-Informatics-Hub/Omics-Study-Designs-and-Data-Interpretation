@@ -1,7 +1,7 @@
 MODULE 2 PRACTICAL — OPENING IN FIREFOX ON MAC
 ═══════════════════════════════════════════════
 
-Chrome / Edge users: just double-click module2_practical.html. Done.
+Chrome / Edge users: just double-click module2_design_activities.html. Done.
 Skip this file entirely.
 
 Firefox users: 2-minute setup below.
@@ -22,7 +22,7 @@ Step 1:  Open Terminal
          Press Cmd+Space, type Terminal, press Enter
 
 Step 2:  Type the letters:  cd
-         Then press Space — do NOT press Enter yet
+         Then press Space, do NOT press Enter yet
          (you should see:  cd  with a cursor waiting)
 
 Step 3:  Open Finder and find the folder containing
@@ -38,7 +38,7 @@ Step 6:  Type this and press Enter:
          python3 serve.py
 
 Step 7:  Firefox will open automatically at:
-         http://localhost:8000/module2_practical.html
+         http://localhost:8000/module2_design_activities.html
 
          If it doesn't open automatically, copy that address
          into Firefox yourself.
@@ -54,7 +54,7 @@ WHAT THE SERVER PRINTS WHEN IT WORKS
   ────────────────────────────────────
   Open this in Firefox (or any browser):
 
-      http://localhost:8000/module2_practical.html
+      http://localhost:8000/module2_design_activities.html
 
   Serving files from:  /Users/you/Desktop/module2
   Press Ctrl+C to stop.
