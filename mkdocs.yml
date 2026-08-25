@@ -15,8 +15,14 @@ nav:
     - Stage D · Analysis: module1-2-4.md
     - Stage E · Reporting: module1-2-5.md
     - Activity: module1-2-6.md
-
-  - Module 2:
+  - Module 2 (V3):
+    - Introduction: module2-0.md
+    - Accuracy & Interpretation-part 1: module2-1.md
+    - Confounding & batch effects: module2-2.md
+    - Replication: module2-3.md
+    - Sample Size: module2-4.md
+    - MetaData Guide: module2-5.md
+  - Module 2 (V2):
     - Introduction: module-nm2.0.md
     - Choosing platforms: module-nm2.1.md
     - Confounding & batch effects: module-nm2.2.md
