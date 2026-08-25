@@ -1,0 +1,45 @@
+name: netlify-preview
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+
+      - run: pip install mkdocs-material
+      - run: mkdocs build
+
+      - name: Deploy preview to Netlify
+        uses: nwtgck/actions-netlify@v3
+        with:
+          publish-dir: site
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy preview for PR #${{ github.event.pull_request.number }}"
+          enable-pull-request-comment: true
+          overwrites-pull-request-comment: true
+          enable-commit-comment: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 5
