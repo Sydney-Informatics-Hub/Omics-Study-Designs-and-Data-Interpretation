@@ -14,6 +14,7 @@ limitable, and fatal. The fatal problems were:
 - pooling samples when individual level inference was required
 
 These problems cannot be fixed during analysis because they arise during study design or sample collection.  
+
 Module 1 focused on what can go wrong; Module 2 focuses on what to decide before data collection begins.
 
 Throughout this module, we will consider three aspects of study design:
@@ -43,8 +44,9 @@ begins. They appear later here because they answer a different question.
 The four fatal problems from Module 1 are revisited throughout the module: platform choice in 2.1, batch structure in 2.2, metadata in 2.3, and the unit of replication in 2.4.
 
 !!! note "Design decisions often affect more than one question"
-    The three questions are not independent. A decision may improve one aspect
-    of a study while also affecting another. Balanced batch allocation is
-    covered under interpretability, but it also improves power; sample size
-    affects both power and how far the findings extend. Each section states its
-    main focus and flags these connections where they matter.
+
+    Each section is labelled with the question it mainly addresses, but many
+    decisions affect more than one. e.g. balanced batch allocation is covered under
+    interpretability, but it also improves power; sample size affects both
+    power and how far the findings extend. Each section flags these connections
+    where they matter.
