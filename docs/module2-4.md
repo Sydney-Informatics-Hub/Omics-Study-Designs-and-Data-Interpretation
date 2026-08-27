@@ -223,3 +223,46 @@ next question: how to spend the available budget to get it.
     <small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
     [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
     (CC BY-NC-ND 4.0)</small>
+
+
+<!--
+            ??? success "Answers: reveal after group discussion"
+
+        **Panel A pseudoreplication.**
+
+        - *Biological unit:* the water body. The study wants to conclude about
+          freshwater and marine environments as **categories**, so one lake is
+          one observation of "freshwater."
+        - *Real n:* **1 per environment**, not 3. The three vials are
+          observational units nested inside a single biological unit.
+        - Three vials from Lake Tahoe are three observations of *one lake*, not
+          three observations of freshwater. Analysing them as n = 3 inflates the
+          degrees of freedom and produces a p-value that describes a comparison
+          the study never made.
+
+        **Panel B valid replication.**
+
+        - *Biological unit:* unchanged, the water body.
+        - *Real n:* **3 per environment**, one vial from each of three
+          independently chosen bodies.
+        - Because the three lakes differ from each other, the variation between
+          them is the variation the question is about. That is what makes the
+          freshwater/marine contrast estimable.
+
+        **Which design answers the question?**
+
+        Only B. Panel A can detect a difference between Lake Tahoe and the Sea of
+        Japan, but "freshwater versus marine" 
+
+        Panel A is not measuring nothing, it estimates **within-body
+        variability**, which is real information. It simply is not the quantity
+        the research question asked for, and no analysis converts one into the
+        other.
+
+        **Note the mechanism.** This is *subsampling* (many observational units
+        from one biological unit), not the *pooling* seen in the Koren study,
+        where donor material was merged before measurement. Both collapse the
+        real *n*; they do it at different points in the workflow, and
+        subsampling is sometimes recoverable at analysis if the nesting was
+        recorded. Pooling is not.
+        -->

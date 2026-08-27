@@ -161,7 +161,10 @@ spectrum:
 
 ![](figs_m2/02_proteomicsWorkflow.png){width=100%}
 
-<small>*Source: adapted from [csbiology.github.io Mass spectrometry-based proteomics](https://csbiology.github.io/BIO-BTE-06-L-7/NB02a_Mass_spectrometry_based_proteomics.html){target="_blank"}*</small>
+<small>*Adapted from [CSBiology BIO-BTE-06-L-7: Mass spectrometry-based
+proteomics](https://csbiology.github.io/BIO-BTE-06-L-7/NB02a_Mass_spectrometry_based_proteomics.html){target="_blank"},
+Computational Systems Biology, RPTU Kaiserslautern
+([MIT licence](https://github.com/CSBiology/BIO-BTE-06-L-7/blob/main/LICENSE){target="_blank"}).*</small>
 
 Reading left to right: in the common bottom-up proteomics workflow, proteins are
 extracted and digested into peptides. That digestion step is what makes this
