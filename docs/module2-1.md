@@ -1,7 +1,7 @@
 # 2.1 Choosing the right platform
 
 !!! abstract "Design question: Are we measuring the biological feature we want to interpret?"
-    **Mainly:** Accuracy and interpretability  
+    **Mainly affects:** Accuracy and interpretability  
     **Also affects:** Power and cost · Generalisability
 
 The first design decision in Module 2 is which platform to run at all,
