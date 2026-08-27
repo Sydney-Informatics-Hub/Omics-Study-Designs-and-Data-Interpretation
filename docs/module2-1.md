@@ -146,11 +146,11 @@ coverage one, which is why it cannot be fixed after sequencing.
 
 ## Mass spectrometry: from sample to spectrum
 
-Proteins and metabolites cannot be sequenced. There is no equivalent of reading
-off a nucleotide order, so they are measured instead by mass spectrometry,
-which measures charged molecules according to their mass-to-charge ratio (m/z)
-and records their signal intensity. The output is **intensities**: a continuous
-signal.
+Unlike DNA and RNA, proteins and metabolites are generally not sequenced as
+polymers. In mass spectrometry they are measured by their mass-to-charge ratio
+(m/z) and signal intensity; for proteins, fragmentation spectra can also provide
+sequence information about peptides. The output is **intensities**: signal
+measured as a function of m/z.
 
 The chain runs one way, exactly as it did for sequencing, and it ends at the
 spectrum:
@@ -161,57 +161,63 @@ spectrum:
 
 <small>*Source: adapted from [csbiology.github.io Mass spectrometry-based proteomics](https://csbiology.github.io/BIO-BTE-06-L-7/NB02a_Mass_spectrometry_based_proteomics.html){target="_blank"}*</small>
 
-Reading left to right: proteins are extracted and **digested into peptides**,
-the defining step, and what makes this workflow look different from sequencing.
-The peptides are separated over time by liquid chromatography (LC) so they
-don't all hit the instrument at once, sprayed into the mass spectrometer as
-charged ions, and weighed. What comes back is a spectrum: intensity on one
-axis, m/z on the other.
+Reading left to right: in the common bottom-up proteomics workflow, proteins are
+extracted and digested into peptides. That digestion step is what makes this
+workflow look different from sequencing. The peptides are separated over time by
+liquid chromatography (LC) so they don't all hit the instrument at once, sprayed
+into the mass spectrometer as charged ions, and measured according to their
+m/z. What comes back is a spectrum: intensity on one axis, m/z on the other.
 
-!!! note "Metabolomics takes the same path, minus one step"
+!!! note "Metabolomics takes a similar path, minus one step"
     Metabolites are small molecules and are measured directly, so there is no
-    digestion step. Everything downstream of extraction is the same: separate,
-    ionise, weigh, read out as intensities.
+    digestion step. For LC-MS metabolomics the downstream workflow is similar:
+    separate, ionise, measure m/z, and record signal intensities.
 
-Two further decisions matter most for design, and neither is a step you can see
-in the figure. Each is a *mode* the same step can be run in. Both are fixed
-before the run, and one of them cannot be undone afterwards.
+Two further decisions matter particularly for interpreting the resulting data,
+and neither is a step you can see in the figure. The first concerns how samples
+are quantified and multiplexed; the second concerns how ions are sampled by the
+instrument. Both are fixed before the run, and one of them cannot be undone
+afterwards.
 
 ### Decision 1: label-free or labelled
 
-How samples are quantified against each other is chosen at the bench, not in
-analysis.
+Whether samples are acquired using a label-free or a labelling strategy is
+decided before the run; the resulting data are then quantified and compared
+computationally.
 
 **Label-free** runs each sample separately and compares signal across runs. It
-is cheap, places no fixed limit on sample number, and is often attractive for
-larger studies. But because samples are measured in different runs, run-to-run
-variation and a greater potential for missing measurements across runs are
-important considerations. **Injection order** matters here. Instrument signal
-drifts over a run, so if samples are injected in an order that lines up with
-your biological groups, the drift becomes a batch effect indistinguishable from
-biology. That is Module 1, Pitfall 4, in a new guise. Randomise injection order,
-and plan **pooled QC** injections to track the drift. Pooled QC has to be prepared *before* the run; if it was never included,
-no later analysis can reconstruct it (Module 1, Pitfall 6).
+can be simpler because each sample does not require a labelling reagent or a
+place in a multiplexing set, although each sample generally requires its own
+measurement run.
+But because samples are measured in different runs, run-to-run variation and a
+greater potential for missing measurements across runs are important
+considerations. **Injection order** matters here. Instrument signal drifts over a
+run, so if samples are injected in an order that lines up with your biological
+groups, the drift becomes a batch effect indistinguishable from biology. That is
+Module 1, Pitfall 4, in a new guise. Randomise injection order, and plan
+**pooled QC** injections to track the drift. Pooled QC samples need to be
+prepared and included in the run; if they were never acquired, no later analysis
+can reconstruct them (Module 1, Pitfall 6).
 
 **Labelled** (e.g. TMT) chemically tags several samples so they can be combined
 and measured in a single run. Run-to-run variation is reduced *within* a tagged
-set because the samples are measured together, but the number of samples per
-set is capped, and each set then becomes its own batch to balance across.
-Labelling buys within-set consistency at the cost of throughput and a new layer
-of batch structure to design around.
+set because the samples are measured together, but the number of samples that
+can be multiplexed in a set is limited by the labelling scheme. Each multiplexed
+set is a separate analytical batch, so biological groups should be balanced
+across sets wherever possible. Labelling buys within-set consistency at the cost
+of throughput and a new layer of batch structure to design around.
 
 !!! tip "This is a power and cost trade-off, on the bench"
-    Label-free maximises sample number for the budget; labelled maximises
-    consistency within a set. Neither is better in principle: the right choice
-    depends on whether your study is limited more by sample number or by
-    run-to-run noise.
+    Label-free places no multiplexing limit on sample number, but each sample
+    costs a run; labelled approaches reduce runs and improve consistency within
+    a set, at a capped set size. Neither is better in principle: the right
+    choice depends on whether your study is limited more by instrument time or
+    by run-to-run noise.
 
 ### Decision 2: the acquisition mode you cannot revisit
 
 Once ions are inside the instrument, the **acquisition mode** determines how
-they are sampled and which are selected for detailed measurement. This is the
-mass-spectrometry equivalent of read length: set at acquisition, and
-unrecoverable afterwards.
+precursor ions are sampled and fragmented.
 
 **DDA (data-dependent acquisition)** takes a survey scan and then selects and
 fragments a subset of precursor ions, typically favouring the most abundant ions
@@ -220,32 +226,31 @@ construction it spends its effort on what is already abundant. Low-abundance
 peptides may be sampled sporadically or missed entirely, and which ones are
 selected can shift from run to run.
 
-**DIA (data-independent acquisition)** fragments ions across predefined m/z
-windows, rather than selecting individual precursors by abundance. This provides
-more reproducible sampling across runs, at the cost of more complex, multiplexed
-spectra.
+**DIA (data-independent acquisition)** fragments ions within predefined m/z
+windows, rather than selecting individual precursors by abundance. This
+generally provides more consistent sampling across runs, at the cost of more
+complex, multiplexed spectra.
 
 !!! danger "The unrecoverable rule"
-    The acquisition mode determines how ions are sampled and acquired. A peptide
-    that was never selected for acquisition leaves no fragmentation evidence in
-    that run. Not detected is not the same as not present, but no downstream
-    method can recover a signal that was never acquired. This is the same
-    principle Module 1 named for platform choice (Pitfall 2), now at the level
-    of the instrument.
+    If the relevant ion signal was never acquired, no downstream analysis can
+    reconstruct that missing measurement from the raw data. Not detected is not
+    the same as not present. This is the same principle Module 1 named for
+    platform choice (Pitfall 2), now at the level of the instrument.
 
 This also explains something flagged in Module 1. Missingness in mass
-spectrometry is often informative, not random: a low-abundance molecule is more
-likely to fall below the detection threshold, so a missing value can reflect low
-abundance rather than absence. DDA's tendency to favour abundant ions is one
-contributor to this pattern. That is why, as Module 1, Pitfall 6 warned, filling
-a missing value with the sample mean is the wrong instinct: it can turn a
-potentially low-abundance observation into an average-abundance value and
-distort exactly the low-abundance molecules a discovery study is trying to find.
-The decision made here determines the pattern of missing values you will have to
-handle later.
+spectrometry is often informative rather than completely random. Low-abundance
+molecules are more likely to fall below detection or acquisition thresholds, but
+missingness can also arise from ionisation, chromatographic, matrix and
+acquisition effects. DDA's tendency to favour abundant ions is one contributor
+to this pattern. That is why, as Module 1, Pitfall 6 warned, blindly replacing
+missing values with the sample mean can be misleading: it can turn a potentially
+low-abundance observation into an average-abundance value and distort exactly
+the low-abundance molecules a discovery study is trying to find. The decision
+made here determines the pattern of missing values you will have to handle
+later.
 
 ---
 
 ## Live mentimeter activity
 
-***[Click here to join the activity](https://www.menti.com/aluadu62pnrb)***
+***[Click here to join the activity](https://www.menti.com/aluadu62pnrb){target="_blank"}***
