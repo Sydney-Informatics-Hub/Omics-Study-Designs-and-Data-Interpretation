@@ -9,7 +9,9 @@
 Module 1 listed sampling bias (Pitfall 1) and batch effects (Pitfall 4)
 separately, because they happen at different points in a study. Structurally
 they are the same failure: **a variable you are not studying ends up aligned
-with the groups you are comparing.**
+with the groups you are comparing.** 
+
+> The platform may be right and the measurement sound. The problem here is that the difference you see cannot be assigned to the biology.
 
 When that happens the two are *confounded*. The dataset contains no case where
 they come apart, so no comparison within it can attribute a difference to one

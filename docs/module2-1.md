@@ -5,7 +5,9 @@
     **Also affects:** Power and cost · Generalisability
 
 The first design decision in Module 2 is which platform to run at all,
-because that choice fixes everything that follows.
+because that choice fixes everything that follows. 
+
+> This section is about measuring the wrong thing. The next two deal with the problems that remain once the platform is right.
 
 The chain is short and it runs one way only:
 

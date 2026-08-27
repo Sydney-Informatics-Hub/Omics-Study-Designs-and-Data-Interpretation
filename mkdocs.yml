@@ -17,9 +17,9 @@ nav:
     - Activity: module1-2-6.md
   - Module 2 (V3):
     - Introduction: module2-0.md
-    - Accuracy & Interpretation-part 1: module2-1.md
-    - Accuracy & Interpretation-part 2: module2-2.md
-    - Replication: module2-3.md
+    - Accuracy & Interp-Platform: module2-1.md
+    - Accuracy & Interp-Confounding: module2-2.md
+    - Accuracy & Interp-Measurement: module2-3.md
     - Sample Size: module2-4.md
     - MetaData Guide: module2-5.md
   - Module 2 (V2):
