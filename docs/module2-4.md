@@ -94,8 +94,7 @@ Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
 
 ## Estimating it in practice
 
-Because the classical formulas don't fit omics, sample size is best estimated
-**empirically** rather than calculated, and the honest expectation is that the
+Because the assumptions behind simple classical formulas rarely hold cleanly in omics, sample size is best estimated **empirically** rather than calculated, and the honest expectation is that the
 number will come out higher than intuition suggests.
 
 The effect size you expect and the variability you expect cannot come out of the
@@ -177,7 +176,6 @@ goal is discovery or validation, not on the platform alone.
 >Proteomics (label-free MS)
 There is no universal proteomics minimum. Missing values are the complication: many proteins are not measured in every sample, so the usable information for a given protein is often lower than the number of samples run, even though your biological n is unchanged. And because missingness in mass spectrometry is often informative (2.1), low-abundance proteins can be among those missing most often, including proteins that may be important to a discovery study. Sample size alone does not fix this: plan around the proteins the question depends on, and expect poorly detected proteins to require more samples than well-detected ones.
 
->On platforms where features are not measured in every sample, particularly label-free mass spectrometry, detection rate is a third quantity to estimate, and it comes from the same three sources.
 
 !!! warning "These are not magic numbers"
     *n* = 6 is not automatically a good design, and *n* = 20 is not automatically
