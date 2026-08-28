@@ -137,11 +137,6 @@ speaks to at the same time.
     narrow the gap, but no reanalysis recovers ancestry that was never in the
     study. Closing it takes more diverse cohorts.
 
-    **Why it belongs here rather than in 2.2.** Nothing was confounded. The
-    studies measured what they intended to measure, in the people they recruited.
-    The limitation is entirely in who was recruited, and it was invisible from
-    inside any single study.
-
     <small>
     Martin AR, Kanai M, Kamatani Y, Okada Y, Neale BM, Daly MJ. Clinical use of
     current polygenic risk scores may exacerbate health disparities.

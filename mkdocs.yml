@@ -27,13 +27,7 @@ nav:
       - Generalisability:
           - Who the findings apply to: module2-6.md
       - Putting it together: module2-7.md
-  - Module 2 (V2):
-    - Introduction: module-nm2.0.md
-    - Choosing platforms: module-nm2.1.md
-    - Confounding & batch effects: module-nm2.2.md
-    - Replication: module-nm2.3.md
-    - Sample Size: module-nm2.4.md
-    - MetaData Guide: module-nm2.5.md
+
   - References: further-reading.md
   
   # Example top-level page
