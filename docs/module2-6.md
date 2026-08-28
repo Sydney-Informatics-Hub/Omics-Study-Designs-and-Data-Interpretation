@@ -10,26 +10,26 @@ question. The earlier sections asked whether the study can measure what it set
 out to measure, and whether it has enough evidence to detect it. This one asks
 what the answer is an answer *about*.
 
-> A study can be internally flawless and still tell you very little about anyone who was not in it.
+> A study can be internally valid and still have limited relevance beyond the population studied.
 
 ---
 
 ## Internal validity is not external validity
 
-Take a two-group study where all cases come from Clinic A and all controls from
+Take a two group study where all cases come from Clinic A and all controls from
 Clinic B. Section 2.2 dealt with why that fails: clinic and disease are the same
 variable, and no analysis separates them.
 
 Now suppose the design is fixed. Cases and controls are recruited from Clinic A
 together, matched on age and sex, randomised through the lab, and the batch
-structure is balanced. Everything 2.2 asked for has been done, and the disease
+structure is balanced. The confounding is gone, because clinic no longer varies with disease. Everything 2.2 asked for has been done, and the disease
 effect is cleanly estimable.
 
 A second question remains, and nothing in the data answers it. **Do patients at
-Clinic A resemble patients elsewhere?** If the clinic is a tertiary referral
-centre, its patients are more severe than average. If it serves one
-neighbourhood, they share diet, environment and ancestry. The effect you
-measured is real, and it is an effect in that population.
+these two clinics resemble patients elsewhere?** 
+
+- If the clinic is a tertiary referral centre, its patients are more severe than average.
+- If it serves one neighbourhood, they share diet, environment and ancestry. The effect you measured is real, and it is an effect in that population.
 
 The two questions are distinct. Fixing the confounding does not widen the
 cohort, and widening the cohort does not fix confounding. A study can fail
@@ -54,6 +54,27 @@ Both are limits on the claim, and neither is a flaw. A study of one tissue in
 one cohort is a perfectly good study. The failure is claiming more than the
 design supports.
 
+
+Scope can be exceeded in more than one way. Extending a finding beyond the people, conditions or biology actually studied is ***extrapolation***: adults to children, one tissue to another, one mouse strain to mice, late-stage disease to early disease. A second problem is drawing a conclusion about individual units from a relationship observed in aggregate data, related to what is known as the ***ecological fallacy***. If bulk RNA-seq shows gene X higher in diseased tissue, that does not establish that gene X is higher within any particular cell type. Expression may have risen within cells, or the tissue may now contain more of a cell type that already expressed it highly, or both. Bulk cannot distinguish them: the averaging limit from 2.1 becomes a limit on what you can conclude.
+
+![Ecological fallacy: three groups with their own trends, and the single trend seen across group averages](figs_m2/ecological_fallacy_v06.png){width=100%}
+
+
+<small>The same data at two levels. Each cell type has its own relationship
+between gene X expression and outcome (left), and the line through all the
+points describes the cell types rather than anyone in them. Seen only as three
+averages (right), the relationship looks clean and simple. Working with
+aggregate data is not the error; using a result derived from aggregates to draw
+a conclusion about individuals is.</small>
+
+The same trap appears when studies rather than cells are the unit. In meta-analysis, metaregression relates study level characteristics such as mean age or year of publication to the size of the reported effect, and associations found at that level need not hold within any study. Dekkers and colleagues illustrate this with CD4 count at the start of antiretroviral therapy: the count rose over calendar time within five of six studies, and the study-level metaregression showed no such trend. Whether the unit is a cell, a patient or a study, a relationship seen at one level cannot simply be assumed to hold at another.
+
+
+> <small> Dekkers OM, Vandenbroucke JP, Cevallos M, Renehan AG, Altman DG, Egger M.
+    COSMOS-E: Guidance on conducting systematic reviews and meta-analyses of
+    observational studies of etiology. *PLOS Medicine* 2019; 16(2): e1002742.
+    [doi:10.1371/journal.pmed.1002742](https://doi.org/10.1371/journal.pmed.1002742){target="_blank"}
+    </small>
 ---
 
 ## Who is represented
@@ -63,44 +84,29 @@ between groups, each group recruited from a different place, cases collected in
 one year and controls in another. Read the same variables again with the groups
 balanced, and a second question appears.
 
-**Sex.** As 2.2 put it, a sex-imbalanced two-group comparison is a confounder
-you cannot fix afterwards. A single-sex study is different. The comparison is
-estimable, the effect is real, and it is an effect in one sex. Module 1 showed
-how much of the transcriptome differs by sex in at least one tissue, which is
-the reason this matters rather than a formality. The limitation is statable,
-and stating it is the whole obligation.
 
-**Recruitment source.** Where people were recruited carries age, severity,
-medication, comorbidity and socioeconomic position with it. Balanced across
-groups, those characteristics need not confound the comparison. They still
-describe who the answer is about.
+**Sex.** As section 2.2 showed, if the two groups are imbalanced by sex, sex can become a confounder and you cannot fix that afterwards. A single sex study is different. You can still estimate the comparison, and the effect you find is real, but it applies to that sex only. Module 1 showed that the transcriptome can differ substantially by sex in at least one tissue, which is why this matters. The key is simply to recognise the limitation and state it clearly.
 
-**Disease spectrum.** Which patients have the condition matters as much as which
-people were recruited. Late-stage, treatment-naive cases against healthy controls
-will separate cleanly, and a marker that separates them may do nothing useful in
-the patients it would actually be used on: early disease, mixed severity,
-already on treatment. The easier the comparison, the narrower the population it
-speaks for. Treatment works the same way. If nearly everyone in the cohort is on
-one drug, part of what you measured is the drug.
+**Recruitment source.** Where people are recruited from can be linked to their age, disease severity, medication use, other health conditions and socioeconomic position. If these characteristics are balanced across groups, they do not necessarily confound the comparison. But they still tell us **who the study results apply to**.
 
-**Site and season.** Multi-site studies broaden the cohort and add batch
-structure at the same time, which is the trade-off in miniature: the design
-choice that improves generalisability makes the analysis harder. Collection
-season matters more than people expect for anything involving diet, infection
-or daylight.
+
+**Disease spectrum.** It matters which patients with the condition are included, not just where they were recruited. For example, comparing late stage, treatment naive patients with healthy controls may give a clear difference. But a marker that separates these groups may not be useful in the patients it would actually be used on, such as people with early disease, different levels of severity, or those already receiving treatment.
+
+In general, the easier the comparison, the narrower the population the result may apply to. Treatment can create a similar issue. If most people in the cohort are taking the same drug, some of the difference you measure may be due to the treatment rather than the disease.
+
+
+**Site and season.** Including multiple sites can make a study more representative of the wider population, but it can also introduce differences between sites that make the analysis harder. This is the trade-off in miniature: **the design choice that improves generalisability can also make the analysis more complicated**.
+
+Season can matter too, especially for things influenced by diet, infections or daylight. If samples are collected in different seasons, some of the differences you observe may reflect season rather than the biology you are interested in.
+
 
 **Species, strain, and line.** Outside human studies the same logic holds. One
 inbred mouse strain, one cell line, one cultivar, one field site. Inbred strains
 reduce variability, which improves power (2.4) and narrows what the result
 speaks to at the same time.
 
-!!! danger "The trade-off named"
-    A tightly matched cohort reduces biological variability, so effects are
-    easier to detect and easier to interpret. The same matching narrows the
-    population the finding describes. Power and interpretability often pull
-    towards a narrower cohort; generalisability pulls towards broader
-    representation. There is no setting
-    that maximises all three.
+!!! danger "The trade-off"
+    A tightly matched cohort reduces biological variation, making effects easier to detect and interpret. But the more narrowly you define the cohort, the fewer people the findings may apply to. **Power and interpretability often favour a narrower cohort, while generalisability favours broader representation.** You cannot maximise power, interpretability and generalisability all at the once.**
 
 ---
 
