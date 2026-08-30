@@ -1,4 +1,4 @@
-# Bio101 workshop: foundations of omics study design
+# BIO101: Foundations of omics study design
 
 This workshop introduces you to the principles and practices needed to design omics experiments with a focus on decisions made before data generation: platform selection, sample size, batch structure, and metadata collection. It also covers post-hoc assessment of datasets for bias, quality issues, and common interpretation errors. The content is broken up into 3 modules that cover: 
 
@@ -34,6 +34,7 @@ By the end of this workshop, participants will be able to:
 - Diagnose confounding and batch structure and propose design changes to reduce their impact 
 
 ### Developers
+
 - Amarinder Singh Thind
 - Georgie Samaha
 - Mitchell O'Brien
