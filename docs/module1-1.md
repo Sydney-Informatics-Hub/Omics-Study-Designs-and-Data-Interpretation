@@ -1,12 +1,11 @@
 # Module 1.1: The omics landscape
 
 !!! info "Learning objectives"
-    By the end of this section, participants will be able to:  
-    - Match a biological question to the most suitable molecular layer, and identify what each layer can and cannot tell you.
 
-
-**[Tell us about your study datatyp here](https://www.menti.com/alocqhrd8oet)**  or go to [mentimeter.com](https://mentimeter.com) and enter code **1234 567**
-
+    - Describe the molecular information captured by each of the five omics layers
+    - Explain how the molecular layers relate through the central dogma and its regulatory steps
+    - Select the most appropriate molecular layer for a given biological question
+    - Evaluate the limitations of each layer and what a chosen layer cannot tell you
 
 Modern biology has undergone a fundamental shift from measuring one 
 biological molecule at a time to profiling entire classes of biological 
@@ -17,251 +16,221 @@ microbial community, at the molecular level.
 
 Every living system, whether a bacterium, a migratory bird, or a 
 human, can be interrogated across multiple molecular layers, and each 
-layer reveals a different dimension of how the system works. **The 
-choice of which layer to investigate, and often *which combination* 
+layer reveals a different dimension of how the system works. The 
+choice of which layer to investigate, and often which combination
 of layers, is one of the most consequential decisions a researcher 
-makes before an experiment begins.**
+makes before an experiment begins.
 
 
 ## From DNA to metabolite
 
-Most biological questions can be investigated at multiple molecular 
-layers. Each layer provides a different type of biological information 
-and therefore answers a different version of the same question. The 
-layers are connected by the central dogma and its regulation: DNA is 
-packaged and made accessible (or not), accessible genes are 
-transcribed to RNA, RNA is translated to protein, and protein activity 
-drives the metabolic reactions that keep a cell alive. Each layer has 
-a blind spot the next layer can partly resolve.
+Most biological questions can be investigated at multiple molecular layers. Each molecular layer captures a different aspect of cellular biology. A biological question may be addressed at one layer or several, depending on what is actually driving the phenotype of interest. 
+
+The molecular layers follow a path described by the central dogma of molecular biology: DNA is transcribed to RNA, RNA is translated to protein, and protein actively drives metabolic reactions. Exceptions and regulatory mechanisms complicate this picture but the framework remains a useful starting point for understanding how information flows between layers and where omics technology intervenes. 
+
+??? warning "The central dogma: exceptions to the rule"
+    The central dogma is a useful framework, not a complete description of how biological information flows. Well-established exceptions include [reverse transcription](https://www.pnas.org/doi/10.1073/pnas.2604888123), RNA-based regulation of gene expression through [non-coding RNAs](https://www.cell.com/cell/fulltext/S0092-8674(24)01206-6), and [prion proteins](https://www.nature.com/articles/s41467-022-31460-8) that propagate heritable stats without any nucleic acid template. Our understanding of these exceptions continue to expand. 
 
 
-The figure below shows how each layer sits within the broader molecular hierarchy of a cell. 
+The figure below maps these five molecular layers onto the central dogma, showing where each sits in the flow of biological information and what each layer captures.
 
-![](figs_m1/1-1_molecules_v1-part1.jpg){width=100%}
+![](figs/1-1_centraldogma.png){width=100%}
 
-!!! question "A clinical example: unexplained heart failure"
-    Imagine a patient with heart failure where the underlying cause is unclear. Could omics data help explain what is happening?  
-    
-    We will follow this question through different omics layers:
-    
-    ***What is driving this patient's heart failure?***
-    We will see how genomics, transcriptomics, proteomics, and metabolomics can provide different pieces of evidence.
+Each layer captures a different slice of biology, and no single layer gives the whole picture. To make that concrete, we will follow a single clinical question through all five layers.
 
+!!! question "Research experiment scenario: unexplained heart failure"
+    A population of patients present to hospital with heart failure and the underlying cause is unclear. We will ask the same question at each molecular layer: ***what is driving these patients' heart failure?***
 
-!!! note "Layers overlap: the choice is fit, not exclusivity" 
+??? note "Layers overlap: the choice is fit, not exclusivity" 
     Most questions can be approached from more than one layer. The lists below show what each layer is best suited to answer, not what it alone can answer.
 
-    For example, if we want to know how closely two species are related, we
-    can compare their DNA, RNA, or protein sequences. DNA is usually the best
-    starting point because the same genome can be studied from any tissue, and
-    it contains both coding and non-coding regions. With RNA, we only capture
-    genes that are expressed in the tissue we sampled. The general rule:
-    **pick the layer where your signal is the dominant source of variation,
-    not one where it competes with variation you are not studying.**
+    For example, if we want to know how closely two species are related, we can compare their DNA, RNA, or protein sequences. DNA is usually the best starting point because the same genome can be studied from any tissue, and it contains both coding and non-coding regions. 
+    
+    With RNA, we only capture genes that are expressed in the tissue we sampled. The general rule: **pick the layer where your signal is the dominant source of variation, not one where it competes with variation you are not studying.**
 
-    The genome-to-metabolome ordering traces information from genomic
+    The order of layers traces information from genomic
     variation through to its molecular consequences. It is a conceptual model,
     not a one way pathway, the layers feed back on each other throughout.
 ---
 
-### Layer 1: DNA / Genome
+### Layer 1: DNA (the genome)
 
-**What it is:** the long-term genetic blueprint. DNA contains the 
-instructions required to build and maintain cells. The complete set of DNA in an organism, every gene, every non-coding region, on every chromosome is called **Genome**. 
+![](figs/1-1_dna.png){width=100%}
 
-**Role in biology**
+#### What is it?
 
-- Stores hereditary information
-- Determines which genes an organism possesses
-- Changes relatively little across a lifetime
+DNA contains the instructions required to build and maintain cells. The genome is the complete set of DNA in an organism. 
 
-**What this layer is best suited to answer**
+Most of the genome does not encode proteins. Non-coding regions include regulatory elements like promoters, enhancers, and silencers, that control when, where, and how a gene is transcribed. Genes themselves are organised into exons (coding sequences) and introns (non-coding sequences removed during transcription). The structure of a gene determines which protein isoforms can be produced from it and therefore which downstream layers are affected. 
 
-- Which genes are present?
-- Which mutations are present?
-- How are individuals or species genetically related?
+Understanding the genome is a prerequisite for interpreting the epigenome (which regions are regulated) and the transcriptome (which isoforms are expressed).
 
-!!! warning "What the genome cannot tell us"
-    Having a gene does not mean it is active. Two cells can share 
-    identical DNA while performing completely different functions.
+#### Role in biology
 
-**Applying it to the heart failure question**
+The genome is a stable repository of hereditary information. It determines which genes an organism possesses, how those genes are structured, and contains the regulatory elements that control gene activity across all downstream molecular layers. Unlike the layers beyond it, the genome changes relatively little across a lifetime. 
 
-DNA of the patient's blood can identify inherited variants (mutations) 
-in genes known to cause cardiomyopathy (type of heart failure), for example a truncating 
-mutation in *TTN* (titin) or a missense variant in *MYH7* (beta myosin 
-heavy chain).
+#### Insights this layer can provide
 
-- **What we learned:** the patient carries a pathogenic *TTN* mutation 
-  associated with cardiomyopathy.
-- **What we still don't know:** is that variant actually being 
-  expressed and contributing to the patient's current disease?
+Genomics can reveal which genes an organism carries, how they are structured, and what variants are present. This includes single nucleotide variants or polymorphisms (SNV/SNP), small insertions and deletions (indels), structural variants, and copy number changes. Variants may be germline, inherited and present in every cell, or somatic, acquired in specific tissues as in cancer. The non-coding genome is equally informative: variants in promoters, enhancers, and silencers can alter when and where genes are active without changing the protein sequence itself, and are increasingly recognised as important drivers of phenotypic variation.
+
+Beyond individual biology, the genome supports comparative questions. Genomic variation is the basis for reconstructing evolutionary relationships, characterising genetic diversity within and between populations, and identifying signatures of selection. These applications span species identification, population genetics, conservation biology, and the study of how genetic diversity shapes disease susceptibility across groups.
+
+#### What it can't tell us 
+
+The genome describes what an organism could do, not what it is doing. 
+
+A gene's presence tells us nothing about whether it is transcribed, how much protein it produces, whether that protein is active, or what metabolic consequences follow. Two individuals can carry the same variant and present with completely different phenotypes, because gene expression, epigenetic regulation, environment, and chance all mediate the path from genotype to phenotype. The genome also cannot capture somatic changes that arise after development such as epigenetic alterations, transcriptional responses to stress, or acquired mutations in a subset of cells, unless those specific tissues are sampled and sequenced.
+
+??? note "The genome in our research question"
+
+    Blood-derived DNA from our heart failure patients can be screened for inherited variants in genes with established roles in cardiomyopathy. Whole genome or whole exome sequencing can identify rare pathogenic variants. For example, a truncating mutation in *TTN* (which encodes titin, the largest protein in the sarcomere and a major structural component of cardiac muscle) or a missense variant in *MYH7* (beta myosin heavy chain, the primary motor protein driving cardiac contraction). Variants in these genes are among the most common monogenic causes of dilated cardiomyopathy.
+
+    Genomic analysis can also identify variants in non-coding regulatory regions that alter gene expression rather than protein sequence, and copy number variants that affect gene dosage. In a cohort study, comparing variant frequencies between patients and healthy controls can identify genomic loci associated with disease susceptibility or severity.
+
+    - **What we learned:** a subset of patients carry pathogenic variants 
+      in sarcomere genes, providing a potential molecular explanation for 
+      their cardiac dysfunction.
+    - **What we still don't know:** whether those variants are penetrant 
+      in these individuals — not all carriers develop disease — and whether 
+      patients without identified variants have a different underlying cause 
+      that genomics alone cannot reveal.
+---
+
+### Layer 2: DNA methylation and histone modification (the epigenome) 
+
+#### What is it?
+
+The epigenome consists of chemical modifications to DNA and its associated histone proteins that determine how accessible different regions of the genome are. 
+
+Two major mechanisms contribute to this: DNA methylation, which typically silences gene expression when it occurs at gene promoters, and histone modifications, which can either compact or open chromatin to restrict or permit transcription.
+
+These modifications regulate gene activity without altering the underlying DNA sequence. The epigenome explains a fundamental puzzle in cell biology: how can a skin cell and a neuron contain identical DNA yet perform completely different functions? The answer lies in systematic epigenetic differences between cell types - which genes are accessible and which are locked away is established during development and maintained across cell divisions.
+
+#### Role in biology
+
+The epigenome acts as the regulatory interface between an organism's fixed genetic sequence and its dynamic environment. Developmental cues, ageing, and environmental exposures, including diet, stress, and toxins, can alter epigenetic marks, changing which genes are available for transcription without changing what those genes encode. The epigenome is therefore the layer at which genetic potential meets environmental context.
+
+#### Insights this layer can provide
+
+Epigenomics reveals the regulatory state of the genome in a given cell type at a given time. By mapping which regions are methylated or carry particular histone marks, we can determine which genes are accessible for transcription and which are silenced — information the DNA sequence alone cannot provide. This is particularly valuable for understanding how the same genome produces different cell types during development, how environmental exposures alter gene regulation over time, and how disease states involve changes in chromatin accessibility rather than changes in sequence. Epigenomic data also helps interpret non-coding variants identified by genomics: a SNP in a regulatory region only has functional relevance if that region is active in the tissue of interest, and the epigenome tells us whether it is.
+
+#### What it can't tell us
+
+Epigenetic changes indicate regulatory potential, not gene expression. An accessible chromatin region means a gene is available for transcription — not that it is being transcribed. Measuring DNA methylation or histone marks tells us nothing about whether accessible genes are actively producing RNA, how much, or in which isoforms. The epigenome also does not reveal the functional consequences of altered regulation — for that, we need to move to the transcriptome and beyond.
+
+??? note "The epigenome in our research question"
+
+    The epigenome can tell us which genes containing variants of interest are accessible for transcription in the failing heart. Profiling chromatin accessibility (ATAC-seq) or DNA methylation in cardiac tissue can reveal whether stress-response gene regions have opened up. This is a pattern associated with cardiac remodelling under sustained pressure or volume overload. Epigenetic changes reflect the cell's response to disease, not its inherited predisposition.
+
+    - **What we learned:** stress-response and remodelling gene regions have become accessible in the patients' failing myocardium, consistent with active transcriptional reprogramming under sustained cardiac stress.
+    - **What we still don't know:** whether those accessible regions are actually being transcribed, and whether the epigenetic changes are driving disease progression, compensating for it, or both.
+---
+
+### Layer 3: RNA (the transcriptome)
+
+#### What is it?
+
+The transcriptome is the complete set of RNA molecules a cell or tissue is producing at a given moment. 
+
+Where the genome tells us which genes exist and the epigenome tells us which are accessible, the transcriptome tells us which are actually being used. It is the first layer that reflects the cell's current activity rather than its potential.
+
+The transcriptome captures more than which genes are active. Alternative splicing, which is the process by which different combinations of exons are joined during RNA processing, means a single gene can produce multiple distinct transcripts, called isoforms. Each isoform potentially encodes a protein with a different structure or function. Two samples with identical gene-level expression can therefore differ substantially at the isoform level, with functional consequences that gene-level analysis would miss.
+
+Beyond messenger RNA (mRNA), the transcriptome includes non-coding RNAs like microRNAs and long non-coding RNAs, that do not encode proteins but regulate gene expression, chromatin state, and RNA stability. Structural RNAs such as ribosomal and transfer RNAs are also transcribed constituents of the transcriptome, though they are typically removed in standard RNA-seq workflows. The regulatory non-coding RNA fraction is large, incompletely characterised, and increasingly recognised as central to the control of gene expression.
+
+#### Role in biology
+
+The transcriptome is the most dynamic of the molecular layers. Gene expression changes rapidly in response to developmental signals, environmental conditions, disease, and treatment. This responsiveness makes it a sensitive readout of cellular state. BUT it also means results depend heavily on when and from which tissue the sample was collected. A transcriptomic snapshot captures one moment in a continuous, context-dependent process.
+
+#### Insights this layer can provide
+
+Transcriptomics identifies which genes are active in a given cell or tissue, at what level, and in which isoforms. These are questions the genome and epigenome cannot answer directly. Differential expression analysis between conditions, for example disease versus healthy tissue or treated versus untreated cells, can reveal which pathways are engaged and how the cell has reorganised its transcriptional programme in response. Because expression changes rapidly, transcriptomics is also well suited to capturing dynamic processes like responses to acute stress, progression through a developmental stage, or the early effects of a drug.
+
+At the isoform level, transcriptomics can detect alternative splicing events that produce functionally distinct protein variants from the same gene. This is relevant in conditions where splicing is disrupted. Transcriptomic profiling at single-cell resolution adds a further dimension, revealing how gene expression varies between individual cells within the same tissue and enabling the identification of rare cell populations or transitional states that bulk measurements would obscure.
+
+#### What it can't tell us
+
+RNA abundance does not reliably predict protein abundance. Post-transcriptional regulation, including RNA stability, translational efficiency, and protein degradation rates, means that transcript and protein levels can diverge substantially. A highly expressed gene is not necessarily producing abundant or active protein, and a gene with low transcript levels may still maintain significant protein levels due to slow protein turnover. 
+
+??? note "The transcriptome in our research question"
+
+    Moving from the epigenome to the transcriptome takes us from accessibility to observed activity. Measuring the transcriptome of failing cardiac tissue tells us which genes are up or downregulated relative to healthy myocardium, which signalling pathways, fibrosis, inflammation, hypertrophy, are engaged, and which isoforms are being produced from genes such as *TTN*, where isoform switching between the compliant fetal N2BA isoform and the adult N2B isoform has direct mechanical consequences for cardiac function.
+
+    - **What we learned:** stress-response and remodelling genes are actively transcribed; fibrosis and hypertrophy pathways are upregulated; isoform shifts in structural genes are detectable and functionally relevant.
+    - **What we still don't know:** whether those transcripts are being translated into functional protein at the expected levels, and whether the resulting proteins are correctly localised and active within the sarcomere.
 
 ---
 
-### Layer 2: Epigenome 
+### Layer 4: Proteins (the proteome)
 
-**What it is:** chemical modifications to DNA and its associated 
-histone proteins that determine how accessible different regions of 
-the genome are. These modifications regulate gene activity without 
-changing the underlying DNA sequence.
+#### What is it?
 
-**Biological role**
+Proteins are the primary functional molecules of the cell. 
 
-- Acts as a regulatory layer determining which genes can be switched 
-  on or off in different cell types and under different environmental 
-  conditions
-- Explains how genetically identical cells develop specialised 
-  functions
+They catalyse the biochemical reactions that sustain life, form the structural scaffolds of cells and tissues, transmit signals, transport molecules, and regulate gene expression. The proteome is the complete set of proteins present in a cell, tissue, or organism at a given time.
 
-**What this layer is best suited to answer**
+Proteins rarely act in isolation. Many assemble into multi-protein complexes that are molecular machines whose activity depends on which subunits are present and in what stoichiometry. The composition of these complexes can determine substrate specificity, regulatory sensitivity, and subcellular localisation in ways that measuring individual protein abundance cannot capture. A protein can be present at normal levels while its binding partners are absent, leaving the complex non-functional.
 
-- Which regions of the genome are accessible for transcription?
-- Which genes are likely to be active or repressed?
-- How do development, ageing, or environmental exposures alter gene 
-  regulation?
+The relationship between a protein's amino acid sequence and its three-dimensional structure, and therefore its function, is not always predictable from sequence alone. Small sequence differences can produce large structural and functional changes, and post-translational modifications further alter how a protein folds, where it localises, and what it binds. 
 
-!!! warning "Limitation"
-    Epigenetic changes indicate regulatory *potential*, they do not 
-    directly measure gene expression.
+#### Role in biology
 
-**Applying it to the heart failure question**
+Proteins execute virtually every cellular function. Unlike RNA, which reflects transcriptional activity, the proteome reflects the cell's actual functional state: which enzymes are present and active, which signalling cascades are engaged, which structural components are intact. The proteome integrates the effects of post-translational modification by phosphorylation, ubiquitination, acetylation, and others, that rapidly alter protein activity, localisation, and stability in response to cellular signals without any change in transcript levels. This regulatory layer is invisible to transcriptomics and only partially visible to genomics, making the proteome essential for understanding how cells respond dynamically to their environment.
 
-DNA sequence tells us which genes exist. The epigenome tells us which of those 
-genes are accessible for transcription in this cell under these 
-conditions. Profiling chromatin accessibility (ATAC-seq) or DNA 
-methylation in cardiac tissue can reveal whether **stress-response** 
-regions have opened up, and whether a **fetal gene programme** has 
-been reactivated, a well described signature in failing hearts where 
-genes normally silenced after birth become accessible again under 
-sustained stress.
+#### Insights this layer can provide
 
-- **What we learned:** the fetal gene programme has become accessible 
-  in the patient's failing myocardium.
-- **What we still don't know:** are those accessible genes actually 
-  being transcribed, and is the reactivation causing dysfunction or 
-  compensating for it?
+Proteomics directly measures the molecules that carry out cellular functions. It can quantify which proteins are present and in what abundance, identify changes in post-translational modification state that alter protein activity or interactions, and detect mislocalisation of proteins to the wrong cellular compartment. In clinical contexts, proteins measurable in accessible biofluids such as plasma or urine serve as biomarkers of tissue-level pathology, reflecting changes in distant tissues that cannot be directly sampled.
+
+Proteomics also reveals discordance with the transcriptome. A transcript can be upregulated while its protein product is rapidly degraded, or a protein can accumulate without a corresponding increase in its mRNA due to changes in translation efficiency or protein stability. These mismatches are biologically meaningful and would be missed by transcriptomics alone. For questions about what the cell is actually doing, the proteome provides evidence that no upstream layer can substitute for.
+
+#### What it can't tell us
+
+Protein abundance alone does not capture activity. A protein can be present in abundance while sequestered in the wrong compartment, held in an inactive conformation by an inhibitor, or absent from its functional complex. Post-translational modifications modulate activity in ways that standard abundance measurements may not detect without modification-specific enrichment strategies. The proteome also does not directly reveal the downstream metabolic consequences of protein activity — for that, the metabolome is needed.
+
+??? note "The proteome in our research question"
+
+    Measuring the proteome of cardiac tissue or plasma brings us to the level of functional molecules. Clinically actionable signals emerge here that are invisible to transcriptomics: elevated BNP and troponin in plasma reflect cardiac stress and injury at the protein level; mislocalisation of sarcomeric proteins disrupts the mechanical function of the contractile apparatus; and abnormal phosphorylation of contractile proteins alters their calcium sensitivity and force generation. Proteomics can also expose mismatches with the transcriptomic picture, a transcript upregulated in the failing heart whose protein product is simultaneously being degraded, or a structural protein present at normal abundance but carrying modifications that impair its function.
+
+    - **What we learned:** BNP and troponin are elevated in plasma; sarcomere proteins are mislocalised; phosphorylation patterns on contractile proteins are abnormal, with functional implications for myocardial force generation.
+    - **What we still don't know:** what those protein-level changes mean for the heart's real-time metabolic and energetic state — the question the next layer is positioned to answer.
 
 ---
 
-### Layer 3: RNA / Transcriptome
+### Layer 5: Metabolites (the metabolome)
 
-**What it is:** the subset of genes actively being transcribed.  
-Where:  
-- DNA = the instruction manual (genetic potential)   
-- Epigenome = the regulatory layer controlling which instructions are available  
-- RNA = the active messages showing which instructions are being used. 
+#### What is it?
 
-The complete set of RNA molecules a cell is producing at a given moment, is called **transcriptome**.
+Metabolites are small molecules produced, consumed, or modified during cellular metabolism. 
 
-**Role in biology**
+They include sugars, amino acids, lipids, nucleotides, and organic acids - the substrates and products of the enzymatic reactions that sustain cellular life. The metabolome is the complete set of these molecules present in a cell, tissue, or organism at a given time.
 
-- Carries genetic instructions from DNA
-- Regulates gene expression
-- Changes rapidly in response to the environment
+Metabolites occupy a distinctive position in the molecular hierarchy. Where upstream layers describe what the cell has the potential to do (genome), what is being regulated (epigenome), what is being expressed (transcriptome), and what machinery is present (proteome), the metabolome captures what is actually happening biochemically at the moment of measurement. It is the closest molecular readout of physiological state.
 
-**What this layer is best suited to answer**
+Beyond their role as metabolic intermediates, many metabolites function as signalling molecules, linking metabolic state back to gene regulation and completing a regulatory loop that runs in both directions through the molecular hierarchy.
 
-- Which genes are active?
-- Which pathways respond to disease or treatment?
-- How do different cell types differ?
+#### Role in biology
 
-!!! warning "Limitation"
-    RNA abundance does not always predict protein abundance.
+The metabolome integrates information from all upstream molecular layers and from the external environment simultaneously. Nutritional state, oxygen availability, drug exposure, physical activity, microbial activity, and cellular stress all leave measurable signatures in the metabolome. This makes metabolomics a sensitive readout of whole-organism physiological state. It also means the metabolome reflects many influences at once, and attributing a metabolic change to a specific upstream cause requires supporting evidence from other layers.
 
-**Applying it to the heart failure question**
+#### Insights this layer can provide
 
-Measurement of transcriptome of the failing myocardium moves us from *accessibility* to 
-*observed activity*: we can now measure which genes are up or 
-downregulated compared with a healthy heart, confirm whether the fetal 
-gene programme flagged by the epigenome is actually being transcribed, 
-and identify which signalling pathways (fibrosis, inflammation, 
-hypertrophy) are engaged.
+Metabolomics directly measures the biochemical state of a cell or tissue at the time of sampling. It can identify which metabolic pathways are active, quantify the cell's energetic status through ratios such as ATP:ADP or NAD⁺:NADH, and detect the accumulation of pathway intermediates that indicates where a metabolic block has occurred. In disease contexts, characteristic metabolic signatures can serve as biomarkers of pathological state, and in pharmacology, metabolomics captures how a drug alters cellular biochemistry beyond its intended target.
 
-- **What we learned:** fetal genes are being actively transcribed, and 
-  fibrosis and hypertrophy pathways are upregulated.
-- **What we still don't know:** are those transcripts being translated 
-  into functional protein, and are the resulting proteins correctly 
-  localised and active?
+Metabolomics is also the layer that closes the loop between molecular measurements and observable phenotype. The functional consequences of genetic variants, epigenetic changes, altered gene expression, and protein dysfunction ultimately manifest as changes in metabolic output. A metabolic shift observable in plasma or tissue is therefore often the most direct molecular correlate of a clinical phenotype — even when the upstream cause remains unclear.
 
----
+#### What it can't tell us
 
-### Layer 4: Proteins / Proteome
+The metabolome captures current state, not cause. A metabolic signature tells us what is happening now, not what initiated it. Establishing causality requires integrating evidence from upstream layers. Metabolites are also highly dynamic: concentrations can shift within minutes, and results are sensitive to pre-analytical variables including the time of sample collection, handling, freeze-thaw cycles, and the subject's nutritional state in the hours before sampling. Without rigorous standardisation of collection and processing, technical variation can obscure or mimic biological signal. Finally, the metabolome does not distinguish whether an observed metabolic change is a driver of
+pathology, a consequence of it, or a compensatory response.
 
-**What they are:** the functional molecules that perform most cellular 
-work. Nearly every biological process depends on proteins. The **proteome** is the complete set of proteins present in a cell, tissue, or organism at a given time.
+??? note "The metabolome in our research question"
 
-**Role**
+    Measuring the metabolome gives us the failing heart's real-time biochemical state. A hallmark of heart failure is a substrate switch: the healthy adult heart derives approximately 70% of its ATP from fatty acid oxidation, but the failing heart shifts progressively toward glucose oxidation as mitochondrial function declines and energetic demand outstrips supply. 
+    
+    This fuel shift is directly detectable in tissue or plasma metabolite profiles. Reduced acylcarnitines reflecting decreased fatty acid oxidation, altered TCA cycle intermediates, and changes in lactate and ketone body concentrations, and represents the integrated physiological consequence of the changes identified across all previous layers: the inherited variant, the altered chromatin state, the dysregulated transcripts, and the dysfunctional protein complement, all converging on a measurable shift in cardiac fuel metabolism.
 
-- Catalyse reactions
-- Form cellular structures
-- Transmit signals
-- Transport molecules
-- Regulate gene expression
-
-**What this layer is best suited to answer**
-
-- Which proteins are present?
-- Which proteins change in abundance?
-- Which proteins have altered post-translational modifications 
-  (e.g. phosphorylation)?
-
-!!! warning "Limitation"
-    Protein abundance alone does not indicate activity, proteins are 
-    also regulated by localisation and post-translational modification.
-
-**Applying it to the heart failure question**
-
-Measurement of proteome of cardiac tissue or plasma tells us which proteins are 
-actually present and in what state. This is where clinically 
-actionable signals appear: changes such as increased BNP or troponin protein levels, abnormal protein location, or altered phosphorylation of heart muscle proteins that cannot be detected by transcriptomics alone. Protein level data can also reveal mismatches with the RNA picture, a 
-transcript can be upregulated while the protein is degraded as fast as it's made, or the reverse.
-
-- **What we learned:** BNP is upregulated, sarcomere proteins are 
-  mislocalised, phosphorylation patterns on proteins involved in heart function are abnormal.
-- **What we still don't know:** what those proteins are doing 
-  biochemically, and how the heart's real time energetic state has 
-  shifted.
-
----
-
-### Layer 5: Metabolites / Metabolome
-
-**What they are**: Small molecules that are produced, consumed, or modified during cellular metabolism. The **metabolome** is the complete set of these metabolites present in a cell, tissue, or organism at a given time.
-
-**Role**  
-metabolites provide the closest molecular snapshot of the 
-cell's current physiological state.
-
-**What this layer is best suited to answer**
-
-- Which metabolic pathways are active?
-- How has diet, disease, or treatment affected the organism?
-- What is happening right now?
-
-!!! warning "Limitation"
-    Metabolites are highly dynamic and influenced by many external 
-    factors, timing of collection matters enormously.
-
-**Applying it to the heart failure question**
-
-Measurement of metabolome gives us the failing heart's real-time biochemical state. 
-A hallmark of heart failure is a **fuel switch (substrate switch)**: the healthy 
-adult heart runs primarily on *fatty acid oxidation*, but failing hearts 
-shift toward *glucose oxidation*, a signature detectable directly in 
-tissue or plasma metabolite profiles. This is the physiological 
-consequence of everything the previous layers described, the mutation, 
-the reopened chromatin, the altered transcripts, the changed protein 
-complement, all converging on a measurable shift in what the heart is 
-burning for fuel.
-
-- **What we learned:** the heart has shifted from fatty acid to 
-  glucose oxidation, confirming failing heart physiology at the 
-  biochemical level.
-- **What we still don't know:** the root cause. A metabolic signature 
-  tells us *what* is happening now, but not *why* it started, that 
-  trail leads back through the earlier layers.
-
+    - **What we learned:** the failing hearts have shifted from fatty acid to glucose oxidation, with metabolite profiles consistent with mitochondrial energetic impairment.
+    - **What we still don't know:** whether the metabolic shift is driving disease progression or is a downstream consequence of structural and functional changes identified at earlier layers and which intervention point would be most effective to target.
 
 ---
 
