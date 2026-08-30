@@ -1,8 +1,8 @@
-## Module 1.2: Understanding the factors that shape study success
+
+# Module 1.2: Understanding the factors that shape study success
 
 !!! info "Learning objectives"
-    By the end of this section, participants will be able to:  
-        -Describe the major stages of an omics workflow and identify the key pitfalls at each stage. 
+        Describe the major stages of an omics workflow and identify the key pitfalls at each stage. 
 
 Despite rapid advances in 'omics technologies, successful studies depend on more than the technology itself. Careful experimental design, data analysis, and interpretation are critical at every stage of the study design. Understanding the factors that contribute to robust and reproducible studies is just as important as understanding the technologies themselves.
 
