@@ -55,6 +55,9 @@ Platform selection follows from the hypothesis. The question determines which mo
 
 ## Consideration 1: Cohort design and confounding
 
+!!! danger "Design principle"
+    A confounder that was neither controlled nor recorded cannot be modelled during analysis. If a variable may influence the outcome, measure it at the time of collection.
+
 ??? note "Key terms"
     | Term | Definition |
     |---|---|
@@ -79,13 +82,13 @@ Approaches for managing confounders, matching, stratification, randomisation, an
     <small>Beery & Zucker. *Neuroscience & Biobehavioral Reviews* (2011). [doi:10.1016/j.neubiorev.2010.07.002](https://doi.org/10.1016/j.neubiorev.2010.07.002){target="_blank"}</small>
     <small>Oliva et al. *Science* (2020). [doi:10.1126/science.aba3066](https://doi.org/10.1126/science.aba3066){target="_blank"}</small>
 
-!!! danger "Design principle"
-    A confounder that was neither controlled nor recorded cannot be modelled during analysis. If a variable may influence the outcome, measure it at the time of collection.
-
 ---
 
 ## Consideration 2: Platform selection
 
+!!! danger "Design principle"
+    Platform selection is a biological decision driven by the question. It must be made before data collection and cannot be revised after.
+    
 The platform determines what biological information the experiment can capture. A platform that cannot measure the signal of interest at the required resolution or sensitivity will produce data that cannot answer the question, regardless of downstream analysis.
 
 | Mismatch type | Description | Example |
@@ -95,9 +98,6 @@ The platform determines what biological information the experiment can capture. 
 | **Sensitivity** | The platform cannot detect molecules at the abundance levels relevant to the question | In proteomics, acquisition mode determines which proteins are measured at all; key targets may be absent rather than under-quantified |
 | **Technical scope** | The platform cannot capture the structural feature of interest | Short-read sequencing cannot resolve structural variants or full-length isoforms regardless of sequencing depth |
 | **Novelty over fit** | A more sophisticated platform than the question requires is used, then analysed as though a simpler platform had been used | Single-cell omics applied to a bulk-level question, with no cell-type-level analysis performed |
-
-!!! danger "Design principle"
-    Platform selection is a biological decision driven by the question. It must be made before data collection and cannot be revised after.
 
 ---
 
@@ -112,6 +112,9 @@ The platform determines what biological information the experiment can capture. 
     | **Multiple testing** | When many hypotheses are tested simultaneously, the expected number of false positives increases proportionally. At p < 0.05 with 20,000 features tested, approximately 1,000 false positives are expected by chance alone |
     | **False discovery rate (FDR)** | The expected proportion of statistically significant results that are false positives. Commonly controlled at 5–10% using the Benjamini-Hochberg procedure |
     | **Pseudoreplication** | Treating non-independent observations as independent. In single-cell and spatial omics, measurements from the same biological donor are not independent; the true sample size is the number of donors, not cells or spots |
+
+!!! danger "Design principle"
+    Statistical significance in an underpowered study does not indicate a robust finding. Power analysis is part of study design.
 
 In many omics studies, sample size is determined by budget or sample availability rather than by statistical need. This is particularly costly, where thousands of molecular features are tested simultaneously and multiple testing correction reduces the effective power per feature dramatically  the sample size required to detect true signal is far higher than most researchers expect. 
 
@@ -132,8 +135,5 @@ The consequences are consistent across platforms. In transcriptomics, studies wi
 A 2024 meta-analysis of 244 clinical metabolomics studies illustrates the problem at scale: of 2,206 metabolites reported as statistically significant, 72% appeared in only a single study, with contradictory directions of change even among those detected by more than one group. Small sample sizes were identified as a primary driver of this reproducibility failure. <small>[[Cochran et al. *TrAC* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}]</small>.
 
 In all cases, the result is the same: findings that appear statistically significant but do not replicate. Sample size requirements vary substantially by study type, discovery versus validation, rare versus common variants, large versus small effect sizes. Power calculations should be performed before data collection begins.
-
-!!! danger "Design principle"
-    Statistical significance in an underpowered study does not indicate a robust finding. Power analysis is part of study design.
 
 ---
