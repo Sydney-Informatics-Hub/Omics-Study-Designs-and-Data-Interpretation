@@ -90,8 +90,8 @@ The consequences of skipping this step are documented across platforms. In trans
 ---
 
 !!! info "Module 1.2.5 takeaways"
-    - Metadata that is not recorded at collection cannot be recovered. Undocumented sources of variation cannot be modelled, corrected, or even identified — they become permanent ambiguities in the dataset.
+    - Undocumented sources of variation become permanent ambiguities in the dataset.
     - A significant result in a single dataset is a candidate finding. Whether it requires validation, and what form that validation should take, depends on the strength of the claim being made.
-    - Independent cohort replication and orthogonal validation are complementary strategies; orthogonal validation is particularly important when a second cohort is not available.
-    - Omics studies are structurally prone to non-replicable findings: high feature counts, small samples, and cohort-specific variation combine to produce signals that appear robust within a dataset but do not generalise.
-    - The move from exploratory candidate to confirmed biological finding requires independent evidence. Studies that skip this step should label their results as hypothesis-generating, not as established biology.
+    - Independent cohort replication and orthogonal validation are complementary strategies.
+    - Omics studies are structurally prone to non-replicable findings.
+    - The move from exploratory candidate to confirmed biological finding requires independent evidence.
