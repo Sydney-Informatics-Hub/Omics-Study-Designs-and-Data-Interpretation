@@ -234,50 +234,33 @@ pathology, a consequence of it, or a compensatory response.
 
 ---
 
-### Pulling the thread together
+## Summarising the layers 
 
-No single layer answered "what is driving this patient's heart 
-failure." 
+No single layer answered the question of what is driving these patients' heart failure. Each layer captured a different aspect of the underlying biology, and each left questions that only the next layer could begin to address.
 
-Each layer answers a different version of the same question, and each 
-has a blind spot the next layer partly fills.
+| Layer | What it tells us | What it misses | Phenotypic question addressed |
+|---|---|---|---|
+| **Genome** | Genetic predisposition | Whether genes are used | Why is this trait heritable? |
+| **Epigenome** | Regulatory potential | Whether genes are expressed | Which environments alter trait expression? |
+| **Transcriptome** | Gene expression and isoform diversity | Whether proteins are produced and active | Which genes are active in this phenotype? |
+| **Proteome** | Functional molecules and their state | Physiological consequences | What is the cell doing to produce this phenotype? |
+| **Metabolome** | Current physiological state | The underlying cause | What is the biochemical state associated with this phenotype? |
 
-| Layer | What it tells us | What it misses |
-|---|---|---|
-| **Genome** | Genetic predisposition | Whether genes are used |
-| **Epigenome** | Regulatory potential | Whether genes are expressed |
-| **Transcriptome** | Gene expression | Whether proteins are produced and active |
-| **Proteome** | Functional molecules | Physiological consequences |
-| **Metabolome** | Current physiological state | The underlying cause |
-
-As noted at the start, these layers are interconnected: the table sets out
-where each layer is strongest, not a strict division of what each can address.
+These layers are interconnected and feed back on each other. The table sets out where each layer is strongest, not a strict division of what each can address in isolation.
 
 ---
 
-### What is Omics 
+## Activity: from molecular layers to omics
 
-Up to this point we've walked through the biology, five molecular 
-layers, each with its own information content and blind spots. Each 
-of these layers is studied by its own scientific field, and 
-collectively these fields are called **omics**: genomics, epigenomics, 
-transcriptomics, proteomics, metabolomics. **The suffix simply means 
-"the study of all of them at once"**, the whole genome rather than a 
-single gene, the whole proteome rather than a single protein.
+Each of the five molecular layers described above is studied by its own scientific field. Collectively, these fields are called **omics**: genomics, epigenomics, transcriptomics, proteomics, metabolomics. The suffix denotes the comprehensive study of an entire class of molecules. 
 
-<!--
+The ambition is a global view of a biological layer, rather than the targeted measurement of selected molecules that characterised earlier approaches.
 
-Layer choice and platform choice are separate decisions. First, you decide which layer answers your question (do you need to know about mutations, expression, protein activity, or metabolic state?). Only then do you choose which platform within that layer (WGS vs WES for genomics, bulk vs single-cell for transcriptomics, mass spec vs Olink for proteomics). Both decisions are consequential, and platform are the subject of later modules.
+!!! question "Walk the layers"
 
--->
-!!! question "Group activity: Walk the layers"
-    Pick the broad question closest to your field, or reinterpret 
-    the example using an organism or system you work with. These 
-    examples represent biological questions rather than specific 
-    studies, and the same design principles apply across systems.
+    Pick the broad question closest to your field, or reinterpret the example using an organism or system you work with. These examples represent high-level biological questions rather than specific studies, and the same design principles apply across systems.
 
-    Walk through the molecular layers and decide how you would 
-    approach the question.
+    Walk through the molecular layers and decide how you would approach the question.
 
     In your group, discuss:
 
