@@ -113,13 +113,25 @@ The platform determines what biological information the experiment can capture. 
     | **False discovery rate (FDR)** | The expected proportion of statistically significant results that are false positives. Commonly controlled at 5–10% using the Benjamini-Hochberg procedure |
     | **Pseudoreplication** | Treating non-independent observations as independent. In single-cell and spatial omics, measurements from the same biological donor are not independent; the true sample size is the number of donors, not cells or spots |
 
-In a standard single-outcome experiment, a significance threshold of p < 0.05 is widely used. In omics, thousands to millions of features are tested simultaneously. Multiple testing corrections reduce the effective per-feature significance threshold, which substantially increases the sample size required to maintain adequate power to detect true effects.
+In many omics studies, sample size is determined by budget or sample availability rather than by statistical need. This is particularly costly, where thousands of molecular features are tested simultaneously and multiple testing correction reduces the effective power per feature dramatically  the sample size required to detect true signal is far higher than most researchers expect. 
 
-An underpowered omics study has two characteristic failure modes: it misses true effects (low sensitivity), and among the effects it does detect, it overestimates their magnitude. Inflated effect size estimates in small discovery samples are a primary reason that omics findings fail to replicate in independent cohorts. This pattern is consistent across genomics, transcriptomics, proteomics, metabolomics, and epigenomics, and is one of the main structural contributors to the omics reproducibility problem.
+### Genomics 
 
-A 2024 meta-analysis of 244 clinical metabolomics studies illustrates the scale: of 2,206 metabolites reported as statistically significant, 72% were identified by only a single study, with contradictory directions of change even among those appearing in more than one. Small sample sizes were identified as a primary driver. <small>[Cochran et al. *TrAC* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}</small>
+In genomics, underpowered GWAS cohorts produce associations driven by inflated effect size estimates in small discovery samples that fail to replicate independently. <small>[[Zou et al. *G3* 2022](https://doi.org/10.1093/g3journal/jkac261){target="_blank"}; [Wray et al. *Nature Communications* 2018](https://www.nature.com/articles/s41467-018-07348-x){target="_blank"}]</small>.
 
-Power calculations should be performed before data collection using realistic estimates of expected effect size, biological variability, and the significance correction that will be applied. The required sample size varies substantially by study type, platform, and whether the study is intended for discovery or validation.
+### Transcriptomics 
+
+The consequences are consistent across platforms. In transcriptomics, studies with n = 3 per condition typically detect only 20–40% of truly differentially expressed genes, with elevated false positive rates among those reported <small>[[Schurch et al. *RNA* 2016](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}]</small>. In single-cell and spatial transcriptomics, pseudoreplication compounds underpowering. The true n is the number of biological donors, not cells or spots. <small>[[Murphy et al. *eLife* 2023](https://elifesciences.org/articles/90214){target="_blank"}]</small>.
+
+### Proteomics 
+
+ In proteomics, small sample sizes amplify the effects of missing values and technical variability, reducing power and introducing quantification bias. <small>[[Kong et al. *Proteomics* 2022](https://doi.org/10.1002/pmic.202200092){target="_blank"}]</small>.
+
+### Metabolomics 
+
+A 2024 meta-analysis of 244 clinical metabolomics studies illustrates the problem at scale: of 2,206 metabolites reported as statistically significant, 72% appeared in only a single study, with contradictory directions of change even among those detected by more than one group. Small sample sizes were identified as a primary driver of this reproducibility failure. <small>[[Cochran et al. *TrAC* 2024](https://www.sciencedirect.com/science/article/pii/S0165993624004011){target="_blank"}]</small>.
+
+In all cases, the result is the same: findings that appear statistically significant but do not replicate. Sample size requirements vary substantially by study type, discovery versus validation, rare versus common variants, large versus small effect sizes. Power calculations should be performed before data collection begins.
 
 !!! danger "Design principle"
     Statistical significance in an underpowered study does not indicate a robust finding. Power analysis is part of study design.
