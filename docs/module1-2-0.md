@@ -1,21 +1,12 @@
 
-# Module 1.2: Designing robust studies
+# Module 1.2: Understanding the factors that shape study success
 
 !!! info "Learning objectives"
+        Describe the major stages of an omics workflow and identify the key pitfalls at each stage. 
 
-    - Identify the five stages of an omics study and the key decisions made at each stage
-    - Explain how methodological choices at one stage constrain what is possible downstream
-    - Recognise common sources of bias, technical variability, and analytical error in omics workflows
-    - Apply key design, acquisition, and analysis considerations to their own research context
+Despite rapid advances in 'omics technologies, successful studies depend on more than the technology itself. Careful experimental design, data analysis, and interpretation are critical at every stage of the study design. Understanding the factors that contribute to robust and reproducible studies is just as important as understanding the technologies themselves.
 
-An omics experiment is only as good as the decisions that shaped it. The technology is sophisticated, but the most common reasons a study fails to answer its biological question — or fails to replicate in an independent cohort — are not technical failures. They are design failures: an underpowered cohort, an uncontrolled confounding variable, a platform mismatched to the question, or metadata that was never collected.
-
-The five stages of an omics study are set out in the figure below. Each stage carries decisions with downstream consequences; understanding what those decisions are and why they matter is the focus of this module.
-
-![](figs_m1/1-1Omics_study_design_workfloe.png){width=100%}
-
-!!! note
-    The figure above should be the **linear** version of the workflow (not the cycle). Mitchell noted the cycle representation is confusing — the pipeline is sequential, not iterative in the way a cycle implies.
+The figure below sets out the five stages of an omics study. **The sections that follow walk through each stage in turn and the pitfalls that arise there.**
 
 ![](figs_m1/1-1Omics_study_design_workfloe.png){width=100%}
 
