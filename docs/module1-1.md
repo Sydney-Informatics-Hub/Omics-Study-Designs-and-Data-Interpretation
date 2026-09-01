@@ -96,9 +96,7 @@ A gene's presence tells us nothing about whether it is transcribed, how much pro
       that genomics alone cannot reveal.
 ---
 
-### Layer 2: DNA modification (the epigenome) 
-
-![](figs/1-1_epigenome.png){width=80%}
+### Layer 2: DNA methylation and histone modification (the epigenome) 
 
 #### What is it?
 
@@ -129,8 +127,6 @@ Epigenetic changes indicate regulatory potential, not gene expression. An access
 ---
 
 ### Layer 3: RNA (the transcriptome)
-
-![](figs/1-1_rna.png){width=100%}
 
 #### What is it?
 
@@ -167,8 +163,6 @@ RNA abundance does not reliably predict protein abundance. Post-transcriptional 
 
 ### Layer 4: Proteins (the proteome)
 
-![](figs/1-1_protein.png){width=100%}
-
 #### What is it?
 
 Proteins are the primary functional molecules of the cell. 
@@ -203,8 +197,6 @@ Protein abundance alone does not capture activity. A protein can be present in a
 ---
 
 ### Layer 5: Metabolites (the metabolome)
-
-![](figs/1-1_metabolite.png){width=100%}
 
 #### What is it?
 
@@ -258,7 +250,7 @@ These layers are interconnected and feed back on each other. The table sets out 
 
 ---
 
-## Activity
+## Activity: from molecular layers to omics
 
 Each of the five molecular layers described above is studied by its own scientific field. Collectively, these fields are called **omics**: genomics, epigenomics, transcriptomics, proteomics, metabolomics. The suffix denotes the comprehensive study of an entire class of molecules. 
 
