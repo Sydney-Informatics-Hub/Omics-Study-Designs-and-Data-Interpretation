@@ -1,27 +1,14 @@
-# Module 1.2.4: Analysis
+## Module 1.2 (Stage D): Analysis 
 
-By the time data reach the analysis stage, the decisions that most determine what is discoverable have already been made. What remains is to choose appropriate statistical methods to test the biological question.
+### Pitfall 7: Inadequate controls across the study pipeline
+ 
+**Computational and statistical controls**
+Analytical controls are used to evaluate, quantify, and sometimes reduce technical noise within the generated dataset.
 
-The statistical models used to answer our scientific questions must reflect the structure of the data. This includes: 
+Examples include permutation based null distributions, decoy databases in proteomics, 
 
-- Distribution of the outcome variable
-- Dependencies between observations
-- Covariates that need to be accounted for
+These approaches can be extremely valuable, but they are constrained by the information available in the data. Computational methods cannot measure contamination that was never assessed experimentally, nor can they recover metadata that were never collected.
 
-A model that ignores the hierarchical structure of the data will produce test statistics that are too optimistic. A model that applies the wrong distributional assumption to count data, or that treats a continuous outcome as categorical, will misrepresent the evidence. 
-
-This stage also introduces its own sources of error. Testing tens of thousands of features simultaneously, as is routine in omics, guarantees that some will appear significant by chance unless the false discovery rate is explicitly controlled. Treating multiple measurements from the same individual as independent observations inflates the effective sample size in ways that can produce thousands of false positives. Computational controls help quantify these risks, but they cannot substitute for experimental controls that were never included.
-
-## Consideration 7: Adequate controls 
-
-!!! danger "Design principle"
-    Computational controls can quantify and partially mitigate technical noise in the data. They cannot compensate for experimental controls that were never included, or recover information that was never collected.
-
-Analytical controls are not a substitute for experimental controls. Where experimental controls (negative controls, spike-ins, technical replicates) assess whether the measurement process itself was reliable, computational controls can be used to assess whether analytical results are more extreme than expected by chance, or whether identifications meet a minimum confidence threshold.
-
-In proteomics, decoy databases (constructed from reversed or randomised protein sequences) are searched alongside the real database. Because a match to a decoy sequence cannot be biologically real, the rate at which decoys are matched gives an empirical estimate of the false discovery rate among the real identifications. 
-
-In statistical analysis more broadly, permutation tests build a null distribution by repeatedly shuffling the observed group labels and recomputing the test statistic; the proportion of permuted statistics as extreme as the observed value estimates the probability of the result arising by chance.
 
 ??? example "Case Study: The placental microbiome"
 
@@ -61,7 +48,7 @@ In statistical analysis more broadly, permutation tests build a null distributio
     ← **primary reference — first systematic demonstration of kit contamination**
     </small>
 
-!!! tip "The unrecoverable rule"
+!!! danger "The unrecoverable rule"
     Once information was never collected or never measured, it cannot be reconstructed retrospectively. At best, its impact can be assessed, acknowledged, or partially mitigated. In many situations, the only definitive solution is to redesign and repeat the study.
 ---
 
