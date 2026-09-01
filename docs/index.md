@@ -1,59 +1,79 @@
-# Bio101 workshop: foundations of omics study design
+# Foundations of Omics Study Design, Bias, and Data Interpretation ​
 
-This workshop introduces you to the principles and practices needed to design omics experiments with a focus on decisions made before data generation: platform selection, sample size, batch structure, and metadata collection. It also covers post-hoc assessment of datasets for bias, quality issues, and common interpretation errors. The content is broken up into 3 modules that cover: 
+This interactive workshop spans two days, with 3.5 hour sessions each day. You will gain the skills to design omics experiments that are robust, statistically sound, and analysis ready even before a single sample is processed. Additionally, you will learn to identify bias, detect quality issues.
 
-- Module 1: Understanding molecular layers
-- Module 2: Designing robust studies 
-- Module 3: Applying experimental design principles 
+## Why This Course Exists
 
-## Background 
+Most omics training focuses on tools and analysis pipelines, how to process 
+sequencing data, run differential expression, interpret a PCA plot. That 
+knowledge is valuable, but it arrives too late.
 
-Well designed omics studies begin with clear biological questions that work outward: identifying the molecular layer that can address it, selecting a platform that captures the relevant signal, and structuring the experiment to produce results that are statistically interpretable and generalisable beyond the study cohort. 
+The decisions that most often determine whether an omics study succeeds or 
+fails, platform choice, sample size, batch structure, metadata collection
+are made **before** a single sample is sequenced. Yet there is remarkably 
+little structured training that addresses this earlier, more consequential 
+stage of the research process.
+
+This course is designed to fill that gap. Rather than starting at the 
+computational pipeline, we start at the experimental design, where the 
+opportunities to get things right, and the risks of getting them wrong, 
+are greatest.
 
 ## Who Should Attend
 
-Researchers who generate or interpret omics data and want a stronger foundation in study design and pre-generation planning. This workshop is appropriate for you if you: 
+This workshop is designed for researchers who generate or interpret omics data 
+but want to strengthen their understanding of study design and study 
+planning, before the sequencing run begins.
 
-- Work with or plan to use omics technologies in your research experiments
-- Are involved in study design, sample collection, or data interpretation
+**You will benefit most if you:**
+
+- Work with or plan to use omics technologies (genomics, transcriptomics, proteomics, metabolomics, or related fields)
+- Are involved in study design, sample collection, or data interpretation, as a wet lab researcher, or clinician or junior bioinformaticians.
 - Want to understand why omics studies fail and how to prevent the most common design errors 
 
-## Prerequisites 
 
-- Conceptual familiarity with at least one omics platform
-- Basic understanding of molecular biology: what genes, transcripts, proteins, and metabolites are
+### Required:
 
-## Learning outcomes
+- Familiarity with at least one omics platform at a conceptual level, for example, you understand that RNAseq measures gene expression, that samples are sequenced to produce reads, and that results are interpreted in a biological context
+- Basic molecular biology: what genes, transcripts, proteins, and metabolites are and how they relate to each other
+- Basic knowledge and experience generating, commissioning, or interpreting omics data in any capacity; wet lab, clinical, or analytical
 
-By the end of this workshop, participants will be able to: 
+**Helpful but not required:**
 
-- Match a biological question to the molecular layer and omics data type that can address it, and recognise what the data cannot tell you 
-- Describe how omics data types are generated and how they differ from conventional biological measurements 
-- Identify key decision points across an omics workflow and explain how decisions at each stage affect the final result
-- Evaluate an omics study design in terms of statistical power, cost, interpretability, and generalisability
-- Diagnose confounding and batch structure and propose design changes to reduce their impact 
+- Prior exposure to concepts like sequencing depth, count matrices, or differential expression, even if only encountered briefly in a paper or seminar
+- Familiarity with batch effects or QC steps in any omics workflow
 
-### Developers
+**Not required at all:**
+- Bioinformatics or programming skills
+- Statistical training beyond basic concepts (p-values, sample size)
+
+## What you will walk away with: 
+
+- A practical framework for experimental design that applies across genomics, transcriptomics, proteomics, metagenomics, and metabolomics 
+
+- The ability to identify batch effects, confounding, and technical bias, and to know which can be corrected and which cannot 
+
+## Developers
 - Amarinder Singh Thind
 - Georgie Samaha
 - Mitchell O'Brien
+ 
+## Set up requirements
 
-## Acknowledgements
+Acknowledgements/citations/credits
+Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities.
 
-Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities. We suggest the following: 
-
-*"The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney."*
+## Suggested acknowledgement
+The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney.  
 
 ## Code of Conduct
-
-We expect all attendees of our training to follow our code of conduct, including bullying, harassment and discrimination prevention policies. 
+We expect all attendees of our training to follow our code of conduct, including bullying, harassment and discrimination prevention policies.
 
 In order to foster a positive and professional learning environment we encourage the following kinds of behaviours at all our events and on our platforms:
 
-- Use welcoming and inclusive language  
-- Be respectful of different viewpoints and experiences  
-- Gracefully accept constructive criticism  
-- Focus on what is best for the community  
-- Show courtesy and respect towards other community members    
-
-Our full code of conduct, with incident reporting guidelines, is available [here](https://sydney-informatics-hub.github.io/codeofconduct/).
+Use welcoming and inclusive language
+Be respectful of different viewpoints and experiences
+Gracefully accept constructive criticism
+Focus on what is best for the community
+Show courtesy and respect towards other community members
+Our full CoC, with incident reporting guidelines, is available [here]https://sydney-informatics-hub.github.io/codeofconduct/).
