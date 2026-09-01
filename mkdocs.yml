@@ -41,8 +41,8 @@ theme:
   features:
     - navigation.footer
     - content.code.copy
-    - navigation.tabs          
-    - navigation.tabs.sticky   
+    - navigation.tabs          # by Amarinder Thind
+    - navigation.tabs.sticky   # by Amarinder Thind
   palette:
     - scheme: default
       primary: custom
@@ -69,8 +69,6 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.superfences
-  - toc:
-      toc_depth: 3
 
 extra:
   analytics:
