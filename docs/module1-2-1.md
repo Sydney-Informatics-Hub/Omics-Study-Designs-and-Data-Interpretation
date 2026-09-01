@@ -1,4 +1,4 @@
-# Module 1.2.1: Design
+# Module 1.2: Stage 1 - Design
 
 Every omics study begins with a scientific question: a clearly defined knowledge gap that the experiment is designed to address. The question must be specific enough to determine which molecular layer is relevant, what comparison to make, and what a meaningful result looks like. From the question, four interconnected elements follow: a testable hypothesis, a set of study variables, a cohort design, and a platform selection. Each constrains the next, and all must be resolved before data collection begins.
 
@@ -88,7 +88,7 @@ Approaches for managing confounders, matching, stratification, randomisation, an
 
 !!! danger "Design principle"
     Platform selection is a biological decision driven by the question. It must be made before data collection and cannot be revised after.
-
+    
 The platform determines what biological information the experiment can capture. A platform that cannot measure the signal of interest at the required resolution or sensitivity will produce data that cannot answer the question, regardless of downstream analysis.
 
 | Mismatch type | Description | Example |
@@ -103,9 +103,6 @@ The platform determines what biological information the experiment can capture. 
 
 ## Consideration 3: Statistical power
 
-!!! danger "Design principle"
-    Statistical significance in an underpowered study does not indicate a robust finding. Power analysis is part of study design.
-
 ??? note "Key terms"
     | Term | Definition |
     |---|---|
@@ -115,6 +112,9 @@ The platform determines what biological information the experiment can capture. 
     | **Multiple testing** | When many hypotheses are tested simultaneously, the expected number of false positives increases proportionally. At p < 0.05 with 20,000 features tested, approximately 1,000 false positives are expected by chance alone |
     | **False discovery rate (FDR)** | The expected proportion of statistically significant results that are false positives. Commonly controlled at 5–10% using the Benjamini-Hochberg procedure |
     | **Pseudoreplication** | Treating non-independent observations as independent. In single-cell and spatial omics, measurements from the same biological donor are not independent; the true sample size is the number of donors, not cells or spots |
+
+!!! danger "Design principle"
+    Statistical significance in an underpowered study does not indicate a robust finding. Power analysis is part of study design.
 
 In many omics studies, sample size is determined by budget or sample availability rather than by statistical need. This is particularly costly, where thousands of molecular features are tested simultaneously and multiple testing correction reduces the effective power per feature dramatically  the sample size required to detect true signal is far higher than most researchers expect. 
 
@@ -137,10 +137,3 @@ A 2024 meta-analysis of 244 clinical metabolomics studies illustrates the proble
 In all cases, the result is the same: findings that appear statistically significant but do not replicate. Sample size requirements vary substantially by study type, discovery versus validation, rare versus common variants, large versus small effect sizes. Power calculations should be performed before data collection begins.
 
 ---
-
-!!! info "Module 1.2.1 takeaways"
-    - The scientific question determines which molecular layer to measure and what contrast to draw — platform and design follow from this, not the other way around.
-    - Confounders must be identified and controlled at the design stage; they cannot be removed from data that were collected without accounting for them.
-    - Platform choice involves trade-offs in scope, resolution, sensitivity, and cost — no single platform is optimal for all questions.
-    - Sample size requirements differ by platform and effect size; rules of thumb are unreliable substitutes for a power calculation grounded in pilot data or published estimates.
-    - These decisions are interdependent and largely irreversible — errors introduced at the design stage propagate through every subsequent stage.
