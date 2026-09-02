@@ -7,7 +7,7 @@ nav:
   - Home: index.md
   - Module 1: 
     - Module 1.1 Omics landscape: module1-1.md
-    - Module 1.2 Designing robust studies: 
+    - Module 1.2 Experimental workflow: 
       - Overview: module1-2-0.md
       - Stage 1 - Design: module1-2-1.md
       - Stage 2 - Data acquisition: module1-2-2.md
@@ -15,18 +15,18 @@ nav:
       - Stage 4 - Analysis: module1-2-4.md
       - Stage 5 - Reporting: module1-2-5.md
       - Activity: module1-2-6.md
-  - Module 2 (V3):
-      - Introduction: module2-0.md
-      - Accuracy and interpretability:
+  - Module 2:
+      - Module 2.0 Overview: module2-0.md
+      - Module 2.1 Accuracy and interpretability:
           - Choosing the platform: module2-1.md
           - Confounding and batch: module2-2.md
           - Measurement and metadata: module2-3.md
-      - Power and cost:
+      - Module 2.2 Power and cost:
           - Sample size: module2-4.md
           - Spending the budget: module2-5.md
-      - Generalisability:
+      - Module 2.3 Generalisability:
           - Who the findings apply to: module2-6.md
-      - Putting it together: module2-7.md
+      - Module 2.4 Putting it together: module2-7.md
 
   - References: further-reading.md
 

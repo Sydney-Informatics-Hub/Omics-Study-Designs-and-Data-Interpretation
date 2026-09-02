@@ -1,5 +1,5 @@
 
-# Module 1.2: Designing robust studies
+# Module 1.2: The Experimental Workflow
 
 !!! info "Learning objectives"
 
