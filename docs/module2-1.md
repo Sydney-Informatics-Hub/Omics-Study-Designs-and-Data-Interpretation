@@ -1,4 +1,4 @@
-# 2.1 Pick a platform
+# 2.1 Choosing a measurement platform
 
 Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
 
@@ -32,28 +32,26 @@ Different biological molecules require different measurement technologies. DNA a
 cannot and are instead measured using approaches such as mass spectrometry or affinity-based assays.
 
 The figure below maps each biological layer to the molecule it targets, the
-current most commonly used platforms available to measure it, examples of analyses each enables, and typical applications.
+current most commonly used platforms available to measure it, examples of analyses each enables, and the conditions under which one platform is preferred over another within the same layer.
 
 ![](figs/2-1_platforms.png){width=100%}
 
 !!! question "Activity PLACEHOLDER"
     Read the figure above left to right, but note that the rightmost column is where the design decision sits.
 
-
 Two patterns are worth noting here: 
 
 1. Sequencing-based platforms all produce reads and signal-based platforms produce intensities. 
-2. Within each layer, the platform choice is usually a question of scope or resolution.
-
+2. Within each layer, the platform choice is usually a question of **scope** (the breadth of molecules the assay can detect), **resolution** (the biological unit at which signal is measured), or **analyte class** (the specific molecular species the platform can capture).
 ---
 
-## Two families of platform
+## Two platform families 
 
 For this module it is useful to think about omics platforms in two broad
 families, based on how the biological signal is acquired.
 
 **Sequencing-based platforms** determine the nucleotide sequence of DNA or RNA
-molecules, and typically yield **reads**, which are processed downstream into
+molecules, and yield **reads**, which are processed downstream into
 the data types you will work with. RNA-seq, single-cell RNA-seq, ATAC-seq, and
 microbiome sequencing all sit here.
 
@@ -62,11 +60,10 @@ fluorescence or ion abundance, and typically yield **intensities**. Mass
 spectrometry (proteomics, metabolomics), microarrays, and imaging-based assays
 sit here.
 
-The two families generate data in different ways. The next two sections walk
-through each in turn, sequencing first, then mass spectrometry, so the kind of
+The two acquisition methods generate data in different ways. The next two sections walk through each in turn, sequencing first, then mass spectrometry, so the kind of
 number each produces makes sense before you rely on it.
 
-!!! note "Discovery is a design choice, not a family"
+!!! note "Discovery is a design choice"
     Sequencing platforms are often used for discovery, and many signal-based
     platforms measure predefined targets, but the two don't always line up.
     Untargeted mass spectrometry can also support broad discovery, while
@@ -74,185 +71,161 @@ number each produces makes sense before you rely on it.
     assay is discovery-driven or targeted is set during study design, not by
     whether it sequences.
 
-!!! info "Spatial omics sits across both families"
-    Spatial transcriptomics is a useful test of the framing above, because which
-    family a platform belongs to determines the measurement it produces. Visium platform
-    captures RNA by **sequencing barcoded spots** on a tissue section and
-    produces count data. **Imaging-based platforms** such as Xenium and MERFISH
-    detect fluorescently labelled RNA directly within intact tissue; although
-    fluorescence intensities are measured during acquisition, the pipelines
-    typically decode these into transcript counts per cell. The biology being
-    measured is similar; the measurement process, and therefore the data type,
-    is not.
-
 ---
 
-## Sequencing: from sample to reads
+## Sequencing: generating reads
 
-Sequencing takes extracted DNA or RNA, prepares it into a form the instrument
-can read, and reports the nucleotide sequence of millions of fragments. The
-output is **reads**: the raw sequences coming off the machine, before any
-analysis. By the time reads come off the machine, every decision that shaped them has already been made.
+The molecular layers introduced in Module 1.1 map directly onto what sequencing can measure. DNA sequencing captures a static picture of the genome with its inherited variants, acquired mutations, structural rearrangement events, and copy number changes. RNA sequencing captures something more dynamic: which genes are being expressed, at what level, and in which isoforms, at the moment of sample collection. 
+
+Both of these are measured using **next generation sequencing (NGS)**: a massively parallel technology that allows us to determine the nucleotide sequence of millions of DNA or RNA fragments simultaneously. Sequencing works by: 
+
+1. Breaking DNA or RNA starter material into fragments
+2. Converting those fragments into a sequencing-ready library
+3. Reading the nucleotide sequence of each fragment as it passes through the instrument which reads millions of fragments in parallel. 
+
+Each sequenced fragment becomes a **read** — a string of nucleotide bases representing one piece of the original molecule. Reads are the raw output of the instrument. All data processing downstream (e.g. alignment, quantification, variant calling) is built on them. What the reads can contain is set entirely by what was put into the library: which molecules were extracted, which fraction was enriched for, how long the fragments are. 
+
+PLACEHOLDER - REPLACE THIS WITH A DIAGRAM OF SEQUENCING PROCESS
 
 ![](figs_m2/sequencing_workFlow_walk_Through.png){width=100%}
 
-<small>Library preparation and sequencing mentioned at First row stops at raw reads. Second row shows the downstream analysis: quality control, alignment or assembly, and the count
-matrix or VCF. It is shown here only so you can see where the reads go
-next.</small>
+Two decisions made before the instrument runs determine what the reads can
+contain: 
 
-Two upstream decisions do most of the design work: what you capture in library
-prep, and the read length the platform gives you.
+1. Library preparation: which molecules, which fraction, which targets. 
+2. Read length, which is set by the platform itself and determines what structural features the reads can resolve.
 
-### Library prep decides what you capture
+!!! question "Activity: PLACEHOLDER" 
+    What activity?
 
-Library prep turns extracted nucleic acid into barcoded, sequenceable
-fragments. What you choose to enrich for at this stage sets the ceiling on what
-the reads can contain. Sequencing total RNA, mRNA, or small RNA are different
-libraries answering different questions; a library built for mRNA cannot be
-made to report small RNAs later. As with platform choice, the question decides
-the library.
+### Decision 1: library preparation
 
-Barcoding at this stage is **multiplexing, not pooling**: barcoded samples
-share one sequencing run but stay computationally separable afterwards, unlike
-biological pooling, which merges samples irreversibly (Module 1, Pitfall 8).
+!!! tip "Library preparation is largely standardised" 
+    In practice, library preparation is performed using commercial kits with established protocols, and most sequencing facilities offer library preparation as a service. The key decision for you is usually not how to prepare the library but which preparation strategy fits the biological question: poly-A selection versus ribosomal RNA depletion for RNA-seq, for example. Your sequencing provider can advise on the appropriate kit and protocol for your sample type and question before any samples are processed.
 
-### Short-read sequencing vs long-read sequencing
+Library preparation converts extracted nucleic acid into a form the sequencer can process: fragmented, end-repaired, adapter-ligated, and size-selected fragments that the instrument can bind, amplify, and sequence. This step is where the biological scope of the experiment is defined. The choice of enrichment strategy — whether to capture polyadenylated mRNA, deplete ribosomal RNA from total RNA, select for small RNA species, or perform targeted enrichment of specific loci — determines which molecules will be represented in the reads. Fractions excluded at this stage are absent from the data entirely; a library prepared for polyadenylated mRNA will not report non-polyadenylated species such as lncRNA or enhancer RNA, and cannot be reanalysed to do so.
 
-**Short-read sequencing** (e.g. Illumina) reads fragments of roughly 50–300
-bases. It is cheap, high-throughput, and highly accurate per base, which makes
-it the default for quantifying known features such as gene expression across
-many samples. Its limitation is structural: anything longer than a single
-fragment has to be reconstructed computationally, and some things cannot be
-reconstructed reliably at all.
+Where multiple samples are to be sequenced together, a unique molecular barcode is incorporated into each sample's library during preparation. This is **multiplexing**: barcoded libraries are pooled and sequenced in the same run, then separated computationally during analysis. It is distinct from biological pooling, in which samples are combined before any library preparation step, eliminating the ability to distinguish them (Consideration 8).
 
-**Long-read sequencing** (e.g. PacBio, Oxford Nanopore) produces single reads
-spanning thousands of bases. Because a read can cover a whole molecule, long
-reads resolve full-length isoforms, structural variants, and repetitive regions
-directly, rather than inferring them. The trade-off is higher cost per base and
-lower throughput; modern long-read platforms are now fairly accurate per read.
+PLACEHOLDER - A DIAGRAM OF LIBRARY PREPARATION PROCESS
 
-The decision follows from the question, not the budget: if you need to see
-full-length molecules or structural features, no amount of short-read depth
-substitutes for read length. If you are quantifying known features cheaply and
-at scale, short reads are the better fit. This is a read-length limit, not a
-coverage one, which is why it cannot be fixed after sequencing.
+### Decision 2: read length
 
-!!! danger "The unrecoverable rule"
-    If the platform cannot capture the biological signal of interest, no
-    analysis method can recover it. The choice has to be made before data
-    collection, not revisited after. This is why platform and read-length choice
-    sit in study design, alongside sample size and randomisation, not in
-    analysis.
+The second decision is read length, which is determined by the sequencing platform you choose. Platforms from companies such as Illumina, PacBio, and Oxford Nanopore use different underlying sequencing chemistries, and one of the most consequential differences between them is the lengths of reads they produces. Once library preparation has determined which molecules are in the pool, read length determines how much of each molecule the instrument can sequence in a single pass, and therefore which biological features can be directly observed versus reconstructed computationally.
+
+| | **Advantages** | **Limitations** |
+|---|---|---|
+| **Short-read sequencing** | Higher base-level accuracy | Cannot resolve structural variants, phase alleles, or distinguish highly homologous regions |
+| | Lower cost per base, high throughput | Cannot span repetitive regions longer than one read |
+| | Suitable for degraded or fragmented input material | Full-length isoforms must be inferred computationally |
+| **Long-read sequencing** | Resolves structural rearrangements and homologous regions directly | Lower throughput and higher cost per base |
+| | Reads entire RNA transcript to determine isoform directly | More complex bioinformatic processing |
+| | Enables de novo genome assembly | |
+
+**Short-read platforms** (e.g. Illumina) produce reads of roughly 50–300 bases. High throughput and base-level accuracy make them the standard choice for quantifying simple features like gene expression, variant calling, and chromatin accessibility, across large numbers of samples. Their constraint is structural: any feature longer than a single read must be reconstructed computationally from overlapping fragments. Repetitive sequences, structural variants, allele phasing, and full-length RNA isoforms are difficult or impossible to resolve reliably this way, regardless of sequencing depth.
+
+**Long-read platforms** (e.g. PacBio, Oxford Nanopore) produce reads spanning thousands of bases, sufficient to cover entire transcript molecules or large genomic regions in a single read. Full-length isoforms, structural rearrangements, and repetitive or homologous regions are resolved directly rather than inferred. The trade-offs are lower throughput and higher cost per
+base, though accuracy on modern long-read platforms is now comparable to short-read sequencing per read.
+
+The choice follows from the biological question. Quantifying gene expression or calling variants across many samples is a short-read problem. Resolving isoform structure, phasing alleles, or characterising structural variation requires long reads. Read length is a structural constraint, not a coverage one — increasing short-read depth cannot recover information that requires spanning a longer molecule.
+
+!!! question "Activity: PLACEHOLDER" 
+    Read mapping short vs long across a feature 
 
 ---
 
-## Mass spectrometry: from sample to spectrum
+## Mass spectrometry: generating spectra
 
-Unlike DNA and RNA, proteins and metabolites are generally not sequenced as
-polymers. In mass spectrometry they are measured by their mass-to-charge ratio
-(m/z) and signal intensity; for proteins, fragmentation spectra can also provide
-sequence information about peptides. The output is **intensities**: signal
-measured as a function of m/z.
+Unlike DNA and RNA, proteins and metabolites cannot be sequenced as polymers. Instead, we use mass spectrometry to measure molecules by their mass-to-charge ratio (m/z) and signal intensity. In proteomics, proteins are first digested into peptides, whose fragmentation spectra can be matched to known sequences to identify and quantify the parent protein. In metabolomics, small molecules are measured directly. In both cases the output is **intensities**: signal measured as a function of m/z.
 
-The chain runs one way, exactly as it did for sequencing, and it ends at the
-spectrum:
-> Proteomics
-> **extract → prepare → separate (LC) → ionise → mass spectrometer → spectrum**
+PLACEHOLDER - REPLACE THIS WITH OUR OWN DIAGRAM of the workflow — extract, digest, LC separation, ionisation, MS acquisition, spectrum output
 
 ![](figs_m2/02_proteomicsWorkflow.png){width=100%}
 
-<small>*Adapted from [CSBiology BIO-BTE-06-L-7: Mass spectrometry-based
-proteomics](https://csbiology.github.io/BIO-BTE-06-L-7/NB02a_Mass_spectrometry_based_proteomics.html){target="_blank"},
-Computational Systems Biology, RPTU Kaiserslautern
-([MIT licence](https://github.com/CSBiology/BIO-BTE-06-L-7/blob/main/LICENSE){target="_blank"}).*</small>
+The most common proteomics workflow is called "bottom-up proteomics, where proteins are extracted and digested into shorter peptide fragments before measurement. 
 
-Reading left to right: in the common bottom-up proteomics workflow, proteins are
-extracted and digested into peptides. That digestion step is what makes this
-workflow look different from sequencing. The peptides are separated over time by
-liquid chromatography (LC) so they don't all hit the instrument at once, sprayed
-into the mass spectrometer as charged ions, and measured according to their
-m/z. What comes back is a spectrum: intensity on one axis, m/z on the other.
+In the bottom-up proteomics workflow, proteins are extracted from the sample and digested into shorter peptide fragments, typically using trypsin, which cleaves at specific amino acid residues. This digestion step is what distinguishes proteomics from sequencing workflows. The resulting peptides are separated over time by liquid chromatography (LC), which spreads them across a gradient so they reach the instrument at different retention times rather than all at once. They are then ionised and introduced into the mass spectrometer, where they are measured according to their m/z. The output is a spectrum: signal intensity on one axis, m/z on the other. Peptide identity is inferred by matching observed spectra against a reference database of theoretical fragmentation patterns.
 
-!!! note "Metabolomics takes a similar path, minus one step"
-    Metabolites are small molecules and are measured directly, so there is no
-    digestion step. For LC-MS metabolomics the downstream workflow is similar:
-    separate, ionise, measure m/z, and record signal intensities.
+!!! tip "Metabolomics takes a similar path"
+    Because metabolites are small molecules, there is no need for a digestion step. For LC-MS or GC-MS metabolomics the workflow proceeds directly from extraction to separation, ionisation, and measurement. 
+    
+    Metabolite identification relies on matching observed m/z values and fragmentation patterns against spectral libraries, though library coverage remains incomplete for many metabolite classes.
 
-Two further decisions matter particularly for interpreting the resulting data,
-and neither is a step you can see in the figure. The first concerns how samples
-are quantified and multiplexed; the second concerns how ions are sampled by the
-instrument. Both are fixed before the run, and one of them cannot be undone
-afterwards.
+Two design decisions made before the run shape what the resulting data can contain and how missing values arise. Neither is visible in the workflow diagram, and one cannot be undone after the run.
 
-### Decision 1: label-free or labelled
+### Decision 1: label-free or labelled quantification
 
 Whether samples are acquired using a label-free or a labelling strategy is
 decided before the run; the resulting data are then quantified and compared
 computationally.
 
-**Label-free** runs each sample separately and compares signal across runs. It
-can be simpler because each sample does not require a labelling reagent or a
-place in a multiplexing set, although each sample generally requires its own
-measurement run.
-But because samples are measured in different runs, run-to-run variation and a
-greater potential for missing measurements across runs are important
-considerations. **Injection order** matters here. Instrument signal drifts over a
-run, so if samples are injected in an order that lines up with your biological
-groups, the drift becomes a batch effect indistinguishable from biology. That is
-Module 1, Pitfall 4, in a new guise. Randomise injection order, and plan
-**pooled QC** injections to track the drift. Pooled QC samples need to be
-prepared and included in the run; if they were never acquired, no later analysis
-can reconstruct them (Module 1, Pitfall 6).
+| | **Label-free** | **Labelled** |
+|---|---|---|
+| **How samples are measured** | Each sample in a separate instrument run | Multiple samples combined and measured in a single run |
+| **Chemical modification** | None | Isobaric chemical tags applied before pooling |
+| **Sample number limit** | None | Capped by labelling scheme (typically 6–18 per set) |
+| **Run-to-run variation** | A source of noise; requires randomised injection order and pooled QC | Eliminated within a set; each set is a separate analytical batch |
+| **Batch structure** | Each run is a potential source of technical variation | Each multiplexed set is a batch; groups must be balanced across sets |
+| **Instrument time** | One run per sample | Fewer runs; multiple samples per run |
+| **Key design requirements** | Randomised injection order; pooled QC samples prepared before the run | Balanced allocation of biological groups across sets |
 
-**Labelled** (e.g. TMT) chemically tags several samples so they can be combined
-and measured in a single run. Run-to-run variation is reduced *within* a tagged
-set because the samples are measured together, but the number of samples that
-can be multiplexed in a set is limited by the labelling scheme. Each multiplexed
-set is a separate analytical batch, so biological groups should be balanced
-across sets wherever possible. Labelling buys within-set consistency at the cost
-of throughput and a new layer of batch structure to design around.
+#### Label-free quantification 
 
-!!! tip "This is a power and cost trade-off, on the bench"
-    Label-free places no multiplexing limit on sample number, but each sample
-    costs a run; labelled approaches reduce runs and improve consistency within
-    a set, at a capped set size. Neither is better in principle: the right
-    choice depends on whether your study is limited more by instrument time or
-    by run-to-run noise.
+In label-free quantification, each sample is measured in a separate instrument run and protein or metabolite abundances are compared across runs by aligning signal intensities. This approach places no limit on sample number and requires no chemical modification of the sample, but introduces run-to-run instrument variation as a source of noise. Because samples from different biological groups may be measured at different times or on different days, systematic drift in instrument performance can produce abundance differences that are technical rather than biological. This is the batch effect problem described in Consideration 4 in module 1, operating at the level of individual injection runs. 
 
-### Decision 2: the acquisition mode you cannot revisit
+Two practices mitigate this: 
 
-Once ions are inside the instrument, the **acquisition mode** determines how
-precursor ions are sampled and fragmented.
+1. **Injection order should be randomised** with respect to biological group, so that any instrument drift is distributed across groups rather than confounded with them.
+2. **pooled QC samples** prepared by combining equal aliquots from all study samples should be injected at regular intervals throughout the run.
 
-**DDA (data-dependent acquisition)** takes a survey scan and then selects and
-fragments a subset of precursor ions, typically favouring the most abundant ions
-it sees. This produces relatively less complex MS/MS spectra, but by
-construction it spends its effort on what is already abundant. Low-abundance
-peptides may be sampled sporadically or missed entirely, and which ones are
-selected can shift from run to run.
+Pooled QC injections track instrument performance over time and provide the data needed to assess and correct for drift. They must be prepared before the run begins; they cannot be
+reconstructed from the study samples afterwards (Consideration 5).
 
-**DIA (data-independent acquisition)** fragments ions within predefined m/z
-windows, rather than selecting individual precursors by abundance. This
-generally provides more consistent sampling across runs, at the cost of more
-complex, multiplexed spectra.
+#### Labelled quantification 
+
+In labelled quantification (e.g. tandem mass tag), samples are chemically tagged with isobaric reagents and combined into a multiplexed set before a single instrument run. Because all samples in a set are measured simultaneously, within-set run-to-run variation is eliminated. The trade-off is that the number of samples per set is capped by the labelling scheme (commonly 6–18 samples per TMT set), each set constitutes a separate analytical batch, and biological groups must be balanced across sets to avoid confounding group differences with batch. Labelled approaches reduce instrument time and within-set technical noise at the cost of throughput and a more complex batch structure to manage.
+
+!!! tip "Neither label or label-free is universally better"
+    Label-free quantification suits large sample numbers where instrument time
+    is not limiting and within-run consistency can be maintained through
+    randomisation and pooled QC. Labelled quantification suits studies where
+    within-set consistency is critical and sample numbers fit within the
+    multiplexing scheme. The choice depends on study size, available instrument
+    time, and sensitivity to run-to-run variation.
+
+### Decision 2: acquisition mode
+
+Once ions enter the instrument, the **acquisition mode** determines which ions are selected for fragmentation and identification. This is set before the run and cannot be changed afterwards.
+
+#### Data-dependent acquisition
+
+In **data-dependent acquisition (DDA)**, the instrument first takes a survey scan of all ions present, then selects the most abundant precursors for fragmentation. The result is that measurement effort is concentrated on the most abundant species. Low-abundance peptides or metabolites may be sampled inconsistently across runs or missed entirely.
+
+#### Data-independent acquisition
+
+In **data-independent acquisition (DIA)**, the instrument fragments all ions within predefined m/z windows, regardless of abundance. Every ion in every window is sampled at every cycle, giving more consistent coverage across runs. The trade-off is more complex spectra that require specialised software to interpret.
+
+PLACEHOLDER DIAGRAM COMPARING THE 2
 
 !!! danger "The unrecoverable rule"
-    If the relevant ion signal was never acquired, no downstream analysis can
-    reconstruct that missing measurement from the raw data. Not detected is not
-    the same as not present. This is the same principle Module 1 named for
-    platform choice (Pitfall 2), now at the level of the instrument.
+    If an ion was never sampled and fragmented during acquisition, no downstream
+    analysis can reconstruct its identity or abundance from the raw data. Not
+    detected is not the same as not present. The acquisition mode chosen here
+    determines which ions are sampled and how consistently — and therefore which
+    molecules may be systematically absent from the data.
 
-This also explains something flagged in Module 1. Missingness in mass
-spectrometry is often informative rather than completely random. Low-abundance
-molecules are more likely to fall below detection or acquisition thresholds, but
-missingness can also arise from ionisation, chromatographic, matrix and
-acquisition effects. DDA's tendency to favour abundant ions is one contributor
-to this pattern. That is why, as Module 1, Pitfall 6 warned, blindly replacing
-missing values with the sample mean can be misleading: it can turn a potentially
-low-abundance observation into an average-abundance value and distort exactly
-the low-abundance molecules a discovery study is trying to find. The decision
-made here determines the pattern of missing values you will have to handle
-later.
+This has direct consequences for missing value handling. In DDA, missingness is structured: low-abundance species are disproportionately likely to fall below the selection threshold, and selection itself is stochastic across runs. Missingness in mass spectrometry data can also arise from ionisation efficiency, chromatographic retention, matrix effects, and instrument sensitivity, making it non-random in ways that are not always predictable. Replacing missing values with the sample mean — or any naive imputation — treats absence as a random event and can distort exactly the low-abundance signal a discovery study is designed to detect (Consideration 6). Understanding why values are missing
+requires knowing how the data were acquired.
+
+!!! question "Activity: PLACEHOLDER" 
+    Labelling and acquisition activity like the sequencing read assembly one above  
 
 ---
+
+!!! info "Module 2.1 takeaways"
+    - The platform you use must be capable of capturing the specific signal the question depends on, at the required resolution and sensitivity. 
+    - In sequencing, fractions not captured during library preparation are absent from the data entirely and cannot be recovered analytically. 
+    - In sequencing, short reads cannot resolve full-length isoforms, structural variants, or repetitive regions as well as long reads, regardless of sequencing depth. 
+    - In label-free mass spectrometry, randomised injection order and pooled QC injections must be planned and prepared before the run begins. 
+    - In mass spectrometry, the choice between DDA and DIA the pattern of missing values in the data.
 
