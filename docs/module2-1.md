@@ -1,49 +1,49 @@
-# 2.1 Choosing the right platform
+# 2.1 Pick a platform
 
-!!! abstract "Design question: Are we measuring the biological feature we want to interpret?"
-    **Mainly:** Accuracy and interpretability  
-    **Also affects:** Power and cost · Generalisability
+Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
 
-The first design decision in Module 2 is which platform to run at all,
-because that choice fixes everything that follows. 
+That choice requires more specificity than the layer alone provides. A question about gene expression and a question about RNA isoforms both sit at the transcriptome, but they require different library strategies and often different platforms to answer.
 
-> This section is about measuring the wrong thing. The next two deal with the problems that remain once the platform is right.
+!!! question "Design question: Are we measuring the biological feature we want to interpret?"
 
-The chain is short and it runs one way only:
+    Platform choice determines not just which molecule is measured, but at
+    what resolution (bulk average or individual cells), at what scope
+    (discovery or targeted), and with what acquisition strategy. Once
+    samples are collected and processed, none of these decisions can be
+    revisited.
 
-> **research question → biological molecule → measurement platform → data type**
-
-Each decision constrains the next. Once samples are collected on a particular
-platform, you cannot move back up the chain without collecting new data.
+??? note "Key terms"
+    | Term | Definition |
+    |---|---|
+    | **Library preparation** | The step that converts extracted nucleic acid into sequenceable, barcoded fragments. It determines what the sequencer will see: which RNA fraction, which enrichment strategy, which targets. |
+    | **Reads** | The raw nucleotide sequences produced by a sequencer before any alignment or analysis. Each read represents one sequenced fragment from the library. |
+    | **Short-read sequencing** | Sequencing technology (e.g. Illumina) producing reads of roughly 50–300 bases. High throughput and accuracy per base; cannot span repetitive regions or structural features longer than one read. |
+    | **Long-read sequencing** | Sequencing technology (e.g. PacBio, Oxford Nanopore) producing reads spanning thousands of bases. Resolves full-length isoforms, repetitive regions, and structural variants directly. |
+    | **Intensities** | The signal output of mass spectrometry: measured as signal strength as a function of mass-to-charge ratio (m/z). The mass-spectrometric equivalent of read counts in sequencing. |
+    | **DDA (data-dependent acquisition)** | An acquisition mode where the instrument selects and fragments the most abundant ions it detects. Favours abundant species; may miss low-abundance targets. |
+    | **DIA (data-independent acquisition)** | An acquisition mode where the instrument fragments all ions within predefined m/z windows, regardless of abundance. More consistent sampling across runs at the cost of more complex spectra. |
+    | **Multiplexing** | Combining separately barcoded or labelled samples so they can be processed or sequenced together, then computationally separated. Distinct from biological pooling, which merges samples irreversibly. |
 
 ---
 
-## Start from the molecule
+## Different platforms for different omics
 
-Different biological molecules require different measurement technologies. DNA
-and RNA can be sequenced directly, whereas proteins and metabolites generally
-cannot and are instead measured using approaches such as mass spectrometry or
-affinity-based assays. The molecule determines which platforms are available;
-the question decides between them.
+Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly, whereas proteins and metabolites generally
+cannot and are instead measured using approaches such as mass spectrometry or affinity-based assays.
 
 The figure below maps each biological layer to the molecule it targets, the
-current platforms available to measure it, examples of analyses each enables,
-and in the final column when you would choose one platform over another within
-the same layer.
+current most commonly used platforms available to measure it, examples of analyses each enables, and typical applications.
 
-![](figs_m2/02_omics-platforms.png){width=100%}
+![](figs/2-1_platforms.png){width=100%}
 
-Read the figure left to right, but note that the rightmost column is where the
-design decision sits. Every row poses the same choice: **discovery versus
-targeted** (can the platform see things you didn't specify in advance?) or
-**resolution versus average** (does it resolve individual cells or locations,
-or only their pooled signal?).
+!!! question "Activity PLACEHOLDER"
+    Read the figure above left to right, but note that the rightmost column is where the design decision sits.
 
-!!! tip "The question chooses the layer; the layer chooses the platform"
-    As in Module 1, the research question should decide which layer of biology
-    you measure, not the other way around. A platform adopted because it is
-    current, then pointed at a question it does not fit, is one of the
-    common and expensive versions of this pitfall.
+
+Two patterns are worth noting here: 
+
+1. Sequencing-based platforms all produce reads and signal-based platforms produce intensities. 
+2. Within each layer, the platform choice is usually a question of scope or resolution.
 
 ---
 
@@ -256,6 +256,3 @@ later.
 
 ---
 
-## Live mentimeter activity
-
-***[Click here to join the activity](https://www.menti.com/aluadu62pnrb){target="_blank"}***

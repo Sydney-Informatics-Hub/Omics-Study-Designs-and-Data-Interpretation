@@ -15,8 +15,8 @@ nav:
       - Stage 4 - Analysis: module1-2-4.md
       - Stage 5 - Reporting: module1-2-5.md
       - Activity: module1-2-6.md
-  - Module 2:
-      - Module 2.0 Overview: module2-0.md
+  - Module 2: 
+      - Overview: module2-0.md
       - Module 2.1 Accuracy and interpretability:
           - Choosing the platform: module2-1.md
           - Confounding and batch: module2-2.md
