@@ -1,5 +1,13 @@
 # 2.7 Seeing the design as a whole
 
+!!! info "Learning objectives"
+    - Trace how a single design decision affects more than one of the module's three
+questions
+    - Apply the six-question pre-experiment checklist to identify unresolved risks 
+    in a proposed design
+    - Explain why none of these trade-offs should come at the cost of answering the
+study's primary research question
+
 The three questions have been asked one at a time so far. A real design has to
 answer all of them at once, and the answers pull against each other. A tightly
 matched cohort is easier to interpret and easier to power, and it speaks for
