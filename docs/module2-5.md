@@ -1,5 +1,10 @@
 # 2.5 Spending the budget: depth and allocation
 
+!!! info "Learning objectives"
+    - Identify the impacts of measurement depth vs. coverage to a study
+    - Consider the trade-offs between measurement depth vs. coverage to an example study with a fixed budget
+    - Assess how a more cost-effective platform or library-prep/sampling strategy can be applied to resolve a research goal
+
 !!! abstract "Design question: How should we spend the budget to get that evidence?"
     **Mainly affects:** Power and cost  
     **Also affects:** Accuracy and interpretability · Generalisability
