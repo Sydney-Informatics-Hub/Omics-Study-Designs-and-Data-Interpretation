@@ -1,4 +1,13 @@
 # 2.1 Choosing a measurement platform
+ !!! info "Learning objectives"
+     - Explain why platform, library-prep, and acquisition decisions must be made before
+ data collection and cannot be revisited afterwards
+     - Distinguish between sequencing-based platforms (reads) from signal-based platforms
+ (intensities)
+     - Evaluate a library-preparation and read-length choice against the biological
+ features it can and cannot resolve
+     - Compare label-free vs labelled quantification, and DDA vs DIA, in terms of the
+ missing-value patterns each produces
 
 Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
 

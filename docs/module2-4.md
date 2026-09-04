@@ -1,5 +1,11 @@
 # 2.4 Sample size and statistical power
 
+!!! info "Learning objectives"
+    - Explain why statistical power is necessary to interpret analysis results
+    - Identify design-stage strategies to ensure a study is well-powered (replication, platform-appropriate minimum sampling, detectable effect sizes)
+    - Awareness of analysis-stage strategies for validating power
+    - Explain why omics requires its own statistical methods, rather than classical power calculations
+
 !!! abstract "Design question: Do we have enough independent evidence?"
     **Mainly affects:** Power and cost  
     **Also affects:** Accuracy and interpretability · Generalisability

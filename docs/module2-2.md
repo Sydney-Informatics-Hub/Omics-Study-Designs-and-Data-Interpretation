@@ -1,5 +1,10 @@
 # 2.2 Confounding: when a variable travels with your groups
 
+ !!! info "Learning objectives"
+    - Interpret an example study design to identify when a group difference may be confounded rather than biological
+    - Explain why no downstream correction can recover confounded variables 
+    - Compare why blocking corrects for batching in named factors, and randomisation for unnamed ones
+
 !!! abstract "Design question: Is the observed difference genuinely biological?"
     **Mainly:** Accuracy and interpretability  
     **Also affects:** Power and cost · Generalisability
