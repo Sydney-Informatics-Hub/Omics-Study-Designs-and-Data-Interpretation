@@ -131,6 +131,8 @@ The second decision is read length, which is determined by the sequencing platfo
 | | Reads entire RNA transcript to determine isoform directly | More complex bioinformatic processing |
 | | Enables de novo genome assembly | |
 
+![](figs/short_long_simple.png){width=90%}
+
 **Short-read platforms** (e.g. Illumina) produce reads of roughly 50–300 bases. High throughput and base-level accuracy make them the standard choice for quantifying simple features like gene expression, variant calling, and chromatin accessibility, across large numbers of samples. Their constraint is structural: any feature longer than a single read must be reconstructed computationally from overlapping fragments. Repetitive sequences, structural variants, allele phasing, and full-length RNA isoforms are difficult or impossible to resolve reliably this way, regardless of sequencing depth.
 
 **Long-read platforms** (e.g. PacBio, Oxford Nanopore) produce reads spanning thousands of bases, sufficient to cover entire transcript molecules or large genomic regions in a single read. Full-length isoforms, structural rearrangements, and repetitive or homologous regions are resolved directly rather than inferred. The trade-offs are lower throughput and higher cost per
@@ -138,8 +140,18 @@ base, though accuracy on modern long-read platforms is now comparable to short-r
 
 The choice follows from the biological question. Quantifying gene expression or calling variants across many samples is a short-read problem. Resolving isoform structure, phasing alleles, or characterising structural variation requires long reads. Read length is a structural constraint, not a coverage one — increasing short-read depth cannot recover information that requires spanning a longer molecule.
 
-!!! question "Activity: PLACEHOLDER" 
-    Read mapping short vs long across a feature 
+!!! question "Activity: short or long reads?"
+
+    Decide whether short reads, long reads, (or both) are most suitable for resolving each of the goals:
+
+    1. Identifying a rare single nucleotide variant in a gene you already know to look at.
+    2. Assembling a small bacterial genome with numerous structural rearrangements.
+    3. Assembling a large vertebrate genome from scratch (de novo).
+
+    ??? success "Answers: reveal after group discussion"
+        1. Short reads: low cost per base provides the depth needed to call a rare variant confidently.
+        2. Long reads: spanning structural rearrangements needs a single read crossing it to resolve reliably. High coverage and accuracy can still be provided with long reads alone, given small genomes (e.g. of some prokaryotes).
+        3. Both! This hybrid approach uses long reads to resolve the genome's repeat regions and structural rearrangements, while short reads allow for affordable and high-accuracy polishing.
 
 ---
 
