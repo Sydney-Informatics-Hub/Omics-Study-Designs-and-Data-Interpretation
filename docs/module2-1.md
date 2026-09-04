@@ -1,25 +1,11 @@
-# 2.1 Choosing a measurement platform
- !!! info "Learning objectives"
-     - Explain why platform, library-prep, and acquisition decisions must be made before
- data collection and cannot be revisited afterwards
-     - Distinguish between sequencing-based platforms (reads) from signal-based platforms
- (intensities)
-     - Evaluate a library-preparation and read-length choice against the biological
- features it can and cannot resolve
-     - Compare label-free vs labelled quantification, and DDA vs DIA, in terms of the
- missing-value patterns each produces
+# 2.1.1 Choosing a measurement platform
 
-Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
+!!! info "Learning objectives"
 
-That choice requires more specificity than the layer alone provides. A question about gene expression and a question about RNA isoforms both sit at the transcriptome, but they require different library strategies and often different platforms to answer.
-
-!!! question "Design question: Are we measuring the biological feature we want to interpret?"
-
-    Platform choice determines not just which molecule is measured, but at
-    what resolution (bulk average or individual cells), at what scope
-    (discovery or targeted), and with what acquisition strategy. Once
-    samples are collected and processed, none of these decisions can be
-    revisited.
+    - Explain why platform, library-prep, and acquisition decisions must be made before data collection and cannot be revisited afterwards
+    - Distinguish between sequencing-based platforms (reads) from signal-based platforms (intensities)
+    - Evaluate a library-preparation and read-length choice against the biological features it can and cannot resolve
+    - Compare label-free vs labelled quantification, and DDA vs DIA, in terms of the missing-value patterns each produces
 
 ??? note "Key terms"
     | Term | Definition |
@@ -33,25 +19,40 @@ That choice requires more specificity than the layer alone provides. A question 
     | **DIA (data-independent acquisition)** | An acquisition mode where the instrument fragments all ions within predefined m/z windows, regardless of abundance. More consistent sampling across runs at the cost of more complex spectra. |
     | **Multiplexing** | Combining separately barcoded or labelled samples so they can be processed or sequenced together, then computationally separated. Distinct from biological pooling, which merges samples irreversibly. |
 
+
+Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. Platform choice is the first and most consequential decision for accuracy and interpretability: a platform that cannot capture the signal of interest at the required resolution will produce data that cannot answer the question, regardless of how the analysis is conducted. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
+
+That choice requires more specificity than the layer alone provides. A question about gene expression and a question about RNA isoforms both sit at the transcriptome, but they require different library strategies and often different platforms to answer.
+
+??? tip "Consideration 2: platform selection" 
+    Platform selection is a biological decision driven by the question. The platform determines what biological information the experiment can capture. A platform that cannot measure the signal of interest at the required resolution or sensitivity will produce data that cannot answer the question, regardless of downstream analysis.
+
+    TODO LINK TO MODULE 1.2.1 WHERE THIS IS MENTIONED.
 ---
 
-## Different platforms for different omics
 
-Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly, whereas proteins and metabolites generally
-cannot and are instead measured using approaches such as mass spectrometry or affinity-based assays.
+## Platforms and what they produce
 
-The figure below maps each biological layer to the molecule it targets, the
-current most commonly used platforms available to measure it, examples of analyses each enables, and the conditions under which one platform is preferred over another within the same layer.
+Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly; proteins and metabolites cannot and are instead measured using mass spectrometry or affinity-based assays. The figure below maps each molecular layer to the platforms available for measuring it and the conditions under which one platform is preferred over another within the same layer.
 
 ![](figs/2-1_platforms.png){width=100%}
 
 !!! question "Activity PLACEHOLDER"
-    Read the figure above left to right, but note that the rightmost column is where the design decision sits.
 
-Two patterns are worth noting here: 
+    For each scenario below, use the figure to identify the platform you would choose and which criterion in the "when to choose" column was decisive.
 
-1. Sequencing-based platforms all produce reads and signal-based platforms produce intensities. 
-2. Within each layer, the platform choice is usually a question of **scope** (the breadth of molecules the assay can detect), **resolution** (the biological unit at which signal is measured), or **analyte class** (the specific molecular species the platform can capture).
+    1. A study of 80 patient samples aims to identify genes differentially expressed between tumour and adjacent normal tissue.
+    2. A study needs to determine which RNA isoforms are expressed in brain tissue from patients with a neurodegenerative disease.
+    3. A study wants to understand cell-type-specific transcriptional responses to a drug treatment in a heterogeneous tissue.
+    4. A study aims to profile the open chromatin landscape across a developmental time course.
+
+Two patterns run across the figure. First, sequencing-based platforms all produce **reads** and signal-based platforms produce **intensities** — the raw numbers differ in kind, not just in scale. Second, within any layer, the choice between platforms turns on **scope** (the breadth of molecules the assay can detect), **resolution** (the biological unit at which signal is measured), or **analyte class** (the specific molecular species the platform can capture).
+
+The next two sections walk through each family in turn — sequencing first, then mass spectrometry — so that the kind of number each produces makes sense before you rely on it.
+
+!!! note "Discovery is a design choice"
+    Sequencing platforms are often used for discovery, and many signal-based platforms measure predefined targets, but the two do not always line up. Untargeted mass spectrometry can support broad discovery, while targeted sequencing panels interrogate only pre-selected regions. Whether an assay is discovery-driven or targeted is set during study design, not by whether it sequences.
+
 ---
 
 ## Two platform families 
