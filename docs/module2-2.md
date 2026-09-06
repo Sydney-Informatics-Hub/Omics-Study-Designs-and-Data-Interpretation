@@ -1,41 +1,33 @@
-# 2.2 Confounding: when a variable travels with your groups
+# 2.1.2 Confounding: when a variable travels with your groups
 
- !!! info "Learning objectives"
+!!! info "Learning objectives"
     - Interpret an example study design to identify when a group difference may be confounded rather than biological
     - Explain why no downstream correction can recover confounded variables 
     - Compare why blocking corrects for batching in named factors, and randomisation for unnamed ones
 
-!!! abstract "Design question: Is the observed difference genuinely biological?"
-    **Mainly:** Accuracy and interpretability  
-    **Also affects:** Power and cost · Generalisability
-
 ## One failure, many faces
 
-Module 1 listed sampling bias (Pitfall 1) and batch effects (Pitfall 4)
-separately, because they happen at different points in a study. Structurally
-they are the same failure: **a variable you are not studying ends up aligned
-with the groups you are comparing.** 
+Consideration 1 and Consideration 4 in Module 1 were presented separately because they arise at different points in a study: sampling bias enters during cohort assembly, batch effects during processing. Structurally they are the same failure - an unmeasured variable ends up aligned with the groups being compared. The platform may be appropriate and the measurement technically sound; the problem is that the observed difference cannot be attributed to the biology alone.
 
-> The platform may be right and the measurement sound. The problem here is that the difference you see cannot be assigned to the biology.
+When two variables are perfectly aligned in a dataset, they are *confounded*. No comparison within that dataset can attribute a difference to one rather than the other, because there is no case where they vary independently.
 
-When that happens the two are *confounded*. The dataset contains no case where
-they come apart, so no comparison within it can attribute a difference to one
-rather than the other.
+??? tip "Consideration 1:Cohort design and confounding"
+    Molecular profiles are sensitive to many biological and technical variables simultaneously. Age, sex, disease state, medication use, tissue composition, and sample handling conditions can all alter measured signal across every omics layer. A study that does not account for these variables risks attributing their effects to the biological question of interest.
 
-The figure below is the one from Module 1, Pitfall 4, and it is deliberately the
-same picture. Batch is simply the easiest version of this to draw.
+    A confounder that was neither controlled nor recorded cannot be modelled during analysis. If a variable may influence the outcome, measure it at the time of collection.
 
-![Confounded vs distributed design, the biological groups either travel with the factor or across it](figs_m1/01_batch_Effect_v02.png){width=90%}
+??? tip "Consideration 4: Batch effects"
+    A batch effect is a systematic technical bias introduced when samples are processed under different conditions — different sequencing runs, reagent lots, operators, instruments, or processing dates. Unlike random noise, batch effects produce consistent, reproducible patterns in the data that can resemble biological variation or mask it entirely.
 
-Module 1 read it as a batch problem: on the left, cases and controls processed in
-separate batches, and nothing in the data distinguishes a separation by batch
-from a separation by disease. On the right, both groups appear in both batches,
-so the batch effect is estimable and can be adjusted for.
+    When batch and biological group are perfectly aligned, there is no way to determine which differences are technical and which are real. This design is unrecoverable. When cases and controls are distributed across batches, the batch effect is estimable independently of the biological comparison and can be corrected statistically.
 
-Read it again with the word "batch" covered up. Nothing in either panel depends
-on what the factor is. Substitute any of these and it is the same figure:
+The figure below is reproduced from Consideration 4 in Module 1. Batch is the most common version of this problem, and the easiest to draw.
 
-| Factor | The version of this you'll actually meet |
+![Confounded vs distributed design: the biological groups either travel with the factor or across it](figs_m1/01_batch_Effect_v02.png){width=90%}
+
+In the confounded design, cases and controls were processed in separate batches. Nothing in the data distinguishes a separation by batch from a separation by disease. In the distributed design, both groups appear in both batches; the batch effect is estimable and can be adjusted for at analysis. The same figure holds for any factor. 
+
+| Factor | Examples in practice |
 |---|---|
 | **Sex** | Cases recruited male-skewed, controls female-skewed |
 | **Age / recruitment source** | Each group drawn from a different clinic or cohort |
@@ -43,296 +35,156 @@ on what the factor is. Substitute any of these and it is the same figure:
 | **Site** | Multi-site study where one site contributed most of one group |
 | **Housing unit** | Treatment in one cage or tank, control in another |
 | **Plate position** | Cases in columns 1–4, controls in 5–8 |
-| **Operator / sequencing run** | One group processed by one person, or on one flow cell |
+| **Operator / sequencing run** | One group processed by one person or on one flow cell |
 
-!!! danger "The unrecoverable rule"
-    A factor perfectly aligned with your biological groups is not estimable
-    from the data, because the data contains no case where the two vary
-    independently. More samples, deeper sequencing, and better correction
-    methods do not change this. The fix exists only before samples are
-    processed.
+!!! question "Activity PLACEHOLDER"
+    Identify the something.  
 
 ---
-## Two core tools, and which one you need
+## Tools for prevention
 
-There are several ways to keep a variable from aligning with your groups:
-matching, stratification, balanced sampling. All of them are variations on two
-underlying tools, and what separates those two is one question. Can you name the
-factor in advance?
+Multiple strategies exist for preventing a variable from aligning with experimental groups: matching, stratification, and balanced sampling. All are variations on two underlying approaches, and the distinction between them comes down to one question: can the factor be named in advance?
 
-**Blocking** is for variation you can name and record: batch, site, sex, plate.
-You build balance in deliberately, ensuring every biological group appears at
-every level of the factor.
+- **Blocking** addresses variation that can be named and recorded — batch, site, sex, plate. Balance is built in deliberately by ensuring every biological group appears at every level of the factor.
 
-**Randomisation** is for variation you cannot name. Reagent drift, an operator
-having a bad afternoon, a gradient in a thermocycler nobody has measured. You
-cannot balance what you cannot see, so instead you spread groups around and
-prevent any unnamed factor from lining up with the comparison.
+- **Randomisation** addresses variation that cannot be named. Reagent drift, unmeasured gradients in processing equipment, unrecorded differences in operator technique. Unknown factors cannot be balanced directly, so samples are instead distributed to prevent any single factor from aligning with the biological comparison.
 
-You need both, and neither is something applied afterwards. Both are allocation
-decisions.
+Both are required, and neither can be applied retrospectively. Both are allocation decisions made before any sample is processed.
 
-The figure below shows all three possibilities for the same 20 samples: 10
-cases and 10 controls, two processing batches.
+The figure below shows all three possibilities for the same 20 samples (10 cases and 10 controls) distributed across two processing batches.
 
-![Three ways to assign 20 samples (10 cases, 10 controls) to two batches: confounded, blocked, and randomised](figs_m2/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
 
-- **Confounded**: Batch 1 holds all cases, Batch 2 all controls. Batch and
-  biology are the same variable, and nothing in the data separates them.
-- **Blocked**: each batch holds 5 cases and 5 controls. The batch effect is
-  estimable from within-batch contrasts and can be adjusted for at analysis.
-- **Randomised**: samples are assigned by chance. Balance comes out
-  approximate rather than exact, and that is the part worth noticing: chance
-  balance is dependable at large *n* and unreliable at the sample sizes omics
-  studies actually run. With ten samples per group split across two batches, only about a third of random allocations come out exactly balanced, and roughly one in five lands at 7:3 or worse.
+![](figs_m2/batch_designs_01.png){style="width:90%; height:auto; min-height:300px"}
 
-That last point is why the two tools aren't interchangeable. **For any factor you
-can name, block on it. Randomise everything else.** Blocking guarantees the
-balance that randomisation only makes likely, but it only works on factors you
-thought of in advance, which is why randomisation still has to be running
-underneath.
+- **Confounded**: Batch 1 holds all cases, Batch 2 all controls. Batch and biology are the same variable.
+- **Blocked**: Each batch holds 5 cases and 5 controls. The batch effect is estimable from within-batch contrasts and can be adjusted for at analysis.
+- **Randomised**: Samples are assigned by chance. Balance is approximate rather than guaranteed — at ten samples per group split across two batches, only around a third of random allocations come out exactly balanced, and roughly one in five lands at 7:3 or worse.
 
-The blocked design costs nothing extra. No additional samples, no additional
-sequencing, only that allocation was planned before processing started.
+For any factor that can be named, **blocking** guarantees the balance that **randomisation** only makes likely. Randomisation remains necessary for everything that cannot be named in advance. A blocked design costs nothing beyond planning the allocation before processing begins.
 
-In practice the choice is often made for you, because in most omics studies the
-biological grouping is *given*: patients are not randomised to having a
-disease, populations are not randomised to being tolerant, and fields are not
-randomised to their soil. When you cannot randomise the exposure, the options
-degrade in a predictable order:
+In most omics studies the biological grouping is fixed: patients are not randomised to disease status, populations are not randomised to environmental exposure, and fields are not randomised to their soil type. When the exposure cannot be randomised, the available strategies degrade in a predictable order:
 
-| Tool | When it applies | What it gives you |
+| Strategy | When it applies | What it provides |
 |---|---|---|
-| **Randomisation** | You assign the condition: intervention trials, animal studies, field trials, cell culture | Protection against known *and* unknown factors |
-| **Stratified randomisation** | You assign the condition and know a factor matters (e.g. sex, site) | Guaranteed balance on that factor, randomisation for the rest |
-| **Matching** | Observational; groups already exist | Balance on the factors you matched on, nothing else |
-| **Balanced sampling** | Observational; per-individual matching isn't practical | Comparable group-level composition, without pairwise pairing |
-| **Recording it** | None of the above is possible | The factor stays estimable at analysis, and nothing more |
+| **Randomisation** | The condition is assigned by the researcher: intervention trials, animal studies, field trials, cell culture | Protection against known and unknown confounders |
+| **Stratified randomisation** | The condition is assigned and a factor is known to matter (e.g. sex, site) | Guaranteed balance on that factor; randomisation for the rest |
+| **Matching** | Observational; groups already exist | Balance on the matched factors only |
+| **Balanced sampling** | Observational; per-individual matching is not practical | Comparable group-level composition without pairwise pairing |
+| **Recording** | None of the above is possible | The factor remains estimable at analysis, and nothing more |
 
-!!! danger "Design principle"
-    A factor that is neither balanced nor recorded cannot be adjusted for.
-    Balancing beats recording, and recording beats neither. Deciding *not* to
-    control a variable is a legitimate choice; not noticing it is not.
-
-Which variables to record, and who records them, is covered in the metadata
-section.
+Which variables to record, and who records them, will be discussed a a later section.
 
 ---
 
-## Randomisation: for the variation you can't name
+### Randomisation: for variation you cannot name
 
-Randomisation is not a single step. It applies twice, once when you decide who
-or what goes into each group, and again as those samples move through the lab.
-The first pass is the one that usually gets skipped.
+Randomisation is applied in two steps of experimental design: 
 
-The rule is the same at both stages: **don't let your biological groups travel
-through the study in blocks.** Not through recruitment, not through the freezer,
-not across the plate, not across the flow cell.
+1. When the composition of each group is determined
+2. As samples move through the processing workflow
 
-### Composition of the groups
+The principle is the same at both stages: biological groups should not travel through a study in blocks, not through recruitment, not through extraction, not across a plate, and not across a sequencing run.
 
-You rarely control the biological grouping. You do control the composition of
-each group with respect to everything else.
+#### Cohort composition
 
-**Sex.** Module 1 showed the scale of this: a large share of the transcriptome
-differs by sex in at least one tissue. Two situations are worth keeping apart. A
-single-sex study is a *limitation* on generalisability, which you can state and
-work within. A sex-imbalanced two-group comparison is a *confounder*, which you
-cannot. Both sexes present in both groups is what makes the effect estimable.
+The biological grouping is rarely within the researcher's control. What is within their control is the composition of each group with respect to all other variables.
 
-**Age, and whatever else travels with recruitment source.** Recruiting each
-group from a different place bundles age, medication use, comorbidity and
-collection protocol into the group label simultaneously. The oncology ward
-versus university health check example from Module 1 is the standard version.
+**Sex.** Consideration 1 in Module 1 documented the scale of sex-biased expression across tissues. A single-sex study is a limitation on generalisability that can be stated and worked within. A sex-imbalanced two-group comparison is a confounder. Both sexes represented in both groups is what makes the effect estimable.
 
-**Shared environment.** Cage, tank, tray, plot, household, ward. Animals housed
-together or plants in the same tray share more than the treatment they were
-given: microbiome, temperature, handling, feed. If treatment goes in cage A and
-control in cage B, cage is the comparison. Randomise individuals to housing
-units, and where possible put more than one condition in each unit. This also
-determines what counts as one independent replicate, picked up in the
-replication section.
+**Age and recruitment source.** Recruiting each group from a different clinical setting bundles age, medication use, comorbidity burden, and collection protocol into the group label simultaneously. The oncology ward versus community health screen example from Module 1 is representative.
 
-**Collection time and site.** Samples collected in different years or at
-different sites bring a change in protocol, staff and reagents with them. If one
-group was collected in 2021 and the other in 2024, nothing done at the bench
-afterwards recovers the comparison.
+**Shared environment.** Animals housed together, plants in the same tray, or samples stored in the same freezer compartment share more than the condition being studied: microbiome composition, temperature, handling history, and feed. When treatment and control occupy separate housing units, the unit becomes the unit of comparison. Individuals should be randomised to housing units, and where possible each unit should contain samples from more than one condition.
 
-### Through the workflow
+**Collection time and site.** Samples collected in different years or at different sites carry differences in protocol, reagents, and personnel. When one group was collected in 2021 and the other in 2024, no analytical step recovers that comparison.
 
-Everything above happens before a sample is touched. The same rule then applies
-to technical variables, and this is where it tends to get lost: samples arrive
-labelled, get processed together, and stay grouped all the way to sequencing.
-It's efficient. It's also how confounding gets baked in.
+#### Through the processing workflow
 
-You don't need perfect randomness. You need enough mixing that no single
-technical factor lines up cleanly with your biological comparison. Four points
-where structure creeps in reliably:
+The same principle applies once samples reach the laboratory. Samples that arrive grouped by condition and remain grouped through extraction, library preparation, and sequencing carry their structure all the way to the data.
 
-**Processing order.** If you process all cases first and controls later, you've
-introduced a pattern whether you meant to or not. Reagents don't behave the same
-at 9am and 4pm, and people don't pipette the same way at the end of a long run.
-Small effects, but consistent enough to matter. Interleave: alternate
-conditions, or shuffle within each day's worklist. It doesn't have to be
-elegant, just not structured.
+The goal is not perfect randomness but sufficient mixing that no single technical factor aligns with the biological comparison. Four points where systematic structure accumulates:
 
-**Plate layout.** Plate effects are one of those things people believe in theory
-and ignore in practice. Edge wells dry out faster, corners behave slightly
-differently. Most of the time the effect is subtle, until it lines up with your
-condition. The predictable failure mode is loading columns 1–4 with cases and
-5–8 with controls because it's easier to track. It is easier. It also guarantees
-that any spatial bias becomes a biological signal.
+**Processing order.** Processing all cases before controls introduces a temporal pattern. Reagent performance and operator precision can vary systematically across a working day. Interleaving conditions across each day's processing order distributes these effects rather than concentrating them.
 
-**Library preparation batches.** Run one condition in one batch and another in
-the next and you're no longer comparing biology, you're comparing reactions.
-Even with identical protocols, batches drift. Mix conditions within each batch.
-If that genuinely isn't possible, batch becomes part of the design and has to be
-handled deliberately, which is what blocking is for.
+**Plate layout.** Spatial effects on multi-well plates are well documented: edge wells evaporate at different rates and corner positions behave differently from interior ones. Loading cases into one region of a plate and controls into another converts any spatial gradient into an apparent biological signal. Samples should be randomised across plate positions.
 
-**Sequencing allocation.** By this point most of the structure is already set.
-Lane effects are real but rarely the main problem; the bigger issue is earlier
-grouping carrying through. Multiplexing one group per lane still happens more
-often than it should. A simple spread across lanes avoids it.
+**Library preparation batches.** Running one condition through one preparation batch and another through the next conflates technical batch differences with biological differences. Conditions should be distributed across preparation batches. Where this is not possible, batch becomes a named design factor and must be handled through blocking.
 
-### What it looks like when this is skipped
+**Sequencing allocation.** Lane effects are real but are rarely the primary source of structure; the more common problem is that earlier grouping carries through to sequencing allocation. Distributing conditions across lanes and flow cells avoids concentrating technical effects.
 
-![Spatial and temporal confounding, false positive from a temperature gradient (A) and false negative from measurement order (B)](figs_m2/wagner2025_fig3_AB.jpg){width=90%}
+#### Consequence of skipping this
 
-<small>
-**Figure explanation.** Panel A shows *spatial confounding*: a temperature
-gradient across the plate creates an apparent difference between groups because
-samples were arranged by condition. This produces a **false positive**; the
-effect is technical, not biological. Panel B shows *temporal confounding*:
-samples measured later have more time to grow, masking a real difference between
-conditions. This produces a **false negative**.
-Neither panel is a story about excessive technical variation. In both, the
-problem is that the variation is **aligned with the biological groups**.
-Randomisation breaks the alignment.
-</small>
-<small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
-[doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
-(CC BY-NC-ND 4.0)</small>
+![Spatial and temporal confounding: false positive from a temperature gradient (A) and false negative from measurement order (B)](figs_m2/wagner2025_fig3_AB.jpg){width=90%}
 
-Note that a temperature gradient across a plate is exactly the kind of factor
-nobody records. Thermocyclers are not perfectly uniform, even when they claim to
-be. Most runs are fine; occasionally there is a pattern, edges slightly off, or
-a gradient nobody expected. Spread your samples and it shows up as noise. Group
-them and it shows up as biology.
+<small>**Figure.** Panel A: a temperature gradient across a plate produces an apparent difference between groups because samples were arranged by condition — a false positive arising from spatial confounding. Panel B: samples measured later in a run have more time to accumulate, masking a real difference between conditions — a false negative arising from temporal confounding. In both panels the problem is not the magnitude of technical variation but its alignment with the biological groups. Randomisation breaks that alignment.</small>
+
+<small>Wagner & Kleiner. *Nature Communications* 16, 7263 (2025). [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"} (CC BY-NC-ND 4.0)</small>
+
+A temperature gradient across a plate is the kind of factor that goes unrecorded. Distributing samples spreads it as noise; grouping samples converts it into signal.
 
 ---
 
-## Blocking: for the variation you can name
+### Blocking: for variation you can name
 
-Blocking deals with the factors you already know will vary. Rather than trusting
-chance to spread them, you build the balance into the sample allocation.
+Blocking addresses factors known to vary before processing begins. Rather than relying on chance to distribute them, balance is built into the allocation deliberately.
 
-### What counts as a batch
+#### What counts as a batch
 
-A **batch** is any set of samples processed under shared technical conditions.
-In omics workflows this arises at several stages:
+A batch is any set of samples processed under shared technical conditions. In omics workflows this arises at multiple stages:
 
-- Samples extracted together, on the same day, or by the same operator
-- Libraries prepared in the same reaction or from the same reagent lot
-- Samples run on the same sequencing lane, flow cell, or MS injection series
-- Samples stored and handled under identical conditions
+- Samples extracted on the same day, by the same operator, or from the same reagent lot
+- Libraries prepared in the same reaction
+- Samples run on the same sequencing lane, flow cell, or mass spectrometry injection series
+- Samples stored and handled under the same conditions
 
-Batches are unavoidable. The question is never whether batches exist, but
-whether biological groups are distributed across them or accidentally confounded
-with them.
+Batches are a structural feature of how omics studies are conducted; they are unavoidable. The relevant question is not whether batches exist but whether biological groups are distributed across them or confounded with them.
 
-### The principle
+#### The principle
 
-**Every biological group must be represented within every batch**, as in the
-blocked panel of the figure above.
+Every biological group must be represented within every batch, as shown in the blocked panel of the figure above. The logic extends to multiple factors: where more than one known factor is in play, every level of every factor should include samples from every biological group. In practice this requires an allocation plan written before any sample is processed, not a decision made at the bench.
 
-The logic scales past the two-group, two-batch case. Where more than one known
-factor is in play, the same rule applies to each of them: every level of every
-factor should see every biological group. In practice this becomes an allocation
-sheet written before any sample is processed, not a decision made at the bench.
+A **shared reference sample** — a pooled aliquot prepared from the study samples and carried through every batch — makes batch drift directly measurable rather than inferred. A blocked design ensures the batch effect is estimable; a shared reference quantifies how large it actually is.
 
-One addition worth planning for at the same time:
+![Conditions nested within batches (left) vs distributed with a shared reference carried across batches (right)](figs_m2/wagner2025_fig3_C.jpg){width=90%}
 
-![Batch design: conditions nested within batches (left) vs distributed with a shared control carried across batches (right)](figs_m2/wagner2025_fig3_C.jpg){width=90%}
-
-<small>Ref: Wagner & Kleiner. *Nature Communications* 16, 7263 (2025).
-[doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"}
-(CC BY-NC-ND 4.0)</small>
-
-A **shared control sample** carried through every batch makes drift directly
-measurable rather than inferred. A blocked design tells you the batch effect is
-estimable; a shared control tells you how large it actually is.
+<small>Wagner & Kleiner. *Nature Communications* 16, 7263 (2025). [doi:10.1038/s41467-025-62616-x](https://www.nature.com/articles/s41467-025-62616-x){target="_blank"} (CC BY-NC-ND 4.0)</small>
 
 ---
 
-## Why design beats correction
+## Why design is better than correction
 
-Correction methods (ComBat, RUV, Harmony) work well when the technical factor is
-*orthogonal* to the biological comparison, that is, when every group appears at
-every level of the factor. In that setting the model has within-level contrasts
-to learn from, and can separate technical variation from biological signal.
+Correction methods work when the technical factor is orthogonal to the biological comparison: when every group appears at every level of the factor, the technical effect can be estimated independently of the biological signal and removed.
 
-When factor and biology are correlated, that separation is unavailable. The
-model cannot tell which is which, and whatever it removes takes real signal with
-it.
+When factor and biology are correlated, that separation is unavailable. The model cannot distinguish the two, and whatever is removed takes biological signal with it.
 
-![Dimension reduction before and after correction, the structure resolves only because the design allowed it to](figs_m2/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
+![Dimension reduction before and after batch correction: the structure resolves because the design permitted it](figs_m2/03_Dimension_reduction_before_after_v01.png){style="width:90%; height:auto; min-height:300px"}
 
-<small>Ref: [Zhu, Xun, et al. "Granatum: a graphical single-cell RNA-Seq analysis pipeline for genomics scientists." *Genome Medicine* 9, 108 (2017)](https://link.springer.com/article/10.1186/s13073-017-0492-3){target="_blank"}</small>
+<small>[Zhu et al. *Genome Medicine* 9, 108 (2017)](https://link.springer.com/article/10.1186/s13073-017-0492-3){target="_blank"}</small>
 
-The part worth attention is what the "after" panel depended on. Correction
-resolved the structure here because the design permitted it. Run the same method
-on the confounded design from the start of this section and it fails, not
-because the method is worse, but because the information it needs was never
-generated. **The method is the same; the design decides whether it works.**
+Correction resolved the batch structure in this example because the design allowed it. The same method applied to the confounded design would fail — not because the method is worse, but because the information it requires was never generated. The method is the same; the design determines whether it can work.
 
-!!! info "Detecting this at analysis stage"
-    An unexplained axis in a PCA plot tells you structure exists. It does not
-    tell you what the structure *is*; that depends entirely on whether the
-    variable was recorded. Methods for detecting, evaluating, and correcting
-    batch effects are covered in the downstream analysis workshop. Getting the
-    design into a state where correction is possible is this module's job.
+!!! info "Detecting batch structure at analysis"
+    An unexplained axis in a PCA plot indicates that structure exists in the data. Identifying what that structure corresponds to depends entirely on whether the variable was recorded. Methods for detecting, evaluating, and correcting batch effects are covered in the downstream analysis workshop. Producing a design in which correction is possible is the task of this module.
 
 ---
 
 ## The three strategies compared
 
-![Comparison of confounded, blocked, and randomised batch allocation across six properties](figs_m2/batch_designs_02.png){style="width:90%; height:auto; min-height:300px"}
+The table below compares the three allocation strategies across five properties. Blocking typically gives the highest power of the three because removing a known source of variance reduces unexplained noise in the model, balanced allocation improves power as well as interpretability.
 
-The bottom row is the decision, and "never" is doing real work there. Note also
-the power row: blocking usually gives the highest power of the three, because
-removing a known source of variance leaves less unexplained noise for the model
-to absorb. Balanced allocation buys statistical power, not just correctness.
+| Property | Confounded | Blocked | Randomised |
+|---|---|---|---|
+| **Batch separable from biology?** | No, they are the same variable | Yes, separated by design | Partially, depends on achieved balance |
+| **Correctable at analysis?** | No | Yes | Usually, if batch was recorded |
+| **False positive risk** | High | Controlled | Reduced |
+| **Statistical power** | Reduced | Typically highest | Good |
+| **When to use** | Never | Preferred for any named factor | When the factor cannot be named in advance |
 
-One caveat on reading the table: it compares the three strategies **for a single
-known factor**. It is not saying randomisation is a second-best blocking. For
-factors you never thought to name, randomisation is the only tool there is.
+!!! question "Activity PLACEHOLDER"
+    Open module 2 activity in your browser. 
 
----
-
-## What to carry forward
-
-- Biological and technical confounding are one failure. A variable aligned with
-  your groups is unrecoverable regardless of which stage introduced it.
-- **Name the factor and you can block on it. Can't name it, randomise around
-  it. Can't do either, record it.**
-- Randomisation applies twice: to who is in each group, and to how samples move
-  through the lab. The first pass is the one usually skipped.
-- Blocked designs cost nothing beyond planning the allocation in advance.
-- Correction methods are not a fallback for a confounded design. They only
-  recover what the design left recoverable.
-
-!!! question "Activity: how reliable is chance balance?"
-
-       Download the activities page 
-    <a href="../Activities-webR/module2/module2_design_activities.html" target="_blank">
-    <button style="background-color: blue; color: white;">
-        ⬇ Download HTML
-      </button>
-    </a>.  
-          or 
-    from the repo folder `Activities-webR/module2/`
-    and open it in Chrome or Edge. Head to the tab **Chance Balance**.
-
-    Blocking guarantees the balance that randomisation only makes likely, the
-    activity puts a number on "likely" at the sample sizes omics studies
-    actually run.
+!!! info "Module 2.1.2 takeaways"
+    - Sampling bias and batch effects are the same structural failure: an unmeasured variable aligned with the groups being compared.
+    - A factor perfectly aligned with the biological groups cannot be estimated from the data.
+    - Randomisation applies at cohort composition and processing workflow.
+    - Blocked designs increase statistical power by reducing unexplained variance.
+    - Correction methods require a design in which the technical factor and the biological comparison are not confounded. 
