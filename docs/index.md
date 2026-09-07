@@ -2,17 +2,17 @@
 
 This workshop introduces you to the principles and practices needed to design omics experiments with a focus on decisions made before data generation: platform selection, sample size, batch structure, and metadata collection. It also covers post-hoc assessment of datasets for bias, quality issues, and common interpretation errors. The content is broken up into 3 modules that cover: 
 
-- Module 1: Understanding molecular layers
-- Module 2: Designing robust studies 
-- Module 3: Applying experimental design principles 
+- [Module 1](module1-1.md): Understanding molecular layers
+- [Module 2](module2-0.md): Designing robust studies 
+- [Module 3](): Applying experimental design principles 
 
 ## Background 
 
 Well designed omics studies begin with clear biological questions that work outward: identifying the molecular layer that can address it, selecting a platform that captures the relevant signal, and structuring the experiment to produce results that are statistically interpretable and generalisable beyond the study cohort. 
 
-## Who Should Attend
+## Audience
 
-Researchers who generate or interpret omics data and want a stronger foundation in study design and pre-generation planning. This workshop is appropriate for you if you: 
+This workshop is targeted at researchers who generate or interpret omics data and want a stronger foundation in study design and pre-generation planning. This workshop is appropriate for you if you: 
 
 - Work with or plan to use omics technologies in your research experiments
 - Are involved in study design, sample collection, or data interpretation
@@ -33,17 +33,12 @@ By the end of this workshop, participants will be able to:
 - Evaluate an omics study design in terms of statistical power, cost, interpretability, and generalisability
 - Diagnose confounding and batch structure and propose design changes to reduce their impact 
 
-### Developers
+## Developers
 
 - Amarinder Singh Thind
 - Georgie Samaha
 - Mitchell O'Brien
-
-## Acknowledgements
-
-Acknowledgements (and co-authorship, where appropriate) are an important way for us to demonstrate the value we bring to your research. Your research outcomes are vital for ongoing funding of the Sydney Informatics Hub and national compute facilities. We suggest the following: 
-
-*"The authors acknowledge the support provided by the Sydney Informatics Hub, a Core Research Facility of the University of Sydney."*
+- Fred Jaya
 
 ## Code of Conduct
 

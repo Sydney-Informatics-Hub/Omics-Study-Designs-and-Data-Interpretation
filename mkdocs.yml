@@ -22,11 +22,11 @@ nav:
           - 2.1.2 Confounding and batch: module2-1-2.md
           - 2.1.3 Measurement and metadata: module2-1-3.md
       - Module 2.2 Power and cost:
-          - 2.2.1 Sample size: module2-4.md
-          - 2.2.2 Spending the budget: module2-5.md
+          - 2.2.1 Sample size: module2-2-1.md
+          - 2.2.2 Spending the budget: module2-2-2.md
       - Module 2.3 Generalisability:
-          - 2.3.1 Who the findings apply to: module2-6.md
-      - 2.4 Putting it together: module2-7.md
+          - 2.3.1 Who the findings apply to: module2-3-1.md
+      - 2.4 Putting it together: module2-4.md
 
   - References: further-reading.md
 
