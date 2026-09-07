@@ -37,7 +37,7 @@ Different biological molecules require different measurement technologies. DNA a
 
 ![](figs/2-1_platforms.png){width=100%}
 
-!!! question "Activity: Selecting a platform"
+!!! question "Activity PLACEHOLDER"
 
     For each scenario below, use the figure to identify the platform you would choose and which criterion in the "when to choose" column was decisive.
 
@@ -93,15 +93,11 @@ Both of these are measured using **next generation sequencing (NGS)**: a massive
 2. Converting those fragments into a sequencing-ready library
 3. Reading the nucleotide sequence of each fragment as it passes through the instrument which reads millions of fragments in parallel. 
 
-Each sequenced fragment becomes a **read** — a string of nucleotide bases representing one piece of the original molecule. Reads are the raw output of the instrument. All data processing downstream (e.g. alignment, quantification, variant calling) is built on them. What the reads can contain is set entirely by what was put into the library: 
+Each sequenced fragment becomes a **read** — a string of nucleotide bases representing one piece of the original molecule. Reads are the raw output of the instrument. All data processing downstream (e.g. alignment, quantification, variant calling) is built on them. What the reads can contain is set entirely by what was put into the library: which molecules were extracted, which fraction was enriched for, how long the fragments are. 
 
-1. Which molecules were extracted
-2. Which fraction was enriched for
-3. How long the fragments are
+PLACEHOLDER - REPLACE THIS WITH A DIAGRAM OF SEQUENCING PROCESS
 
-![](figs/2-1_sequencing.png){width=100%}
-
-<small>Illustration of a short-read sequencing workflow, based on Illumina's sequencing-by-synthesis (SBS) chemistry on their HiSeq platform. Library fragments bind to the flow cell, are clonally amplified into clusters, and are read out base-by-base. Long-read platforms (e.g. PacBio, Oxford Nanopore) use different chemistry and produce a different-looking process. The library preparation and starting genetic material shown here also vary by sample type and study design, as described in the text.</small>
+![](figs_m2/sequencing_workFlow_walk_Through.png){width=100%}
 
 Two decisions made before the instrument runs determine what the reads can
 contain: 
@@ -109,12 +105,8 @@ contain:
 1. Library preparation: which molecules, which fraction, which targets. 
 2. Read length, which is set by the platform itself and determines what structural features the reads can resolve.
 
-!!! question "Activity: Platform family and molecule extraction" 
-
-    Pick one of the four scenarios from the "Selecting a platform" activity. For the chosen scenario, identify:
-
-    1. What platform family should be used?
-    2. What molecule should be extracted?
+!!! question "Activity: PLACEHOLDER" 
+    What activity?
 
 ### Decision 1: library preparation
 
@@ -140,8 +132,6 @@ The second decision is read length, which is determined by the sequencing platfo
 | | Reads entire RNA transcript to determine isoform directly | More complex bioinformatic processing |
 | | Enables de novo genome assembly | |
 
-![](figs/short_long_simple.png){width=90%}
-
 **Short-read platforms** (e.g. Illumina) produce reads of roughly 50–300 bases. High throughput and base-level accuracy make them the standard choice for quantifying simple features like gene expression, variant calling, and chromatin accessibility, across large numbers of samples. Their constraint is structural: any feature longer than a single read must be reconstructed computationally from overlapping fragments. Repetitive sequences, structural variants, allele phasing, and full-length RNA isoforms are difficult or impossible to resolve reliably this way, regardless of sequencing depth.
 
 **Long-read platforms** (e.g. PacBio, Oxford Nanopore) produce reads spanning thousands of bases, sufficient to cover entire transcript molecules or large genomic regions in a single read. Full-length isoforms, structural rearrangements, and repetitive or homologous regions are resolved directly rather than inferred. The trade-offs are lower throughput and higher cost per
@@ -149,18 +139,8 @@ base, though accuracy on modern long-read platforms is now comparable to short-r
 
 The choice follows from the biological question. Quantifying gene expression or calling variants across many samples is a short-read problem. Resolving isoform structure, phasing alleles, or characterising structural variation requires long reads. Read length is a structural constraint, not a coverage one — increasing short-read depth cannot recover information that requires spanning a longer molecule.
 
-!!! question "Activity: short or long reads?"
-
-    Decide whether short reads, long reads, (or both) are most suitable for resolving each of the goals:
-
-    1. Identifying a rare single nucleotide variant in a gene you already know to look at.
-    2. Assembling a small bacterial genome with numerous structural rearrangements.
-    3. Assembling a large vertebrate genome from scratch (de novo).
-
-    ??? success "Answers: reveal after group discussion"
-        1. Short reads: low cost per base provides the depth needed to call a rare variant confidently.
-        2. Long reads: spanning structural rearrangements needs a single read crossing it to resolve reliably. High coverage and accuracy can still be provided with long reads alone, given small genomes (e.g. of some prokaryotes).
-        3. Both! This hybrid approach uses long reads to resolve the genome's repeat regions and structural rearrangements, while short reads allow for affordable and high-accuracy polishing.
+!!! question "Activity: PLACEHOLDER" 
+    Read mapping short vs long across a feature 
 
 ---
 
