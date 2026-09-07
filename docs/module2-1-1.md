@@ -37,7 +37,7 @@ Different biological molecules require different measurement technologies. DNA a
 
 ![](figs/2-1_platforms.png){width=100%}
 
-!!! question "Activity PLACEHOLDER"
+!!! question "Activity: Selecting a platform"
 
     For each scenario below, use the figure to identify the platform you would choose and which criterion in the "when to choose" column was decisive.
 
@@ -93,11 +93,15 @@ Both of these are measured using **next generation sequencing (NGS)**: a massive
 2. Converting those fragments into a sequencing-ready library
 3. Reading the nucleotide sequence of each fragment as it passes through the instrument which reads millions of fragments in parallel. 
 
-Each sequenced fragment becomes a **read** — a string of nucleotide bases representing one piece of the original molecule. Reads are the raw output of the instrument. All data processing downstream (e.g. alignment, quantification, variant calling) is built on them. What the reads can contain is set entirely by what was put into the library: which molecules were extracted, which fraction was enriched for, how long the fragments are. 
+Each sequenced fragment becomes a **read** — a string of nucleotide bases representing one piece of the original molecule. Reads are the raw output of the instrument. All data processing downstream (e.g. alignment, quantification, variant calling) is built on them. What the reads can contain is set entirely by what was put into the library: 
 
-PLACEHOLDER - REPLACE THIS WITH A DIAGRAM OF SEQUENCING PROCESS
+1. Which molecules were extracted
+2. Which fraction was enriched for
+3. How long the fragments are
 
-![](figs_m2/sequencing_workFlow_walk_Through.png){width=100%}
+![](figs/2-1_sequencing.png){width=100%}
+
+<small>Illustration of a short-read sequencing workflow, based on Illumina's sequencing-by-synthesis (SBS) chemistry on their HiSeq platform. Library fragments bind to the flow cell, are clonally amplified into clusters, and are read out base-by-base. Long-read platforms (e.g. PacBio, Oxford Nanopore) use different chemistry and produce a different-looking process. The library preparation and starting genetic material shown here also vary by sample type and study design, as described in the text.</small>
 
 Two decisions made before the instrument runs determine what the reads can
 contain: 
@@ -105,8 +109,12 @@ contain:
 1. Library preparation: which molecules, which fraction, which targets. 
 2. Read length, which is set by the platform itself and determines what structural features the reads can resolve.
 
-!!! question "Activity: PLACEHOLDER" 
-    What activity?
+!!! question "Activity: Platform family and molecule extraction" 
+
+    Pick one of the four scenarios from the "Selecting a platform" activity. For the chosen scenario, identify:
+
+    1. What platform family should be used?
+    2. What molecule should be extracted?
 
 ### Decision 1: library preparation
 
