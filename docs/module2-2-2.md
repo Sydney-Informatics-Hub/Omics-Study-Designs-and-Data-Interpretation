@@ -1,4 +1,4 @@
-# 2.2.2 The cost of design decisions
+# 2.2.2 Design decision costs
 
 !!! info "Learning objectives"
     - Explain why depth and replication serve different analytical functions and cannot substitute for each other
