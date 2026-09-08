@@ -1,143 +1,109 @@
-# 2.5 Spending the budget: depth and allocation
+# 2.2.2 The cost of design decisions
 
 !!! info "Learning objectives"
-    - Identify the impacts of measurement depth vs. coverage to a study
-    - Consider the trade-offs between measurement depth vs. coverage to an example study with a fixed budget
-    - Assess how a more cost-effective platform or library-prep/sampling strategy can be applied to resolve a research goal
+    - Explain why depth and replication serve different analytical functions and cannot substitute for each other
+    - Describe why returns on additional depth diminish once the detection floor is met
+    - Identify how multi-omics designs compound budget constraints
+    - Apply a decision sequence for allocating a finite budget across sequencing depth, replication, and platform scope
 
-!!! abstract "Design question: How should we spend the budget to get that evidence?"
-    **Mainly affects:** Power and cost  
-    **Also affects:** Accuracy and interpretability · Generalisability
+Every omics study requires two resource allocation decisions made from the same budget: how many biological samples to collect, and how extensively each sample is measured. These decisions compete with one another and both have direct consequences for what the study can detect and what it can conclude. A third decision, platform scope, determines which molecular layers are interrogated and multiplies the cost of both. Budget is the constraint that connects all of them.
 
-Section 2.4 dealt with how much independent evidence a study needs. This section
-deals with the money. Budgets are fixed, and most of the decisions that follow
-are about spending the same pool on competing things: more samples or more reads
-per sample, more donors or more cells, better detection or wider coverage.
+Per-sample cost in omics is not fixed. All platforms share a common cost structure: some costs are fixed per acquisition run (e.g. instrument time, setup, and QC samples) while reagent and consumable costs scale with sample number. At low sample volumes, fixed costs distribute across fewer samples and cost per sample is high. As throughput increases, fixed costs amortise and per-sample cost falls. Studies designed at low sample numbers routinely underestimate total cost because catalogue prices reflect higher-volume runs.
 
-> The number of samples is only half the decision. The other half is what you spend on each one.
+| Layer | Platform | Per-run fixed costs | Per-sample variable costs |
+|---|---|---|---|
+| Genome, transcriptome, epigenome | Short-read sequencing | Flow cell, instrument time | Library prep reagents, indexing |
+| Transcriptome | scRNA-seq | GEM chip, flow cell | Capture reagents, library prep |
+| Epigenome | Methylation array | Array chip, scanner time | Bisulfite conversion, labelling |
+| Proteome | LC-MS/MS | Instrument session, column runs, QC injections | Digestion, cleanup, per-sample injection time |
+| Metabolome | LC-MS, GC-MS | Instrument session, blank and QC pool runs | Extraction, derivatisation, per-sample injection time |
 
----
+??? tip "Consideration 2: Platform selection"
+    Platform choice determines per-sample cost, throughput capacity, and what can be measured at all. The same question addressed by targeted versus whole-genome sequencing, or DDA versus DIA proteomics, carries a different per-sample price and different depth requirement. Platform selection and budget planning are not separable.
 
-## Depth vs replication: two jobs, one budget
+??? tip "Consideration 4: Batch effects"
+    How samples are distributed across acquisition runs affects both per-sample cost and batch structure. Grouping samples to fill runs efficiently can reduce cost but risks confounding batch with biology. Both pressures must be planned for together before any sample is processed.
 
-This is where the depth question usually gets answered wrong. Depth and
-replication do **two different jobs**, and conflating them is the mistake.
-
-### What depth does: detection
-
-Depth is a measurement budget spent *within* a sample. A sequencer cannot count
-every molecule; it reads a subset of fragments and stops at a target depth. Each
-feature's count is therefore a share of whatever total was generated for that
-sample.
-
-At shallow depth, low-abundance features drop in and out of detection across
-samples, not because their expression changed, but because the sampling was too
-sparse to catch them reliably. Increase the depth and they reappear. The biology
-didn't change; the measurement improved.
-
-![Shallow vs deep sequencing: how depth affects gene detection](figs_m2/02_shallow_vs_deep_sequencing_v2.jpg){width=100%}
-
-<small>At a total of 10 reads, a gene at 1% true abundance receives no reads here and is invisible. Another at 5% receives a single read, technically detected but statistically unreliable; a replicate might return zero. At 1,000 reads, the same proportions produce reliable counts for both. **The biology did not change between the two panels. The budget did.**</small>
-
-So depth sets a practical floor on what can be detected reliably. That floor is
-set by the least-abundant feature your question depends on, not chosen
-arbitrarily, and detecting that a feature is present takes less depth than
-detecting a change in it.
-
-### What replication does: power
-
-Here is the part depth cannot do. Increasing depth improves precision *within* a
-sample. It does nothing about the variability *between* samples, which is what
-replication allows you to estimate.
-
-As 2.4 established, power comes from the number of independent biological units.
-Adding reads to the same libraries measures those same units more precisely; it
-does not add units. So under a fixed budget, the lever for power is more
-biological replicates, not more reads per sample.
-
-> **Practical rule:** Reach adequate depth first, then spend what remains on
-> biological replicates. Beyond the depth your question needs, extra reads
-> usually buy less than extra samples.
-
-<small>
-Liu Y, et al. *Bioinformatics* 2014; 30(3): 301–304.
-[doi:10.1093/bioinformatics/btt688](https://academic.oup.com/bioinformatics/article/30/3/301/228651){target="_blank"}
-</small>
-
-!!! note "Depth as a confounder is a different problem"
-    Depth also matters when it lines up with your biological groups, for example
-    when one condition is consistently sequenced shallower than the other. That
-    is a confounding problem (2.2), not a sample-size one.
+??? tip "Consideration 5: Experimental controls"
+    Controls — extraction blanks, pooled QC samples, spike-ins, shared reference samples — consume sample slots and instrument time. They must be counted and costed before the biological sample number is set. A study that sets its biological sample number and then adds controls has either fewer biological replicates than planned or an unplanned cost overrun.
 
 ---
 
-## When detection is the limit
+## Decision: sample number
 
-The rule above is for discovery studies comparing groups. There are cases where
-the question is not "is this feature different" but "can I see this feature at
-all," and there more samples do not help. The measurement has to change.
+The number of biological samples per group is set by statistical power requirements, which were established in [module 2.2.1](module2-2-1.md). The inputs include effect size, biological variability, and the multiple-testing burden. The minimum sample number is not a default; it depends on the biological question and must be estimated before a budget is set.
 
-- **Low-abundance transcript detection.** If a feature is never detected, more
-  replicates don't help. It has to be measurable first. This is the direct
-  continuation of the detection mechanism above.
+In practice, sample number in omics experiments is frequently determined by budget rather than by power. This is a legitimate constraint, but it has consequences that must be acknowledged: a study designed at a sample number below what the question requires will have limited power to detect real effects, and findings may not replicate. The honest response is to scope the question to what the available sample number can support, not to proceed as though the study were fully powered.
 
-- **Somatic variant detection in tumour samples.** Calling low-frequency variants
-  (roughly 1–5% allele fraction) generally requires substantially higher coverage
-  to separate signal from sequencing noise.
+Two factors reduce the effective sample number below the number of samples processed:
 
-![Sequencing depth requirements for variant detection](figs_m2/VAF_Sequencing_depth.jpg){width=90%}
+- **Controls** take up sequencing or acquisition capacity. QC pools, blanks, and reference samples run alongside biological samples and must be counted in the total before the biological number is determined.
+- **Sample attrition** — failed extractions, poor QC metrics, insufficient input material — routinely reduces the number of samples that reach analysis. Designing to a minimum sample number without accounting for expected attrition produces a study that is underpowered before analysis begins.
 
-- **Rare cell populations in single-cell studies.** Seeing a rare population
-  usually means profiling more cells or enriching for them; deeper sequencing
-  helps when the limit is detecting transcripts within each cell.
+---
 
-In each case the issue is observability, not statistical power. Targeted
-approaches such as enrichment or panel-based sequencing are often more efficient
-than deepening the whole dataset.
+## Decision: measurement depth
 
-!!! note "The same trade-off in proteomics"
-    On mass spectrometry there is no depth dial to turn, but the choice has the
-    same shape. When the proteins a question depends on are poorly detected
-    (2.4), adding samples does not make them appear. Enrichment, fractionation,
-    depletion of abundant proteins, or a targeted acquisition method can raise
-    detection directly, each at a cost in instrument time and each with biases of
-    its own. Acquisition mode is part of this too: as 2.1 set out, DDA favours
-    abundant ions while DIA samples a broader set.
+Measurement depth refers to how extensively each sample is interrogated. Every platform subsamples the molecules in a sample; what is detected, and how reliably, depends on how large that subsample is relative to the abundance of the features of interest. Depth sets a detection floor: features below it are missed entirely or detected inconsistently across samples.
 
-??? info "scRNA-seq: splitting a fixed budget between donors and cells"
-    In single-cell RNA-seq the budget splits two ways: how many donors you
-    profile, and how many cells you profile per donor. The two do different
-    things: donors provide biological replication, cells provide deeper sampling
-    within each donor.
+The adequate depth for a study is not a default value. It is determined by the least-abundant feature the biological question depends on. A study targeting highly expressed genes or abundant proteins operates above a lower floor than one targeting rare isoforms, low-frequency variants, or trace metabolites.
 
-    - *n* = number of donors per condition
-    - More cells per donor improve resolution within that donor; they do not add
-      biological replicates
+What depth means in practice differs by platform:
 
-    Moving from 5 to 100 donors substantially increases power, because each donor
-    is new biological information. Going from 100 to 1000 cells per donor
-    characterises each donor far better, but does not add biological replicates.
+| Platform | What depth means | Key decisions |
+|---|---|---|
+| Short-read sequencing (genome, epigenome, transcriptome) | Number of reads generated per sample | Target read depth. Set by the least-abundant feature the question depends on, not a convention |
+| scRNA-seq | Reads per cell and cells per donor | Reads per cell set transcript detection within each cell; cells per donor set within-donor resolution. Donors are the biological replicates. More donors improve power, more cells per donor do not. |
+| Proteomics (LC-MS/MS) | Number of peptides sampled per acquisition | Acquisition mode (DDA samples abundant ions; DIA covers the full mass range); gradient length; offline fractionation; enrichment or depletion of target proteins |
+| Metabolomics (LC-MS, GC-MS) | Number of metabolites sampled per acquisition | Targeted (pre-specified features, high precision) vs untargeted (broad coverage); gradient length; scan range; ion mode |
 
-    ![Donors vs cells per donor in scRNA-seq power](figs_m2/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
+Each decision affects per-sample cost and what the study can measure. They are made before data collection and cannot be corrected afterwards.
 
-    <small>
-    Zimmerman K, et al. *Nature Communications* (2021)
-    [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
-    </small>
+![Donors vs cells per donor in scRNA-seq power](figs_m2/03_scRNAseq_cells_vs_samples_v01.png){width=90%}
+
+Zimmerman K, et al. *Nature Communications* (2021)
+[doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
+
+---
+
+## The trade-off under a fixed budget
+
+Sample number and measurement depth compete for the same budget. Spending more on measuring each sample deeply leaves less for collecting additional samples; increasing sample number reduces what can be spent on each. The decision follows a principle: establish the measurement floor the question requires, then direct remaining budget toward sample number.
+
+Above the floor, additional depth produces diminishing returns, the features the question depends on are already being measured reliably, and further reads or acquisition time primarily samples features at abundances too low to be biologically interpretable. The same resources spent on additional biological samples continue to improve statistical power.
+
+This means the detection floor — not a default or conventional depth — should be the first thing estimated. Depth above the floor is cost without proportionate analytical return.
+
+!!! note "Depth as a confounding variable"
+    If biological groups are consistently measured at different depths — one condition sequenced shallower, or one batch run with a shorter gradient — those differences can appear as biological signal. This is a confounding problem (Consideration 4), not a detection one. Depth should be matched across comparison groups.
+
+---
+
+## When the measurement approach has to change
+
+The principle above applies to studies asking whether features differ between groups. There are cases where the question is not about a difference but about whether a specific feature can be detected at all. More biological samples do not help; the measurement has to change.
+
+**Low-frequency somatic variants (genome).** A mutation present in a small fraction of tumour cells is sampled less frequently at any given sequencing depth. Higher coverage is required to call it reliably. More patients does not make the variant detectable within each tumour.
+
+![Sequencing depth requirements for variant detection at different allele frequencies](figs_m2/VAF_Sequencing_depth.jpg){width=90%}
+
+**Low-abundance transcripts and isoforms (transcriptome).** Transcripts present at very low levels may not be consistently sampled at standard depth. Deeper sequencing increases the probability of sampling them; more biological replicates at the same shallow depth does not.
+
+**Poorly detected proteins (proteome).** Proteins that ionise poorly, are present at low abundance, or co-elute with more abundant species may not be sampled during standard acquisition. Switching acquisition mode, extending gradient length, adding fractionation, or enriching for the target class directly addresses this. More biological samples does not.
+
+**Trace metabolites (metabolome).** Metabolites near the instrument's detection limit require sufficient signal accumulation to be distinguished from background noise. Targeted acquisition with optimised parameters, or enrichment strategies, directly increases sensitivity for specific features.
+
+In each case the problem is observability. Statistical power over a feature that is not being measured is not meaningful.
 
 ---
 
 ## One budget across several platforms
 
-In multi-omics studies, sample size cannot be optimised independently for each
-platform. One *n* has to serve every dataset. You cannot "borrow" extra samples
-for one platform without affecting the others, so in practice the design has to
-satisfy the platform with the greatest sample-size requirement.
+Multi-omics studies measure the same biological samples across more than one molecular layer. Because the samples are shared, the sample number must be acceptable for every platform, and the budget must cover per-sample costs on all platforms simultaneously.
 
-The figure below (Tarazona et al., 2020) makes this concrete: across six omics
-platforms in a real multi-omics study, n = 16 per group was the sample size
-required to meet the specified power criterion across all six platforms. That
-number was set by the most demanding platform, not by the average one.
+The design is set by the most demanding platform. A sample number adequate for transcriptomics may be insufficient for proteomics; the total cost is each platform's per-sample cost multiplied by the sample number that satisfies the most demanding one.
+
+The figure below illustrates this across a real multi-omics study spanning six platforms. The required sample number — 16 per group — was set by the most demanding platform, not the average.
 
 ![MultiPower output: per-omic power curves and combined multi-omic sample-size optimisation across six omics platforms in the STATegra dataset](figs_m2/tarazona2020_fig4_MultiPower_v02.jpg){width=90%}
 
@@ -146,48 +112,16 @@ Tarazona S, et al. *Nature Communications* 2020; 11: 3092.
 [doi:10.1038/s41467-020-16937-8](https://www.nature.com/articles/s41467-020-16937-8){target="_blank"}
 </small>
 
----
-
-## What to carry forward
-
-- **Depth buys detection; replication buys power.** Depth sets a practical floor
-  on what can be detected reliably within a sample. Reducing between-sample
-  uncertainty takes more biological replicates.
-- Under a fixed budget, reach adequate depth first, then spend what remains on
-  replication.
-- The exception is when the question is observability itself: rare transcripts,
-  low-frequency variants, rare cell types, poorly detected proteins. There the
-  measurement has to change, not the sample count.
-- In multi-omics, one *n* has to serve every platform, so the design is set by
-  the most demanding one.
+When platform scope exceeds what the budget can support at an adequate sample number, reducing the number of platforms is preferable to reducing sample number below what any single platform requires. An adequately powered single-platform study is more analytically defensible than an underpowered multi-platform one.
 
 ---
 
-!!! question "Activity: what depth makes visible"
+!!! question "Activity PLACEHOLDER"
 
-    Download the activities page
-    <a href="../Activities-webR/module2/module2_design_activities.html" target="_blank">
-    <button style="background-color: blue; color: white;">
-        ⬇ Download HTML
-      </button>
-    </a>
-    or take it from the repo folder `Activities-webR/module2/`, and open it in
-    Chrome or Edge. Head to the tab **Detection Floor**.
-
----
-
-### Further reading
-
-??? abstract "Power estimation in omics"
-
-    Schurch NJ et al. *RNA* 2016
-    [PMC4878611](https://pmc.ncbi.nlm.nih.gov/articles/PMC4878611/){target="_blank"}
-
-    Liu Y et al. *Bioinformatics* 2014
-    [doi:10.1093/bioinformatics/btt688](https://academic.oup.com/bioinformatics/article/30/3/301/228651){target="_blank"}
-
-    Zimmerman K et al. *Nature Communications* 2021
-    [doi:10.1038/s41467-021-21038-1](https://www.nature.com/articles/s41467-021-21038-1){target="_blank"}
-
-    Tarazona S et al. *Nature Communications* 2020
-    [doi:10.1038/s41467-020-16937-8](https://www.nature.com/articles/s41467-020-16937-8){target="_blank"}
+!!! info "Module 2.2.2 takeaways"
+    - Every omics study requires two competing resource allocation decisions: sample number and measurement depth. Both are made from the same budget.
+    - Sample number is set by power requirements. Attrition and controls reduce the effective number below the number processed; both must be accounted for before the biological sample number is fixed.
+    - Measurement depth means different things across platforms: read depth for sequencing; acquisition mode, gradient length, fractionation, and enrichment for mass spectrometry. What constitutes adequate depth is determined by the least-abundant feature the question depends on, not by convention.
+    - Above the detection floor, additional depth yields diminishing returns. Remaining budget is better directed at sample number.
+    - When the problem is detecting a specific low-abundance feature — a rare variant, a low-abundance transcript, a poorly detected protein, a trace metabolite — more biological samples will not help. The measurement approach must change.
+    - In multi-omics, one sample set serves every platform. The minimum sample number is set by the most demanding platform.
