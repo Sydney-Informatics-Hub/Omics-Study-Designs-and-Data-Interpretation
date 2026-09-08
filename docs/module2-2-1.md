@@ -8,6 +8,9 @@
 
 Sections 2.1.1 through 2.1.3 addressed whether a measurement can be trusted: whether the platform is appropriate, whether samples are allocated to avoid confounding, and whether measurements are consistent and documented. **This section addresses whether there are enough independent observations to detect the effect of interest**. A study can satisfy every criterion in Module 2.1 and still fail to replicate if the sample size was insufficient.
 
+??? tip "Consideration 3: Statistical power"
+    A study is powered when the sample size is sufficient to detect the effect of interest with a specified probability. In omics, power is routinely not estimated before sample collection. The number of samples needed is often determined by budget, availability, or convention instead. An underpowered study may produce findings with elevated false positive rates and poor reproducibility. 
+
 ??? tip "Consideration 10: The unit of replication"
     Only biological replicates — independent samples from the population — contribute to *n*. Technical replicates, subsamples, and pooled material do not. The unit has to be identified before a sample size can be calculated, because the calculation is counting independent observations of that unit. A study that misidentifies the unit will produce an *n* that describes a different study.
 
