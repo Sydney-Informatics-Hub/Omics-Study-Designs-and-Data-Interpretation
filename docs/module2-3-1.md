@@ -1,21 +1,15 @@
-# 2.6 Generalisability: who and what the findings apply to
+# 2.3.1 Generalisability: who and what the findings apply to
 
 !!! info "Learning objectives"
     - Use the metadata recorded about an example cohort to state who a study's findings do and do not apply to
     - Evaluate the trade-off between narrowing a cohort (for power/interpretability) and broadening it (for generalisability)
     - Apply the trade-offs to provide a recommendation for follow-up studies or reallocating budget between depth and coverage
 
-!!! abstract "Design question: How far do the findings extend beyond this study?"
-    **Mainly affects:** Generalisability  
-    **Also affects:** Accuracy and interpretability · Power and cost
-
 Most of the decisions in this section are made at recruitment, before anything
 in 2.1 to 2.5 happens. They appear last because they answer a different
 question. The earlier sections asked whether the study can measure what it set
 out to measure, and whether it has enough evidence to detect it. This one asks
 what the answer is an answer *about*.
-
-> A study can be internally valid and still have limited relevance beyond the population studied.
 
 ---
 
