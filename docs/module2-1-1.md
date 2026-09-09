@@ -20,20 +20,18 @@
     | **Multiplexing** | Combining separately barcoded or labelled samples so they can be processed or sequenced together, then computationally separated. Distinct from biological pooling, which merges samples irreversibly. |
 
 
-Module 1.1 mapped the five molecular layers and what each can and cannot capture. Consideration 2 established the governing principle: platform selection follows from the biological question and must be made before data collection begins. Platform choice is the first and most consequential decision for accuracy and interpretability: a platform that cannot capture the signal of interest at the required resolution will produce data that cannot answer the question, regardless of how the analysis is conducted. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
+[Module 1.1](module1-1.md) mapped the five molecular layers and what each can and cannot capture. [Consideration 2](module1-2-1.md#consideration-2-platform-selection) established the governing principle: platform selection follows from the biological question and must be made before data collection begins. Platform choice is the first and most consequential decision for accuracy and interpretability: a platform that cannot capture the signal of interest at the required resolution will produce data that cannot answer the question, regardless of how the analysis is conducted. This section addresses the next step: which platform or acquisition method within the relevant layer best fits the question.
 
 That choice requires more specificity than the layer alone provides. A question about gene expression and a question about RNA isoforms both sit at the transcriptome, but they require different library strategies and often different platforms to answer.
 
 ??? tip "Consideration 2: platform selection" 
-    Platform selection is a biological decision driven by the question. The platform determines what biological information the experiment can capture. A platform that cannot measure the signal of interest at the required resolution or sensitivity will produce data that cannot answer the question, regardless of downstream analysis.
-
-    TODO LINK TO MODULE 1.2.1 WHERE THIS IS MENTIONED.
+    [Platform selection](module1-2-1.md#platform-selection) is a biological decision driven by the question. The platform determines what biological information the experiment can capture. A platform that cannot measure the signal of interest at the required resolution or sensitivity will produce data that cannot answer the question, regardless of downstream analysis.
 ---
 
 
 ## Platforms and what they produce
 
-Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly; proteins and metabolites cannot and are instead measured using mass spectrometry or affinity-based assays. The figure below maps each molecular layer to the platforms available for measuring it and the conditions under which one platform is preferred over another within the same layer.
+Different biological molecules require different measurement technologies. DNA and RNA can be sequenced directly; proteins and metabolites cannot and are instead measured using mass spectrometry (MS) or affinity-based assays. The figure below maps each molecular layer to the platforms available for measuring it and the conditions under which one platform is preferred over another within the same layer.
 
 ![](figs/2-1_platforms.png){width=100%}
 
@@ -85,7 +83,7 @@ number each produces makes sense before you rely on it.
 
 ## Sequencing: generating reads
 
-The molecular layers introduced in Module 1.1 map directly onto what sequencing can measure. DNA sequencing captures a static picture of the genome with its inherited variants, acquired mutations, structural rearrangement events, and copy number changes. RNA sequencing captures something more dynamic: which genes are being expressed, at what level, and in which isoforms, at the moment of sample collection. 
+The molecular layers introduced in [Module 1.1](module1-1.md) map directly onto what sequencing can measure. DNA sequencing captures a static picture of the genome with its inherited variants, acquired mutations, structural rearrangement events, and copy number changes. RNA sequencing captures something more dynamic: which genes are being expressed, at what level, and in which isoforms, at the moment of sample collection. 
 
 Both of these are measured using **next generation sequencing (NGS)**: a massively parallel technology that allows us to determine the nucleotide sequence of millions of DNA or RNA fragments simultaneously. Sequencing works by: 
 
@@ -123,7 +121,7 @@ contain:
 
 Library preparation converts extracted nucleic acid into a form the sequencer can process: fragmented, end-repaired, adapter-ligated, and size-selected fragments that the instrument can bind, amplify, and sequence. This step is where the biological scope of the experiment is defined. The choice of enrichment strategy — whether to capture polyadenylated mRNA, deplete ribosomal RNA from total RNA, select for small RNA species, or perform targeted enrichment of specific loci — determines which molecules will be represented in the reads. Fractions excluded at this stage are absent from the data entirely; a library prepared for polyadenylated mRNA will not report non-polyadenylated species such as lncRNA or enhancer RNA, and cannot be reanalysed to do so.
 
-Where multiple samples are to be sequenced together, a unique molecular barcode is incorporated into each sample's library during preparation. This is **multiplexing**: barcoded libraries are pooled and sequenced in the same run, then separated computationally during analysis. It is distinct from biological pooling, in which samples are combined before any library preparation step, eliminating the ability to distinguish them (Consideration 8).
+Where multiple samples are to be sequenced together, a unique molecular barcode is incorporated into each sample's library during preparation. This is **multiplexing**: barcoded libraries are pooled and sequenced in the same run, then separated computationally during analysis. It is distinct from biological pooling, in which samples are combined before any library preparation step, eliminating the ability to distinguish them ([Consideration 8](module1-2-4.md#consideration-8-computational-and-analytical-controls)).
 
 PLACEHOLDER - A DIAGRAM OF LIBRARY PREPARATION PROCESS
 
@@ -177,7 +175,7 @@ The most common proteomics workflow is called "bottom-up proteomics, where prote
 In the bottom-up proteomics workflow, proteins are extracted from the sample and digested into shorter peptide fragments, typically using trypsin, which cleaves at specific amino acid residues. This digestion step is what distinguishes proteomics from sequencing workflows. The resulting peptides are separated over time by liquid chromatography (LC), which spreads them across a gradient so they reach the instrument at different retention times rather than all at once. They are then ionised and introduced into the mass spectrometer, where they are measured according to their m/z. The output is a spectrum: signal intensity on one axis, m/z on the other. Peptide identity is inferred by matching observed spectra against a reference database of theoretical fragmentation patterns.
 
 !!! tip "Metabolomics takes a similar path"
-    Because metabolites are small molecules, there is no need for a digestion step. For LC-MS or GC-MS metabolomics the workflow proceeds directly from extraction to separation, ionisation, and measurement. 
+    Because metabolites are small molecules, there is no need for a digestion step. Metabolomics workflows proceed directly from extraction to separation, ionisation, and measurement. 
     
     Metabolite identification relies on matching observed m/z values and fragmentation patterns against spectral libraries, though library coverage remains incomplete for many metabolite classes.
 
@@ -201,7 +199,7 @@ computationally.
 
 #### Label-free quantification 
 
-In label-free quantification, each sample is measured in a separate instrument run and protein or metabolite abundances are compared across runs by aligning signal intensities. This approach places no limit on sample number and requires no chemical modification of the sample, but introduces run-to-run instrument variation as a source of noise. Because samples from different biological groups may be measured at different times or on different days, systematic drift in instrument performance can produce abundance differences that are technical rather than biological. This is the batch effect problem described in Consideration 4 in module 1, operating at the level of individual injection runs. 
+In label-free quantification, each sample is measured in a separate instrument run and protein or metabolite abundances are compared across runs by aligning signal intensities. This approach places no limit on sample number and requires no chemical modification of the sample, but introduces run-to-run instrument variation as a source of noise. Because samples from different biological groups may be measured at different times or on different days, systematic drift in instrument performance can produce abundance differences that are technical rather than biological. This is the batch effect problem described in [Consideration 4 in module 1](module1-2-2.md#consideration-4-batch-effects), operating at the level of individual injection runs. 
 
 Two practices mitigate this: 
 
@@ -209,7 +207,7 @@ Two practices mitigate this:
 2. **pooled QC samples** prepared by combining equal aliquots from all study samples should be injected at regular intervals throughout the run.
 
 Pooled QC injections track instrument performance over time and provide the data needed to assess and correct for drift. They must be prepared before the run begins; they cannot be
-reconstructed from the study samples afterwards (Consideration 5).
+reconstructed from the study samples afterwards ([Consideration 5](module1-2-2.md#consideration-5-experimental-controls)).
 
 #### Labelled quantification 
 
@@ -244,7 +242,7 @@ PLACEHOLDER DIAGRAM COMPARING THE 2
     determines which ions are sampled and how consistently — and therefore which
     molecules may be systematically absent from the data.
 
-This has direct consequences for missing value handling. In DDA, missingness is structured: low-abundance species are disproportionately likely to fall below the selection threshold, and selection itself is stochastic across runs. Missingness in mass spectrometry data can also arise from ionisation efficiency, chromatographic retention, matrix effects, and instrument sensitivity, making it non-random in ways that are not always predictable. Replacing missing values with the sample mean — or any naive imputation — treats absence as a random event and can distort exactly the low-abundance signal a discovery study is designed to detect (Consideration 6). Understanding why values are missing
+This has direct consequences for missing value handling. In DDA, missingness is structured: low-abundance species are disproportionately likely to fall below the selection threshold, and selection itself is stochastic across runs. Missingness in mass spectrometry data can also arise from ionisation efficiency, chromatographic retention, matrix effects, and instrument sensitivity, making it non-random in ways that are not always predictable. Replacing missing values with the sample mean — or any naive imputation — treats absence as a random event and can distort exactly the low-abundance signal a discovery study is designed to detect ([Consideration 6](module1-2-3.md#consideration-6-data-quality-and-cleaning)). Understanding why values are missing
 requires knowing how the data were acquired.
 
 !!! question "Activity: PLACEHOLDER" 
