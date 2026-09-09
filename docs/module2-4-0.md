@@ -1,125 +1,89 @@
-# 2.7 Seeing the design as a whole
+# 2.4.1 Design decisions in practice
 
 !!! info "Learning objectives"
-    - Trace how a single design decision affects more than one of the module's three
-questions
-    - Apply the six-question pre-experiment checklist to identify unresolved risks 
-    in a proposed design
-    - Explain why none of these trade-offs should come at the cost of answering the
-study's primary research question
+    - Trace how a single design decision propagates across more than one of the module's three organising questions
+    - Use the six-question pre-experiment checklist to identify unresolved design risks before data collection begins
+    - State a study's trade-offs explicitly as part of the design, rather than treating them as omissions
 
-The three questions have been asked one at a time so far. A real design has to
-answer all of them at once, and the answers pull against each other. A tightly
-matched cohort is easier to interpret and easier to power, and it speaks for
-fewer people. Deeper sequencing buys detection and costs samples. Adding a
-second site widens the claim and adds batch structure to manage.
+The three questions this module has worked through include:
 
-Under a fixed budget, improving one of the three usually costs something on
-another. The work is deciding which compromise you are making, and saying so.
+1. Are the measurements trustworthy?
+2. Is the study adequately powered?
+3. Who does the finding apply to?
+
+Choosing a more specific cohort makes confounding easier to control and power easier to achieve, and narrows the population the finding represents. Increasing measurement depth per sample raises per-sample cost, which reduces how many biological samples the budget can support. Recruiting across multiple sites broadens representativeness and introduces batch structure that must be managed. Every choice affects more than one question simultaneously, and the goal is to make those effects explicit rather than leave them implicit.
+
+# 2.4.1 Putting the design together
+
+!!! info "Learning objectives"
+    - Explain why most design decisions in omics studies are irreversible once samples have been processed
+    - Identify, for a proposed design, which decisions are still open and which have already been locked in
+    - Describe how the methods section of a study should report design choices, trade-offs, and their rationale
+
+Most design problems in omics studies are not discovered during analysis. They are discovered when a finding fails to replicate, when a reviewer asks why cases and controls were processed on different dates, or when a second study in the same tissue produces incompatible results. By the time any of these questions arise, the samples have been collected, processed, and sequenced. The decisions that caused the problem were made — or not made — months earlier.
+
+This section works through those decisions in the order they actually occur, identifies the point at which each one becomes unrecoverable, and provides a planning tool for checking that none remain unresolved when data collection begins.
 
 ---
 
-## Where each decision lands
+## The decision timeline
 
-Every section of this module dealt with one decision. None of them affected only
-one question.
+Design decisions in omics do not all occur at the same point. Some must be made before a single sample is collected. Others must be made before processing begins. A decision deferred past its window does not become available again; it becomes a constraint the analysis must work around, or a limitation that must be reported.
 
-| Decision | Accuracy and interpretability | Power and cost | Generalisability |
+| Decision | Covered in | Must be made before | Why it cannot be made later |
 |---|---|---|---|
-| **Platform and assay** (2.1) | Read length, acquisition mode and resolution set what can be measured at all | Cost per sample sets how many samples the budget buys | A targeted assay covers only the features named in advance |
-| **Allocation to batches** (2.2) | A factor aligned with the groups is not estimable | Blocking removes a known source of variance, usually giving more power than randomising alone | Group composition is decided here; what it means for the claim is read in 2.6 |
-| **Measurement and metadata** (2.3) | Reference samples separate drift from biology; unrecorded variables cannot be adjusted for | A recorded factor leaves less unexplained variance | Without recorded ancestry, site and conditions you cannot describe your own cohort |
-| **Sample size** (2.4) | Usable observations per feature can be fewer than the nominal *n* | Effect size, variability and the multiple-testing burden set what you need | Small studies can give unstable estimates, which are less likely to replicate in another cohort |
-| **Budget allocation** (2.5) | Depth sets what can be detected reliably | Depth buys detection, replication buys power; in multi-omics the most demanding platform sets the number | What the budget buys decides how many donors, sites or conditions can be included |
-| **Cohort and scope** (2.6) | A relationship seen at one level need not hold at another | Broadening the cohort adds variability, which costs power | Who the findings apply to, and what they cover |
+| Which platform, library strategy, and acquisition mode | 2.1.1 | Library preparation | The library determines which analytes are in the data. Fractions excluded at preparation are absent permanently; acquisition mode determines which ions are sampled and whether coverage is consistent across runs. |
+| How samples are allocated across batches, operators, and runs | 2.1.2 | Any sample is processed | Once processing begins, the allocation is fixed. A technical factor that ends up aligned with biological groups cannot be disentangled from those groups in the analysis, regardless of statistical method. |
+| Which variables to record and what controls to include | 2.1.3 | Sample collection | A variable not recorded at the time of collection cannot be recovered. Controls not prepared before the run cannot be added afterwards. |
+| How many independent biological samples | 2.2.1 | Samples are purchased or collected | Sample number is set by the time the study begins. Running a power estimate after the fact describes what the study was powered to detect, not what the study needs. |
+| How much measurement depth per sample, and on how many platforms | 2.2.2 | Samples are processed | Depth is set at the point of measurement. Adding replicates after the fact, or switching platforms, requires re-processing samples that may no longer exist. |
+| Which population was recruited and what the platform can resolve | 2.3.1 | Study design is finalised | Who was recruited and what the platform can measure at the depth used determine the scope of any claim the study can make. These cannot be expanded after data exists. |
 
-Read down a column to see what shapes one question. Read across a row to see
-what a single decision costs elsewhere.
-
-**The short version: every design choice changes what you can measure, what you
-can detect, and who the findings apply to.**
+Read the table top to bottom: it is also the chronological sequence. Each row's window closes before the next row's decision matters.
 
 ---
 
-## Six questions to ask before any omics experiment
+## Before data collection: an open-question inventory
 
-Modules 1 and 2 can be distilled into six questions, all of which should be
-answered *before* data generation begins. The unit of replication and controls
-come from Module 1's pitfall framework; batch, sample size, and platform
-questions come from Module 2's design decisions. They apply to every omics
-platform. The specific answers will differ, but the need to answer them does
-not.
+The questions below are organised by the point in the workflow where they close. A question that cannot be answered is a decision still open.
 
-!!! info "Pre-experiment checklist"
+**Before cohort assembly**
 
-    **Q1: Unit of replication.**
-    What is the biological question, and what constitutes one independent
-    replicate? Is the unit a patient, a mouse, a cell line passage, a microbiome
-    donor? Ensure the *n* in your study design reflects this unit, not cells,
-    wells, or technical measurements of the same sample.
+- What is the biological unit of replication for this question — a participant, an animal, an environmental sample, a cell line passage? Is the planned *n* a count of this unit, not a count of wells, subsamples, or technical measurements?
+- Which groups are being compared, and are the individuals in each group comparable on the variables that are not the subject of the comparison — age, sex, collection site, housing conditions, collection date?
+- What is the population the study is designed to speak for, and does the recruitment strategy reflect that population?
 
-    **Q2: Batch design.**
-    Are all biological groups present in every processing batch? If any batch
-    contains only one biological group, batch and biology are not estimable from
-    the data, and the study is at risk of an unrecoverable confound.
+**Before processing begins**
 
-    **Q3: Metadata.**
-    What biological and technical variables will be recorded, by whom, and at
-    what point in the workflow? Every variable not recorded could be a
-    confounder that cannot be removed.
+- Is there a written allocation plan distributing all biological groups across all processing batches, operators, extraction days, and sequencing or acquisition runs?
+- Does the platform choice match the analyte class, abundance range, and resolution the question requires? Has the library preparation strategy, acquisition mode, or enrichment approach been confirmed against the biological features of interest?
+- Are the required controls identified and costed into the design: extraction blanks, pooled QC samples, spike-in standards, or shared reference samples, depending on platform? Have they been prepared before the first sample is processed?
 
-    **Q4: Sample size.**
-    Was *n* determined by a power estimate appropriate for omics, or by budget?
-    If by budget, what are the consequences for the claims the study will make,
-    and are those claims honest about the study's limitations?
+**Before data collection is finalised**
 
-    **Q5: Platform fit.**
-    Does the technology match the resolution and scale the biological question
-    requires? Bulk where single cell is needed, short read where long read is
-    needed, or DDA where DIA is needed? These mismatches cannot be corrected
-    downstream.
-
-    **Q6: Controls.**
-    What controls are appropriate for this experiment? Negative extraction
-    controls for microbiome studies, spike-ins where relevant for RNA-seq,
-    pooled QC samples for metabolomics and proteomics. Without appropriate
-    controls, contamination and technical artefacts are much harder to
-    distinguish from biology.
-
-    **If any answer is "I don't know" or "no", flag it before analysis begins.**
-    Not to block the work, but to be honest about what the data can and cannot
-    support.
+- Has the sample size been estimated using effect size and biological variability from domain knowledge, published data, or pilot data, with the multiple-testing burden of this platform included? If the sample number was set by budget, has the study been reframed around what that *n* can actually detect?
+- Is measurement depth set at the minimum needed to consistently detect the features the question depends on, not above it? Is depth matched across all comparison groups?
+- Which biological and technical variables will be recorded, and at which points in the workflow? Are pre-analytical conditions — freeze-thaw cycles, processing intervals, storage temperature — standardised and documented across groups?
 
 ---
 
-## What the module comes down to
+## What to report in the methods section
 
-Module 1 showed that some problems cannot be fixed after data collection. Module
-2 dealt with the decisions that determine whether you meet them: what to
-measure, how to allocate samples, what to record, how many to collect, how to
-spend the budget, and who the study is about.
+A design decision that is not reported cannot be evaluated. The methods section of an omics study should allow a reader to reconstruct the design choices made, the trade-offs they involved, and the conditions under which the findings hold.
 
-None of these decisions is made in isolation, and the most consequential ones
-cannot be repaired once samples are collected or processed. A study that is
-honest about which compromises it made is more useful than one that claims to
-have avoided them all.
+For each decision area above, the methods section should state what was done and, where a trade-off was made, what it means for the scope of the finding:
 
----
+- **Platform**: which platform, library preparation strategy, and acquisition mode; what the choice captures and what it does not (e.g. bulk measurements that do not resolve cell-type composition; targeted panels that cover a pre-specified analyte list)
+- **Batch design**: how samples were allocated across processing runs and whether any technical factors were balanced or blocked; if randomisation was used, how
+- **Controls**: which controls were included, how many, and at what intervals
+- **Sample size**: how *n* was determined; if a power estimate was run, what inputs were used; if not, what the study is appropriately scoped to claim
+- **Depth**: what depth was used per platform and why; whether it was set against a detection floor or by convention
+- **Population and scope**: who was recruited, what was excluded, and what biological layer and resolution the measurement captures
 
-### Further reading
+A trade-off reported is a defined condition. A reader who knows that a study used a bulk measurement in a heterogeneous tissue, or that *n* was constrained by sample availability, can place the finding in context. A trade-off not reported becomes a limitation the reader cannot see.
 
-??? abstract "Experimental design in omics"
-
-    Wagner MR, Kleiner M. How thoughtful experimental design can empower
-    biologists in the omics era. *Nature Communications* 2025; 16: 7263.
-    [doi:10.1038/s41467-025-62616-x](https://doi.org/10.1038/s41467-025-62616-x){target="_blank"}
-
-    Lafzi A, Moutinho C, Picelli S, Heyn H. Tutorial: guidelines for the
-    experimental design of single-cell RNA sequencing studies.
-    *Nature Protocols* 2018; 13(12): 2742–2757.
-    [doi:10.1038/s41596-018-0073-y](https://doi.org/10.1038/s41596-018-0073-y){target="_blank"}
-
-    Tarazona S, Balzano-Nogueira L, Gómez-Cabrero D, et al. Harmonization of
-    quality metrics and power calculation in multi-omic studies.
-    *Nature Communications* 2020; 11: 3092.
-    [doi:10.1038/s41467-020-16937-8](https://doi.org/10.1038/s41467-020-16937-8){target="_blank"}
+!!! info "Module 2.4 takeaways"
+    - Most design decisions in omics become unrecoverable at a specific point in the workflow. The majority close before data collection begins.
+    - An open-question inventory is more useful than a checklist of criteria to satisfy: the goal is to identify which decisions are still available, not which standards have been met.
+    - The methods section should report what was decided, why, and what the trade-off means for the scope of the finding — not only the protocol steps.
+    - A stated trade-off defines the conditions under which a finding holds. An unstated one limits the finding in ways no reader can account for.

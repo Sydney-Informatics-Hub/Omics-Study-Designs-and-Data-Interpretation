@@ -1,32 +1,28 @@
 TODO update as we go and simplify formatting. 
 
-From module 1.1
-
-??? abstract 
 
 ### Further Reading · Emerging Omics Technologies
 
-    ** Spatial Transcriptomics**
-    Entry-level overview, platform comparison, experimental design guidance 
-    - [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
+** Spatial Transcriptomics**
+
+Entry-level overview, platform comparison, experimental design guidance 
+- [Williams CG et. al *Genome Medicine* 2022](https://link.springer.com/article/10.1186/s13073-022-01075-1){target="_blank"}
      
-    spatial + single-cell integration, computational strategies
-    - [Vandereyken K et. al *Nature Reviews Genetics* 2023](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
+spatial + single-cell integration, computational strategies- [Vandereyken K et. al *Nature Reviews Genetics* 2023](https://www.nature.com/articles/s41576-023-00580-2){target="_blank"}
+
+---
+
+** Long-Read Sequencing & Isoform Biology**
+    
+Isoform resolution at single-cell level, library prep + bioinformatics
+- [Kumari P et.al *Human Genetics* 2024.](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
+    
+Comprehensive guide: tools, applications, challenges
+- [Parker MT et. al *Nature Reviews Genetics* 2025](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
 
     ---
 
-    ** Long-Read Sequencing & Isoform Biology**
-    
-    Isoform resolution at single-cell level, library prep + bioinformatics
-    - [Kumari P et.al 
-      *Human Genetics* 2024.](https://link.springer.com/article/10.1007/s00439-024-02678-x){target="_blank"}
-    
-    Comprehensive guide: tools, applications, challenges
-    - [Parker MT et. al *Nature Reviews Genetics* 2025](https://www.nature.com/articles/s41576-025-00828-z){target="_blank"}
-
-    ---
-
-  ### Further reading, Zero inflation and sparsity in omics
+### Further reading, Zero inflation and sparsity in omics
 
     **Conceptual framework, applies across all platforms**
 
@@ -93,7 +89,7 @@ From module 1.1
     data handling strategies. *Metabolomics* 2018; 14: 128.
     [doi:10.1007/s11306-018-1420-2](https://doi.org/10.1007/s11306-018-1420-2){target="_blank"}
 
-  ### Foundational framewor of Compositionality in Omics Data
+### Foundational framewor of Compositionality in Omics Data
 
     Gloor GB, Macklaim JM, Pawlowsky-Glahn V, Egozcue JJ.
     Microbiome datasets are compositional: and this is not optional.
@@ -118,7 +114,7 @@ From module 1.1
     
     ---
 
-  ### Statistical models for omics count data
+### Statistical models for omics count data
 
     Love MI, Huber W, Anders S. Moderated estimation of fold change
     and dispersion for RNA seq data with DESeq2. *Genome Biology*
