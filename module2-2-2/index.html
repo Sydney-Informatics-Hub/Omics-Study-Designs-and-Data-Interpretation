@@ -1,0 +1,1792 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../module2-2-1/">
+      
+      
+        <link rel="next" href="../module2-3-1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.2.2 Design decision costs - BIO101 - Foundations of omics study design</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TNWWV3HK57"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TNWWV3HK57",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TNWWV3HK57",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#222-design-decision-costs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BIO101 - Foundations of omics study design" class="md-header__button md-logo" aria-label="BIO101 - Foundations of omics study design" data-md-component="logo">
+      
+  <img src="../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIO101 - Foundations of omics study design
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.2.2 Design decision costs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../module1-1/" class="md-tabs__link">
+          
+  
+  
+  Module 1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../module2-0/" class="md-tabs__link">
+          
+  
+  
+  Module 2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../further-reading/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Further reading
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BIO101 - Foundations of omics study design" class="md-nav__button md-logo" aria-label="BIO101 - Foundations of omics study design" data-md-component="logo">
+      
+  <img src="../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    BIO101 - Foundations of omics study design
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.1 Omics landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.2 Experimental workflow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.2 Experimental workflow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.0 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.1 - Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.2 - Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.3 - Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.4 - Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.5 - Reporting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.6 - Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.1 Accuracy and interpretability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.1 Accuracy and interpretability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-1-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.1 Choosing a platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-1-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.2 Confounding and batch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-1-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.3 Measurement and metadata
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.2 Power and cost
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.2 Power and cost
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-2-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2.1 Sample size
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2.2 Design decision costs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2.2 Design decision costs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-depth-means-on-each-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What depth means on each platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-detection-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The detection floor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depth-and-replication-cannot-substitute-for-each-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Depth and replication cannot substitute for each other
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returns-on-depth-diminish-above-the-detection-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns on depth diminish above the detection floor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-the-measurement-approach-must-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the measurement approach must change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The decision sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-budget-across-multiple-molecular-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One budget across multiple molecular layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.3 Generalisability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.3 Generalisability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-3-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3.1 Who the findings apply to
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-4-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.4 Design decisions in practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../further-reading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Further reading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-depth-means-on-each-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What depth means on each platform
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-detection-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The detection floor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#depth-and-replication-cannot-substitute-for-each-other" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Depth and replication cannot substitute for each other
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#returns-on-depth-diminish-above-the-detection-floor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Returns on depth diminish above the detection floor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-the-measurement-approach-must-change" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When the measurement approach must change
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-decision-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The decision sequence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-budget-across-multiple-molecular-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One budget across multiple molecular layers
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="222-design-decision-costs">2.2.2 Design decision costs</h1>
+<div class="admonition info">
+<p class="admonition-title">Learning objectives</p>
+<ul>
+<li>Explain why depth and replication serve different analytical functions and cannot substitute for each other</li>
+<li>Describe why returns on additional depth diminish once the detection floor is met</li>
+<li>Identify how multi-omics designs compound budget constraints</li>
+<li>Apply a decision sequence for allocating a finite budget across depth, replication, and platform scope</li>
+</ul>
+</div>
+<p>Section 2.2.1 established that statistical power requires a sufficient number of independent biological samples. This section addresses a second resource that competes for the same budget: how extensively each sample is measured.</p>
+<p>Every omics platform subsamples the molecules present in a biological specimen. A sequencing library does not sequence every DNA or RNA molecule in a cell — it sequences a random subset. A mass spectrometry acquisition does not detect every protein or metabolite — it detects those that enter the instrument during the acquisition window and produce sufficient signal to be identified. Increasing the extent of that subsampling costs money, and that money comes from the same budget that pays for biological samples.</p>
+<p>Both decisions — how many samples to collect, and how extensively each is measured — determine what a study can detect. They compete: spending more per sample means fewer samples; collecting more samples means less available per sample. A third decision, whether to measure one molecular layer or several, multiplies the cost of both.</p>
+<p>All three decisions must be made before data collection begins. None can be revised after samples have been processed.</p>
+<details class="tip">
+<summary>Consideration 2: Platform selection</summary>
+<p>Platform choice determines per-sample cost, throughput capacity, and what can be measured at all. The same question addressed by targeted versus whole-genome sequencing, or DDA versus DIA proteomics, carries a different per-sample price and a different depth requirement. Platform selection and budget planning are not separable decisions.</p>
+</details>
+<details class="tip">
+<summary>Consideration 4: Batch effects</summary>
+<p>How samples are distributed across acquisition runs affects both per-sample cost and batch structure. Grouping samples to fill runs efficiently can reduce cost but risks confounding batch with biology if all samples from one condition end up in the same run. Both pressures must be planned for together before any sample is processed.</p>
+</details>
+<details class="tip">
+<summary>Consideration 5: Experimental controls</summary>
+<p>Controls — extraction blanks, pooled QC samples, spike-ins, shared reference samples — consume instrument time and sample slots. They must be counted and costed before the biological sample number is set. A study that sets its biological sample number first and adds controls afterwards either has fewer biological replicates than planned or an unplanned cost overrun.</p>
+</details>
+<hr />
+<h2 id="what-depth-means-on-each-platform">What depth means on each platform</h2>
+<p>Module 1.1 described the five molecular layers and what each measures. The platforms used to measure those layers have different architectures, and the word "depth" describes something specific to each.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Platform</th>
+<th>What depth means in practice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Genome</strong></td>
+<td>Short-read sequencing (WGS, WES)</td>
+<td>The number of times each position in the genome is independently sequenced, called <strong>coverage</strong>. A position covered 30 times has been read 30 times. A position covered twice may not be sequenced at all in some samples, and variant calls at that position are unreliable.</td>
+</tr>
+<tr>
+<td><strong>Epigenome</strong></td>
+<td>ATAC-seq, ChIP-seq</td>
+<td>The number of sequencing reads mapping to each genomic region. Accessible chromatin or antibody-enriched regions must accumulate enough reads to be distinguished from background signal. Antibody efficiency and transposase activity vary between samples; more reads are needed to reach reliable detection when efficiency is lower.</td>
+</tr>
+<tr>
+<td><strong>Epigenome</strong></td>
+<td>Whole-genome bisulfite sequencing (WGBS)</td>
+<td>The number of times each cytosine position is sequenced after bisulfite conversion. At low coverage, individual CpG sites are sampled from too few reads for a reliable methylation estimate.</td>
+</tr>
+<tr>
+<td><strong>Transcriptome</strong></td>
+<td>Bulk RNA-seq</td>
+<td>The total number of sequencing reads generated per sample. Genes expressed at very low levels are represented by few molecules in the library; whether any reads mapping to those genes are captured depends on how large the total read count is.</td>
+</tr>
+<tr>
+<td><strong>Transcriptome</strong></td>
+<td>Single-cell RNA-seq</td>
+<td>Two separate depth parameters: reads per cell, and cells per donor. Reads per cell determine how completely each cell's transcriptome is sampled. Cells per donor determine within-donor resolution. Donors remain the biological replicates; more cells from one donor does not increase statistical power for between-group comparisons.</td>
+</tr>
+<tr>
+<td><strong>Proteome</strong></td>
+<td>LC-MS/MS</td>
+<td>The number of distinct peptides sampled during an acquisition. Shaped by: <strong>acquisition mode</strong> (DDA selects the most abundant detected ions for sequencing; DIA systematically measures all ions across the full mass range); <strong>gradient length</strong> (longer separation gives more time to sequence peptides before they co-elute and are missed); and <strong>fractionation</strong> (physically separating the sample into less complex fractions before injection so more proteins can be detected per injection).</td>
+</tr>
+<tr>
+<td><strong>Metabolome</strong></td>
+<td>LC-MS, GC-MS</td>
+<td>The number of metabolites detected per sample. <strong>Targeted</strong> acquisition measures a pre-defined list of metabolites with parameters optimised for each, giving high sensitivity for those features. <strong>Untargeted</strong> acquisition covers the full detectable mass range with a single set of parameters, giving broader coverage but lower sensitivity for any individual metabolite.</td>
+</tr>
+</tbody>
+</table>
+<p>Each parameter costs money to increase. A genomics experiment at 60× coverage costs roughly twice the per-sample sequencing cost of one at 30×. A proteomics acquisition with a 120-minute gradient costs more instrument time than one at 60 minutes. An untargeted metabolomics experiment fractionated into multiple injections costs proportionally more acquisition time per sample than an unfractionated run.</p>
+<hr />
+<h2 id="the-detection-floor">The detection floor</h2>
+<p>Every platform has a <strong>detection floor</strong>: the depth below which a feature of interest is inconsistently sampled or missed entirely across samples. A feature below the detection floor does not appear reliably in the dataset — not because it is absent biologically, but because the measurement did not reach it.</p>
+<p>Where the detection floor sits for a given study depends on the features the question requires. The floor is not a fixed property of the platform; it is set by the biology.</p>
+<ul>
+<li>
+<p>A genomics study interrogating common germline variants present in every cell can work reliably at 30× coverage for whole-genome sequencing. A study looking for somatic mutations present in only 5% of tumour cells needs much higher coverage at the same positions. At 30×, a variant in 5% of cells appears in approximately 1–2 reads — insufficient to distinguish from sequencing error. Coverage of 200× or higher is needed to call such variants confidently.</p>
+</li>
+<li>
+<p>In bulk RNA-seq, structural genes and metabolic enzymes expressed at high levels in a tissue are reliably captured at moderate read depths. Regulatory non-coding RNAs or transcripts from minor cell subpopulations within the tissue may not appear in any reads at the same depth, even though they are present in the sample.</p>
+</li>
+<li>
+<p>In proteomics, abundant and well-ionising proteins are sampled in most acquisitions under standard conditions. Low-abundance signalling proteins, or proteins that co-elute during separation with far more abundant proteins, may not be sampled at all in a DDA acquisition, regardless of their biological relevance.</p>
+</li>
+<li>
+<p>In untargeted metabolomics, metabolites at high concentrations in the sample generate strong signals readily distinguishable from background noise. Trace metabolites present near the instrument's detection limit may not produce a signal separable from noise in a standard run.</p>
+</li>
+</ul>
+<hr />
+<h2 id="depth-and-replication-cannot-substitute-for-each-other">Depth and replication cannot substitute for each other</h2>
+<p>Measurement depth and biological replication solve different problems. Conflating them leads to over-investment in one dimension and deficiency in the other.</p>
+<p><strong>Biological replication</strong> (Section 2.2.1) addresses the question: given that a feature is being detected, does the difference I observe between groups reflect biology or chance variation between individuals? Each additional independent biological sample — a separate patient, animal, or environmental specimen — provides a new observation of the biological effect. Statistical power for detecting a true difference increases with biological sample number as long as the study is underpowered for the comparison of interest.</p>
+<p><strong>Measurement depth</strong> addresses a prior question: is this feature being detected at all? A feature that is not consistently sampled across samples cannot be analysed reliably. Differential analysis — differential expression, differential methylation, differential protein abundance, differential metabolite concentration — assumes the feature is present in the dataset. If it is absent from some samples because depth was insufficient, those missing values introduce noise that statistical analysis cannot recover.</p>
+<p>These two problems require different solutions:</p>
+<ul>
+<li>
+<p>A somatic variant that is not being called reliably because coverage is too low is a depth problem. Adding more patients, all sequenced at the same low coverage, means the variant remains below the detection floor in every new sample.</p>
+</li>
+<li>
+<p>A protein that is being detected consistently across all samples but shows no statistically significant difference between groups is a power problem. Switching to a longer gradient or DIA acquisition on the same samples will not help, because the protein is already being detected. More independent biological samples are needed.</p>
+</li>
+<li>
+<p>In ATAC-seq, chromatin accessibility peaks that fail quality filters because read depth is insufficient to distinguish signal from background noise are a depth problem. Adding more biological donors does not generate more reads per sample. But once peaks are reliably called, whether accessibility differs between groups is a replication problem.</p>
+</li>
+<li>
+<p>In targeted metabolomics, once all analytes on the panel are consistently detected above the instrument detection limit, whether their concentrations differ between groups requires sufficient biological sample number, not more injections from the same samples.</p>
+</li>
+</ul>
+<p>This distinction holds across all five molecular layers and all platform types.</p>
+<hr />
+<h2 id="returns-on-depth-diminish-above-the-detection-floor">Returns on depth diminish above the detection floor</h2>
+<p>Once measurement depth exceeds what is needed to consistently detect the features the question depends on, additional depth yields diminishing analytical returns. Additional coverage, reads, or acquisition time primarily resamples features that are already being measured. The marginal information gained per unit of additional spend decreases rapidly.</p>
+<p>Published benchmarking studies have examined this directly:</p>
+<p>In bulk RNA-seq, above approximately 20–30 million reads per sample, the proportion of expressed genes detected in a typical mammalian transcriptome does not increase substantially with additional reads. Additional reads improve depth over already-detected genes rather than revealing new ones. For studies targeting highly expressed genes, even lower depths are often sufficient; the exception is studies targeting rare transcripts or non-coding RNAs, where the detection floor is higher.</p>
+<p>In whole-genome sequencing for germline variant calling, 30× coverage is an established benchmark because variant calling accuracy for common variants plateaus near this depth. Additional coverage adds little for this application. Somatic variant calling has a different and higher floor because rare alleles must be distinguished from sequencing error, and the relevant threshold depends on the expected variant allele fraction.</p>
+<p>In DIA proteomics, extending the gradient from 60 to 90 minutes typically increases the number of proteins detected substantially, because additional separation time resolves more co-eluting peptides. Extending from 90 to 120 minutes produces a smaller incremental gain, as the most abundant and best-separated proteins are already detected at shorter gradients.</p>
+<p>The practical consequence: identify the minimum depth needed to detect the features the question depends on. Set depth there. Budget freed by not over-investing in depth above the detection floor is more productively directed at biological sample number, which continues to improve power as long as the study is underpowered.</p>
+<div class="admonition note">
+<p class="admonition-title">Depth as a confounding variable</p>
+<p>If comparison groups are measured at systematically different depths — one condition sequenced more shallowly, or one batch run with a shorter gradient — those differences appear in the data as differences in the number of features detected per sample. This can produce apparent biological differences that reflect measurement conditions rather than biology. Depth must be matched across all comparison groups. This is a special case of batch effect confounding (Consideration 4, Section 2.1.2).</p>
+</div>
+<hr />
+<h2 id="when-the-measurement-approach-must-change">When the measurement approach must change</h2>
+<p>For most studies, the question is whether a detectable difference between groups is real. More biological samples address this. There are cases where the problem is not statistical confidence over a detectable feature but whether a specific feature can be observed at all. In these cases, more biological samples do not help. The measurement must change.</p>
+<p><strong>Low-frequency somatic variants (genome).</strong> A mutation present in only a fraction of tumour cells — for example, a resistance mutation in an emerging subclone — is sequenced proportionally less often at any given coverage. At 30× average coverage, a variant in 5% of cells is expected to appear in approximately 1–2 reads, which cannot be reliably distinguished from sequencing artefacts. Increasing coverage to 200–1000× at the positions of interest increases the expected read count for the rare allele to levels where confident calling becomes feasible. Recruiting more patients does not increase coverage within any individual tumour.</p>
+<p><strong>Low-abundance transcripts (transcriptome).</strong> A gene expressed at very low levels in the tissue may not appear in any reads at standard sequencing depth. If the question depends on this transcript — a regulatory long non-coding RNA, or a transcript from a rare cell population — increasing sequencing depth per sample is the correct response. More donors all sequenced at the same shallow depth will each individually miss the transcript.</p>
+<p><strong>Poorly detected proteins (proteome).</strong> A signalling protein at low abundance, or one that co-elutes during separation with far more abundant proteins, may not be sampled during a standard DDA acquisition. The solutions are at the measurement level: switching to DIA (which covers the full mass range rather than selecting only the most abundant detected ions); extending the gradient to separate co-eluting peptides; adding an offline fractionation step; or depleting highly abundant background proteins to shift instrument capacity toward lower-abundance species. More biological samples measured with the same acquisition settings will each individually miss the protein.</p>
+<p><strong>Trace metabolites (metabolome).</strong> A metabolite near the instrument's detection limit requires signal accumulation conditions sufficient to separate it from background noise. Targeted acquisition — with pre-specified parameters tuned for each metabolite of interest — achieves this. Untargeted acquisition is not optimised for any individual metabolite, and metabolites near the detection limit are inconsistently detected across samples. More samples in an untargeted run do not raise any individual metabolite above its detection floor; targeted acquisition of that metabolite does.</p>
+<hr />
+<h2 id="the-decision-sequence">The decision sequence</h2>
+<p>Given the principles above, a finite budget is allocated in this order:</p>
+<ol>
+<li>
+<p><strong>Define the features the question depends on.</strong> This follows from the scientific question and hypothesis established in Section 1.2.1. Which molecular layer? Which specific features — which variants, which genomic regions, which transcripts, which proteins, which metabolites — must be detected for the question to be answered?</p>
+</li>
+<li>
+<p><strong>Determine the minimum depth needed to detect those features consistently.</strong> Use published benchmarks for the platform and feature type, or pilot data from the same system and tissue. The relevant depth is set by the least-abundant or hardest-to-detect feature the question requires, not by a convention for the platform.</p>
+</li>
+<li>
+<p><strong>Set depth at that minimum. Do not exceed it without a specific analytical reason.</strong> Additional depth above the detection floor returns diminishing analytical value and reduces budget available for biological samples.</p>
+</li>
+<li>
+<p><strong>Determine the minimum biological sample number using a power calculation.</strong> The inputs — effect size, biological variability, multiple-testing burden — come from domain knowledge, comparable published studies, or pilot data, as described in Section 2.2.1. This is the <em>n</em> per group required to detect the effect of interest at the desired power level.</p>
+</li>
+<li>
+<p><strong>Account for controls and expected attrition before finalising sample number.</strong> Extraction blanks, pooled QC injections, shared reference samples, and spike-ins consume instrument capacity and must be counted before setting the biological sample number. Attrition from failed extractions, low input material, or poor QC metrics typically reduces the analysable set below the number processed. Both must be accounted for prospectively.</p>
+</li>
+<li>
+<p><strong>If the budget cannot support both minimum depth and minimum sample number, adjust scope.</strong> Options: narrow the scientific question to one that requires a lower depth or fewer samples; reduce platform scope (measure fewer molecular layers); or seek additional resources. Proceeding with a sample number below what the power calculation requires while retaining the original question changes what the study is powered to detect and should be stated explicitly.</p>
+</li>
+</ol>
+<hr />
+<h2 id="one-budget-across-multiple-molecular-layers">One budget across multiple molecular layers</h2>
+<p>Multi-omics studies measure the same biological samples across more than one molecular layer. As Module 1.1 described, each layer reveals a different aspect of cellular biology, and no single layer gives the complete picture. However, measuring multiple layers simultaneously compounds the budget constraint in two ways.</p>
+<p><strong>Cost compounds.</strong> Each molecular layer carries its own per-sample cost. A study measuring transcriptomics and proteomics on the same samples pays the per-sample cost of both platforms for every sample.</p>
+<p><strong>The minimum sample number is set by the most demanding platform.</strong> Different platforms have different statistical requirements. The biological variability and missing value rates that affect proteomics can mean that a sample number adequate to power a bulk RNA-seq comparison is insufficient for the same comparison in proteomics. The total study must be designed to the sample number required by the most demanding platform.</p>
+<p>The figure below illustrates this across a real multi-omics study spanning six platforms. The required sample number — 16 per group — was set by the most demanding platform, not the average across platforms.</p>
+<p><img alt="MultiPower output: per-omic power curves and combined multi-omic sample-size optimisation across six omics platforms in the STATegra dataset" src="../figs_m2/tarazona2020_fig4_MultiPower_v02.jpg" width="90%" /></p>
+<p><small>
+Tarazona S, et al. <em>Nature Communications</em> 2020; 11: 3092.
+<a href="https://www.nature.com/articles/s41467-020-16937-8" target="_blank">doi:10.1038/s41467-020-16937-8</a>
+</small></p>
+<p>When platform scope exceeds what the available budget can support at an adequate sample number for each platform, reducing the number of platforms is preferable to reducing sample number below what any single platform requires. A single adequately powered platform study produces interpretable findings. An underpowered multi-platform study produces results on all platforms that are difficult to interpret on any of them.</p>
+<hr />
+<div class="admonition question">
+<p class="admonition-title">Activity: allocating a constrained budget</p>
+<p>A team is designing a study to compare energy metabolism in liver tissue between animals exposed to a metabolic stressor and untreated controls. Their hypothesis, grounded in published literature, is that the stressor shifts hepatic substrate use from fatty acid oxidation toward glucose oxidation.</p>
+<p>As Module 1.1 established, the transcriptome captures which genes are active, while the metabolome captures the biochemical state of the cell at the moment of sampling. Both layers are informative for this question: transcriptomics would show whether genes encoding fatty acid oxidation enzymes and glucose metabolism enzymes are differentially expressed; metabolomics would show whether the predicted metabolic shift is occurring at the level of actual metabolite concentrations.</p>
+<p>Their budget supports one of three designs:</p>
+<table>
+<thead>
+<tr>
+<th>Design</th>
+<th>Platform</th>
+<th>Depth</th>
+<th><em>n</em> per group</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>Bulk RNA-seq only</td>
+<td>60 million reads per sample</td>
+<td>6</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>Bulk RNA-seq only</td>
+<td>30 million reads per sample</td>
+<td>12</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>Bulk RNA-seq + targeted metabolomics (80 pre-specified metabolites covering fatty acid oxidation, TCA cycle, and glycolysis)</td>
+<td>30 million reads per sample; standard targeted acquisition</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p>Published RNA-seq benchmarking in mouse liver shows that at 30 million reads, approximately 85–90% of expressed genes are detected, and this proportion does not increase substantially at 60 million reads. The transcripts relevant to this question — genes encoding metabolic enzymes — are expressed at moderate-to-high levels in liver; their detection floor is below 30 million reads. For the targeted metabolomics panel, all 80 analytes are expected to be consistently detected above instrument detection limits under standard acquisition conditions.</p>
+<p>For each design, consider:</p>
+<ol>
+<li>Is depth set at or above the detection floor for the features the question depends on?</li>
+<li>What does increasing depth from 30 to 60 million reads in Design A provide for this question?</li>
+<li>What does Design B gain relative to Design A, and what does it lose?</li>
+<li>What question can Design C answer that neither A nor B can?</li>
+<li>Which design is most appropriate for this question, and why?</li>
+</ol>
+<details class="example">
+<summary>Answer</summary>
+<p><strong>Design A.</strong> The detection floor for the metabolic transcripts of interest is below 30 million reads. At 60 million reads, those transcripts are already being detected; doubling the depth primarily increases coverage of already-detected genes. Design A over-invests in depth relative to what the question requires. <em>n</em> = 6 per group is a low starting point for a bulk RNA-seq differential expression analysis; published benchmarking studies indicate that <em>n</em> = 6 detects a subset of truly differentially expressed genes, with smaller-effect genes missed. Whether it is sufficient depends on the effect size and biological variability in this tissue.</p>
+<p><strong>Design B.</strong> Moving from 60 to 30 million reads does not reduce detection for the features of interest; the detection floor is cleared at 30 million reads. Doubling the sample number from 6 to 12 per group substantially improves statistical power. Design B captures the same transcripts as Design A with greater power to detect differentially expressed genes, at the cost of losing the second molecular layer that Design C provides.</p>
+<p><strong>Design C.</strong> Design C splits the budget across two platforms at the cost of sample number. At <em>n</em> = 6 per group, the RNA-seq component has less power than Design B. However, Design C addresses a question that neither A nor B can: whether transcriptional changes in metabolic genes are accompanied by an actual change in metabolite concentrations. The transcriptome shows gene activity; the metabolome shows whether the biochemical output of that activity is altered. A study confirming both provides stronger evidence for the hypothesised shift than one showing only transcriptional change.</p>
+<p><strong>Which design is appropriate</strong> depends on the study's primary aim. If the goal is to characterise the transcriptional response comprehensively, Design B is preferred — it provides more power and does not sacrifice sample number for a second platform. If the goal is to confirm that the metabolic shift is occurring at both the gene expression and metabolite level, Design C provides a more complete answer, with the trade-off of reduced power in the transcriptomic analysis. The choice must be stated before data collection begins, because it determines what the study is powered to detect.</p>
+</details>
+</div>
+<hr />
+<div class="admonition info">
+<p class="admonition-title">Module 2.2.2 takeaways</p>
+<ul>
+<li>Every omics study requires two competing resource allocation decisions: how many independent biological samples to collect, and how extensively each sample is measured. </li>
+<li>Measurement depth means different things across platforms. What constitutes adequate depth is determined by the least-abundant or hardest-to-detect feature the question requires, not by platform convention.</li>
+<li>Above the detection floor, additional depth yields diminishing analytical returns. Remaining budget is more productively directed at biological sample number, which continues to improve power as long as the study is underpowered.</li>
+<li>Depth and biological replication solve different problems: depth determines whether a feature can be observed; replication determines whether an observed difference can be attributed to biology rather than chance. Neither substitutes for the other.</li>
+<li>When the problem is observability of a specific feature, more biological samples will not help. The measurement approach must change.</li>
+<li>In multi-omics studies, the minimum sample number is set by the most demanding platform. </li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../module2-2-1/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2.2.1 Sample size">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2.2.1 Sample size
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../module2-3-1/" class="md-footer__link md-footer__link--next" aria-label="Next: 2.3.1 Who the findings apply to">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                2.3.1 Who the findings apply to
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Copyright (c) 2025 Sydney Informatics Hub, University of Sydney. <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.footer", "content.code.copy", "navigation.tabs", "navigation.tabs.sticky"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

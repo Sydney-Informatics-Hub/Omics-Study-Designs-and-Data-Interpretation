@@ -1,0 +1,1803 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../module2-1-2/">
+      
+      
+        <link rel="next" href="../module2-2-1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>2.1.3 Measurement and metadata - BIO101 - Foundations of omics study design</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-TNWWV3HK57"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-TNWWV3HK57",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-TNWWV3HK57",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#213-measurement-reliability-and-metadata" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BIO101 - Foundations of omics study design" class="md-header__button md-logo" aria-label="BIO101 - Foundations of omics study design" data-md-component="logo">
+      
+  <img src="../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BIO101 - Foundations of omics study design
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2.1.3 Measurement and metadata
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../module1-1/" class="md-tabs__link">
+          
+  
+  
+  Module 1
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../module2-0/" class="md-tabs__link">
+          
+  
+  
+  Module 2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../further-reading/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Further reading
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BIO101 - Foundations of omics study design" class="md-nav__button md-logo" aria-label="BIO101 - Foundations of omics study design" data-md-component="logo">
+      
+  <img src="../assets/usyd-logo.png" alt="logo">
+
+    </a>
+    BIO101 - Foundations of omics study design
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Sydney-Informatics-Hub/Omics-Study-Designs-and-Data-Interpretation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.1 Omics landscape
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 1.2 Experimental workflow
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 1.2 Experimental workflow
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.0 Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.1 - Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.2 - Data acquisition
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.3 - Preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.4 - Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.5 - Reporting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module1-2-6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1.2.6 - Activity
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.1 Accuracy and interpretability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.1 Accuracy and interpretability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-1-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.1 Choosing a platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-1-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.2 Confounding and batch
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.3 Measurement and metadata
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.1.3 Measurement and metadata
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technical-replication-characterising-the-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical replication: characterising the measurement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metadata-putting-measurements-in-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata: putting measurements in context
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.2 Power and cost
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.2 Power and cost
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-2-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2.1 Sample size
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-2-2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.2.2 Design decision costs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.3 Generalisability
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Module 2.3 Generalisability
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-3-1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2.3.1 Who the findings apply to
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module2-4-0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module 2.4 Design decisions in practice
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../further-reading/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Further reading
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#technical-replication-characterising-the-measurement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Technical replication: characterising the measurement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metadata-putting-measurements-in-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Metadata: putting measurements in context
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="213-measurement-reliability-and-metadata">2.1.3 Measurement reliability and metadata</h1>
+<div class="admonition info">
+<p class="admonition-title">Learning objectives</p>
+<ul>
+<li>Determine whether technical replication is warranted for a given platform and study design.</li>
+<li>Explain how a shared reference sample enables batch effect estimation and correction.</li>
+<li>Identify the biological, technical, and contextual variables that should be recorded for a given study.</li>
+<li>Articulate why unrecorded variables cannot be recovered and how this constrains interpretation.</li>
+</ul>
+</div>
+<p>Section 2.1.1 addressed what to measure; Section 2.1.2 addressed how samples are allocated across processing conditions. This section covers two decisions that determine whether the resulting measurements can be interpreted: whether technical variation is characterised and controlled, and whether the contextual information needed to explain the data is recorded. Both share a critical property — neither can be addressed retrospectively. A reference sample that was never included and a variable that was never recorded leave identical traces in the data: an unexplained pattern that cannot be resolved.</p>
+<details class="tip">
+<summary>Consideration 8: Pseudoreplication and the unit of replication</summary>
+<p>Only biological replicates (independent samples from the population) contribute to statistical power and n. Technical replicates are repeated measurements of the same sample; they characterise measurement consistency but do not represent additional independent observations. Conflating the two inflates the apparent sample size and can produce false confidence in the precision of an estimate.</p>
+</details>
+<details class="tip">
+<summary>Consideration 9: Metadata completeness</summary>
+<p>Variables not recorded at the time of collection cannot be recovered afterwards. Recording a variable that turns out to be irrelevant costs almost nothing; but missing one that turns out to matter is a permanent gap.</p>
+</details>
+<h2 id="technical-replication-characterising-the-measurement">Technical replication: characterising the measurement</h2>
+<ul>
+<li>A <strong>biological replicate</strong> is an independent sample from the population.</li>
+<li>A <strong>technical replicate</strong> is the same sample measured more than once. </li>
+</ul>
+<p>Technical replicates provide information about measurement consistency; they do not strengthen inference about biological variability. The choice of whether to include technical replicates is often a cost-based platform decision. Technical replicates are warranted when measurement noise is large enough to affect the scientific question. When measurement noise is small relative to the biological differences of interest, the same resources are generally better allocated to additional biological samples.</p>
+<p>Platforms differ substantially in the ratio of technical to biological variance, and that ratio determines whether a technical replicate is measuring something that matters for the analysis. The table below summarises where technical variation is typically large enough to warrant dedicated replication, and where the same resources are better spent on additional biological samples.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technical vs biological variance</th>
+<th>When technical replication may be useful</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Genome</strong></td>
+<td>Technical much smaller than biological</td>
+<td>Rarely; variant calling is highly reproducible across runs</td>
+</tr>
+<tr>
+<td><strong>Epigenome</strong></td>
+<td>Variable by assay; transposase and antibody efficiency can be substantial</td>
+<td>Useful for ATAC-seq and ChIP-seq to characterise efficiency variation between batches</td>
+</tr>
+<tr>
+<td><strong>Transcriptome</strong></td>
+<td>Technical much smaller than biological</td>
+<td>Rarely for power; useful for QC</td>
+</tr>
+<tr>
+<td><strong>Proteome</strong></td>
+<td>Often comparable, especially in discovery workflows</td>
+<td>Often worthwhile; bridge channels in TMT designs serve this role</td>
+</tr>
+<tr>
+<td><strong>Metabolome</strong></td>
+<td>Often comparable</td>
+<td>Yes; pooled QC injections are standard practice and expected by reviewers</td>
+</tr>
+</tbody>
+</table>
+<p>Sample quality modifies this picture across all layers. For degraded or low-input material (e.g. FFPE, archived tissue, needle biopsies) technical variance is elevated regardless of platform, and a reference sample or technical replicate becomes more informative than the table above would suggest.</p>
+<h3 id="technical-replicates-can-remove-noise">Technical replicates can remove noise</h3>
+<p>There is a second function of technical replication that is less commonly planned for. When the same sample is measured more than once, differences between those measurements cannot be attributed to biological differences. Instead, that signal can be used to estimate the structure of measurement variability and, with appropriate methods, subtract it from the dataset.</p>
+<p>The most direct implementation is a <strong>shared reference sample</strong>, typically a pooled aliquot derived from all study samples, included in each batch and measured repeatedly through the run. Because its biology is fixed, any variation in its measurements is technical rather than biological. That signal provides both a direct measure of drift across batches and a common anchor for between-batch normalisation. </p>
+<p>How this is applied varies by platform:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Common implementation</th>
+<th>What it detects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Genome</strong></td>
+<td>Rarely needed</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Epigenome</strong></td>
+<td>Input controls in ChIP-seq; spike-ins in ATAC-seq</td>
+<td>Efficiency variation in IP or transposase activity</td>
+</tr>
+<tr>
+<td><strong>Transcriptome</strong></td>
+<td>Reference sample per library prep batch, particularly when input quality varies across samples</td>
+<td>Between-batch drift; extraction quality differences</td>
+</tr>
+<tr>
+<td><strong>Proteome</strong></td>
+<td>Bridge or reference channel per TMT set; pooled reference across DIA batches</td>
+<td>Between-batch intensity shifts; instrument drift</td>
+</tr>
+<tr>
+<td><strong>Metabolome</strong></td>
+<td>Pooled QC injections distributed across the run</td>
+<td>Instrument drift over time; run-order effects</td>
+</tr>
+</tbody>
+</table>
+<p>Like blocking design explained in section 2.1.2, this only works prospectively. The reference material must be prepared and aliquoted before processing begins.</p>
+<div class="admonition question">
+<p class="admonition-title">Activity: When is technical replication warranted?</p>
+<p>A DIA proteomics study is measuring 80 plasma samples across four mass spectrometry injection batches over two weeks. Which of the following best describes the role of technical replication in this design?</p>
+<ul>
+<li>A. Technical replicates are not needed because DIA is a highly reproducible platform</li>
+<li>B. A subset of samples should be measured twice to increase the effective sample size</li>
+<li>C. A pooled reference sample should be injected at regular intervals across all four batches to track instrument drift and anchor between-batch normalisation</li>
+<li>D. Technical replicates should be added at the analysis stage if a batch effect is detected in the PCA plot</li>
+</ul>
+<details class="example">
+<summary>Answer</summary>
+<p><strong>C.</strong> Because its composition does not change, variation in its measurements across the run reflects instrument drift rather than biology, and that signal can be used to normalise the study samples.</p>
+<p>A is incorrect because run-to-run variation in mass spectrometry is substantial enough that technical variance can rival biological effect sizes, particularly across multi-week acquisition. B confuses technical and biological replication — measuring the same sample twice does not add to <em>n</em>. D is the most common mistake: technical replication must be designed in from the start, and a PCA plot showing batch structure cannot be corrected without a reference sample that was never included.</p>
+</details>
+</div>
+<hr />
+<h2 id="metadata-putting-measurements-in-context">Metadata: putting measurements in context</h2>
+<p>Metadata is a structured record of the biological and technical variables associated with each sample. It serves two functions that operate at different timescales.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Role of metadata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Within a study</strong></td>
+<td>Allows observed patterns to be investigated — when structure in the data does not map to the biological grouping of interest, recorded variables are the only basis for identifying its origin</td>
+</tr>
+<tr>
+<td><strong>Beyond a study</strong></td>
+<td>Determines whether the data can be reused. Omics datasets are resource-intensive to generate but in principle reusable across secondary analyses, cross-study comparisons, and meta-analyses; adequate metadata is what makes that possible</td>
+</tr>
+</tbody>
+</table>
+<p>The consequences of metadata errors compound with reuse. A mislabelled sample in a dataset deposited to a public repository will be inherited by every secondary analysis that draws on that data. A 2016 analysis of 70 human transcriptomics studies found that 46% contained mislabelled samples, with sex annotation errors present in the original publications rather than introduced at deposition (<a href="https://f1000research.com/articles/5-2103/v2">Toker et al., 2016</a>). Completeness is a separate problem from accuracy: an assessment of 29 transcriptomics studies found that on average only 65% of key metadata fields were shared publicly, with a further loss between what was reported in the publication and what was deposited in the repository (<a href="https://doi.org/10.1186/s13059-021-02332-z">Rajesh et al., 2021</a>).</p>
+<p>Some of these errors are detectable computationally (e.g. sex annotation, can be cross-referenced against read coverage and expression of XIST and Y-chromosome-specific genes in genomics and transcriptomics data). Most metadata errors, however, leave no internal signal and can only be found by cross-referencing external records that may no longer exist.</p>
+<details class="abstract">
+<summary>Learn more about the importance of metadata for FAIR research</summary>
+<p>These requirements are formalised in the <a href="https://www.go-fair.org/fair-principles/">FAIR principles</a> (Findable, Accessible, Interoperable, Reusable), the standard framework for research data sharing. Metadata is the mechanism through which each principle is satisfied; a dataset without adequate metadata fails all four.</p>
+<p>Caliskan, Dangwal &amp; Dandekar (2023) <em>Computational and Structural Biotechnology Journal</em> 21, 4895–4913. <a href="https://doi.org/10.1016/j.csbj.2023.10.006">doi:10.1016/j.csbj.2023.10.006</a></p>
+</details>
+<p>Treatment or condition assignment is rarely random. In each case, a variable correlated with the treatment drives omics differences that are indistinguishable from a treatment effect, unless that variable was recorded. Consider these example confounding factors in different experimental settings:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Example confounder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clinical</td>
+<td>Disease severity correlated with treatment choice</td>
+</tr>
+<tr>
+<td>Animal</td>
+<td>Body weight or baseline phenotype correlated with group assignment</td>
+</tr>
+<tr>
+<td>Agricultural</td>
+<td>Soil type, altitude, or microclimate correlated with treatment plot</td>
+</tr>
+<tr>
+<td>In vitro</td>
+<td>Passage number or media batch correlated with condition</td>
+</tr>
+</tbody>
+</table>
+<p>Recognising these structures requires knowledge of how samples were collected and groups were formed. Consistency in how variables are recorded matters as much as whether they are recorded. Field names such as "tissue type", "tissue_type", and "TissueType" are not interchangeable when data is processed computationally or deposited to a repository. Where controlled vocabularies or ontologies exist for a variable (e.g. organism, tissue, disease, sex, ancestry) using them rather than free text improves the findability and interoperability of the data. The <a href="https://faircookbook.elixir-europe.org">FAIR Cookbook</a> (ELIXIR) provides metadata profiles and controlled vocabulary recommendations for common omics data types.</p>
+<h3 id="a-minimal-metadata-checklist">A minimal metadata checklist</h3>
+<p>The purpose of the checklist is to ensure that no variable capable of explaining structure in the data is left unrecorded. Variables are grouped by the phase at which they should be captured. The following variables should be recorded for any omics study where possible, regardless of platform or sample type.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Variable</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Collection</strong></td>
+<td>Sample type</td>
+<td>Tissue, biofluid, cell line, and environmental samples produce fundamentally different profiles; required for any cross-sample interpretation.</td>
+</tr>
+<tr>
+<td></td>
+<td>Experimental group or condition</td>
+<td>The primary comparison variable; must be unambiguous and in a machine-readable form.</td>
+</tr>
+<tr>
+<td></td>
+<td>Biological replicate identifier</td>
+<td>Distinguishes independent biological units from repeated measurements of the same sample.</td>
+</tr>
+<tr>
+<td></td>
+<td>Species, strain, or cell line</td>
+<td>Defines the biological system; required for any cross-sample comparison.</td>
+</tr>
+<tr>
+<td></td>
+<td>Sex</td>
+<td>Systematic differences in expression, metabolite levels, and immune profiles across all molecular layers; a confounder when unbalanced between groups.</td>
+</tr>
+<tr>
+<td></td>
+<td>Age or developmental stage</td>
+<td>Correlated with molecular profiles across all layers; relevant whenever it differs between comparison groups.</td>
+</tr>
+<tr>
+<td></td>
+<td>Genotype</td>
+<td>Required when genetic variation is a study variable or a potential confounder.</td>
+</tr>
+<tr>
+<td></td>
+<td>Collection date and time</td>
+<td>Tracks when samples entered the workflow; can reveal temporal drift or confounding between collection period and comparison group.</td>
+</tr>
+<tr>
+<td></td>
+<td>Operator</td>
+<td>Operator-specific variation in technique is real and systematic.</td>
+</tr>
+<tr>
+<td><strong>Handling</strong></td>
+<td>Preservation method</td>
+<td>FFPE, fresh frozen, snap frozen, and stabilisation reagents produce systematically different molecular profiles.</td>
+</tr>
+<tr>
+<td></td>
+<td>Time from collection to preservation</td>
+<td>RNA and protein integrity degrade at different rates; critical for tissue biopsies and post-mortem samples.</td>
+</tr>
+<tr>
+<td></td>
+<td>Freeze–thaw cycle count</td>
+<td>Updated at each thaw; each cycle degrades RNA and protein.</td>
+</tr>
+<tr>
+<td><strong>Processing</strong></td>
+<td>Extraction batch and date</td>
+<td>Identifies which samples share extraction conditions; day-level tracking captures reagent and equipment state.</td>
+</tr>
+<tr>
+<td></td>
+<td>Reagent lot numbers</td>
+<td>Lot-to-lot variation in extraction kits, antibodies, and library preparation reagents is documented across platforms.</td>
+</tr>
+<tr>
+<td></td>
+<td>Input quantity</td>
+<td>Affects noise level and downstream interpretation.</td>
+</tr>
+<tr>
+<td></td>
+<td>Sample quality metric</td>
+<td>The metric appropriate to the platform and molecular layer (RIN for RNA, DIN for DNA, cell viability for single-cell, protein concentration for proteomics).</td>
+</tr>
+<tr>
+<td><strong>Measurement</strong></td>
+<td>Measurement or acquisition batch</td>
+<td>Identifies which samples were processed or acquired together.</td>
+</tr>
+<tr>
+<td></td>
+<td>Instrument identifier</td>
+<td>Systematic differences exist between units of the same model.</td>
+</tr>
+<tr>
+<td></td>
+<td>Run identifier</td>
+<td>Identifies which samples share a sequencing run, mass spectrometry acquisition session, or equivalent.</td>
+</tr>
+</tbody>
+</table>
+<p>Beyond these, additional variables should be identified during study design based on what could systematically differ between samples in ways unrelated to the biological question. The relevant question is not "what variables are standard for this field" but "what conditions were not held constant across all samples." For clinical studies this typically includes diagnosis, disease severity, treatment history, and fasting status; for animal studies, housing conditions, diet, and circadian phase; for cell line work, passage number and media batch. The list above should be extended to cover anything that varied.</p>
+<div class="admonition question">
+<p class="admonition-title">Activity: metadata audit</p>
+<p>Each activity presents a scenario describing a real study design problem. You are not expected to know the answer, the goal is to find it.</p>
+<ol>
+<li>Read the scenario.</li>
+<li>Open a web browser and your search engine of choice. </li>
+<li>Use the provided search term as a starting point. You may need to follow links or refine the search.</li>
+<li>Write a short answer to the <strong>Find</strong> question in your own words.</li>
+<li>Open the collapsible block to check your answer.</li>
+</ol>
+<details class="question">
+<summary>Scenario: DNA extraction and preservation in whole-genome sequencing</summary>
+<p>A whole-genome sequencing study compares tumour tissue from two patient groups. Samples from Group A were collected prospectively and stored as fresh frozen; samples from Group B were retrieved from a hospital biobank where tissue had been archived as FFPE blocks. Preservation method was not recorded in the study metadata.</p>
+<p><strong>Search:</strong> FFPE DNA sequencing artefacts</p>
+<p><strong>Find:</strong> What type of chemical damage does FFPE fixation introduce into DNA, how does it appear in sequencing data, and why does it create a problem when FFPE and fresh-frozen samples are analysed together without a recorded preservation variable?</p>
+<details class="example">
+<summary>Answer</summary>
+<p>FFPE fixation causes cytosine deamination, which converts cytosine to uracil (read as thymine in sequencing). This produces a characteristic excess of C→T (and G→A) substitutions that appear as apparent single-nucleotide variants. Because the artefact is systematic and differs between FFPE and fresh-frozen samples, it introduces a technical signal that is confounded with any biological difference between the two groups. Without preservation method recorded, the source of the substitution pattern cannot be distinguished from true somatic variation.</p>
+</details>
+</details>
+<details class="question">
+<summary>Scenario: Input controls in ChIP-seq</summary>
+<p>A ChIP-seq experiment targets a histone modification associated with active transcription. Libraries were prepared for the immunoprecipitated (IP) fraction only; no input control library was generated. After sequencing, peaks are called and used to identify regions of differential modification between two conditions.</p>
+<p><strong>Search:</strong> ChIP-seq input control purpose</p>
+<p><strong>Find:</strong> What does an input control represent in a ChIP-seq experiment, what sources of signal does it capture, and what cannot be determined about a called peak when no input control is available?</p>
+<details class="example">
+<summary>Answer</summary>
+<p>An input control is a sequencing library prepared from chromatin that has not been immunoprecipitated — it represents the background distribution of reads across the genome before any enrichment step. It captures variation in chromatin accessibility, PCR amplification bias, and local sequence composition. When a peak is called in the IP library, comparison against the input establishes that the enrichment is above background. Without an input control, there is no reference for what background signal looks like at that locus, so it is not possible to determine whether a peak reflects genuine antibody enrichment or local biases in the chromatin preparation. IP efficiency also varies between samples; without an input, differences between conditions may reflect variation in pull-down efficiency rather than changes in the modification itself.</p>
+</details>
+</details>
+<details class="question">
+<summary>Scenario: Time of day and gene expression</summary>
+<p>A bulk RNA-seq study compares gene expression in peripheral blood between two disease subtypes. Samples were collected during routine clinical visits: subtype A patients were typically seen in morning clinics and subtype B patients in afternoon clinics. Collection time was not recorded in the study metadata.</p>
+<p><strong>Search:</strong> circadian gene expression peripheral blood</p>
+<p><strong>Find:</strong> What proportion of the expressed genome shows circadian rhythmicity in peripheral blood, and what does this imply for a study where collection time is systematically different between comparison groups?</p>
+<details class="example">
+<summary>Answer</summary>
+<p>Studies of peripheral blood transcriptomics estimate that a substantial proportion of expressed genes — figures from primary literature range from roughly 10% to over 20% depending on the tissue and study design — show time-of-day variation driven by circadian regulation. In peripheral blood, immune cell composition itself varies across the day, which affects bulk expression profiles independently of gene regulation within cells. When collection time is systematically confounded with the comparison groups (morning vs. afternoon mapping onto subtype A vs. subtype B), observed expression differences between subtypes cannot be separated from circadian effects. The direction and magnitude of the confounding depends on which genes are of interest and the amplitude of their circadian oscillation.</p>
+</details>
+</details>
+<details class="question">
+<summary>Scenario: Pre-analytical variation in label-free proteomics</summary>
+<p>A label-free quantitative proteomics study compares plasma samples from two clinical sites. Sample preparation, including depletion of high-abundance proteins, reduction, alkylation, and tryptic digestion, was performed by different operators at each site. Operator identity was not recorded in the metadata.</p>
+<p><strong>Search:</strong> pre-analytical variation label-free proteomics sample preparation</p>
+<p><strong>Find:</strong> Which steps in proteomics sample preparation are documented sources of inter-operator or inter-laboratory variation, and what is the magnitude of that variation relative to typical biological effect sizes?</p>
+<details class="example">
+<summary>Answer</summary>
+<p>Pre-analytical variation in label-free proteomics is introduced at multiple steps: protein depletion efficiency, reduction and alkylation completeness, digestion efficiency (enzyme-to-substrate ratio, incubation time and temperature), and peptide clean-up. Inter-laboratory and inter-operator studies report coefficients of variation in peptide or protein abundance that can reach 20–40% for some proteins, with systematic rather than random structure — meaning the variation is directional and reproducible within an operator or site. This is comparable to or larger than the fold-changes typically reported as biologically significant in plasma proteomics. When operator is perfectly confounded with site, the technical and biological sources of variation cannot be separated.</p>
+</details>
+</details>
+<details class="question">
+<summary>Scenario: Pooled QC samples in untargeted metabolomics</summary>
+<p>An untargeted metabolomics study analyses plasma samples from 120 participants using reverse-phase LC-MS. Samples were acquired in a single continuous run lasting approximately 14 hours. No pooled QC samples were included in the acquisition sequence.</p>
+<p><strong>Search:</strong> pooled QC samples metabolomics instrument drift</p>
+<p><strong>Find:</strong> What is the purpose of pooled QC samples in a metabolomics acquisition, what signal do they capture across a run, and what cannot be determined or corrected when they are absent?</p>
+<details class="example">
+<summary>Answer</summary>
+<p>A pooled QC sample is prepared by combining equal volumes of all study samples, producing a mixture that represents the average composition of the dataset. Injected at regular intervals throughout the acquisition sequence, it provides repeated measurements of the same material under changing instrument conditions. Over a long LC-MS run, instrument response drifts due to changes in ionisation efficiency, source contamination, and column performance. The QC injections track this drift: because the material is constant, any change in measured abundance across QC injections is attributable to the instrument rather than biology. This signal is used to fit and apply a correction to the study samples. Without QC injections, there is no within-run reference for instrument state, and drift cannot be distinguished from a genuine biological gradient — for example, one that correlates with sample acquisition order if groups were not randomised across the run.</p>
+</details>
+</details>
+</div>
+<hr />
+<div class="admonition info">
+<p class="admonition-title">Module 2.1.3 takeaways</p>
+<ul>
+<li>Technical replicates characterise measurement consistency but do not add to biological replicates.</li>
+<li>Whether technical replication is warranted depends on the ratio of technical to biological variance for the molecular layer and sample type. </li>
+<li>A shared reference sample measured in every processing batch provides a direct estimate of technical drift that can be used for between-batch correction. </li>
+<li>Metadata serves two distinct functions: within a study it provides the basis for investigating unexpected structure in the data; beyond a study it determines whether the data can be reused. </li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../module2-1-2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2.1.2 Confounding and batch">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2.1.2 Confounding and batch
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../module2-2-1/" class="md-footer__link md-footer__link--next" aria-label="Next: 2.2.1 Sample size">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                2.2.1 Sample size
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2026 Copyright (c) 2025 Sydney Informatics Hub, University of Sydney. <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.footer", "content.code.copy", "navigation.tabs", "navigation.tabs.sticky"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
